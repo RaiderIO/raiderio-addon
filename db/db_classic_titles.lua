@@ -1,5 +1,5 @@
 --
--- Copyright (c) 2025 by Ludicrous Speed, LLC
+-- Copyright (c) 2025 by RaiderIO, Inc.
 -- All rights reserved.
 --
 local _, ns = ...
