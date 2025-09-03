@@ -2872,6 +2872,8 @@ do
     ---@field public editBoxWidth? number
     ---@field public hasEditBox? boolean
     ---@field public hasWideEditBox? boolean
+    ---@field public maxLetters? number `0` removes the limit
+    ---@field public countInvisibleLetters? boolean Only used in tandem with `maxLetters`
     ---@field public hideOnEscape? boolean
     ---@field public OnAccept? fun(self: InternalStaticPopupFrame)
     ---@field public OnCancel? fun(self: InternalStaticPopupFrame)
@@ -2895,6 +2897,7 @@ do
         button2 = CLOSE,
         hasEditBox = true,
         hasWideEditBox = true,
+        maxLetters = 0,
         editBoxWidth = 350,
         preferredIndex = 3,
         timeout = 0,
@@ -3253,6 +3256,7 @@ do
         button2 = CLOSE,
         hasEditBox = true,
         hasWideEditBox = true,
+        maxLetters = 0,
         editBoxWidth = 350,
         preferredIndex = 3,
         timeout = 0,
@@ -15184,7 +15188,7 @@ do
     end
 
     ---@param frame Frame
-    ---@param button MouseAction
+    ---@param button mouseButton
     function shortcuts:OnButtonClick(frame, button)
         if button == "RightButton" then
             settings:Toggle()
