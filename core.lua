@@ -433,7 +433,7 @@ local StaticPopupUtil do
         if isTextFontString(text) then
             return text
         end
-        local name = self:GetName()
+        local name = popup:GetName()
         text = _G[name .. "Text"]
         return text
     end
@@ -450,7 +450,7 @@ local StaticPopupUtil do
         if isEditBox(editBox) then
             return editBox
         end
-        local name = self:GetName()
+        local name = popup:GetName()
         editBox = _G[name .. "WideEditBox"]
         if isEditBox(editBox, true) then
             return editBox
@@ -480,7 +480,7 @@ local StaticPopupUtil do
         if isButton(button) then
             return button
         end
-        local name = self:GetName()
+        local name = popup:GetName()
         button = _G[format("%sButton%d", name, index)]
         return button
     end
@@ -15184,7 +15184,7 @@ do
     end
 
     ---@param frame Frame
-    ---@param button MouseAction
+    ---@param button mouseButton
     function shortcuts:OnButtonClick(frame, button)
         if button == "RightButton" then
             settings:Toggle()
