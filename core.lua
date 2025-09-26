@@ -5941,7 +5941,8 @@ do
                                 tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
                             end
                         else
-                            local isMainPreviousScoreRelevant = keystoneProfile.mplusMainCurrent.score < (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusMainPrevious.score)
+                            local mainPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusMainPrevious.score)
+                            local isMainPreviousScoreRelevant = mainPreviousScoreThreshold > keystoneProfile.mplusMainCurrent.score and mainPreviousScoreThreshold > keystoneProfile.mplusCurrent.score
                             local isMainCurrentScoreBetter = keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score
                             if isMainCurrentScoreBetter or isMainPreviousScoreRelevant then
                                 if isMainPreviousScoreRelevant then
