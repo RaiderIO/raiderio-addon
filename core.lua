@@ -13313,7 +13313,7 @@ do
     end
 
     function combatlog:CanLoad()
-        return config:IsEnabled() and not util:IsTimerunning()
+        return config:IsEnabled()
     end
 
     function combatlog:OnLoad()
