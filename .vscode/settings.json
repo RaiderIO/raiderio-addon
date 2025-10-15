@@ -82,8 +82,6 @@
         "ItemRefTooltip",
         "LE_REALM_RELATION_SAME",
         "LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE",
-        "LFGList_ReportAdvertisement",
-        "LFGList_ReportListing",
         "LFGListFrame",
         "LFGListFrameDropDown",
         "LinkUtil",
