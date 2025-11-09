@@ -400,9 +400,28 @@ local StaticPopupUtil do
 
     StaticPopupUtil = {}
 
+    ---@param id string|InternalStaticPopupDialog
+    ---@param ... any
+    ---@return InternalStaticPopupFrame? popup, string? name
+    function StaticPopupUtil:IsVisible(id, ...)
+        local name ---@type string?
+        local t = type(id)
+        if t == "table" then
+            name = id.id
+        elseif t == "string" then
+            name = id
+        end
+        if not name or type(name) ~= "string" then
+            return
+        end
+        ---@type string?, InternalStaticPopupFrame?
+        local frameName, frame = StaticPopup_Visible(name, ...)
+        return frame, frameName
+    end
+
     ---@param popup InternalStaticPopupDialog
     ---@param ... any
-    ---@return InternalStaticPopupDialog
+    ---@return InternalStaticPopupFrame
     function StaticPopupUtil:Show(popup, ...)
         local id = popup.id
         if not StaticPopupDialogs[id] then
@@ -415,6 +434,12 @@ local StaticPopupUtil do
             StaticPopupDialogs[id] = popup
         end
         return StaticPopup_Show(id, ...)
+    end
+
+    ---@param popup InternalStaticPopupFrame
+    ---@param ... any
+    function StaticPopupUtil:Hide(popup, ...)
+        return StaticPopup_Hide(popup.which, ...)
     end
 
     ---@param popup InternalStaticPopupFrame
@@ -434,7 +459,7 @@ local StaticPopupUtil do
             return text
         end
         local name = popup:GetName()
-        text = _G[name .. "Text"]
+        text = _G[format("%sText", name)]
         return text
     end
 
@@ -451,12 +476,22 @@ local StaticPopupUtil do
             return editBox
         end
         local name = popup:GetName()
-        editBox = _G[name .. "WideEditBox"]
+        editBox = _G[format("%sWideEditBox", name)]
         if isEditBox(editBox, true) then
             return editBox
         end
-        editBox = _G[name .. "EditBox"]
+        editBox = _G[format("%sEditBox", name)]
         return editBox
+    end
+
+    ---@param popup InternalStaticPopupFrame
+    function StaticPopupUtil:GetWideEditBox(popup)
+        local name = popup:GetName()
+        local editBox = _G[format("%sWideEditBox", name)]
+        if isEditBox(editBox, true) then
+            return editBox
+        end
+        return self:GetEditBox(popup)
     end
 
     ---@param popup InternalStaticPopupFrame
@@ -654,6 +689,8 @@ do
             RAIDERIO_COLOR = { 256, 256, 0, 0, 0/256, 64/256, 64/256, 128/256, 0, 0 },
             RAIDERIO_WHITE = { 256, 256, 0, 0, 64/256, 128/256, 64/256, 128/256, 0, 0 },
             RAIDERIO_BLACK = { 256, 256, 0, 0, 128/256, 192/256, 64/256, 128/256, 0, 0 },
+            WARBAND_WHITE = { 256, 256, 0, 0, 0/256, 64/256, 128/256, 192/256, -2, 2 },
+            WARBAND_BLACK = { 256, 256, 0, 0, 64/256, 128/256, 128/256, 192/256, -2, 2 },
         },
         ---@class CustomIcons_Replay : CustomIcons
         replay = {
@@ -765,7 +802,7 @@ do
 
         for fileName, fileIcons in pairs(ns.CUSTOM_ICONS) do
             for _, iconInfo in pairs(fileIcons) do
-                iconInfo.filePath = "Interface\\AddOns\\RaiderIO\\icons\\" .. fileName
+                iconInfo.filePath = format("Interface\\AddOns\\RaiderIO\\icons\\%s", fileName)
                 setmetatable(iconInfo, Metatable)
             end
         end
@@ -815,6 +852,11 @@ do
         [-10] = ns.CUSTOM_ICONS.affixes.FORTIFIED_OFF("TextureMarkup"),
         [9] = ns.CUSTOM_ICONS.affixes.TYRANNICAL_ON("TextureMarkup"),
         [10] = ns.CUSTOM_ICONS.affixes.FORTIFIED_ON("TextureMarkup"),
+    }
+
+    ns.PROFILE_TOOLTIP_COLUMN_TEXTURE = { -- The regular character column and the warband icon used in the profile tooltip.
+        CHARACTER = "|T982414:1:1|t",
+        WARBAND = ns.CUSTOM_ICONS.icons.WARBAND_WHITE("TextureMarkup"),
     }
 
     ---@class RoleIcon
@@ -1864,7 +1906,7 @@ do
             if useEnglishAbbreviations then
                 dungeon.shortNameLocale = dungeon.shortName
             else
-                dungeon.shortNameLocale = L["DUNGEON_SHORT_NAME_" .. dungeon.shortName] or dungeon.shortName
+                dungeon.shortNameLocale = L[format("DUNGEON_SHORT_NAME_%s", dungeon.shortName)] or dungeon.shortName
             end
         end
         for i = 1, #RAIDS do
@@ -1872,7 +1914,7 @@ do
             if useEnglishAbbreviations then
                 raid.shortNameLocale = raid.shortName
             else
-                raid.shortNameLocale = raid.shortName -- TODO: L["RAID_SHORT_NAME_" .. raid.shortName]
+                raid.shortNameLocale = raid.shortName -- TODO: L[format("RAID_SHORT_NAME_%s", raid.shortName)]
             end
         end
         ---@param a Dungeon|DungeonRaid
@@ -2040,9 +2082,9 @@ do
             return
         end
         -- profile.lua
-        if frame == _G[addonName .. "_ProfileTooltipAnchor"] then return end
+        if frame == _G[format("%s_ProfileTooltipAnchor", addonName)] then return end
         -- guildweekly.lua
-        if frame == _G[addonName .. "_GuildWeeklyFrame"] then return true end
+        if frame == _G[format("%s_GuildWeeklyFrame", addonName)] then return true end
         -- whotooltip.lua
         if IsParentedBy(frame, WhoFrame.ScrollBox) then return true end
         if IsParentedBy(frame, WhoListScrollFrame and WhoListScrollFrame:GetParent()) then return true end
@@ -2345,27 +2387,27 @@ do
 
     do
         for i = 1, 40 do
-            UNIT_TOKENS["raid" .. i] = true
-            UNIT_TOKENS["raidpet" .. i] = true
-            UNIT_TOKENS["nameplate" .. i] = true
+            UNIT_TOKENS[format("raid%d", i)] = true
+            UNIT_TOKENS[format("raidpet%d", i)] = true
+            UNIT_TOKENS[format("nameplate%d", i)] = true
         end
 
         for i = 1, 4 do
-            UNIT_TOKENS["party" .. i] = true
-            UNIT_TOKENS["partypet" .. i] = true
+            UNIT_TOKENS[format("party%d", i)] = true
+            UNIT_TOKENS[format("partypet%d", i)] = true
         end
 
         for i = 1, 5 do
-            UNIT_TOKENS["arena" .. i] = true
-            UNIT_TOKENS["arenapet" .. i] = true
+            UNIT_TOKENS[format("arena%d", i)] = true
+            UNIT_TOKENS[format("arenapet%d", i)] = true
         end
 
         for i = 1, MAX_BOSS_FRAMES do
-            UNIT_TOKENS["boss" .. i] = true
+            UNIT_TOKENS[format("boss%d", i)] = true
         end
 
         for k, _ in pairs(UNIT_TOKENS) do
-            UNIT_TOKENS[k .. "target"] = true
+            UNIT_TOKENS[format("%starget", k)] = true
         end
     end
 
@@ -2730,7 +2772,8 @@ do
         MEDAL_TEXTURE[k] = CreateTextureMarkup(v, 64, 64, 10, 10, 20/64, (20+22)/64, 20/64, (20+22)/64, -2, 0) -- 20 left/top and 22 width/height looks pretty good
     end
 
-    ---@param chests number @the amount of chests/upgrades at the end of the keystone run. returns a string containing stars representing each chest/upgrade.
+    ---@param chests number The amount of chests/upgrades at the end of the keystone run. returns a string containing stars representing each chest/upgrade.
+    ---@param isInactive? boolean When set will apply a gray color instead of the usual golden.
     function util:GetNumChests(chests, isInactive)
         if config:Get("showMedalsInsteadOfText") then -- TODO: isInactive
             if not chests or chests < 1 then
@@ -2850,6 +2893,7 @@ do
     ---@field public text_arg2? string
 
     ---@class InternalStaticPopupFrame : Frame
+    ---@field public which string
     ---@field public OnAcceptCallback? function
     ---@field public Text? InternalStaticPopupFrameText
     ---@field public GetTextFontString? fun(): InternalStaticPopupFrameText
@@ -3202,6 +3246,7 @@ do
         return not not (not IsArray(o) and next(o))
     end
 
+    ---@type fun(o: any): string
     local TableToJSON
 
     local function WrapValue(o)
@@ -3216,35 +3261,42 @@ do
         elseif t == "table" then
             s = TableToJSON(o)
         else
-            s = "\"" .. tostring(o) .. "\""
+            s = format("\"%s\"", tostring(o))
         end
         return s
     end
 
     function TableToJSON(o)
         if type(o) == "table" then
-            local s = ""
+            local s = {} ---@type string[]
+            local i = 0
             if IsMap(o) then
-                s = s .. "{"
+                i = i + 1
+                s[i] = "{"
                 for k, v in pairs(o) do
-                    s = s .. "\"" .. tostring(k) .. "\":" .. WrapValue(v) .. ","
+                    i = i + 1
+                    s[i] = format("\"%s\":%s,", tostring(k), WrapValue(v))
                 end
-                if s:sub(-1) == "," then
-                    s = s:sub(1, -2)
+                if s[i]:sub(-1) == "," then
+                    s[i] = s[i]:sub(1, -2)
                 end
-                s = s .. "}"
+                i = i + 1
+                s[i] = "}"
             else
-                s = s .. "["
-                for i = 1, #o do
-                    local v = o[i]
-                    s = s .. WrapValue(v) .. ","
+                i = i + 1
+                s[i] = "["
+                for j = 1, #o do
+                    local v = o[j]
+                    i = i + 1
+                    s[i] = format("%s,", WrapValue(v))
                 end
-                if s:sub(-1) == "," then
-                    s = s:sub(1, -2)
+                if s[i]:sub(-1) == "," then
+                    s[i] = s[i]:sub(1, -2)
                 end
-                s = s .. "]"
+                i = i + 1
+                s[i] = "]"
             end
-            return s
+            return table.concat(s, "")
         end
         return o
     end
@@ -3279,11 +3331,15 @@ do
         NONE = 0
     }
 
+    ---@param unit string
     local function GetUnitRole(unit)
         local role = UnitGroupRolesAssigned(unit)
         return role and RoleNameToBit[role] or RoleNameToBit.NONE
     end
 
+    ---@param tank? boolean
+    ---@param heal? boolean
+    ---@param dps? boolean
     local function GetQueuedRole(tank, heal, dps)
         local role1 = tank and "TANK" or (heal and "HEALER" or (dps and "DAMAGER"))
         local role2 = (tank and heal and "HEALER") or ((tank or heal) and dps and "DAMAGER")
@@ -3307,11 +3363,14 @@ do
         return role
     end
 
+    ---@param unitPrefix string
+    ---@param startIndex number
+    ---@param endIndex number
     local function GetGroupData(unitPrefix, startIndex, endIndex)
         local group = {}
         local index = 0
         for i = startIndex, endIndex do
-            local unit = i == 0 and "player" or unitPrefix .. i
+            local unit = i == 0 and "player" or format("%s%d", unitPrefix, i)
             if util:IsUnitMaxLevel(unit) then
                 local name, realm = util:GetNameRealm(unit)
                 if name then
@@ -3411,25 +3470,25 @@ do
             json:CloseCopyDialog()
             return false
         end
-        local frameName, frame = StaticPopup_Visible(EXPORT_GROUP_JSON_POPUP.id)
+        local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
         if not frame then
             return false
         end
-        local editBox = _G[frameName .. "WideEditBox"] or _G[frameName .. "EditBox"]
-        frame:SetWidth(420)
+        local editBox = StaticPopupUtil:GetWideEditBox(frame)
+        -- frame:SetWidth(420)
         editBox:SetText(canShow and GetJSON() or "")
         editBox:SetFocus()
         editBox:HighlightText()
-        local button = _G[frameName .. "Button2"]
-        button:ClearAllPoints()
-        button:SetWidth(200)
-        button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
+        -- local button = StaticPopupUtil:GetButton(frame, 2)
+        -- button:ClearAllPoints()
+        -- button:SetWidth(200)
+        -- button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
         return true
     end
 
     local function CreateExportButton()
         ---@class RaiderIOExportButton : Button
-        local button = CreateFrame("Button", addonName .. "_ExportButton", LFGListFrame)
+        local button = CreateFrame("Button", format("%s_ExportButton", addonName), LFGListFrame)
         button:SetPoint("BOTTOMRIGHT", button:GetParent(), "BOTTOM", -12, 7) ---@diagnostic disable-line: param-type-mismatch
         button:SetSize(16, 16)
         -- script handlers
@@ -3475,7 +3534,7 @@ do
         if not self:IsEnabled() then
             return
         end
-        if not StaticPopup_Visible(EXPORT_GROUP_JSON_POPUP.id) then
+        if not StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id) then
             json:OpenCopyDialog()
         else
             json:CloseCopyDialog()
@@ -3486,23 +3545,26 @@ do
         if not self:IsEnabled() then
             return
         end
-        local _, frame = StaticPopup_Visible(EXPORT_GROUP_JSON_POPUP.id)
+        if not CanShowButton() then
+            return
+        end
+        local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
         if frame then
             UpdateCopyDialog()
             return
         end
-        frame = util:ShowStaticPopupDialog(EXPORT_GROUP_JSON_POPUP)
+        util:ShowStaticPopupDialog(EXPORT_GROUP_JSON_POPUP)
     end
 
     function json:CloseCopyDialog()
         if not self:IsEnabled() then
             return
         end
-        local _, frame = StaticPopup_Visible(EXPORT_GROUP_JSON_POPUP.id)
+        local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
         if not frame then
             return
         end
-        StaticPopup_Hide(EXPORT_GROUP_JSON_POPUP.id)
+        StaticPopupUtil:Hide(frame)
     end
 
 end
@@ -3822,7 +3884,9 @@ do
         DUNGEON_BEST_INDEX     = 11,    -- best dungeon index
         WARBAND_CURRENT_SCORE  = 12,    -- warband current season score
         WARBAND_PREVIOUS_SCORE = 13,    -- warband previous season score
-        WARBAND_DUNGEON_LEVELS = 14     -- warband dungeon levels and stars for each dungeon completed
+        WARBAND_DUNGEON_LEVELS = 14,    -- warband dungeon levels and stars for each dungeon completed
+        WARBAND_CURRENT_ROLES  = 15,    -- warband current season roles
+        WARBAND_PREVIOUS_ROLES = 16,    -- warband previous season roles
     }
 
     ---@class EncoderRecruitmentFields
@@ -4093,6 +4157,8 @@ do
     ---@field public mainPreviousScore number
     ---@field public mainPreviousScoreSeason number
     ---@field public mainPreviousRoleOrdinalIndex number
+    ---@field public warbandPreviousRoleOrdinalIndex number
+    ---@field public warbandCurrentRoleOrdinalIndex number
     ---@field public dungeons number[] 
     ---@field public dungeonUpgrades number[]
     ---@field public dungeonTimes number[]
@@ -4120,6 +4186,9 @@ do
     ---@field public level number @Keystone level
     ---@field public chests number @Number of medals where 1=Bronze, 2=Silver, 3=Gold
     ---@field public fractionalTime number @If we have client data `isEnhanced` is set and the values are then `0.0` to `1.0` is within the timer, anything above is depleted over the timer. If `isEnhanced` is false then this value is 0 to 3 where 3 is depleted, and the rest is in time.
+    ---@field public warbandLevel number
+    ---@field public warbandChests number
+    ---@field public warbandFractionalTime number
     ---@field public sortOrder string @The sorting weight assigned this entry. Combination of level, chests and name of the dungeon.
 
     ---@class SortedMilestone
@@ -4139,8 +4208,8 @@ do
     ---@param results DataProviderMythicKeystoneProfile
     ---@param bucket string
     ---@param bitOffset number
-    ---@param mode string
-    local function ReadDungeonLevelStats(results, bucket, bitOffset, mode)
+    ---@param isWarband? boolean
+    local function ReadDungeonLevelStats(results, bucket, bitOffset, isWarband)
         local dungeons = {}
         local dungeonUpgrades = {}
         local dungeonTimes = {}
@@ -4150,7 +4219,7 @@ do
             dungeonTimes[i] = 3 - dungeonUpgrades[i]
             results.hasRenderableData = results.hasRenderableData or dungeons[i] > 0
         end
-        if mode == 'warband' then
+        if isWarband then
             results.warbandDungeons = dungeons
             results.warbandDungeonUpgrades = dungeonUpgrades
             results.warbandDungeonTimes = dungeonTimes
@@ -4185,12 +4254,18 @@ do
             local dungeonLevel = results.dungeons[i]
             local dungeonChests = results.dungeonUpgrades[dungeon.index]
             local dungeonFractionalTime = results.dungeonTimes[dungeon.index]
+            local warbandDungeonLevel = results.warbandDungeons[i]
+            local warbandDungeonChests = results.warbandDungeonUpgrades[dungeon.index]
+            local warbandDungeonFractionalTime = results.warbandDungeonTimes[dungeon.index]
             local sortOrder = format("%02d-%02d-%s", 99 - dungeonLevel, 99 - dungeonChests, dungeon.shortName)
             results.sortedDungeons[i] = {
                 dungeon = dungeon,
                 level = dungeonLevel,
                 chests = dungeonChests,
                 fractionalTime = dungeonFractionalTime,
+                warbandLevel = warbandDungeonLevel,
+                warbandChests = warbandDungeonChests,
+                warbandFractionalTime = warbandDungeonFractionalTime,
                 sortOrder = sortOrder,
             }
         end
@@ -4203,7 +4278,7 @@ do
         results.sortedMilestones = {}
         for i = 1, #keystoneMilestoneLevels do
             local milestoneLevel = keystoneMilestoneLevels[i]
-            local milestoneLevelCount = results["keystoneMilestone" .. milestoneLevel] or 0
+            local milestoneLevelCount = results[format("keystoneMilestone%d", milestoneLevel)] or 0
             if milestoneLevelCount > 0 then
                 local milestoneLabel
                 if i > 1 then
@@ -4214,7 +4289,7 @@ do
                 results.sortedMilestones[#results.sortedMilestones + 1] = {
                     level = milestoneLevel,
                     label = milestoneLabel,
-                    text = milestoneLevelCount .. (milestoneLevelCount > 255 and "+" or ""),
+                    text = format("%d%s", milestoneLevelCount, milestoneLevelCount > 255 and "+" or ""),
                 }
             end
         end
@@ -4238,12 +4313,12 @@ do
         }
         results.mplusWarbandCurrent = {
             score = results.warbandCurrentScore or 0,
-            roles = {}  -- no roles for warband scores
+            roles = ORDERED_ROLES[results.warbandPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusWarbandPrevious = {
             season = results.warbandPreviousScoreSeason,
             score = results.warbandPreviousScore or 0,
-            roles = {} -- no roles for warband scores
+            roles = ORDERED_ROLES[results.warbandCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
     end
 
@@ -4343,14 +4418,14 @@ do
                 for i = 1, #keystoneMilestoneLevels do
                     value, bitOffset = ReadBitsFromString(bucket, bitOffset, 8)
                     local milestoneData = DecodeBits8(value)
-                    results["keystoneMilestone" .. keystoneMilestoneLevels[i]] = milestoneData
+                    results[format("keystoneMilestone%d", keystoneMilestoneLevels[i])] = milestoneData
                     if milestoneData > 0 then
                         hasMilestoneData = true
                     end
                 end
                 results.hasRenderableData = results.hasRenderableData or hasMilestoneData
             elseif field == ENCODER_MYTHICPLUS_FIELDS.DUNGEON_LEVELS then
-                bitOffset = ReadDungeonLevelStats(results, bucket, bitOffset, 'base')
+                bitOffset = ReadDungeonLevelStats(results, bucket, bitOffset)
             elseif field == ENCODER_MYTHICPLUS_FIELDS.DUNGEON_BEST_INDEX then
                 bitOffset = ApplyWeeklyAffixForDungeonBest(results, bucket, bitOffset)
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_CURRENT_SCORE then
@@ -4361,7 +4436,13 @@ do
                 results.warbandPreviousScoreSeason, bitOffset = ReadBitsFromString(bucket, bitOffset, 2)
                 results.hasRenderableData = results.hasRenderableData or results.warbandPreviousScore > 0
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_DUNGEON_LEVELS then
-                bitOffset = ReadDungeonLevelStats(results, bucket, bitOffset, 'warband')
+                bitOffset = ReadDungeonLevelStats(results, bucket, bitOffset, true)
+            elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_CURRENT_ROLES then
+                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
+                results.warbandPreviousRoleOrdinalIndex = 1 + value -- indexes are one-based
+            elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_PREVIOUS_ROLES then
+                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
+                results.warbandPreviousRoleOrdinalIndex = 1 + value -- indexes are one-based
             end
         end
         ApplySortedDungeons(results)
@@ -4784,7 +4865,7 @@ do
     local function GetMythicKeystoneProfile(provider, ...)
         if provider.blockedPurged then
             local _, _, name, realm = ...
-            local guid = provider.data .. ":" .. provider.region .. ":-1:-1:blockedPurged"
+            local guid = format("%d:%s:-1:-1:blockedPurged", provider.data, provider.region)
             local cache = mythicKeystoneProfileCache[guid]
             if cache then
                 return cache
@@ -4896,7 +4977,6 @@ do
             results.dungeons[i] = 0
             results.dungeonUpgrades[i] = 0
             results.dungeonTimes[i] = 999
-
             results.warbandDungeons[i] = 0
             results.warbandDungeonUpgrades[i] = 0
             results.warbandDungeonTimes[i] = 999
@@ -5434,12 +5514,12 @@ do
         if not seasonId then
             seasonId = ns.CURRENT_SEASON
         end
-        return format(label, L["SEASON_LABEL_" .. (1 + seasonId)] or "")
+        return format(label, L[format("SEASON_LABEL_%d", seasonId + 1)] or "")
     end
 
     ---@param data DataProviderMythicKeystoneScore
     local function GetScoreText(data, isApproximated)
-        local score = (isApproximated and "±" or "") .. data.score
+        local score = format("%s%d", isApproximated and "±" or "", data.score)
         if not config:Get("showRoleIcons") then
             return score
         end
@@ -5487,7 +5567,8 @@ do
             else
                 label, r, g, b = L.BEST_RUN, 1, 1, 1
             end
-            tooltip:AddDoubleLine(label, util:GetNumChests(overallBest.chests) .. "|cffffffff" .. overallBest.level .. "|r " .. overallBest.dungeon.shortNameLocale, r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
+            local text = format("%s|cffffffff%d|r %s", util:GetNumChests(overallBest.chests), overallBest.level, overallBest.dungeon.shortNameLocale)
+            tooltip:AddDoubleLine(label, text, r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
         end
         if best.dungeon and best.level > 0 then
             local label, r, g, b = L.BEST_FOR_DUNGEON, 1, 1, 1
@@ -5499,7 +5580,8 @@ do
                     label, r, g, b = L.BEST_FOR_DUNGEON, 0, 1, 0
                 end
             end
-            tooltip:AddDoubleLine(label, util:GetNumChests(best.chests) .. "|cffffffff" .. best.level .. "|r " .. best.dungeon.shortNameLocale, r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
+            local text = format("%s|cffffffff%d|r %s", util:GetNumChests(best.chests), best.level, best.dungeon.shortNameLocale)
+            tooltip:AddDoubleLine(label, text, r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
         end
         if isHeader then
             return hasHeaderData
@@ -5588,7 +5670,7 @@ do
         local members = {}
         local index = 0
         for i = 0, numMembers do
-            local unit = i == 0 and "player" or "party" .. i
+            local unit = i == 0 and "player" or format("party%d", i)
             local name, realm = util:GetNameRealm(unit)
             local profile = provider:GetProfile(name, realm)
             if profile and profile.mythicKeystoneProfile and not profile.mythicKeystoneProfile.blocked then
@@ -5614,23 +5696,37 @@ do
     end
 
     ---@param sortedDungeons SortedDungeon[]
-    local function GetSortedDungeonsTooltipText(sortedDungeons)
+    ---@param isWarband? boolean
+    ---@return string[] lines, number[] lineWidth, number maxWidth
+    local function GetSortedDungeonsTooltipText(sortedDungeons, isWarband)
         local lines = {} ---@type string[]
+        local lineWidth = {} ---@type number[]
+        local maxWidth = 0
         for i = 1, #sortedDungeons do
             local sortedDungeon = sortedDungeons[i]
-            local chests = sortedDungeon.chests
-            local level = sortedDungeon.level
-            -- local fractionalTime = sortedDungeon.fractionalTime
-            local text = {
-                util:GetNumChests(chests),
-                "|cff",
-                util:GetKeystoneChestColor(chests, true),
-                level > 0 and level or "-",
-                "|r",
-            }
-            lines[i] = table.concat(text)
+            local level = isWarband and sortedDungeon.warbandLevel or sortedDungeon.level
+            local chests = isWarband and sortedDungeon.warbandChests or sortedDungeon.chests
+            if level > 0 then
+                local parts = {
+                    util:GetNumChests(chests),
+                    "|cff",
+                    util:GetKeystoneChestColor(chests, true),
+                    level > 0 and level or "-",
+                    "|r",
+                }
+                local text = table.concat(parts, "")
+                lines[i] = text
+                local width = util:GetTooltipTextWidth(text)
+                lineWidth[i] = width
+                if width > maxWidth then
+                    maxWidth = width
+                end
+            else
+                lines[i] = ""
+                lineWidth[i] = 0
+            end
         end
-        return lines
+        return lines, lineWidth, maxWidth
     end
 
     ---@type table<DungeonRaid, string>|nil
@@ -5713,7 +5809,7 @@ do
                     r, g, b = 0, 1, 0
                 end
                 local fatedTexture = fated and format("|A:%s-small:0:0:0:1|a", fated) or ""
-                tooltip:AddLine(format("%s %s", L["RAID_" .. raid.shortName], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
+                tooltip:AddLine(format("%s %s", L[format("RAID_%s", raid.shortName)], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
             end
             for j = 1, raid.bossCount do
                 local progressFound = false
@@ -5921,25 +6017,30 @@ do
                             end
                         end
                     end
+                    local hasShownWarbandScore = false
                     if config:Get("showWarbandScore") then
+                        local warbandText = format("%s %s", L.WARBAND_SCORE, ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND)
                         if not config:Get("showWarbandScore") then
                             if keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score then
-                                tooltip:AddDoubleLine(L.WARBAND_SCORE, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
+                                tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
+                                hasShownWarbandScore = true
                             end
                         else
-                            local isWarbandPreviousScoreRelevant = keystoneProfile.mplusWarbandCurrent.score < (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
+                            local warbandPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
+                            local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score
                             local isWarbandCurrentScoreBetter = keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score
                             if isWarbandCurrentScoreBetter or isWarbandPreviousScoreRelevant then
+                                hasShownWarbandScore = true
                                 if isWarbandPreviousScoreRelevant then
                                     tooltip:AddDoubleLine(GetSeasonLabel(L.WARBAND_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusWarbandPrevious.season), GetScoreText(keystoneProfile.mplusWarbandPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandPrevious.score, true))
                                 end
                                 if keystoneProfile.mplusWarbandCurrent.score > 0 or hasMod or hasModSticky then
-                                    tooltip:AddDoubleLine(L.WARBAND_SCORE, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
+                                    tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
                                 end
                             end
                         end
                     end
-                    if config:Get("showMainsScore") then
+                    if not hasShownWarbandScore and config:Get("showMainsScore") then
                         if not config:Get("showMainBestScore") then
                             if keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score then
                                 tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
@@ -5952,7 +6053,6 @@ do
                                 if isMainPreviousScoreRelevant then
                                     tooltip:AddDoubleLine(GetSeasonLabel(L.MAINS_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusMainPrevious.season), GetScoreText(keystoneProfile.mplusMainPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainPrevious.score, true))
                                 end
-
                                 if keystoneProfile.mplusMainCurrent.score > 0 or hasMod or hasModSticky then
                                     tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
                                 end
@@ -5983,12 +6083,23 @@ do
                         end
                         if hasBestDungeons or true then -- HOTFIX: we prefer to always display this in the expanded profile so even empty profiles can display what dungeons there are for the player to complete
                             local focusDungeon = showLFD and util:GetLFDStatusForCurrentActivity(state.args and state.args.activityID)
-                            local dungeonLines = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons)
+                            local dungeonLines, dungeonLinesWidth, dungeonLinesMaxWidth = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons)
+                            local dungeonLinesWarband, dungeonLinesWarbandWidth, dungeonLinesWarbandMaxWidth = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons, true)
+                            local paddingBetweenColumns = 15 -- additional column padding in order to avoid the columns from appearing glued together
+                            dungeonLinesMaxWidth = dungeonLinesMaxWidth + paddingBetweenColumns
                             if showHeader then
                                 if showPadding then
                                     tooltip:AddLine(" ")
                                 end
-                                tooltip:AddDoubleLine(L.PROFILE_BEST_RUNS, "", 1, 0.85, 0, 1, 0.85, 0)
+                                local text ---@type string?
+                                -- if dungeonLinesWarbandMaxWidth > 0 then
+                                --     text = table.concat({
+                                --         ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND,
+                                --         util:GetTextPaddingTexture(dungeonLinesMaxWidth - util:GetTooltipTextWidth(ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.CHARACTER)),
+                                --         ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.CHARACTER,
+                                --     }, "")
+                                -- end
+                                tooltip:AddDoubleLine(L.PROFILE_BEST_RUNS, text or "", 1, 0.85, 0, 1, 0.85, 0)
                             end
                             for i = 1, #keystoneProfile.sortedDungeons do
                                 local sortedDungeon = keystoneProfile.sortedDungeons[i]
@@ -5996,8 +6107,15 @@ do
                                 if sortedDungeon.dungeon == focusDungeon then
                                     r, g, b = 0, 1, 0
                                 end
-                                if sortedDungeon.level > 0 then
-                                    tooltip:AddDoubleLine(sortedDungeon.dungeon.shortNameLocale, dungeonLines[i], r, g, b, 0.5, 0.5, 0.5)
+                                if sortedDungeon.level > 0 or sortedDungeon.warbandLevel > 0 then
+                                    local text = {
+                                        dungeonLinesWarband[i],
+                                        " ",
+                                        sortedDungeon.warbandLevel > 0 and ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND or "",
+                                        sortedDungeon.warbandLevel > 0 and util:GetTextPaddingTexture(dungeonLinesMaxWidth - dungeonLinesWidth[i]) or "",
+                                        dungeonLines[i],
+                                    }
+                                    tooltip:AddDoubleLine(sortedDungeon.dungeon.shortNameLocale, table.concat(text, ""), r, g, b, 0.5, 0.5, 0.5)
                                 else
                                     tooltip:AddDoubleLine(sortedDungeon.dungeon.shortNameLocale, "-", r, g, b, 0.5, 0.5, 0.5)
                                 end
@@ -6411,8 +6529,8 @@ if IS_RETAIL then
 
     local RAIDERIO_MP_SCORE = L.RAIDERIO_MP_SCORE:gsub("%.", "|cffffffff|r.") -- TODO: make it part of the locale file like L.RAIDERIO_MP_SCORE_WHOCHAT
 
-    local FORMAT_GUILD = "^" .. util:FormatToPattern(WHO_LIST_GUILD_FORMAT) .. "$"
-    local FORMAT = "^" .. util:FormatToPattern(WHO_LIST_FORMAT) .. "$"
+    local FORMAT_GUILD = format("^%s$", util:FormatToPattern(WHO_LIST_GUILD_FORMAT))
+    local FORMAT = format("^%s$", util:FormatToPattern(WHO_LIST_FORMAT))
 
     ---@param profile DataProviderCharacterProfile
     local function GetScore(profile)
@@ -6422,12 +6540,12 @@ if IS_RETAIL then
         end
         local currentScore = keystoneProfile.mplusCurrent.score
         local mainCurrentScore = keystoneProfile.mplusMainCurrent.score
-        local text
+        local text ---@type string?
         if currentScore > 0 then
-            text = RAIDERIO_MP_SCORE .. ": " .. currentScore .. ". "
+            text = format("%s: %d. ", RAIDERIO_MP_SCORE, currentScore)
         end
         if mainCurrentScore > currentScore and config:Get("showMainsScore") then
-            text = (text or "") .. "(" .. L.MAINS_SCORE .. ": " .. mainCurrentScore .. "). "
+            text = format("%s(%s: %d). ", text or "", L.MAINS_SCORE, mainCurrentScore)
         end
         return text
     end
@@ -6488,7 +6606,7 @@ if IS_RETAIL then
         local index = 0
         local fromIndex, toIndex = IsInRaid() and 1 or 0, GetNumGroupMembers()
         for i = fromIndex, toIndex do
-            local unit = i == 0 and "player" or (IsInRaid() and "raid" or "party") .. i
+            local unit = i == 0 and "player" or format(IsInRaid() and "raid%d" or "party%d", i)
             if UnitExists(unit) then
                 local name, realm = util:GetNameRealm(unit)
                 if name then
@@ -6709,13 +6827,13 @@ if IS_RETAIL then
             end
             --[=[
             if upgrade.levelDiff and upgrade.levelDiff > 0 then
-                self.Text:SetText(upgrade.levelDiff .. (upgrade.levelDiff > 1 and " levels" or " level") .. " higher") -- TODO: locale
+                self.Text:SetFormattedText("%s%s higher", upgrade.levelDiff, upgrade.levelDiff > 1 and " levels" or " level") -- TODO: locale
             elseif upgrade.fractionalTimeDiff and upgrade.fractionalTimeDiff < 0 then
                 local p = floor(upgrade.fractionalTimeDiff * -10000) / 100
                 if p > 0 then
-                    self.Text:SetText(p .. "% faster") -- TODO: locale
+                    self.Text:SetFormattedText("%.1f%% faster", p) -- TODO: locale
                 else
-                    self.Text:SetText("~" .. PERCENTILE_LOWEST .. "% faster") -- TODO: locale
+                    self.Text:SetFormattedText("~%.1f% faster", PERCENTILE_LOWEST) -- TODO: locale
                 end
             else
                 self.Text:SetText()
@@ -6726,13 +6844,13 @@ if IS_RETAIL then
             self.Texture:SetTexture()
             --[=[
             if upgrade.levelDiff and upgrade.levelDiff < 0 then
-                self.Text:SetText((-upgrade.levelDiff) .. (upgrade.levelDiff > 1 and " levels" or " level") .. " lower") -- TODO: locale
+                self.Text:SetFormattedText("%d%s lower", -upgrade.levelDiff, upgrade.levelDiff > 1 and " levels" or " level") -- TODO: locale
             elseif upgrade.levelDiff == 0 and upgrade.fractionalTimeDiff and upgrade.fractionalTimeDiff > 0 then
                 local p = floor(upgrade.fractionalTimeDiff * 10000) / 100
                 if p > 0 then
-                    self.Text:SetText(p .. "% slower") -- TODO: locale
+                    self.Text:SetFormattedText("%.1f%% slower", p) -- TODO: locale
                 else
-                    self.Text:SetText("~" .. PERCENTILE_LOWEST .. "% slower") -- TODO: locale
+                    self.Text:SetFormattedText("~%.1f%% slower", PERCENTILE_LOWEST) -- TODO: locale
                 end
             elseif upgrade.levelDiff == 0 and upgrade.fractionalTimeDiff and upgrade.fractionalTimeDiff <= PERCENTILE_LOWEST_DECIMAL then
                 self.Text:SetText("No change") -- TODO: locale
@@ -7167,7 +7285,7 @@ do
     end
 
     local function CreateTooltipAnchor()
-        local frame = CreateFrame("Frame", addonName .. "_ProfileTooltipAnchor", fallbackFrame) ---@class RaiderIOProfileTooltipAnchorFrame : Frame
+        local frame = CreateFrame("Frame", format("%s_ProfileTooltipAnchor", addonName), fallbackFrame) ---@class RaiderIOProfileTooltipAnchorFrame : Frame
         frame:SetFrameStrata(fallbackStrata)
         frame:SetFrameLevel(100)
         frame:SetClampedToScreen(true)
@@ -7194,7 +7312,7 @@ do
     end
 
     local function CreateTooltip()
-        local tooltip = CreateFrame("GameTooltip", addonName .. "_ProfileTooltip", tooltipAnchor, "GameTooltipTemplate") ---@type GameTooltip
+        local tooltip = CreateFrame("GameTooltip", format("%s_ProfileTooltip", addonName), tooltipAnchor, "GameTooltipTemplate") ---@type GameTooltip
         tooltip:SetClampedToScreen(true)
         tooltip:SetOwner(tooltipAnchor, "ANCHOR_NONE")
         tooltip:ClearAllPoints()
@@ -7897,7 +8015,7 @@ if IS_RETAIL then
         if not guildRealm then
             _, guildRealm = util:GetNameRealm(unit)
         end
-        return guildName .. "-" .. guildRealm
+        return format("%s-%s", guildName, guildRealm)
     end
 
     ---@class UICheckButtonTemplatePolyfill : CheckButton
@@ -7949,7 +8067,7 @@ if IS_RETAIL then
         end
         runInfo.dungeonName = C_ChallengeMode.GetMapUIInfo(runInfo.dungeon.keystone_instance) or runInfo.dungeon.name
         self.CharacterName:SetText(runInfo.dungeonName)
-        self.Level:SetText(util:GetNumChests(runInfo.upgrades) .. runInfo.level)
+        self.Level:SetFormattedText("%s%d", util:GetNumChests(runInfo.upgrades), runInfo.level)
         if runInfo.clear_time and runInfo.upgrades == 0 then
             self.Level:SetTextColor(0.62, 0.62, 0.62)
         else
@@ -7968,9 +8086,9 @@ if IS_RETAIL then
         GameTooltip:SetText(runInfo.dungeon.shortNameLocale, 1, 1, 1)
         local chestsText = ""
         if runInfo.upgrades > 0 then
-            chestsText = " (" .. util:GetNumChests(runInfo.upgrades) .. ")"
+            chestsText = format(" (%s)", util:GetNumChests(runInfo.upgrades))
         end
-        GameTooltip:AddLine(MYTHIC_PLUS_POWER_LEVEL:format(runInfo.level) .. chestsText, 1, 1, 1)
+        GameTooltip:AddLine(format("%s%s", MYTHIC_PLUS_POWER_LEVEL:format(runInfo.level), chestsText), 1, 1, 1)
         if runInfo.clear_time then
             GameTooltip:AddLine(runInfo.clear_time, 1, 1, 1)
         end
@@ -8128,7 +8246,7 @@ if IS_RETAIL then
 
     local function CreateGuildWeeklyFrame()
         ---@type GuildWeeklyFrame
-        local frame = CreateFrame("Frame", addonName .. "_GuildWeeklyFrame", ChallengesFrame, BackdropTemplateMixin and "BackdropTemplate")
+        local frame = CreateFrame("Frame", format("%s_GuildWeeklyFrame", addonName), ChallengesFrame, BackdropTemplateMixin and "BackdropTemplate")
         frame.maxVisible = 5
         -- inherit from the mixin
         for k, v in pairs(GuildWeeklyFrameMixin) do
@@ -10830,7 +10948,7 @@ if IS_RETAIL then
     end
 
     local function CreateReplayFrame()
-        local frame = CreateFrame("Frame", addonName .. "_ReplayFrame", UIParent) ---@class ReplayFrame
+        local frame = CreateFrame("Frame", format("%s_ReplayFrame", addonName), UIParent) ---@class ReplayFrame
         Mixin(frame, ReplayFrameMixin)
         frame:OnLoad()
         return frame
@@ -11497,7 +11615,7 @@ do
     end
 
     local function CreateTooltip()
-        return CreateFrame("GameTooltip", addonName .. "_SearchTooltip", UIParent, "GameTooltipTemplate") ---@type RaiderIOSearchTooltip
+        return CreateFrame("GameTooltip", format("%s_SearchTooltip", addonName), UIParent, "GameTooltipTemplate") ---@type RaiderIOSearchTooltip
     end
 
     local function CreateSearchFrame()
@@ -11517,7 +11635,7 @@ do
         realmBox.autoCompleteFunction = GetRealms
         nameBox.autoCompleteFunction = GetNames
 
-        local Frame = CreateFrame("Frame", addonName .. "_SearchFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate") ---@class RaiderIOSearchFrame : Frame, BackdropTemplate
+        local Frame = CreateFrame("Frame", format("%s_SearchFrame", addonName), UIParent, BackdropTemplateMixin and "BackdropTemplate") ---@class RaiderIOSearchFrame : Frame, BackdropTemplate
         do
             Frame:Hide()
             Frame:EnableMouse(true)
@@ -12655,7 +12773,7 @@ if IS_RETAIL then
             end
         end
 
-        local frame = CreateFrame("Frame", addonName .. "_RWFFrame", UIParent, "ButtonFrameTemplate") ---@class RaiderIORWFLootFrame : ButtonFramePolyfill
+        local frame = CreateFrame("Frame", format("%s_RWFFrame", addonName), UIParent, "ButtonFrameTemplate") ---@class RaiderIORWFLootFrame : ButtonFramePolyfill
         frame:SetSize(400, 250)
         frame:SetPoint("CENTER")
         frame:SetFrameStrata("HIGH")
@@ -12765,7 +12883,7 @@ if IS_RETAIL then
         frame.WipeLog:SetScript("OnEnter", UIButtonMixin.OnEnter)
         frame.WipeLog:SetScript("OnLeave", UIButtonMixin.OnLeave)
 
-        frame.MiniFrame = CreateFrame("Button", addonName .. "_RWFMiniFrame", UIParent, "UIPanelButtonTemplate") ---@class RaiderIORWFLootFrameMiniFrame : UIPanelButtonTemplatePolyfill
+        frame.MiniFrame = CreateFrame("Button", format("%s_RWFMiniFrame", addonName), UIParent, "UIPanelButtonTemplate") ---@class RaiderIORWFLootFrameMiniFrame : UIPanelButtonTemplatePolyfill
         frame.MiniFrame:SetFrameLevel(100)
         frame.MiniFrame:SetClampedToScreen(true)
         frame.MiniFrame:SetSize(32, 32)
@@ -13406,7 +13524,7 @@ do
         LoggingCombat(setLogging)
         if not LibCombatLogging then
             local info = ChatTypeInfo.SYSTEM
-            DEFAULT_CHAT_FRAME:AddMessage("|cffFFFFFFRaider.IO|r: " .. (setLogging and COMBATLOGENABLED or COMBATLOGDISABLED), info.r, info.g, info.b, info.id)
+            DEFAULT_CHAT_FRAME:AddMessage(format("|cffFFFFFFRaider.IO|r: %s", setLogging and COMBATLOGENABLED or COMBATLOGDISABLED), info.r, info.g, info.b, info.id)
         end
     end
 
@@ -13581,7 +13699,7 @@ do
     local function CreateOptions()
 
         ---@class RaiderIOSettingsFrame
-        local configParentFrame = CreateFrame("Frame", addonName .. "_SettingsFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+        local configParentFrame = CreateFrame("Frame", format("%s_SettingsFrame", addonName), UIParent, BackdropTemplateMixin and "BackdropTemplate")
         configParentFrame:SetSize(400, 600)
         configParentFrame:SetPoint("CENTER")
 
@@ -14559,7 +14677,7 @@ do
             configParentFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 
             -- add widgets
-            local header = configOptions:CreateHeadline(L.RAIDERIO_MYTHIC_OPTIONS .. "\nVersion: " .. tostring(C_AddOns.GetAddOnMetadata(addonName, "Version")), configHeaderFrame)
+            local header = configOptions:CreateHeadline(format("%s\nVersion: %s", L.RAIDERIO_MYTHIC_OPTIONS, tostring(C_AddOns.GetAddOnMetadata(addonName, "Version"))), configHeaderFrame)
             header.text:SetFont(header.text:GetFont(), 16, "OUTLINE") ---@diagnostic disable-line: param-type-mismatch
 
             if IS_RETAIL then
@@ -14817,7 +14935,7 @@ do
                 height = height + children[i]:GetHeight() + 3.5
             end
 
-            configSliderFrame:SetMinMaxValues(1, height - 440)
+            configSliderFrame:SetMinMaxValues(1, max(1, height - 440))
             configFrame:SetHeight(height)
 
             -- adjust frame width dynamically (add padding based on the largest option label string)
@@ -14881,7 +14999,7 @@ do
         ---@field public OnDefault? fun()
         ---@field public OnRefresh? fun()
 
-        local panel = CreateFrame("Frame", addonName .. "_SettingsPanel") ---@class RaiderIOConfigSettingsPanelFrame
+        local panel = CreateFrame("Frame", format("%s_SettingsPanel", addonName)) ---@class RaiderIOConfigSettingsPanelFrame
         panel.name = addonName
         panel:Hide()
 
@@ -14903,8 +15021,8 @@ do
     end
 
     local function CreateSlashCommand()
-        _G["SLASH_" .. addonName .. "1"] = "/raiderio"
-        _G["SLASH_" .. addonName .. "2"] = "/rio"
+        _G[format("SLASH_%s1", addonName)] = "/raiderio"
+        _G[format("SLASH_%s2", addonName)] = "/rio"
 
         local function handler(text)
             if not SmartLoad() then
