@@ -1,7 +1,7 @@
-## Interface: 110107, 110200, 110205
+## Interface: 110200, 110205, 110207
 ## Title: Raider.IO |cffFFFFFFRecruitment|r (Taiwan)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 11.2.0 (@project-version@)
+## Version: 11.2.7 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
