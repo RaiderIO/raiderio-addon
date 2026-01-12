@@ -4387,7 +4387,7 @@ do
         for encoderIndex = 1, #encodingOrder do
             local field = encodingOrder[encoderIndex]
             if field == ENCODER_MYTHICPLUS_FIELDS.CURRENT_SCORE then
-                results.currentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 12)
+                results.currentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 13)
                 results.hasRenderableData = results.hasRenderableData or results.currentScore > 0
             elseif field == ENCODER_MYTHICPLUS_FIELDS.CURRENT_ROLES then
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
@@ -4400,7 +4400,7 @@ do
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
                 results.previousRoleOrdinalIndex = 1 + value -- indexes are one-based
             elseif field == ENCODER_MYTHICPLUS_FIELDS.MAIN_CURRENT_SCORE then
-                results.mainCurrentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 12)
+                results.mainCurrentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 13)
                 results.hasRenderableData = results.hasRenderableData or results.mainCurrentScore > 0
             elseif field == ENCODER_MYTHICPLUS_FIELDS.MAIN_CURRENT_ROLES then
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
@@ -4429,7 +4429,7 @@ do
             elseif field == ENCODER_MYTHICPLUS_FIELDS.DUNGEON_BEST_INDEX then
                 bitOffset = ApplyWeeklyAffixForDungeonBest(results, bucket, bitOffset)
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_CURRENT_SCORE then
-                results.warbandCurrentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 12)
+                results.warbandCurrentScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 13)
                 results.hasRenderableData = results.hasRenderableData or results.warbandCurrentScore > 0
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_PREVIOUS_SCORE then
                 results.warbandPreviousScore, bitOffset = ReadBitsFromString(bucket, bitOffset, 12)
