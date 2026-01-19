@@ -1704,6 +1704,8 @@ do
     ---|"showMainsScore"
     ---|"showMainBestScore"
     ---|"showWarbandScore"
+    ---|"showMyWarbandScore"
+    ---|"showOtherWarbandScore"
     ---|"showDropDownCopyURL"
     ---|"showSimpleScoreColors"
     ---|"showScoreInCombat"
@@ -1760,7 +1762,9 @@ do
         useEnglishAbbreviations = false,
         showMainsScore = true,
         showMainBestScore = true,
-        showWarbandScore = true,
+        showWarbandScore = true, -- NEW in 11.2.5
+        showMyWarbandScore = false, -- NEW in 11.2.5
+        showOtherWarbandScore = true, -- NEW in 11.2.5
         showDropDownCopyURL = true,
         showSimpleScoreColors = false,
         showScoreInCombat = true,
@@ -6018,27 +6022,23 @@ do
                         end
                     end
                     local hasShownWarbandScore = false
+                    local warbandText = format("%s %s", L.WARBAND_SCORE, ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND)
                     if config:Get("showWarbandScore") then
-                        local warbandText = format("%s %s", L.WARBAND_SCORE, ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND)
-                        if not config:Get("showWarbandScore") then
-                            if keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score then
-                                tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
-                                hasShownWarbandScore = true
+                        local warbandPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
+                        local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score
+                        local isWarbandCurrentScoreBetter = keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score
+                        if isWarbandCurrentScoreBetter or isWarbandPreviousScoreRelevant then
+                            hasShownWarbandScore = true
+                            if isWarbandPreviousScoreRelevant then
+                                tooltip:AddDoubleLine(GetSeasonLabel(L.WARBAND_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusWarbandPrevious.season), GetScoreText(keystoneProfile.mplusWarbandPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandPrevious.score, true))
                             end
-                        else
-                            local warbandPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
-                            local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score
-                            local isWarbandCurrentScoreBetter = keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score
-                            if isWarbandCurrentScoreBetter or isWarbandPreviousScoreRelevant then
-                                hasShownWarbandScore = true
-                                if isWarbandPreviousScoreRelevant then
-                                    tooltip:AddDoubleLine(GetSeasonLabel(L.WARBAND_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusWarbandPrevious.season), GetScoreText(keystoneProfile.mplusWarbandPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandPrevious.score, true))
-                                end
-                                if keystoneProfile.mplusWarbandCurrent.score > 0 or hasMod or hasModSticky then
-                                    tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
-                                end
+                            if keystoneProfile.mplusWarbandCurrent.score > 0 or hasMod or hasModSticky then
+                                tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
                             end
                         end
+                    elseif keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score then
+                        hasShownWarbandScore = true
+                        tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
                     end
                     if not hasShownWarbandScore and config:Get("showMainsScore") then
                         if not config:Get("showMainBestScore") then
@@ -6084,7 +6084,16 @@ do
                         if hasBestDungeons or true then -- HOTFIX: we prefer to always display this in the expanded profile so even empty profiles can display what dungeons there are for the player to complete
                             local focusDungeon = showLFD and util:GetLFDStatusForCurrentActivity(state.args and state.args.activityID)
                             local dungeonLines, dungeonLinesWidth, dungeonLinesMaxWidth = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons)
-                            local dungeonLinesWarband, dungeonLinesWarbandWidth, dungeonLinesWarbandMaxWidth = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons, true)
+                            local showWarbandScore
+                            if util:IsUnitPlayer(profile.name, profile.realm, profile.region) then
+                                showWarbandScore = config:Get("showMyWarbandScore")
+                            else
+                                showWarbandScore = config:Get("showOtherWarbandScore")
+                            end
+                            local dungeonLinesWarband, dungeonLinesWarbandWidth, dungeonLinesWarbandMaxWidth ---@type string[], number[], number
+                            if showWarbandScore then
+                                dungeonLinesWarband, dungeonLinesWarbandWidth, dungeonLinesWarbandMaxWidth = GetSortedDungeonsTooltipText(keystoneProfile.sortedDungeons, true)
+                            end
                             local paddingBetweenColumns = 15 -- additional column padding in order to avoid the columns from appearing glued together
                             dungeonLinesMaxWidth = dungeonLinesMaxWidth + paddingBetweenColumns
                             if showHeader then
@@ -6092,7 +6101,7 @@ do
                                     tooltip:AddLine(" ")
                                 end
                                 local text ---@type string?
-                                -- if dungeonLinesWarbandMaxWidth > 0 then
+                                -- if showWarbandScoreInfo and dungeonLinesWarbandMaxWidth > 0 then
                                 --     text = table.concat({
                                 --         ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND,
                                 --         util:GetTextPaddingTexture(dungeonLinesMaxWidth - util:GetTooltipTextWidth(ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.CHARACTER)),
@@ -6108,11 +6117,13 @@ do
                                     r, g, b = 0, 1, 0
                                 end
                                 if sortedDungeon.level > 0 or sortedDungeon.warbandLevel > 0 then
-                                    local text = {
+                                    local text = showWarbandScore and {
                                         dungeonLinesWarband[i],
                                         " ",
                                         sortedDungeon.warbandLevel > 0 and ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND or "",
                                         sortedDungeon.warbandLevel > 0 and util:GetTextPaddingTexture(dungeonLinesMaxWidth - dungeonLinesWidth[i]) or "",
+                                        dungeonLines[i],
+                                    } or {
                                         dungeonLines[i],
                                     }
                                     tooltip:AddDoubleLine(sortedDungeon.dungeon.shortNameLocale, table.concat(text, ""), r, g, b, 0.5, 0.5, 0.5)
@@ -14705,6 +14716,8 @@ do
             configOptions:CreateHeadline(L.GENERAL_TOOLTIP_OPTIONS)
             if IS_RETAIL then
                 configOptions:CreateOptionToggle(L.SHOW_WARBAND_SCORE, L.SHOW_WARBAND_SCORE_DESC, "showWarbandScore")
+                configOptions:CreateOptionToggle(L.SHOW_MY_WARBAND_SCORE, L.SHOW_MY_WARBAND_SCORE_DESC, "showMyWarbandScore")
+                configOptions:CreateOptionToggle(L.SHOW_OTHER_WARBAND_SCORE, L.SHOW_OTHER_WARBAND_SCORE_DESC, "showOtherWarbandScore")
                 configOptions:CreateOptionToggle(L.SHOW_MAINS_SCORE, L.SHOW_MAINS_SCORE_DESC, "showMainsScore")
                 configOptions:CreateOptionToggle(L.SHOW_BEST_MAINS_SCORE, L.SHOW_BEST_MAINS_SCORE_DESC, "showMainBestScore")
                 configOptions:CreateOptionToggle(L.SHOW_ROLE_ICONS, L.SHOW_ROLE_ICONS_DESC, "showRoleIcons")
