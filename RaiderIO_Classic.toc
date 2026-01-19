@@ -1,8 +1,8 @@
-## Interface: 50500
+## Interface: 50503
 ## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
 ## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.0 (@project-version@)
+## Version: 5.5.3 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## SavedVariables: RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays
 ## X-Website: https://raider.io

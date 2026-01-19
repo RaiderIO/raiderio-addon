@@ -1,11 +1,11 @@
-## Interface: 50500
-## Title: Raider.IO |cffFFFFFFMythic Plus|r (Taiwan)
+## Interface: 50503
+## Title: Raider.IO |cffFFFFFFMythic Plus|r (Europe)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.0 (@project-version@)
+## Version: 5.5.3 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
 ## X-Type: Mythic Plus
-## X-Region: Taiwan
+## X-Region: Europe
 ## X-Faction: Both
 ## X-Website: https://raider.io

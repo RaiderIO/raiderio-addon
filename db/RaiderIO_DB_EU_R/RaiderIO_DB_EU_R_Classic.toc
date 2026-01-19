@@ -1,13 +1,13 @@
-## Interface: 50500
-## Title: Raider.IO |cffFFFFFFRaiding|r (Americas)
+## Interface: 50503
+## Title: Raider.IO |cffFFFFFFRaiding|r (Europe)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.0 (@project-version@)
+## Version: 5.5.3 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
 ## X-Type: Raiding
-## X-Region: Americas
+## X-Region: Europe
 ## X-Faction: Both
 ## X-Website: https://raider.io
-../RaiderIO/db/db_classic_raiding_us_characters.lua
-../RaiderIO/db/db_classic_raiding_us_lookup.lua
+../RaiderIO/db/db_classic_raiding_eu_characters.lua
+../RaiderIO/db/db_classic_raiding_eu_lookup.lua

@@ -2,18 +2,18 @@
 
 $clients = [ordered]@{
 	Mainline = @{
-		Interface = "110007, 110100"
-		Version = "11.1.0"
+		Interface = "110207, 120000"
+		Version = "12.0.0"
 		Name = "mainline"
 	}
-	Cata = @{
-		Interface = "40401"
-		Version = "4.4.1"
+	Classic = @{
+		Interface = "50503"
+		Version = "5.5.3"
 		Name = "classic"
 	}
-	Classic = @{
-		Interface = "11506"
-		Version = "1.15.5"
+	Vanilla = @{
+		Interface = "11508"
+		Version = "1.15.8"
 		Name = "era"
 	}
 }

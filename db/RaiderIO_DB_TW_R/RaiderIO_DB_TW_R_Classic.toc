@@ -1,13 +1,13 @@
-## Interface: 50500
-## Title: Raider.IO |cffFFFFFFRecruitment|r (Taiwan)
+## Interface: 50503
+## Title: Raider.IO |cffFFFFFFRaiding|r (Taiwan)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.0 (@project-version@)
+## Version: 5.5.3 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
-## X-Type: Recruitment
+## X-Type: Raiding
 ## X-Region: Taiwan
 ## X-Faction: Both
 ## X-Website: https://raider.io
-../RaiderIO/db/db_classic_recruitment_tw_characters.lua
-../RaiderIO/db/db_classic_recruitment_tw_lookup.lua
+../RaiderIO/db/db_classic_raiding_tw_characters.lua
+../RaiderIO/db/db_classic_raiding_tw_lookup.lua

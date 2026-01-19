@@ -14081,17 +14081,21 @@ do
         ---@field public checkButton3 RaiderIOSettingsBaseWidgetCheckButton
         ---@field public tooltip? string
 
-        function configOptions.CreateWidget(self, widgetType, height, parentFrame)
+        ---@param self RaiderIOConfigOptions
+        ---@param widgetType FrameType
+        ---@param parentFrame? Frame
+        function configOptions.CreateWidget(self, widgetType, parentFrame)
 
             ---@class RaiderIOSettingsBaseWidget
             local widget = CreateFrame(widgetType, nil, parentFrame or configFrame, BackdropTemplateMixin and "BackdropTemplate")
 
-            if self.lastWidget then
-                widget:SetPoint("TOPLEFT", self.lastWidget, "BOTTOMLEFT", 0, -24)
-                widget:SetPoint("BOTTOMRIGHT", self.lastWidget, "BOTTOMRIGHT", 0, -4)
+            widget:SetSize(380, 20)
+            widget.lastWidget = self.lastWidget
+
+            if widget.lastWidget then
+                widget:SetPoint("TOPLEFT", widget.lastWidget, "BOTTOMLEFT", 0, 0)
             else
                 widget:SetPoint("TOPLEFT", parentFrame or configFrame, "TOPLEFT", 16, 0)
-                widget:SetPoint("BOTTOMRIGHT", parentFrame or configFrame, "TOPRIGHT", -40, -16)
             end
 
             widget.bg = widget:CreateTexture()
@@ -14149,31 +14153,35 @@ do
             end
 
             if not parentFrame then
-                self.lastWidget = widget ---@diagnostic disable-line: inject-field
+                self.lastWidget = widget
             end
 
             return widget
         end
 
+        ---@param self RaiderIOConfigOptions
         function configOptions.CreatePadding(self)
             local frame = self:CreateWidget("Frame")
-            local _, lastWidget = frame:GetPoint(1)
-            frame:ClearAllPoints()
-            frame:SetPoint("TOPLEFT", lastWidget, "BOTTOMLEFT", 0, -14)
-            frame:SetPoint("BOTTOMRIGHT", lastWidget, "BOTTOMRIGHT", 0, -4)
+            frame:SetHeight(10)
             frame.bg:Hide()
             return frame
         end
 
+        ---@param self RaiderIOConfigOptions
+        ---@param text string
+        ---@param parentFrame? Frame
         function configOptions.CreateHeadline(self, text, parentFrame)
-            local frame = self:CreateWidget("Frame", nil, parentFrame)
+            local frame = self:CreateWidget("Frame", parentFrame)
             frame.bg:Hide()
             frame.text:SetText(text)
             return frame
         end
 
+        ---@param self RaiderIOConfigOptions
+        ---@param text string
+        ---@param parentFrame? Frame
         function configOptions.CreateDescription(self, text, parentFrame)
-            local frame = self:CreateWidget("Frame", nil, parentFrame)
+            local frame = self:CreateWidget("Frame", parentFrame)
             frame.bg:Hide()
             frame.text:SetFontObject("GameFontWhite")
             frame.text:SetText(text)
@@ -14186,6 +14194,9 @@ do
         ---@field public addon2? string
         ---@field public addon3? string
 
+        ---@param self RaiderIOConfigOptions
+        ---@param name string
+        ---@param ... string
         function configOptions.CreateModuleToggle(self, name, ...)
             ---@class RaiderIOSettingsModuleToggleWidget
             local frame = self:CreateWidget("Frame")
@@ -14209,6 +14220,7 @@ do
         ---@field public tooltip? string
         ---@field public cvar? FallbackConfigKey
 
+        ---@param self RaiderIOConfigOptions
         ---@param label string
         ---@param description? string
         ---@param cvar? FallbackConfigKey
@@ -14239,6 +14251,7 @@ do
             return frame
         end
 
+        ---@param self RaiderIOConfigOptions
         ---@param label string
         ---@param description? string
         ---@param cvar? FallbackConfigKey
@@ -14256,6 +14269,7 @@ do
         ---@class RaiderIOSettingsRadioToggleWidget : RaiderIOSettingsToggleWidget
         ---@field public valueRadio any
 
+        ---@param self RaiderIOConfigOptions
         ---@param label string
         ---@param description? string
         ---@param cvar FallbackConfigKey
@@ -14901,14 +14915,14 @@ do
             configOptions:CreateModuleToggle(L.MODULE_TAIWAN, CreateModuleOptionsArgs("TW"))
 
             -- add save button and cancel buttons
-            local buttons = configOptions:CreateWidget("Frame", 4, configButtonFrame)
+            local buttons = configOptions:CreateWidget("Frame", configButtonFrame)
             buttons:ClearAllPoints()
             buttons:SetPoint("TOPLEFT", configButtonFrame, "TOPLEFT", 16, 0)
             buttons:SetPoint("BOTTOMRIGHT", configButtonFrame, "TOPRIGHT", -16, -10)
             buttons:Hide()
-            local save = configOptions:CreateWidget("Button", 4, configButtonFrame)
-            local cancel = configOptions:CreateWidget("Button", 4, configButtonFrame)
-            local reset = configOptions:CreateWidget("Button", 4, configButtonFrame)
+            local save = configOptions:CreateWidget("Button", configButtonFrame)
+            local cancel = configOptions:CreateWidget("Button", configButtonFrame)
+            local reset = configOptions:CreateWidget("Button", configButtonFrame)
             save:ClearAllPoints()
             save:SetPoint("LEFT", buttons, "LEFT", 0, -12)
             save:SetSize(96, 28)
@@ -14929,11 +14943,15 @@ do
             reset:SetScript("OnClick", Reset_OnClick)
 
             -- adjust frame height dynamically
-            local children = {configFrame:GetChildren()} ---@type Region[]
-            local height = 0
-            for i = 1, #children do
-                height = height + children[i]:GetHeight() + 3.5
-            end
+            local height = -30
+            local lastWidget = configOptions.lastWidget
+            repeat
+                if not lastWidget then
+                    break
+                end
+                height = height + lastWidget:GetHeight()
+                lastWidget = lastWidget.lastWidget
+            until not lastWidget
 
             configSliderFrame:SetMinMaxValues(1, max(1, height - 440))
             configFrame:SetHeight(height)
