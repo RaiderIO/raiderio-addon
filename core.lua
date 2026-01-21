@@ -15164,7 +15164,7 @@ do
     local util = ns:GetModule("Util") ---@type UtilModule
 
     local TRACKING_EVENTS = {
-        "COMBAT_LOG_EVENT_UNFILTERED",
+        -- "COMBAT_LOG_EVENT_UNFILTERED", -- TODO: This didn't error on beta, but started to upon 12.0 release
         "UNIT_AURA",
         "UNIT_FLAGS",
         "UNIT_MODEL_CHANGED",
