@@ -528,6 +528,7 @@ local GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic disable-lin
 local GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic disable-line: deprecated
 local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic disable-line: deprecated
 local ReloadUI = ReloadUI or C_UI.Reload
+local issecretvalue = issecretvalue or function(value) return false end ---@diagnostic disable-line: undefined-global
 
 -- constants.lua (ns)
 -- dependencies: none
@@ -6246,6 +6247,7 @@ do
     ---@param state TooltipState
     local function UpdateTooltip(tooltip, state)
         -- if unit simply refresh the unit and the original hook will force update the tooltip with the desired behavior
+        ---@type _, string?
         local _, tooltipUnit = tooltip:GetUnit()
         if tooltipUnit then
             ---@diagnostic disable-next-line: undefined-field
@@ -6337,6 +6339,7 @@ do
     local provider = ns:GetModule("Provider") ---@type ProviderModule
     local render = ns:GetModule("Render") ---@type RenderModule
 
+    ---@param self GameTooltip
     local function OnTooltipSetUnit(self)
         if self ~= GameTooltip or not tooltip:IsEnabled() or not config:Get("enableUnitTooltips") then
             return
@@ -6344,26 +6347,28 @@ do
         if (config:Get("showScoreModifier") and not IsModifierKeyDown()) or (not config:Get("showScoreModifier") and not config:Get("showScoreInCombat") and InCombatLockdown()) then
             return
         end
+        ---@type _, string?
         local _, unit = self:GetUnit()
-        if not unit or not UnitIsPlayer(unit) then
+        -- HOTFIX: UnitIsPlayer will error if unit is a secret value and tainted (we can't check if it's tainted or not, so this aborts the routine to be on the safe side)
+        if not unit or issecretvalue(unit) or not UnitIsPlayer(unit) or not util:IsUnitMaxLevel(unit) then
             return
         end
-        if util:IsUnitMaxLevel(unit) then
-            if IS_RETAIL then
-                local bioSummary = C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
-                if bioSummary and bioSummary.currentSeasonScore then
-                    local name, realm = util:GetNameRealm(unit)
-                    provider:OverrideProfile(name, realm, bioSummary.currentSeasonScore, bioSummary.runs)
-                end
+        if IS_RETAIL then
+            local bioSummary = C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
+            if bioSummary and bioSummary.currentSeasonScore then
+                local name, realm = util:GetNameRealm(unit)
+                provider:OverrideProfile(name, realm, bioSummary.currentSeasonScore, bioSummary.runs)
             end
-            render:ShowProfile(self, unit)
         end
+        render:ShowProfile(self, unit)
     end
 
+    ---@param self GameTooltip
     local function OnTooltipCleared(self)
         render:ClearTooltip(self)
     end
 
+    ---@param self GameTooltip
     local function OnHide(self)
         render:HideTooltip(self)
     end
