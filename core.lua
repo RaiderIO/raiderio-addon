@@ -528,7 +528,7 @@ local GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic disable-lin
 local GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic disable-line: deprecated
 local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic disable-line: deprecated
 local ReloadUI = ReloadUI or C_UI.Reload
-local issecretvalue = issecretvalue or function(value) return false end ---@diagnostic disable-line: undefined-global
+local issecretvalue = issecretvalue or function(value) return false end ---@type fun(value: any): boolean
 
 -- constants.lua (ns)
 -- dependencies: none
@@ -15220,8 +15220,9 @@ do
     end
 
     ---@return nil @The provided guid is checked if it's a player, and if the serverId is unknown, if that's the case we will log it into the SV and map it to our known regionId.
+    ---@param guid? string
     local function InspectPlayerGUID(guid)
-        if not guid then
+        if issecretvalue(guid) or not guid then
             return
         end
         local guidType, serverId = strsplit("-", guid) ---@type string, string|number
@@ -15258,7 +15259,7 @@ do
             end
         else
             local unit = ...
-            if not unit or not UnitIsPlayer(unit) or UnitIsUnit(unit, "player") then
+            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) or UnitIsUnit(unit, "player") then
                 return
             end
             local guid = UnitGUID(unit)
