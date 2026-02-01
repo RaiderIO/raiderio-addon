@@ -528,7 +528,7 @@ local GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic disable-lin
 local GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic disable-line: deprecated
 local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic disable-line: deprecated
 local ReloadUI = ReloadUI or C_UI.Reload
-local issecretvalue = issecretvalue or function(value) return false end ---@diagnostic disable-line: undefined-global
+local issecretvalue = issecretvalue or function(value) return false end ---@type fun(value: any): boolean
 
 -- constants.lua (ns)
 -- dependencies: none
@@ -2607,7 +2607,7 @@ do
         }
         local index = 0
         local activityInfo = C_LFGList.GetActiveEntryInfo()
-        if activityInfo then
+        if activityInfo and not issecretvalue(activityInfo) then
             local activityID = util:GetLFDActivityID(activityInfo)
             if activityID then
                 temp.dungeon = util:GetDungeonByLFDActivityID(activityID) or util:GetRaidByLFDActivityID(activityID)
@@ -2617,7 +2617,7 @@ do
         local applications = C_LFGList.GetApplications() ---@type number[]
         for _, resultID in ipairs(applications) do
             local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-            if searchResultInfo and not searchResultInfo.isDelisted then
+            if searchResultInfo and not issecretvalue(searchResultInfo) and not searchResultInfo.isDelisted then
                 local activityID = util:GetLFDActivityID(searchResultInfo)
                 if activityID then
                     local dungeon = util:GetDungeonByLFDActivityID(activityID) or util:GetRaidByLFDActivityID(activityID)
@@ -3395,24 +3395,26 @@ do
         local applicants = C_LFGList.GetApplicants()
         for i = 1, #applicants do
             local applicantInfo = C_LFGList.GetApplicantInfo(applicants[i])
-            local applicantGroup
-            for j = 1, applicantInfo.numMembers do
-                local fullName, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship = C_LFGList.GetApplicantMemberInfo(applicantInfo.applicantID, j)
-                local name, realm = util:GetNameRealm(fullName)
-                if name then
-                    local role = GetQueuedRole(tank, healer, damage)
-                    if not applicantGroup then
-                        applicantGroup = {}
+            if not issecretvalue(applicantInfo) then
+                local applicantGroup
+                for j = 1, applicantInfo.numMembers do
+                    local fullName, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship = C_LFGList.GetApplicantMemberInfo(applicantInfo.applicantID, j)
+                    local name, realm = util:GetNameRealm(fullName)
+                    if name then
+                        local role = GetQueuedRole(tank, healer, damage)
+                        if not applicantGroup then
+                            applicantGroup = {}
+                        end
+                        applicantGroup[#applicantGroup + 1] = format("%d-%s-%s", role, name, util:GetRealmSlug(realm, true))
                     end
-                    applicantGroup[#applicantGroup + 1] = format("%d-%s-%s", role, name, util:GetRealmSlug(realm, true))
                 end
-            end
-            if applicantGroup then
-                index = index + 1
-                if applicantGroup[2] then
-                    group[index] = applicantGroup
-                else
-                    group[index] = applicantGroup[1]
+                if applicantGroup then
+                    index = index + 1
+                    if applicantGroup[2] then
+                        group[index] = applicantGroup
+                    else
+                        group[index] = applicantGroup[1]
+                    end
                 end
             end
         end
@@ -3440,7 +3442,7 @@ do
             data.group = GetGroupData(unitPrefix, startIndex, endIndex)
         end
         local entry = C_LFGList.GetActiveEntryInfo()
-        if entry then
+        if entry and not issecretvalue(entry) then
             local activityID = util:GetLFDActivityID(entry)
             if activityID then
                 data.activity = activityID
@@ -3451,10 +3453,19 @@ do
     end
 
     local function CanShowCopyDialog()
-        local hasGroupMembers = (IsInRaid() or IsInGroup()) and GetNumGroupMembers() > 1
         local entry = C_LFGList.GetActiveEntryInfo()
+        if issecretvalue(entry) then
+            return false
+        end
+        if entry then
+            return true
+        end
+        local hasGroupMembers = (IsInRaid() or IsInGroup()) and GetNumGroupMembers() > 1
+        if hasGroupMembers then
+            return true
+        end
         local _, numApplicants = C_LFGList.GetNumApplications()
-        return not not (hasGroupMembers or entry or numApplicants > 0)
+        return numApplicants > 0
     end
 
     local function CanShowButton()
@@ -7513,7 +7524,7 @@ if not IS_CLASSIC_ERA then
             return
         end
         local entry = C_LFGList.GetSearchResultInfo(resultID)
-        if not entry or not entry.leaderName then
+        if not entry or issecretvalue(entry) or not entry.leaderName then
             table.wipe(currentResult)
             return
         end
@@ -7590,6 +7601,9 @@ if not IS_CLASSIC_ERA then
     ---@param self LFGListFrameWildcardFrame
     function OnEnter(self)
         local entry = C_LFGList.GetActiveEntryInfo()
+        if issecretvalue(entry) then
+            return
+        end
         if entry then
             currentResult.activityID = util:GetLFDActivityID(entry)
         end
@@ -12187,9 +12201,11 @@ do
         local resultID = owner.resultID
         if resultID then
             local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-            local name, realm = util:GetNameRealm(searchResultInfo.leaderName)
-            local faction = searchResultInfo.leaderFactionGroup
-            return name, realm, nil, nil, faction
+            if not issecretvalue(searchResultInfo) then
+                local name, realm = util:GetNameRealm(searchResultInfo.leaderName)
+                local faction = searchResultInfo.leaderFactionGroup
+                return name, realm, nil, nil, faction
+            end
         end
         local memberIdx = owner.memberIdx
         if not memberIdx then
@@ -15204,8 +15220,9 @@ do
     end
 
     ---@return nil @The provided guid is checked if it's a player, and if the serverId is unknown, if that's the case we will log it into the SV and map it to our known regionId.
+    ---@param guid? string
     local function InspectPlayerGUID(guid)
-        if not guid then
+        if issecretvalue(guid) or not guid then
             return
         end
         local guidType, serverId = strsplit("-", guid) ---@type string, string|number
@@ -15242,7 +15259,7 @@ do
             end
         else
             local unit = ...
-            if not unit or not UnitIsPlayer(unit) or UnitIsUnit(unit, "player") then
+            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) or UnitIsUnit(unit, "player") then
                 return
             end
             local guid = UnitGUID(unit)
