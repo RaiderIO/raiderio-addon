@@ -530,6 +530,21 @@ local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor --
 local ReloadUI = ReloadUI or C_UI.Reload
 local issecretvalue = issecretvalue or function(value) return false end ---@type fun(value: any): boolean
 
+---@param tbl table
+---@param ... string
+local function issecretvaluekey(tbl, ...)
+    if issecretvalue(tbl) then
+        return true
+    end
+    for _, key in ipairs({...}) do
+        local value = tbl[key]
+        if issecretvalue(value) then
+            return true
+        end
+    end
+    return false
+end
+
 -- constants.lua (ns)
 -- dependencies: none
 do
@@ -1563,7 +1578,7 @@ do
 
     handler:SetScript("OnEvent", function(handler, event, ...)
         if event == "COMBAT_LOG_EVENT_UNFILTERED" or event == "COMBAT_LOG_EVENT" then
-            callback:SendEvent(event, CombatLogGetCurrentEventInfo())
+            callback:SendEvent(event, CombatLogGetCurrentEventInfo()) ---@diagnostic disable-line: undefined-global
         else
             callback:SendEvent(event, ...)
         end
@@ -2578,14 +2593,19 @@ do
     ---@return number? activityID
     function util:GetLFDActivityID(data)
         -- TODO `pre-11.0.7`
-        local activityID = data.activityID---@diagnostic disable-line: undefined-field
-        if type(activityID) == "number" then
-            return activityID
-        end
+        ---@diagnostic disable-next-line: undefined-field
+        local activityID = data.activityID ---@type number?
         -- TODO `11.0.7`
-        if type(data.activityIDs) == "table" then
-            return data.activityIDs[1]
+        if type(activityID) ~= "number" and type(data.activityIDs) == "table" then
+            activityID = data.activityIDs[1]
         end
+        if issecretvalue(activityID) then
+            return
+        end
+        if type(activityID) ~= "number" then
+            return
+        end
+        return activityID
     end
 
     ---@class LFDStatusResult
@@ -2606,9 +2626,9 @@ do
             queued = false,
         }
         local index = 0
-        local activityInfo = C_LFGList.GetActiveEntryInfo()
-        if activityInfo and not issecretvalue(activityInfo) then
-            local activityID = util:GetLFDActivityID(activityInfo)
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        if entryInfo then
+            local activityID = util:GetLFDActivityID(entryInfo)
             if activityID then
                 temp.dungeon = util:GetDungeonByLFDActivityID(activityID) or util:GetRaidByLFDActivityID(activityID)
                 temp.hosting = true
@@ -2617,7 +2637,7 @@ do
         local applications = C_LFGList.GetApplications() ---@type number[]
         for _, resultID in ipairs(applications) do
             local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-            if searchResultInfo and not issecretvalue(searchResultInfo) and not searchResultInfo.isDelisted then
+            if searchResultInfo and not issecretvalue(searchResultInfo.isDelisted) and not searchResultInfo.isDelisted then
                 local activityID = util:GetLFDActivityID(searchResultInfo)
                 if activityID then
                     local dungeon = util:GetDungeonByLFDActivityID(activityID) or util:GetRaidByLFDActivityID(activityID)
@@ -3395,7 +3415,7 @@ do
         local applicants = C_LFGList.GetApplicants()
         for i = 1, #applicants do
             local applicantInfo = C_LFGList.GetApplicantInfo(applicants[i])
-            if not issecretvalue(applicantInfo) then
+            if applicantInfo and not issecretvalue(applicantInfo.applicantID) then
                 local applicantGroup
                 for j = 1, applicantInfo.numMembers do
                     local fullName, class, localizedClass, level, itemLevel, honorLevel, tank, healer, damage, assignedRole, relationship = C_LFGList.GetApplicantMemberInfo(applicantInfo.applicantID, j)
@@ -3441,9 +3461,9 @@ do
         if unitPrefix then
             data.group = GetGroupData(unitPrefix, startIndex, endIndex)
         end
-        local entry = C_LFGList.GetActiveEntryInfo()
-        if entry and not issecretvalue(entry) then
-            local activityID = util:GetLFDActivityID(entry)
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        if entryInfo then
+            local activityID = util:GetLFDActivityID(entryInfo)
             if activityID then
                 data.activity = activityID
                 data.queue = GetApplicantsData()
@@ -3453,11 +3473,8 @@ do
     end
 
     local function CanShowCopyDialog()
-        local entry = C_LFGList.GetActiveEntryInfo()
-        if issecretvalue(entry) then
-            return false
-        end
-        if entry then
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        if entryInfo then
             return true
         end
         local hasGroupMembers = (IsInRaid() or IsInGroup()) and GetNumGroupMembers() > 1
@@ -7523,22 +7540,22 @@ if not IS_CLASSIC_ERA then
         if not config:Get("enableLFGTooltips") then
             return
         end
-        local entry = C_LFGList.GetSearchResultInfo(resultID)
-        if not entry or issecretvalue(entry) or not entry.leaderName then
+        local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
+        if not searchResultInfo or issecretvaluekey(searchResultInfo, "leaderName", "leaderFactionGroup", "isWarMode", "leaderOverallDungeonScore", "name", "comment") or not searchResultInfo.leaderName then
             table.wipe(currentResult)
             return
         end
-        local leaderFaction = util:FactionGroupToFactionId(entry.leaderFactionGroup)
-        local activityID = util:GetLFDActivityID(entry)
-        local activityInfo = activityID and C_LFGList.GetActivityInfoTable(activityID, nil, entry.isWarMode)
-        if activityInfo and activityInfo.isMythicPlusActivity and entry.leaderOverallDungeonScore then
-            local leaderName, leaderRealm = util:GetNameRealm(entry.leaderName)
-            provider:OverrideProfile(leaderName, leaderRealm, entry.leaderOverallDungeonScore)
+        local leaderFaction = util:FactionGroupToFactionId(searchResultInfo.leaderFactionGroup)
+        local activityID = util:GetLFDActivityID(searchResultInfo)
+        local activityInfo = activityID and C_LFGList.GetActivityInfoTable(activityID, nil, searchResultInfo.isWarMode)
+        if activityInfo and activityInfo.isMythicPlusActivity and searchResultInfo.leaderOverallDungeonScore then
+            local leaderName, leaderRealm = util:GetNameRealm(searchResultInfo.leaderName)
+            provider:OverrideProfile(leaderName, leaderRealm, searchResultInfo.leaderOverallDungeonScore)
         end
         currentResult.activityID = activityID
-        currentResult.leaderName = entry.leaderName
+        currentResult.leaderName = searchResultInfo.leaderName
         currentResult.leaderFaction = leaderFaction
-        currentResult.keystoneLevel = util:GetKeystoneLevelFromText(entry.name) or util:GetKeystoneLevelFromText(entry.comment) or 0
+        currentResult.keystoneLevel = util:GetKeystoneLevelFromText(searchResultInfo.name) or util:GetKeystoneLevelFromText(searchResultInfo.comment) or 0
         local success1 = render:ShowProfile(tooltip, currentResult.leaderName, render.Preset.Unit(render.Flags.MOD_STICKY), currentResult)
         local success2 = profile:ShowProfile(tooltip, currentResult.leaderName, currentResult)
         if success1 or success2 then
@@ -7600,14 +7617,14 @@ if not IS_CLASSIC_ERA then
 
     ---@param self LFGListFrameWildcardFrame
     function OnEnter(self)
-        local entry = C_LFGList.GetActiveEntryInfo()
-        if issecretvalue(entry) then
+        if not config:Get("enableLFGTooltips") then
             return
         end
-        if entry then
-            currentResult.activityID = util:GetLFDActivityID(entry)
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        if entryInfo then
+            currentResult.activityID = util:GetLFDActivityID(entryInfo)
         end
-        if not currentResult.activityID or not config:Get("enableLFGTooltips") then
+        if not currentResult.activityID then
             return
         end
         if self.applicantID and self.Members then
@@ -8441,7 +8458,7 @@ if IS_RETAIL then
         [5] = "watched_replay",
     }
 
-    ---@class ConfigReplayColor : ColorType
+    ---@class ConfigReplayColor
     ---@field public r number
     ---@field public g number
     ---@field public b number
@@ -12201,7 +12218,7 @@ do
         local resultID = owner.resultID
         if resultID then
             local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-            if not issecretvalue(searchResultInfo) then
+            if searchResultInfo and not issecretvaluekey(searchResultInfo, "leaderName", "leaderFactionGroup") then
                 local name, realm = util:GetNameRealm(searchResultInfo.leaderName)
                 local faction = searchResultInfo.leaderFactionGroup
                 return name, realm, nil, nil, faction
