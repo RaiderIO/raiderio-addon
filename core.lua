@@ -2596,7 +2596,7 @@ do
         ---@diagnostic disable-next-line: undefined-field
         local activityID = data.activityID ---@type number?
         -- TODO `11.0.7`
-        if type(activityID) ~= "number" and type(data.activityIDs) == "table" then
+        if type(activityID) ~= "number" and type(data.activityIDs) == "table" and not issecretvalue(data.activityIDs) then
             activityID = data.activityIDs[1]
         end
         if issecretvalue(activityID) then
