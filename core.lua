@@ -1247,6 +1247,7 @@ do
 
     ---@class DungeonRaid : DungeonInstance
     ---@field public type DungeonRaidType
+    ---@field public localizationKey string
 
     ---@type Dungeon[]
     local ALL_DUNGEONS = {}
@@ -3618,7 +3619,6 @@ do
     ---@field public ordinal number
     ---@field public name string
     ---@field public shortName string
-    ---@field public localizationKey string
     ---@field public bossCount number
     ---@field public dungeon? DungeonRaid
 
