@@ -5843,7 +5843,7 @@ do
                     r, g, b = 0, 1, 0
                 end
                 local fatedTexture = fated and format("|A:%s-small:0:0:0:1|a", fated) or ""
-                tooltip:AddLine(format("%s %s", L[format("RAID_%s", raid.localizationKey)], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
+                tooltip:AddLine(format("%s %s", L[format("RAID_%s", raid.dungeon.localizationKey)], fatedTexture), r, g, b) -- TODO: raid.dungeon?.nameLocale
             end
             for j = 1, raid.bossCount do
                 local progressFound = false
@@ -5854,7 +5854,7 @@ do
                         if bossKills > 0 then
                             progressFound = true
                             local difficulty = ns.RAID_DIFFICULTY[progress.difficulty]
-                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.localizationKey, j)]), bossKills, 1, 1, 1, 1, 1, 1)
+                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)]), bossKills, 1, 1, 1, 1, 1, 1)
                         end
                         if progressFound then
                             break
@@ -5862,7 +5862,7 @@ do
                     end
                 end
                 if not progressFound then
-                    tooltip:AddDoubleLine(L[format("RAID_BOSS_%s_%d", raid.localizationKey, j)], "-", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+                    tooltip:AddDoubleLine(L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)], "-", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
                 end
             end
         end
