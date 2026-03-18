@@ -2,7 +2,7 @@
 
 $clients = [ordered]@{
 	Mainline = @{
-		Interface = "110207, 120000"
+		Interface = "120000, 120001"
 		Version = "12.0.0"
 		Name = "mainline"
 	}
@@ -50,6 +50,7 @@ $meta.DBTOC = [ordered]@{
 
 $regions = @{
 	EU = "Europe"
+	CN = "China"
 	KR = "Korea"
 	TW = "Taiwan"
 	US = "Americas"

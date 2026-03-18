@@ -1,4 +1,4 @@
-## Interface: 110207, 120000
+## Interface: 120000, 120001
 ## Title: Raider.IO |cffFFFFFFRecruitment|r (Europe)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
 ## Version: 12.0.0 (@project-version@)

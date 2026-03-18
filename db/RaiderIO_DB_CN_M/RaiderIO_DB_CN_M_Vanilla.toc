@@ -1,0 +1,11 @@
+## Interface: 11508
+## Title: Raider.IO |cffFFFFFFMythic Plus|r (China)
+## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
+## Version: 1.15.8 (@project-version@)
+## IconTexture: Interface\AddOns\RaiderIO\icons\logo
+## Dependencies: RaiderIO
+## DefaultState: enabled
+## X-Type: Mythic Plus
+## X-Region: China
+## X-Faction: Both
+## X-Website: https://raider.io

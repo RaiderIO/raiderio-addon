@@ -1,0 +1,13 @@
+## Interface: 120000, 120001
+## Title: Raider.IO |cffFFFFFFMythic Plus|r (China)
+## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
+## Version: 12.0.0 (@project-version@)
+## IconTexture: Interface\AddOns\RaiderIO\icons\logo
+## Dependencies: RaiderIO
+## DefaultState: enabled
+## X-Type: Mythic Plus
+## X-Region: China
+## X-Faction: Both
+## X-Website: https://raider.io
+../RaiderIO/db/db_mythicplus_cn_characters.lua
+../RaiderIO/db/db_mythicplus_cn_lookup.lua

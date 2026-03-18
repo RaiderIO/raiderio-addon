@@ -548,6 +548,12 @@ end
 -- constants.lua (ns)
 -- dependencies: none
 do
+    
+    ---@alias RegionString "us"|"kr"|"eu"|"tw"|"cn" @`us`, `kr`, `eu`, `tw`, `cn`
+
+    ---@alias RegionNumber 1|2|3|4|5 @`1` (us), `2` (kr), `3` (eu), `4` (tw), `5` (cn)
+
+    ---@alias FactionNumber 1|2|3 @`1` (alliance), `2` (horde), `3` (neutral)
 
     ---@class ns
     ---@field public DUNGEONS? Dungeon[]
@@ -581,9 +587,9 @@ do
     ---@field public REPLAYS Replay[]
     ---@field public EXPANSION number @The currently accessible expansion to the playerbase
     ---@field public MAX_LEVEL number @The currently accessible expansion max level to the playerbase
-    ---@field public PLAYER_REGION string @`us`, `kr`, `eu`, `tw`, `cn`
-    ---@field public PLAYER_REGION_ID number @`1` (us), `2` (kr), `3` (eu), `4` (tw), `5` (cn)
-    ---@field public PLAYER_FACTION number @`1` (alliance), `2` (horde), `3` (neutral)
+    ---@field public PLAYER_REGION RegionString
+    ---@field public PLAYER_REGION_ID RegionNumber
+    ---@field public PLAYER_FACTION FactionNumber
     ---@field public PLAYER_FACTION_TEXT string @`Alliance`, `Horde`, `Neutral`
     ---@field public PLAYER_NAME string @The name of the player character
     ---@field public PLAYER_REALM string @The realm of the player character
@@ -2299,8 +2305,8 @@ do
 
     local REGION = ns:GetRegionData()
 
-    ---@return (false|string)? ltd The LTD string, otherwise `nil` for no data, or `false` for unknown server.
-    ---@return number? regionId The RegionID number, otherwise `nil` for no data.
+    ---@return (false|RegionString)? ltd The LTD string, otherwise `nil` for no data, or `false` for unknown server.
+    ---@return RegionNumber? regionId The RegionID number, otherwise `nil` for no data.
     function util:GetRegion()
         local guid = UnitGUID("player")
         if not guid then
@@ -2346,7 +2352,7 @@ do
     end
 
     ---@param unit? string
-    ---@return number? faction, string? localizedFaction
+    ---@return FactionNumber? faction, string? localizedFaction
     function util:GetFaction(unit)
         if not unit or not UnitExists(unit) or not UnitIsPlayer(unit) then
             return
@@ -2359,7 +2365,7 @@ do
     end
 
     ---@param factionName string
-    ---@return number? faction
+    ---@return FactionNumber? faction
     function util:GetFactionFromName(factionName)
         return ns.FACTION_TO_ID[factionName]
     end
@@ -2499,7 +2505,7 @@ do
 
     ---@param arg1 string @"unit", "name", or "name-realm"
     ---@param arg2? string @"realm" or nil
-    ---@param region? string @Optional "us","kr","eu","tw","cn"
+    ---@param region? RegionString
     ---@return boolean
     function util:IsUnitPlayer(arg1, arg2, region)
         local name, realm = util:GetNameRealm(arg1, arg2)
@@ -3639,7 +3645,7 @@ do
     ---@class DataProvider : DataProviderRaid
     ---@field public name string
     ---@field public data number @1 (mythic_keystone), 2 (raid), 3 (recruitment), 4 (pvp)
-    ---@field public region string @"eu", "kr", "tw", "us"
+    ---@field public region RegionString
     ---@field public date string @"2017-06-03T00:41:07Z"
     ---@field public db table
     ---@field public lookup table
@@ -3771,6 +3777,8 @@ do
         return providers
     end
 
+    ---@param dataType number @`ns.PROVIDER_DATA_TYPE.`
+    ---@param optionalRegion? RegionString
     function provider:GetProviderByType(dataType, optionalRegion)
         for i = 1, #providers do
             local provider = providers[i]
@@ -4404,7 +4412,7 @@ do
     ---@param providerBlocked number
     ---@param name? string
     ---@param realm? string
-    ---@param region? string
+    ---@param region? RegionString
     local function UnpackMythicKeystoneData(bucket, baseOffset, encodingOrder, keystoneMilestoneLevels, providerOutdated, providerBlocked, name, realm, region)
         ---@type DataProviderMythicKeystoneProfile
         local results = { outdated = providerOutdated, hasRenderableData = false } ---@diagnostic disable-line: missing-fields
@@ -4869,7 +4877,7 @@ do
     ---@field public guid string Unique string `region realm name`
     ---@field public name string
     ---@field public realm string
-    ---@field public region string
+    ---@field public region RegionString
     ---@field public mythicKeystoneProfile DataProviderMythicKeystoneProfile
     ---@field public raidProfile DataProviderRaidProfile
     ---@field public recruitmentProfile DataProviderRecruitmentProfile
@@ -5142,7 +5150,7 @@ do
 
     ---@param name? string
     ---@param realm? string
-    ---@param region? string @Optional, will use players own region if ommited. Include to avoid ambiguity during debug mode.
+    ---@param region? RegionString @Optional, will use players own region if ommited. Include to avoid ambiguity during debug mode.
     ---@return DataProviderCharacterProfile? @Return value is nil if not found
     function provider:GetProfile(name, realm, region)
         if type(name) ~= "string" or type(realm) ~= "string" then
@@ -5281,10 +5289,10 @@ do
     end
 
     local function OnPlayerLogin()
-        ns.PLAYER_FACTION, ns.PLAYER_FACTION_TEXT = util:GetFaction("player") ---@diagnostic disable-line: assign-type-mismatch
+        ns.PLAYER_FACTION, ns.PLAYER_FACTION_TEXT = util:GetFaction("player")
         ns.PLAYER_NAME, ns.PLAYER_REALM = util:GetNameRealm("player")
         ns.PLAYER_REALM_SLUG = util:GetRealmSlug(ns.PLAYER_REALM)
-        ns.PLAYER_REGION, ns.PLAYER_REGION_ID = util:GetRegion() ---@diagnostic disable-line: assign-type-mismatch
+        ns.PLAYER_REGION, ns.PLAYER_REGION_ID = util:GetRegion()
         _G.RaiderIO_LastCharacter = format("%s-%s-%s", ns.PLAYER_REGION, ns.PLAYER_NAME, ns.PLAYER_REALM_SLUG or ns.PLAYER_REALM)
         _G.RaiderIO_MissingCharacters = {}
         _G.RaiderIO_MissingServers = {}
@@ -5462,8 +5470,8 @@ do
     ---@field public unit string
     ---@field public name string
     ---@field public realm string
-    ---@field public faction number @1 (alliance), 2 (horde), 3 (neutral)
-    ---@field public region string @"us","kr","eu","tw","cn"
+    ---@field public faction FactionNumber
+    ---@field public region RegionString
     ---@field public options number @render.Flags
     ---@field public args table @Assigned dynamically and can contain any kind of data, depending on the usage.
     ---@field public success? boolean
@@ -5854,7 +5862,7 @@ do
                         if bossKills > 0 then
                             progressFound = true
                             local difficulty = ns.RAID_DIFFICULTY[progress.difficulty]
-                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)]), bossKills, 1, 1, 1, 1, 1, 1)
+                            tooltip:AddDoubleLine(format("|cff%s%s|r %s", difficulty.color.hex, difficulty.suffix, L[format("RAID_BOSS_%s_%d", raid.dungeon.localizationKey, j)]), tostring(bossKills), 1, 1, 1, 1, 1, 1)
                         end
                         if progressFound then
                             break
@@ -6252,10 +6260,10 @@ do
                 local baseScore = ns.KEYSTONE_LEVEL_TO_SCORE[keystone.level]
                 if baseScore then
                     tooltip:AddLine(" ")
-                    tooltip:AddDoubleLine(L.RAIDERIO_MP_BASE_SCORE, baseScore, 1, 0.85, 0, 1, 1, 1)
+                    tooltip:AddDoubleLine(L.RAIDERIO_MP_BASE_SCORE, tostring(baseScore), 1, 0.85, 0, 1, 1, 1)
                     local avgScore = util:GetKeystoneAverageScoreForLevel(keystone.level)
                     if avgScore and config:Get("showAverageScore") then
-                        tooltip:AddDoubleLine(format(L.RAIDERIO_AVERAGE_PLAYER_SCORE, keystone.level), avgScore, 1, 1, 1, util:GetScoreColor(avgScore))
+                        tooltip:AddDoubleLine(format(L.RAIDERIO_AVERAGE_PLAYER_SCORE, keystone.level), tostring(avgScore), 1, 1, 1, util:GetScoreColor(avgScore))
                     end
                     if keystone.instance then
                         local dungeon = util:GetDungeonByKeystoneID(keystone.instance)
@@ -7418,6 +7426,10 @@ do
         return true, SetDraggable(tooltipAnchor, not isLocking)
     end
 
+    ---@param unit? UnitToken
+    ---@param name? string
+    ---@param realm? string
+    ---@param region? RegionString
     local function IsPlayer(unit, name, realm, region)
         if unit and UnitExists(unit) then
             return UnitIsUnit(unit, "player")
@@ -11499,6 +11511,7 @@ do
     local searchNameBox ---@type RaiderIOSearchAutoCompleteEditBox
     local searchTooltip ---@type RaiderIOSearchTooltip
 
+    ---@return RegionString
     local function GetRegionName()
         return (searchRegionBox:GetText() and searchRegionBox:GetText() ~= "") and searchRegionBox:GetText() or ns.PLAYER_REGION
     end
@@ -11830,6 +11843,9 @@ do
         searchFrame, searchRegionBox, searchRealmBox, searchNameBox, searchTooltip = CreateSearchFrame()
     end
 
+    ---@param region? RegionString
+    ---@param realm? string
+    ---@param name? string
     function search:ShowProfile(region, realm, name)
         if not self:IsEnabled() then
             return
@@ -11890,6 +11906,9 @@ do
         return search:ShowProfile(arg3, arg2, arg1)
     end
 
+    ---@param region RegionString
+    ---@param realm string
+    ---@param name string
     function search:SearchAndShowProfile(region, realm, name)
         if not self:IsEnabled() then
             return
@@ -12483,7 +12502,7 @@ if IS_RETAIL then
     ---@class RWFLootEntry
     ---@field public guildName string
     ---@field public guildRealm string
-    ---@field public guildRegion string
+    ---@field public guildRegion RegionString
     ---@field public type number
     ---@field public isNew boolean
     ---@field public timestamp number
@@ -14932,7 +14951,7 @@ do
                 end,
             })
 
-            ---@alias RaiderIODBModuleRegion "US"|"EU"|"KR"|"TW"
+            ---@alias RaiderIODBModuleRegion "US"|"EU"|"KR"|"CN"|"TW"
             ---@alias RaiderIODBModuleType "M"|"R"|"F"
 
             ---@class RaiderIODBModulesInfo
@@ -14963,6 +14982,7 @@ do
             configOptions:CreateHeadline(L.DB_MODULES)
             local modulesHeader = configOptions:CreateModuleToggle(L.MODULE_AMERICAS, CreateModuleOptionsArgs("US"))
             configOptions:CreateModuleToggle(L.MODULE_EUROPE, CreateModuleOptionsArgs("EU"))
+            configOptions:CreateModuleToggle(L.MODULE_CHINA, CreateModuleOptionsArgs("CN"))
             configOptions:CreateModuleToggle(L.MODULE_KOREA, CreateModuleOptionsArgs("KR"))
             configOptions:CreateModuleToggle(L.MODULE_TAIWAN, CreateModuleOptionsArgs("TW"))
 
@@ -15489,7 +15509,7 @@ do
 
     ---@class TestData @This can either be a `table` object with the structure as described in the class, or a `function` we call that returns `status` and `explanation` if there is something to report.
     ---@field public skip? boolean @Set `true` to skip this test.
-    ---@field public region string @`eu`, `us`, etc.
+    ---@field public region RegionString
     ---@field public realm string @The character realm same format as the whisper friendly `GetNormalizedRealmName()` format.
     ---@field public name string @The character name.
     ---@field public success? boolean @Set `true` if the profile exists and contains data, otherwise `false` to ensure it is empty or missing.

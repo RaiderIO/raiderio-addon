@@ -14,6 +14,9 @@ move-folders:
   RaiderIO/db/RaiderIO_DB_US_F: RaiderIO_DB_US_F
   RaiderIO/db/RaiderIO_DB_US_M: RaiderIO_DB_US_M
   RaiderIO/db/RaiderIO_DB_US_R: RaiderIO_DB_US_R
+  RaiderIO/db/RaiderIO_DB_CN_F: RaiderIO_DB_CN_F
+  RaiderIO/db/RaiderIO_DB_CN_M: RaiderIO_DB_CN_M
+  RaiderIO/db/RaiderIO_DB_CN_R: RaiderIO_DB_CN_R
 
 plain-copy:
   - db/db_*.lua
