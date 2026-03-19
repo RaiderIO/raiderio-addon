@@ -641,7 +641,11 @@ do
                 ["Mccaffrey"] = "Killing Keys Since 1977!",
                 ["Oscassey"] = "Master of dis guys",
                 ["Rhoma"] = "Plays an MDI Champion on TV",
-                ["Infoxicated"] = "Pogged out of her mind"
+                ["Infoxicated"] = "Pogged out of her mind",
+                ["Coaa"] = "King of The Bagels"
+            },
+            ["Stonemaul"] = {
+                ["Drexl"] = "The Voice of Raider.IO"
             },
             ["Thrall"] = {
                 ["Firstclass"] = "Author of mythicpl.us",
@@ -649,7 +653,7 @@ do
             },
             ["Tichondrius"] = {
                 ["Johnsamdi"] = "Raider.IO Developer",
-                ["Vitamiinp"] = "Content Manager of Raider.IO"
+                ["Vitamiinp"] = "Raider.IO Multivitamin"
             },
             ["Mal'Ganis"] = {
                 ["Qbgosa"] = "Raider.IO Support Dragon"
