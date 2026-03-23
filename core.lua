@@ -1239,7 +1239,7 @@ do
 
     ---@class DungeonInstance
     ---@field public id number
-    ---@field public instance_map_id number
+    ---@field public instance_map_ids number[]
     ---@field public lfd_activity_ids number[]
     ---@field public name string
     ---@field public shortName string
@@ -1999,7 +1999,14 @@ do
 
     ---@return Dungeon|nil
     function util:GetDungeonByInstanceMapID(id)
-        return util:GetDungeonByKeyValue("instance_map_id", id)
+        for i = 1, #ALL_DUNGEONS do
+            local dungeon = ALL_DUNGEONS[i]
+            for j = 1, #dungeon.instance_map_ids do
+                if dungeon.instance_map_ids[j] == id then
+                    return dungeon
+                end
+            end
+        end
     end
 
     ---@return Dungeon|nil
@@ -2057,7 +2064,14 @@ do
 
     ---@return DungeonRaid|nil
     function util:GetRaidByInstanceMapID(id)
-        return util:GetRaidByKeyValue("instance_map_id", id)
+        for i = 1, #RAIDS do
+            local raid = RAIDS[i]
+            for j = 1, #raid.instance_map_ids do
+                if raid.instance_map_ids[j] == id then
+                    return raid
+                end
+            end
+        end
     end
 
     ---@return DungeonRaid|nil
@@ -2715,14 +2729,13 @@ do
         if not C_ModifiedInstance then
             return
         end
-        local modInfo = C_ModifiedInstance.GetModifiedInstanceInfoFromMapID(raid.instance_map_id)
-        if not modInfo then
-            return
+        local instanceMapIds = raid.instance_map_ids
+        for i = 1, #instanceMapIds do
+            local modInfo = C_ModifiedInstance.GetModifiedInstanceInfoFromMapID(instanceMapIds[i])
+            if modInfo and modInfo.uiTextureKit == "ui-ej-icon-empoweredraid" then
+                return modInfo.uiTextureKit
+            end
         end
-        if modInfo.uiTextureKit ~= "ui-ej-icon-empoweredraid" then
-            return
-        end
-        return modInfo.uiTextureKit
     end
 
     ---@param raid DungeonRaid
@@ -11092,7 +11105,7 @@ if IS_RETAIL then
         -- if not mapID and config:Get("debugMode") then
         --     local dungeons = ns:GetDungeonData()
         --     local dungeon = dungeons[1]
-        --     mapID, timeLimit = dungeon.instance_map_id, dungeon.timers[3]
+        --     mapID, timeLimit = dungeon.instance_map_ids[1], dungeon.timers[3]
         -- end
         return mapID, timeLimit, mapIDs
     end
@@ -13517,8 +13530,10 @@ do
         local function getLowestMapIdForInstances(instances)
             local mapID
             for _, instance in ipairs(instances) do
-                if not mapID or mapID > instance.instance_map_id then
-                    mapID = instance.instance_map_id
+                for i = 1, #instance.instance_map_ids do
+                    if not mapID or mapID > instance.instance_map_ids[i] then
+                        mapID = instance.instance_map_ids[i]
+                    end
                 end
             end
             return mapID
