@@ -7164,6 +7164,7 @@ do
         return type(widget) == "table" and type(widget.GetObjectType) == "function" and widget
     end
 
+    ---@type table<FrameStrata, number>
     local STRATA_MAP = {
         "TOOLTIP",
         "FULLSCREEN_DIALOG",
@@ -7179,21 +7180,19 @@ do
         STRATA_MAP[v] = k
     end
 
-    local function GetHighestStrata(...)
-        local s, o
-        for _, v in ipairs({...}) do
-            if type(v) == "string" then
-                local c = STRATA_MAP[v]
-                if not o or o > c then
-                    s, o = v, c
-                end
-            end
+    ---@param strata1? FrameStrata
+    ---@param strata2? FrameStrata
+    local function GetHighestStrata(strata1, strata2)
+        local current = STRATA_MAP[(not issecretvalue(strata1) and strata1) or "HIGH"]
+        local other = STRATA_MAP[(not issecretvalue(strata2) and strata2) or "MEDIUM"]
+        if current > other then
+            return strata2
         end
-        return s
+        return strata1
     end
 
     local fallbackFrame = _G.UIParent
-    local fallbackStrata = "LOW"
+    local fallbackStrata = "LOW" ---@type FrameStrata
 
     local tooltipAnchor ---@type RaiderIOProfileTooltipAnchorFrame
     local tooltip ---@type GameTooltip
@@ -7241,6 +7240,7 @@ do
         return o or f
     end
 
+    ---@return FramePoint, FramePoint, number, number, FrameStrata
     local function GetAnchorPoint(anchor, frame)
         return
             Eval(anchor.point, "TOPLEFT", anchor, frame),
@@ -7250,12 +7250,12 @@ do
             Eval(anchor.strata, fallbackStrata, anchor, frame)
     end
 
-    ---@return Frame? frame, string? strata Returns the used frame and strata after logical checks have been performed on the provided frame and strata values.
+    ---@return Frame? frame, FrameStrata? strata Returns the used frame and strata after logical checks have been performed on the provided frame and strata values.
     local function SetAnchor()
         for _, anchor in ipairs(tooltipAnchorPriority) do
             local frame = anchor.name
             if frame then
-                frame = IsFrame(frame) or IsFrame(_G[frame])
+                frame = IsFrame(frame) or IsFrame(_G[frame]) ---@type Frame?
                 if frame then
                     local usable = anchor.usable
                     if usable == nil then
@@ -7283,10 +7283,10 @@ do
     ---@field public x number|nil
     ---@field public y number|nil
 
-    ---@return Frame frame, string strata Returns the used frame and strata after logical checks have been performed on the provided frame and strata values.
+    ---@return Frame frame, string FrameStrata Returns the used frame and strata after logical checks have been performed on the provided frame and strata values.
     local function SetUserAnchor()
         local profilePoint = config:Get("profilePoint") ---@type ConfigProfilePoint
-        local p = profilePoint.point or "CENTER"
+        local p = profilePoint.point or "CENTER" ---@type FramePoint
         local x = profilePoint.x or 0
         local y = profilePoint.y or 0
         tooltipAnchor:SetParent(fallbackFrame)
@@ -7307,7 +7307,7 @@ do
         return isDraggable
     end
 
-    ---@return boolean isAutoPosition, Frame? frame, string? strata @arg1 returns true if position is automatic, otherwise false. `arg2+` are the same as returned from `SetAnchor` or `SetUserAnchor`.
+    ---@return boolean isAutoPosition, Frame? frame, FrameStrata? strata @arg1 returns true if position is automatic, otherwise false. `arg2+` are the same as returned from `SetAnchor` or `SetUserAnchor`.
     local function UpdatePosition(anchor, frame)
         if anchor and frame then
             if frame:IsShown() and anchor.show and type(anchor.show) == "function" then
