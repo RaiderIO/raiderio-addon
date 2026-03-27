@@ -2,8 +2,8 @@
 
 $clients = [ordered]@{
 	Mainline = @{
-		Interface = "120000, 120001"
-		Version = "12.0.0"
+		Interface = "120000, 120001, 120005"
+		Version = "12.0.1"
 		Name = "mainline"
 	}
 	Classic = @{
