@@ -6262,7 +6262,7 @@ do
                         end
                     end
                     if easterEgg then
-                        tooltip:AddLine(easterEgg, 0.9, 0.8, 0.5)
+                        tooltip:AddLine(easterEgg, 0.9, 0.8, 0.5) ---@diagnostic disable-line: param-type-mismatch
                     end
                 end
                 -- profile added to tooltip successfully
@@ -6350,7 +6350,7 @@ do
             tooltip:SetOwner(o1, o2, o3, o4) ---@diagnostic disable-line: param-type-mismatch
         end
         if p1 then
-            tooltip:SetPoint(p1, p2, p3, p4, p5)
+            tooltip:SetPoint(p1, p2, p3 or p1, p4 or 0, p5 or 0)
         end
         if not o1 and a1 then
             tooltip:SetAnchorType(a1, a2, a3)
@@ -7449,7 +7449,11 @@ do
     ---@param region? RegionString
     local function IsPlayer(unit, name, realm, region)
         if unit and UnitExists(unit) then
-            return UnitIsUnit(unit, "player")
+            local isPlayer = UnitIsUnit(unit, "player")
+            if issecretvalue(isPlayer) then
+                return false
+            end
+            return isPlayer
         end
         return name == ns.PLAYER_NAME and realm == ns.PLAYER_REALM and (not region or region == ns.PLAYER_REGION)
     end
@@ -7799,9 +7803,9 @@ do
         if not config:Get("enableGuildTooltips") then
             return
         end
-        local clubType
-        local nameAndRealm
-        local level
+        local clubType ---@type Enum.ClubType?
+        local nameAndRealm ---@type string?
+        local level ---@type number?
         local faction = ns.PLAYER_FACTION
         if type(self.GetMemberInfo) == "function" then
             local info = self:GetMemberInfo()
@@ -7828,6 +7832,9 @@ do
                     faction = util:GetFactionFromRace(race, faction)
                 end
             end
+        end
+        if issecretvalue(clubType) or issecretvalue(nameAndRealm) or issecretvalue(level) then
+            return
         end
         if (clubType and clubType ~= Enum.ClubType.Guild and clubType ~= Enum.ClubType.Character) or not nameAndRealm or not util:IsMaxLevel(level, true) then
             return
@@ -15316,13 +15323,14 @@ do
             end
         else
             local unit = ...
-            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) or UnitIsUnit(unit, "player") then
+            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) then
                 return
             end
-            local guid = UnitGUID(unit)
-            if guid then
-                InspectPlayerGUID(guid)
+            local isPlayer = UnitIsUnit(unit, "player")
+            if issecretvalue(isPlayer) or isPlayer then
+                return
             end
+            InspectPlayerGUID(UnitGUID(unit))
         end
     end
 
