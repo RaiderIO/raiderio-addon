@@ -2461,22 +2461,33 @@ do
         return type(unit) == "string" and UNIT_TOKENS[unit]
     end
 
-    ---@param arg1 string @"unit", "name", or "name-realm"
-    ---@param arg2 string|any @"realm" or nil
-    ---@return boolean, boolean, boolean @If the args used in the call makes it out to be a proper unit, arg1 is true and only then is arg2 true if unit exists and arg3 is true if unit is a player.
+    ---@param arg1 string|UnitToken @"unit", "name", or "name-realm"
+    ---@param arg2? string|true @"realm" or nil
+    ---@return boolean isUnit
+    ---@return boolean? unitExists
+    ---@return boolean? unitIsPlayer
     function util:IsUnit(arg1, arg2)
+        if issecretvalue(arg1) then
+            return false
+        end
         if not arg2 and type(arg1) == "string" and arg1:find("-", nil, true) then
             arg2 = true
         end
         local isUnit = not arg2 or util:IsUnitToken(arg1)
-        return isUnit, isUnit and UnitExists(arg1), isUnit and UnitIsPlayer(arg1)
+        if not isUnit then
+            return false
+        end
+        return true, UnitExists(arg1), UnitIsPlayer(arg1)
     end
 
-    ---@param arg1 string @"unit", "name", or "name-realm"
+    ---@param arg1 string|UnitToken @"unit", "name", or "name-realm"
     ---@param arg2? string @"realm" or nil
-    ---@return string name, string realm, string unit
+    ---@return string? name, string? realm, string? unit
     function util:GetNameRealm(arg1, arg2)
-        local unit, name, realm
+        if issecretvalue(arg1) then
+            return
+        end
+        local unit, name, realm ---@type UnitToken?, string?, string?
         local _, unitExists, unitIsPlayer = util:IsUnit(arg1, arg2)
         if unitExists then
             unit = arg1
@@ -2484,7 +2495,7 @@ do
                 name, realm = UnitNameUnmodified(arg1)
                 realm = realm and realm ~= "" and realm or GetNormalizedRealmName()
             end
-            return name, realm, unit ---@diagnostic disable-line: return-type-mismatch
+            return name, realm, unit
         end
         if type(arg1) == "string" then
             if arg1:find("-", nil, true) then
@@ -2500,7 +2511,7 @@ do
                 end
             end
         end
-        return name, realm, unit ---@diagnostic disable-line: return-type-mismatch
+        return name, realm, unit
     end
 
     ---@param level? number @The level to test
@@ -15882,6 +15893,9 @@ do
         end,
         GetProfile = function(arg1, arg2, ...)
             if not IsReady() then
+                return
+            end
+            if issecretvalue(arg1) then
                 return
             end
             local name, realm = arg1, arg2
