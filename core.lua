@@ -9294,6 +9294,11 @@ if IS_RETAIL then
             journal_encounter_id = -1,
         }
 
+        ---@type table<number, true?>
+        local IgnoredScenarioCriteriaIDs = {
+            [109242] = true, -- Pit of Saron "Quarry camps liberated"
+        }
+
         ---@param ordinal number
         ---@return ReplayEncounter? encounter
         local function GetEncounterFromReplayByBossOrdinal(ordinal)
@@ -9366,9 +9371,11 @@ if IS_RETAIL then
             local _, _, numCriteria = C_Scenario.GetStepInfo()
             if numCriteria and numCriteria > 1 then
                 local anyBossesInCombat = false
+                local index = 0
                 for i = 1, numCriteria do
                     local criteriaInfo = C_ScenarioInfo.GetCriteriaInfo(i)
-                    if criteriaInfo then
+                    local isIgnoreable = criteriaInfo and IgnoredScenarioCriteriaIDs[criteriaInfo.criteriaID]
+                    if criteriaInfo and not isIgnoreable then
                         local completed = criteriaInfo.completed
                         local isTrash = i == numCriteria
                         if isTrash then
@@ -9388,7 +9395,8 @@ if IS_RETAIL then
                                 liveSummary.trash = trash
                             end
                         else
-                            local boss = liveSummary.bosses[i]
+                            index = index + 1
+                            local boss = liveSummary.bosses[index]
                             if not boss then
                                 ---@type ReplayBoss
                                 boss = setmetatable({}, ReplayBossLiveMetatable) ---@diagnostic disable-line: missing-fields
@@ -9397,7 +9405,7 @@ if IS_RETAIL then
                                 boss.combat = false
                                 boss.pulls = 0
                                 boss.dead = false
-                                liveSummary.bosses[i] = boss
+                                liveSummary.bosses[index] = boss
                             end
                             if not completed and not boss.dead then
                                 local encounterID = boss.encounter and boss.encounter.encounter_id or 0
