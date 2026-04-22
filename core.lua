@@ -545,6 +545,21 @@ local function issecretvaluekey(tbl, ...)
     return false
 end
 
+---@param tooltip GameTooltip
+---@return nil nil, UnitToken? unit, string? guid
+local function GetTooltipUnit(tooltip)
+    if not tooltip:IsTooltipType(Enum.TooltipDataType.Unit) then
+        return
+    end
+    local tooltipData = tooltip:GetPrimaryTooltipData()
+    local guid = tooltipData.guid ---@type string?
+    if issecretvalue(guid) or not guid then
+        return
+    end
+    local unit = UnitTokenFromGUID(guid)
+    return nil, unit, guid
+end
+
 -- constants.lua (ns)
 -- dependencies: none
 do
@@ -6336,7 +6351,7 @@ do
     local function UpdateTooltip(tooltip, state)
         -- if unit simply refresh the unit and the original hook will force update the tooltip with the desired behavior
         ---@type _, string?
-        local _, tooltipUnit = tooltip:GetUnit()
+        local _, tooltipUnit = GetTooltipUnit(tooltip)
         if tooltipUnit then
             ---@diagnostic disable-next-line: undefined-field
             local refreshData = tooltip.RefreshData ---@type fun(self: GameTooltip)?
@@ -6436,7 +6451,7 @@ do
             return
         end
         ---@type _, string?
-        local _, unit = self:GetUnit()
+        local _, unit = GetTooltipUnit(self)
         -- HOTFIX: UnitIsPlayer will error if unit is a secret value and tainted (we can't check if it's tainted or not, so this aborts the routine to be on the safe side)
         if not unit or issecretvalue(unit) or not UnitIsPlayer(unit) or not util:IsUnitMaxLevel(unit) then
             return
