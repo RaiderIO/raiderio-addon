@@ -2511,6 +2511,9 @@ do
             unit = arg1
             if unitIsPlayer then
                 name, realm = UnitNameUnmodified(arg1)
+                if issecretvalue(name) or issecretvalue(realm) then
+                    return
+                end
                 realm = realm and realm ~= "" and realm or GetNormalizedRealmName()
             end
             return name, realm, unit
