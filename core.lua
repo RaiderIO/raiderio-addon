@@ -13668,6 +13668,7 @@ do
         canLogDifficultyIDs[14] = true -- Normal
         canLogDifficultyIDs[15] = true -- Heroic
         canLogDifficultyIDs[16] = true -- Mythic
+        canLogDifficultyIDs[233] = true -- Mythic Flexible
         canLogDifficultyIDs[17] = true -- LFR
     elseif IS_CLASSIC_ERA then
         -- classic era
