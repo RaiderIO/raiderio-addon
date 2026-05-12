@@ -548,6 +548,9 @@ end
 ---@param tooltip GameTooltip
 ---@return nil nil, UnitToken? unit, string? guid
 local function GetTooltipUnit(tooltip)
+    if not tooltip.IsTooltipType then
+        return tooltip:GetUnit()
+    end
     if not tooltip:IsTooltipType(Enum.TooltipDataType.Unit) then
         return
     end
