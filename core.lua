@@ -545,7 +545,8 @@ local function issecretvaluekey(tbl, ...)
     return false
 end
 
----@param tooltip GameTooltip
+-- The `GameTooltip.IsTooltipType` doesn't exist in older flavors. In which case we will call the legacy `GetUnit` as those flavors don't have the secret value system.
+---@param tooltip GameTooltip | { IsTooltipType: (fun(self: GameTooltip, type: Enum.TooltipDataType): boolean)?, GetPrimaryTooltipData: fun(self: GameTooltip): { guid: string? } }
 ---@return nil nil, UnitToken? unit, string? guid
 local function GetTooltipUnit(tooltip)
     if not tooltip.IsTooltipType then
@@ -555,7 +556,7 @@ local function GetTooltipUnit(tooltip)
         return
     end
     local tooltipData = tooltip:GetPrimaryTooltipData()
-    local guid = tooltipData.guid ---@type string?
+    local guid = tooltipData.guid
     if issecretvalue(guid) or not guid then
         return
     end
@@ -1790,6 +1791,7 @@ do
     ---|"lockReplay" @NEW in 10.1.5
     ---|"replayPoint" @`ConfigProfilePoint` NEW in 10.1.5
     ---|"minimapIcon" @`MinimapIconDB` NEW in 10.2.6
+    ---|"disableDropdownMenu" @NEW in 12.0.5
 
     -- fallback saved variables
     ---@class FallbackConfig
@@ -1849,6 +1851,7 @@ do
         lockReplay = false, -- NEW in 10.1.5
         replayPoint = { point = nil, x = 0, y = 0 }, -- `ConfigProfilePoint` NEW in 10.1.5
         minimapIcon = { hide = false, lock = false, showInCompartment = true, minimapPos = 180 }, -- `MinimapIconDB` NEW in 10.2.6
+        disableDropdownMenu = false, -- NEW in 12.0.5
     }
 
     -- fallback metatable looks up missing keys into the fallback config table
@@ -2584,7 +2587,7 @@ do
         local collectionIndex = 0
         for i = 1, C_BattleNet.GetFriendNumGameAccounts(index), 1 do
             local accountInfo = C_BattleNet.GetFriendGameAccountInfo(index, i)
-            if accountInfo and accountInfo.characterName and accountInfo.clientProgram == BNET_CLIENT_WOW and (not accountInfo.wowProjectID or accountInfo.wowProjectID == WOW_PROJECT_MAINLINE) then
+            if accountInfo and not issecretvalue(accountInfo.characterName) and not issecretvalue(accountInfo.realmName) and accountInfo.characterName and accountInfo.clientProgram == BNET_CLIENT_WOW and (not accountInfo.wowProjectID or accountInfo.wowProjectID == WOW_PROJECT_MAINLINE) then
                 if accountInfo.realmName then
                     accountInfo.characterName = format("%s-%s", accountInfo.characterName, accountInfo.realmName:gsub("%s+", ""))
                 end
@@ -2604,6 +2607,9 @@ do
     ---@param playerLink string @The player link can be any valid clickable chat link for messaging
     ---@return string?, string?, number? @Returns the name and realm, or nil for both if invalid
     function util:GetNameRealmFromPlayerLink(playerLink)
+        if issecretvalue(playerLink) then
+            return
+        end
         local linkString, linkText = playerLink:match("^|H(.+)|h(.*)|h$") ---@type string, string
         local linkType, linkData = linkString:match("(.-):(.*)")---@type string, string
         if linkType == "player" then
@@ -12193,7 +12199,7 @@ do
             end
         end
         -- if we don't got both we return nothing
-        if not name or not realm then
+        if issecretvalue(name) or issecretvalue(realm) or not name or not realm then
             return
         end
         -- fallback to our own faction if we're unsure at this point
@@ -12205,7 +12211,7 @@ do
     end
 
     -- tracks the currently active dropdown name and realm for lookup
-    local selectedName, selectedRealm, selectedLevel, selectedUnit, selectedFaction ---@type string?, string?, number?, string?, number?
+    local selected = {} ---@type { name: string?, realm: string?, level: number?, unit?: UnitToken, faction: FactionNumber? }
 
     ---@type CustomDropDownOption[]
     local unitOptions
@@ -12220,8 +12226,8 @@ do
             if not IsValidDropDown(bdropdown) then
                 return
             end
-            selectedName, selectedRealm, selectedLevel, selectedUnit, selectedFaction = GetNameRealmForDropDown(bdropdown)
-            if not selectedName or not util:IsMaxLevel(selectedLevel, true) then
+            selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForDropDown(bdropdown)
+            if not selected.name or not util:IsMaxLevel(selected.level, true) then
                 return
             end
             if not options[1] then
@@ -12251,7 +12257,7 @@ do
         if not shown then
             search:Show()
         end
-        if search:SearchAndShowProfile(ns.PLAYER_REGION, selectedRealm, selectedName) then
+        if search:SearchAndShowProfile(ns.PLAYER_REGION, selected.realm, selected.name) then
             return true
         elseif not shown then
             search:Hide()
@@ -12268,7 +12274,10 @@ do
 
     ---@return DataProviderCharacterProfile? profile, boolean? hasRecruitment
     local function GetProfileForDropDown()
-        local profile = provider:GetProfile(selectedName, selectedRealm)
+        if issecretvalue(selected.name) or issecretvalue(selected.realm) then
+            return
+        end
+        local profile = provider:GetProfile(selected.name, selected.realm)
         if not profile then
             return
         end
@@ -12372,11 +12381,14 @@ do
 
     ---@param accountInfo BNetAccountInfo
     ---@return string? name, string? realm, number? level, string? unit, FactionNumber? faction
-    local function GetBNetAccountInfo(accountInfo)
+    local function UnpackBNetAccountInfo(accountInfo)
         local gameAccountInfo = accountInfo.gameAccountInfo
         local characterName = gameAccountInfo.characterName
         local realmName = gameAccountInfo.realmName
         local characterLevel = gameAccountInfo.characterLevel
+        if issecretvalue(characterName) or issecretvalue(realmName) then
+            return
+        end
         local factionName = gameAccountInfo.factionName
         local faction = factionName and util:GetFactionFromName(factionName)
         return characterName, realmName, characterLevel, nil, faction
@@ -12404,7 +12416,7 @@ do
         end
         local accountInfo = contextData.accountInfo
         if accountInfo then
-            name, realm, level, unit, faction = GetBNetAccountInfo(accountInfo)
+            name, realm, level, unit, faction = UnpackBNetAccountInfo(accountInfo)
             if not realm then
                 return -- HOTFIX: characters on classic when on retail will have their realm missing so this ensures we skip showing the dropdown menu unless we have the realm available
             end
@@ -12429,8 +12441,8 @@ do
         if not IsValidMenu(rootDescription, contextData) then
             return
         end
-        selectedName, selectedRealm, selectedLevel, selectedUnit, selectedFaction = GetNameRealmForMenu(owner, rootDescription, contextData)
-        if not selectedName or not util:IsMaxLevel(selectedLevel, true) then
+        selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForMenu(owner, rootDescription, contextData)
+        if not selected.name or not util:IsMaxLevel(selected.level, true) then
             return
         end
         rootDescription:CreateDivider()
@@ -12464,7 +12476,7 @@ do
                     if DropDownOptionModifiedClickHandler() then
                         return
                     end
-                    util:ShowCopyRaiderIOProfilePopup(selectedName, selectedRealm)
+                    util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
                 end
             },
             { ---@diagnostic disable-line: missing-fields
@@ -12475,7 +12487,7 @@ do
                     end
                     local profile = GetRecruitmentProfileForDropDown()
                     if profile then
-                        util:ShowCopyRaiderIORecruitmentProfilePopup(profile.recruitmentProfile.entityType, selectedName, selectedRealm)
+                        util:ShowCopyRaiderIORecruitmentProfilePopup(profile.recruitmentProfile.entityType, selected.name, selected.realm)
                     end
                 end,
                 show = function()
@@ -12489,6 +12501,9 @@ do
             -- the only downside to this is that the first dropdown menu shown won't be modified, so the user would need to re-open it to see our options (which is better than tainting the dropdown system entirely)
             local isInit = false
             local function init()
+                if config:Get("disableDropdownMenu") then
+                    return
+                end
                 if isInit then
                     return
                 end
@@ -14942,6 +14957,7 @@ do
             configOptions:CreatePadding()
             configOptions:CreateHeadline(L.MISC_SETTINGS)
             configOptions:CreateOptionToggle(L.ENABLE_LFG_EXPORT_BUTTON, L.ENABLE_LFG_EXPORT_BUTTON_DESC, "enableLFGExportButton")
+            configOptions:CreateOptionToggle(L.DISABLE_DROPDOWN_MENU_BUTTON, L.DISABLE_DROPDOWN_MENU_BUTTON_DESC, "disableDropdownMenu", { needReload = true })
 
             configOptions:CreatePadding()
             configOptions:CreateHeadline(L.RAIDERIO_CLIENT_CUSTOMIZATION)
