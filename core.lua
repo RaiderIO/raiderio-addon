@@ -2942,7 +2942,7 @@ do
         if fontObject then
             TOOLTIP_TEXT_FONTSTRING:SetFontObject(fontObject)
         else
-            TOOLTIP_TEXT_FONTSTRING:SetFont(fontWidget:GetFont()) ---@diagnostic disable-line: param-type-mismatch
+            TOOLTIP_TEXT_FONTSTRING:SetFont(fontWidget:GetFont())
         end
     end
 
@@ -3613,7 +3613,7 @@ do
     local function CreateExportButton()
         ---@class RaiderIOExportButton : Button
         local button = CreateFrame("Button", format("%s_ExportButton", addonName), LFGListFrame)
-        button:SetPoint("BOTTOMRIGHT", button:GetParent(), "BOTTOM", -12, 7) ---@diagnostic disable-line: param-type-mismatch
+        button:SetPoint("BOTTOMRIGHT", button:GetParent(), "BOTTOM", -12, 7)
         button:SetSize(16, 16)
         -- script handlers
         button:SetScript("OnEnter", function() button.Border:SetVertexColor(1, 1, 1) end)
@@ -3731,8 +3731,8 @@ do
     ---@field public data number @1 (mythic_keystone), 2 (raid), 3 (recruitment), 4 (pvp)
     ---@field public region RegionString
     ---@field public date string @"2017-06-03T00:41:07Z"
-    ---@field public db table
-    ---@field public lookup table
+    ---@field public db table<string, { [1]: number, [number]: string }> @The first table key is the realm name. The sub-table has an offset at the first position for the lookup table, then character names in the rest of the table.
+    ---@field public lookup string[]
     ---@field public queued boolean @Added dynamically in AddProvider - true when added, later set to false once past the queue check
     ---@field public desynced boolean @Added dynamically in AddProvider - nil or true if provider tables are desynced
     ---@field public outdated number @Added dynamically in AddProvider - nil or number of seconds past our time()
@@ -5866,7 +5866,7 @@ do
         end
         CACHED_FATED_RAIDS_MAP = util:GetFatedRaids(true)
         cache = CACHED_FATED_RAIDS_MAP
-        if not next(cache) then ---@diagnostic disable-line: param-type-mismatch
+        if not next(cache) then
             return
         end
         return cache
@@ -6329,7 +6329,7 @@ do
                         end
                     end
                     if easterEgg then
-                        tooltip:AddLine(easterEgg, 0.9, 0.8, 0.5) ---@diagnostic disable-line: param-type-mismatch
+                        tooltip:AddLine(easterEgg, 0.9, 0.8, 0.5)
                     end
                 end
                 -- profile added to tooltip successfully
@@ -6414,7 +6414,7 @@ do
             if p5 then
                 o4 = p5 ---@diagnostic disable-line: cast-local-type
             end
-            tooltip:SetOwner(o1, o2, o3, o4) ---@diagnostic disable-line: param-type-mismatch
+            tooltip:SetOwner(o1, o2, o3, o4)
         end
         if p1 then
             tooltip:SetPoint(p1, p2, p3 or p1, p4 or 0, p5 or 0)
@@ -6882,7 +6882,7 @@ if IS_RETAIL then
             bestRun = CopyRun(currentRun)
             bestUpgrade = {} ---@diagnostic disable-line: missing-fields
         elseif bestRun == dbRun then
-            bestRun = CopyRun(dbRun) ---@diagnostic disable-line: param-type-mismatch
+            bestRun = CopyRun(dbRun)
         end
         memberCachedRuns[currentRun.dungeon.index] = bestRun
         local side = CompareLevelAndFractionalTime(bestRun.level, currentRun.level, bestRun.fractionalTime, currentRun.fractionalTime)
@@ -7017,7 +7017,7 @@ if IS_RETAIL then
             frame.Texture = frame:CreateTexture(nil, "ARTWORK")
             frame.Texture:SetPoint("CENTER")
             frame.Texture:SetSize(32, 32)
-            frame.Texture:SetTexture(nil) ---@diagnostic disable-line: param-type-mismatch
+            frame.Texture:SetTexture(nil)
         end
         do
             frame.Text = frame:CreateFontString(nil, "ARTWORK", "ChatFontNormal")
@@ -8436,7 +8436,7 @@ if IS_RETAIL then
         end
         -- no runs available overlay
         do
-            frame.GuildBestNoRun = CreateFrame("Frame", nil, frame) ---@diagnostic disable-line: param-type-mismatch
+            frame.GuildBestNoRun = CreateFrame("Frame", nil, frame)
             frame.GuildBestNoRun:SetSize(95, 13)
             frame.GuildBestNoRun:SetPoint("TOPLEFT", frame.Title, "BOTTOMLEFT", 0, -14)
             frame.GuildBestNoRun.Text = frame.GuildBestNoRun:CreateFontString(nil, "ARTWORK", "GameFontNormalTiny2")
@@ -8449,7 +8449,7 @@ if IS_RETAIL then
         do
             frame.SwitchGuildBest = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate") ---@type UICheckButtonTemplatePolyfill
             frame.SwitchGuildBest:SetSize(15, 15)
-            frame.SwitchGuildBest:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 8, 5) ---@diagnostic disable-line: param-type-mismatch
+            frame.SwitchGuildBest:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 8, 5)
             frame.SwitchGuildBest:SetScript("OnShow", GuildWeeklyFrameSwitch_OnShow)
             frame.SwitchGuildBest:SetScript("OnClick", GuildWeeklyFrameSwitch_OnClick)
             frame.SwitchGuildBest.text:SetFontObject("GameFontNormalTiny2")
@@ -8574,7 +8574,7 @@ if IS_RETAIL then
         [5] = "watched_replay",
     }
 
-    ---@class ConfigReplayColor
+    ---@class ConfigReplayColor : colorRGBA
     ---@field public r number
     ---@field public g number
     ---@field public b number
@@ -8595,7 +8595,7 @@ if IS_RETAIL then
             texture:SetColorTexture(color1.r, color1.g, color1.b, color1.a)
             return true
         elseif color1 and color2 then
-            texture:SetGradient("VERTICAL", color1, color2) ---@diagnostic disable-line: param-type-mismatch
+            texture:SetGradient("VERTICAL", color1, color2)
             return true
         end
         return false
@@ -10274,7 +10274,7 @@ if IS_RETAIL then
                 middlePadding = middlePadding or 0
                 fontObject = fontObject or "GameFontNormalHuge4"
                 local equalWidth = (self.widthMDI - (self.contentPaddingX * 2)) / 2 - (self.edgePaddingMDI * 3 / 2) - (middlePadding / 2)
-                local LF = self.MDI:CreateFontString(nil, "ARTWORK", fontObject) ---@diagnostic disable-line: param-type-mismatch
+                local LF = self.MDI:CreateFontString(nil, "ARTWORK", fontObject)
                 LF:SetTextColor(1, 1, 1)
                 LF:SetSize(equalWidth, self.textRowHeightMDI)
                 if previous then
@@ -10284,7 +10284,7 @@ if IS_RETAIL then
                 end
                 LF:SetJustifyH("RIGHT")
                 LF:SetJustifyV("MIDDLE")
-                local RF = self.MDI:CreateFontString(nil, "ARTWORK", fontObject) ---@diagnostic disable-line: param-type-mismatch
+                local RF = self.MDI:CreateFontString(nil, "ARTWORK", fontObject)
                 RF:SetTextColor(1, 1, 1)
                 RF:SetSize(equalWidth, self.textRowHeightMDI)
                 RF:SetPoint("TOPLEFT", LF, "TOPRIGHT", self.edgePaddingMDI + middlePadding, 0)
@@ -11565,26 +11565,46 @@ do
     local render = ns:GetModule("Render") ---@type RenderModule
     local profile = ns:GetModule("Profile") ---@type ProfileModule
 
+    ---@alias Enum.AutoCompletePriority 0|1|2|3|4|5|6
+    ---@alias Enum.AutoCompletePriority.Other 0
+    ---@alias Enum.AutoCompletePriority.Interacted 1
+    ---@alias Enum.AutoCompletePriority.InGroup 2
+    ---@alias Enum.AutoCompletePriority.Guild 3
+    ---@alias Enum.AutoCompletePriority.Friend 4
+    ---@alias Enum.AutoCompletePriority.AccountCharacter 5
+    ---@alias Enum.AutoCompletePriority.AccountCharacterSameRealm 6
+
+    ---@class RaiderIOSearchAutoCompleteFunctionResultPolyfill
+    ---@field public name string
+    ---@field public priority Enum.AutoCompletePriority
+
+    ---@alias RaiderIOSearchAutoCompleteFunctionPolyfill fun(text: string, maxResults: number, utf8Position: number, allowFullMatch: boolean, ...: any): RaiderIOSearchAutoCompleteFunctionResultPolyfill[]?
+
+    ---@type Enum.AutoCompletePriority
+    local AutoCompletePriority = Enum and Enum.AutoCompletePriority and Enum.AutoCompletePriority.Other or 0
+
+    ---@param a RaiderIOSearchAutoCompleteFunctionResultPolyfill
+    ---@param b RaiderIOSearchAutoCompleteFunctionResultPolyfill
     local function SortByName(a, b)
         return strcmputf8i(a.name, b.name) < 0
     end
 
     local PROVIDERS = provider:GetProviders()
-    local REGIONS
+    local REGIONS ---@type RaiderIOSearchAutoCompleteFunctionResultPolyfill[]?
 
     local function GetCachedRegions()
         if REGIONS then
             return REGIONS
         end
-        REGIONS = {}
-        local unique = {}
+        REGIONS = {} ---@type RaiderIOSearchAutoCompleteFunctionResultPolyfill[]
+        local unique = {} ---@type table<string, true?>
         for _, dataProvider in ipairs(PROVIDERS) do
             local regionName = dataProvider.region
             if not unique[regionName] then
                 unique[regionName] = true
                 REGIONS[#REGIONS + 1] = {
                     name = regionName,
-                    priority = 7
+                    priority = AutoCompletePriority,
                 }
             end
         end
@@ -11592,12 +11612,13 @@ do
         return REGIONS
     end
 
-    local function GetRegions(text, maxResults, cursorPosition)
+    ---@type RaiderIOSearchAutoCompleteFunctionPolyfill
+    local function GetRegions(text, maxResults, utf8Position, allowFullMatch)
         text = text:lower()
         local regions = GetCachedRegions()
-        local temp = {}
-        local unique = {}
         local count = 0
+        local temp = {} ---@type RaiderIOSearchAutoCompleteFunctionResultPolyfill[]
+        local unique = {} ---@type table<string, true?>
         for _, region in ipairs(regions) do
             if count >= maxResults then
                 break
@@ -11606,10 +11627,7 @@ do
             if not unique[regionName] and regionName:find(text, nil, true) == 1 then
                 unique[regionName] = true
                 count = count + 1
-                temp[count] = {
-                    name = regionName,
-                    priority = 7
-                }
+                temp[count] = region
             end
         end
         table.wipe(unique)
@@ -11627,48 +11645,50 @@ do
         return (searchRegionBox:GetText() and searchRegionBox:GetText() ~= "") and searchRegionBox:GetText() or ns.PLAYER_REGION
     end
 
+    ---@return DataProvider[]? dataProviders
     local function GetRegionProviders()
         local regionName = GetRegionName()
-        local temp ---@type DataProvider[]
+        local temp ---@type DataProvider[]?
         for i = 1, #PROVIDERS do
             local dataProvider = PROVIDERS[i]
             if dataProvider.region == regionName then
-                if not temp then temp = {} end
+                if not temp then
+                    temp = {}
+                end
                 temp[#temp + 1] = dataProvider
             end
         end
         return temp
     end
 
-    local function GetRealms(text, maxResults, cursorPosition)
+    ---@type RaiderIOSearchAutoCompleteFunctionPolyfill
+    local function GetRealms(text, maxResults, utf8Position, allowFullMatch)
         local providers = GetRegionProviders()
         if not providers then
             return
         end
         text = text:lower()
-        local temp = {}
         local count = 0
-        local unique = {}
-        local data
-        local kl
-        for x = 1, #providers do
+        local temp = {} ---@type RaiderIOSearchAutoCompleteFunctionResultPolyfill[]
+        local unique = {} ---@type table<string, true?>
+        for i = 1, #providers do
             if count >= maxResults then
                 break
             end
-            local dataProvider = providers[x]
-            data = dataProvider.db
+            local dataProvider = providers[i]
+            local data = dataProvider.db
             if data then
-                for k, _ in pairs(data) do
+                for realmName, _ in pairs(data) do
                     if count >= maxResults then
                         break
                     end
-                    kl = k:lower()
-                    if not unique[kl] and kl:find(text, nil, true) == 1 then
-                        unique[kl] = true
+                    local nameLC = realmName:lower()
+                    if not unique[nameLC] and nameLC:find(text, nil, true) == 1 then
+                        unique[nameLC] = true
                         count = count + 1
                         temp[count] = {
-                            name = k,
-                            priority = 7
+                            name = realmName,
+                            priority = AutoCompletePriority,
                         }
                     end
                 end
@@ -11679,43 +11699,41 @@ do
         return temp
     end
 
-    local function GetNames(text, maxResults, cursorPosition)
+    ---@type RaiderIOSearchAutoCompleteFunctionPolyfill
+    local function GetNames(text, maxResults, utf8Position, allowFullMatch)
         local providers = GetRegionProviders()
         if not providers then
             return
         end
         text = text:lower()
         local realm = searchRealmBox:GetText()
-        if not realm or strlenutf8(realm) < 1 then return end
-        local temp = {}
-        local rcount = 0
-        local data
-        local count
-        local name
-        local namel
-        local unique = {}
-        for x = 1, #providers do
-            if rcount >= maxResults then
+        if not realm or strlenutf8(realm) < 1 then
+            return
+        end
+        local count = 0
+        local temp = {} ---@type RaiderIOSearchAutoCompleteFunctionResultPolyfill[]
+        local unique = {} ---@type table<string, true?>
+        for i = 1, #providers do
+            if count >= maxResults then
                 break
             end
-            local dataProvider = providers[x]
-            data = dataProvider.db
+            local dataProvider = providers[i]
+            local data = dataProvider.db
             if data then
-                data = data[realm]
-                if data then
-                    count = #data
-                    for j = 2, count do
-                        if rcount >= maxResults then
+                local names = data[realm]
+                if names then
+                    for j = 2, #names do
+                        if count >= maxResults then
                             break
                         end
-                        name = data[j]
-                        namel = name:lower()
-                        if not unique[namel] and namel:find(text, nil, true) == 1 then
-                            rcount = rcount + 1
-                            unique[namel] = true
-                            temp[rcount] = {
+                        local name = names[j] ---@type string
+                        local nameLC = name:lower()
+                        if not unique[nameLC] and nameLC:find(text, nil, true) == 1 then
+                            unique[nameLC] = true
+                            count = count + 1
+                            temp[count] = {
                                 name = name,
-                                priority = 7
+                                priority = AutoCompletePriority,
                             }
                         end
                     end
@@ -11727,7 +11745,7 @@ do
     end
 
     ---@class RaiderIOSearchAutoCompleteEditBox : EditBox
-    ---@field public autoCompleteFunction fun(text: string, maxResults: number, cursorPosition: number)
+    ---@field public autoCompleteFunction RaiderIOSearchAutoCompleteFunctionPolyfill
 
     ---@class RaiderIOSearchTooltip : GameTooltip
     ---@field public hasProfile boolean
@@ -11816,10 +11834,10 @@ do
             Frame:SetSize(310, config:Get("debugMode") and 115 or 100)
             Frame:SetPoint("CENTER")
             if Frame.SetBackdrop then
-                Frame:SetBackdrop(BACKDROP_TUTORIAL_16_16) ---@diagnostic disable-line: param-type-mismatch
-                Frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR:GetRGB()) ---@diagnostic disable-line: param-type-mismatch
-                Frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGB()) ---@diagnostic disable-line: param-type-mismatch
-                Frame:SetBackdropColor(0, 0, 0, 1) ---@diagnostic disable-line: param-type-mismatch
+                Frame:SetBackdrop(BACKDROP_TUTORIAL_16_16)
+                Frame:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR:GetRGB())
+                Frame:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR:GetRGB())
+                Frame:SetBackdropColor(0, 0, 0, 1)
             end
             Frame.header = Frame:CreateFontString(nil, nil, "ChatFontNormal")
             Frame.header:SetPoint("TOPLEFT", 16, -12)
@@ -11832,13 +11850,13 @@ do
             hooksecurefunc("ToggleGameMenu", function() Frame:StopMovingOrSizing() end)
             Frame:SetScript("OnShow", function() search:ShowProfile(regionBox:GetText(), realmBox:GetText(), nameBox:GetText()) end)
             Frame:SetScript("OnHide", function() search:ShowProfile() end)
-            Frame.close = CreateFrame("Button", nil, Frame, "UIPanelCloseButtonNoScripts") ---@diagnostic disable-line: param-type-mismatch
+            Frame.close = CreateFrame("Button", nil, Frame, "UIPanelCloseButtonNoScripts")
             Frame.close:SetPoint("TOPRIGHT", -5, -3)
             Frame.close:SetScript("OnClick", function() search:Hide() end)
-            Frame.copyUrl = CreateFrame("Button", nil, Frame, "UIPanelCloseButtonNoScripts") ---@diagnostic disable-line: param-type-mismatch
+            Frame.copyUrl = CreateFrame("Button", nil, Frame, "UIPanelCloseButtonNoScripts")
             Frame.copyUrl:SetScale(0.67)
-            util:SetButtonTextureFromIcon(Frame.copyUrl, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE) ---@diagnostic disable-line: param-type-mismatch
-            Frame.copyUrl:SetPoint("RIGHT", Frame.close, "LEFT", -5, 0) ---@diagnostic disable-line: param-type-mismatch
+            util:SetButtonTextureFromIcon(Frame.copyUrl, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE)
+            Frame.copyUrl:SetPoint("RIGHT", Frame.close, "LEFT", -5, 0)
             Frame.copyUrl:SetScript("OnClick", function() util:ShowCopyRaiderIOProfilePopup(nameBox:GetText(), realmBox:GetText(), regionBox:GetText()) end)
             Frame.copyUrl:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT") GameTooltip:AddLine(L.COPY_RAIDERIO_PROFILE_URL) GameTooltip:Show() end)
             Frame.copyUrl:SetScript("OnLeave", GameTooltip_Hide)
@@ -11846,13 +11864,14 @@ do
             Frame.copyUrl:HookScript("OnDisable", function(self) self:GetDisabledTexture():SetDesaturated(true) end)
         end
 
+        ---@type RaiderIOSearchAutoCompleteEditBox[]
         local activeBoxes = {}
         if config:Get("debugMode") then
-            regionBox:SetParent(Frame) ---@diagnostic disable-line: param-type-mismatch
+            regionBox:SetParent(Frame)
             table.insert(activeBoxes, regionBox)
         end
-        realmBox:SetParent(Frame) ---@diagnostic disable-line: param-type-mismatch
-        nameBox:SetParent(Frame) ---@diagnostic disable-line: param-type-mismatch
+        realmBox:SetParent(Frame)
+        nameBox:SetParent(Frame)
         table.insert(activeBoxes, realmBox)
         table.insert(activeBoxes, nameBox)
 
@@ -11866,6 +11885,7 @@ do
             end
         end
 
+        ---@param self RaiderIOSearchAutoCompleteEditBox
         local function OnTabPressed(self)
             if self.autoComplete:IsShown() then
                 return
@@ -11886,10 +11906,12 @@ do
             end
         end
 
+        ---@param self RaiderIOSearchAutoCompleteEditBox
         local function OnEditFocusLost(self)
             self:HighlightText(0, 0)
         end
 
+        ---@param self RaiderIOSearchAutoCompleteEditBox
         local function OnEnterPressed(self)
             for i = 1, #activeBoxes do
                 local box = activeBoxes[i]
@@ -11909,6 +11931,7 @@ do
             search:ShowProfile(regionBox:GetText(), realmBox:GetText(), nameBox:GetText())
         end
 
+        ---@param self RaiderIOSearchAutoCompleteEditBox
         local function OnEscapePressed(self)
             self:ClearFocus()
         end
@@ -11923,13 +11946,18 @@ do
             return true
         end
 
+        ---@param self RaiderIOSearchAutoCompleteEditBox
+        ---@param userInput boolean
         local function OnTextChanged(self, userInput)
             Frame.copyUrl:SetEnabled(AreActiveBoxesPopulated())
-            if not userInput then return end
+            if not userInput then
+                return
+            end
             local text = self:GetText()
-            if text:len() > 0 then
+            local textLength = text:len()
+            if textLength > 0 then
                 AutoCompleteEditBox_SetAutoCompleteSource(self, self.autoCompleteFunction)
-                AutoComplete_Update(self, text, #text)
+                AutoComplete_Update(self, text, textLength)
             end
         end
 
@@ -11999,17 +12027,17 @@ do
         arg1, arg2, arg3 = (arg1 or ""):trim(), (arg2 or ""):trim(), (arg3 or ""):trim() ---@diagnostic disable-line: undefined-field
         arg2 = arg2 ~= "" and arg2 or GetNormalizedRealmName()
         arg3 = arg3 ~= "" and arg3 or ns.PLAYER_REGION
-        local arg3q = GetRegions(arg3, 1)
+        local arg3q = GetRegions(arg3, 1, 0, true)
         if arg3q and arg3q[1] and arg3q[1].name then
             arg3 = arg3q[1].name
         end
         searchRegionBox:SetText(arg3)
-        local arg2q = GetRealms(arg2, 1)
+        local arg2q = GetRealms(arg2, 1, 0, true)
         if arg2q and arg2q[1] and arg2q[1].name then
             arg2 = arg2q[1].name
         end
         searchRealmBox:SetText(arg2)
-        local arg1q = GetNames(arg1, 1)
+        local arg1q = GetNames(arg1, 1, 0, true)
         if arg1q and arg1q[1] and arg1q[1].name then
             arg1 = arg1q[1].name
         end
@@ -13011,7 +13039,7 @@ if IS_RETAIL then
 
         ---@class RaiderIORWFLootFrameLog : Frame
         frame.Log = CreateFrame("Frame", nil, frame)
-        frame.Log:SetPoint("TOPLEFT", frame.TitleBar, "BOTTOMLEFT", 8, -32 + 24) ---@diagnostic disable-line: param-type-mismatch
+        frame.Log:SetPoint("TOPLEFT", frame.TitleBar, "BOTTOMLEFT", 8, -32 + 24)
         frame.Log:SetPoint("BOTTOMRIGHT", -9, 28)
 
         frame.Log.Bar = CreateFrame("Frame", nil, frame.Log)
@@ -13039,7 +13067,7 @@ if IS_RETAIL then
         frame.SubTitle:SetWordWrap(false)
         frame.SubTitle:SetJustifyH("CENTER")
         frame.SubTitle:SetJustifyV("MIDDLE")
-        frame.SubTitle:SetPoint("TOPLEFT", frame.TitleBar, "BOTTOMLEFT", 0, 0) ---@diagnostic disable-line: param-type-mismatch
+        frame.SubTitle:SetPoint("TOPLEFT", frame.TitleBar, "BOTTOMLEFT", 0, 0)
         frame.SubTitle:SetPoint("BOTTOMRIGHT", frame.Log.Events, "TOPRIGHT", 0, 0)
 
         ---@class RaiderIORWFLootFrameButton : Button
@@ -13051,7 +13079,7 @@ if IS_RETAIL then
 
         frame.EnableModule = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate") ---@type RaiderIORWFLootFrameButton
         frame.EnableModule:SetSize(80, 22)
-        frame.EnableModule:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 3) ---@diagnostic disable-line: param-type-mismatch
+        frame.EnableModule:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 3)
         frame.EnableModule:SetScript("OnClick", function() config:Set("rwfMode", true) ReloadUI() end)
         frame.EnableModule:SetText(L.ENABLE_RWF_MODE_BUTTON)
         frame.EnableModule.tooltip = L.ENABLE_RWF_MODE_BUTTON_TOOLTIP
@@ -13061,7 +13089,7 @@ if IS_RETAIL then
 
         frame.DisableModule = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate") ---@type RaiderIORWFLootFrameButton
         frame.DisableModule:SetSize(80, 22)
-        frame.DisableModule:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 3) ---@diagnostic disable-line: param-type-mismatch
+        frame.DisableModule:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -5, 3)
         frame.DisableModule:SetScript("OnClick", function() config:Set("rwfMode", false) _G.RaiderIO_RWF = {} ReloadUI() end)
         frame.DisableModule:SetText(L.DISABLE_RWF_MODE_BUTTON)
         frame.DisableModule.tooltip = L.DISABLE_RWF_MODE_BUTTON_TOOLTIP
@@ -13071,7 +13099,7 @@ if IS_RETAIL then
 
         frame.ReloadUI = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate") ---@type RaiderIORWFLootFrameButton
         frame.ReloadUI:SetSize(80, 22)
-        frame.ReloadUI:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 5, 3) ---@diagnostic disable-line: param-type-mismatch
+        frame.ReloadUI:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 5, 3)
         frame.ReloadUI:SetScript("OnClick", ReloadUI)
         frame.ReloadUI:SetText(L.RELOAD_RWF_MODE_BUTTON)
         frame.ReloadUI.tooltip = L.RELOAD_RWF_MODE_BUTTON_TOOLTIP
@@ -13081,7 +13109,7 @@ if IS_RETAIL then
 
         frame.WipeLog = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate") ---@type RaiderIORWFLootFrameButton
         frame.WipeLog:SetSize(80, 22)
-        frame.WipeLog:SetPoint("RIGHT", frame.DisableModule, "LEFT", 2, 0) ---@diagnostic disable-line: param-type-mismatch
+        frame.WipeLog:SetPoint("RIGHT", frame.DisableModule, "LEFT", 2, 0)
         frame.WipeLog:SetScript("OnClick", function() _G.RaiderIO_RWF = {} ReloadUI() end)
         frame.WipeLog:SetText(L.WIPE_RWF_MODE_BUTTON)
         frame.WipeLog.tooltip = L.WIPE_RWF_MODE_BUTTON_TOOLTIP
@@ -13095,7 +13123,7 @@ if IS_RETAIL then
         frame.MiniFrame:SetSize(32, 32)
         frame.MiniFrame:RegisterForClicks("LeftButtonUp", "RightButtonUp")
         local miniPoint = config:Get("rwfMiniPoint") ---@type ConfigProfilePoint
-        frame.MiniFrame:SetPoint(miniPoint.point or "CENTER", miniPoint.point and _G.UIParent or frame, miniPoint.point or "CENTER", miniPoint.point and miniPoint.x or -10, miniPoint.point and miniPoint.y or 0) ---@diagnostic disable-line: param-type-mismatch
+        frame.MiniFrame:SetPoint(miniPoint.point or "CENTER", miniPoint.point and _G.UIParent or frame, miniPoint.point or "CENTER", miniPoint.point and miniPoint.x or -10, miniPoint.point and miniPoint.y or 0)
         frame.MiniFrame:EnableMouse(true)
         frame.MiniFrame:SetMovable(true)
         frame.MiniFrame:RegisterForDrag("LeftButton")
@@ -13124,7 +13152,7 @@ if IS_RETAIL then
         frame.MiniFrame.Left:Hide()
         frame.MiniFrame.Right:Hide()
         frame.MiniFrame.Middle:Hide()
-        util:SetButtonTextureFromIcon(frame.MiniFrame, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE) ---@diagnostic disable-line: param-type-mismatch
+        util:SetButtonTextureFromIcon(frame.MiniFrame, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE)
         frame.MiniFrame:Hide()
 
         frame.MiniFrame.Spinner = CreateFrame("Button", nil, frame.MiniFrame) ---@class RaiderIORWFLootFrameMiniFrameSpinner : Button
@@ -14316,17 +14344,17 @@ do
             widget.text:SetPoint("RIGHT", -8, 0)
             widget.text:SetJustifyH("LEFT")
 
-            widget.checkButton = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate") ---@diagnostic disable-line: param-type-mismatch
+            widget.checkButton = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate")
             widget.checkButton:Hide()
             widget.checkButton:SetPoint("RIGHT", -4, 0)
             widget.checkButton:SetScale(0.7)
 
-            widget.checkButton2 = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate") ---@diagnostic disable-line: param-type-mismatch
+            widget.checkButton2 = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate")
             widget.checkButton2:Hide()
             widget.checkButton2:SetPoint("RIGHT", widget.checkButton, "LEFT", -4, 0)
             widget.checkButton2:SetScale(0.7)
 
-            widget.checkButton3 = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate") ---@diagnostic disable-line: param-type-mismatch
+            widget.checkButton3 = CreateFrame("CheckButton", nil, widget, "UICheckButtonTemplate")
             widget.checkButton3:Hide()
             widget.checkButton3:SetPoint("RIGHT", widget.checkButton2, "LEFT", -4, 0)
             widget.checkButton3:SetScale(0.7)
@@ -14885,9 +14913,9 @@ do
             configParentFrame:RegisterForDrag("LeftButton")
 
             if configParentFrame.SetBackdrop then
-                configParentFrame:SetBackdrop(configOptions.backdrop) ---@diagnostic disable-line: param-type-mismatch
-                configParentFrame:SetBackdropColor(0, 0, 0, 0.8) ---@diagnostic disable-line: param-type-mismatch
-                configParentFrame:SetBackdropBorderColor(0.5, 0.5, 0.5, 0.8) ---@diagnostic disable-line: param-type-mismatch
+                configParentFrame:SetBackdrop(configOptions.backdrop)
+                configParentFrame:SetBackdropColor(0, 0, 0, 0.8)
+                configParentFrame:SetBackdropBorderColor(0.5, 0.5, 0.5, 0.8)
             end
 
             configParentFrame:SetScript("OnEvent", ConfigFrame_OnEvent)
@@ -14901,7 +14929,7 @@ do
 
             -- add widgets
             local header = configOptions:CreateHeadline(format("%s\nVersion: %s", L.RAIDERIO_MYTHIC_OPTIONS, tostring(C_AddOns.GetAddOnMetadata(addonName, "Version"))), configHeaderFrame)
-            header.text:SetFont(header.text:GetFont(), 16, "OUTLINE") ---@diagnostic disable-line: param-type-mismatch
+            header.text:SetFont(header.text:GetFont(), 16, "OUTLINE")
 
             if IS_RETAIL then
                 configOptions:CreateHeadline(L.CHOOSE_HEADLINE_HEADER)
@@ -15576,7 +15604,7 @@ do
         end
         local db = self:GetMinimapIconDB()
         config:Set("minimapIcon", db) -- force save the initial settings in the SV file
-        LDBI:Register(addonName, self.dataBroker, db) ---@diagnostic disable-line: param-type-mismatch
+        LDBI:Register(addonName, self.dataBroker, db)
         self.dbIcon = LDBI:IsRegistered(addonName)
     end
 
