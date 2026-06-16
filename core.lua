@@ -651,6 +651,20 @@ do
             },
             ["TwistingNether"] = {
                 ["Piccoò"] = "Raider.IO Super Tato"
+            },
+            ["ArgentDawn"] = {
+                ["Kraytus"] = "Raider.IO RWF Team",
+                ["Archsar"] = "Raider.IO RWF Team"
+            },
+            ["Draenor"] = {
+                ["Xytrixz"] = "Raider.IO RWF Team",
+                ["Voidcultist"] = "Raider.IO RWF Team"
+            },
+            ["Silvermoon"] = {
+                ["Chamian"] = "Raider.IO RWF Team"
+            },
+            ["Sylvanas"] = {
+                ["Gnamethistle"] = "Raider.IO RWF Team"
             }
         },
         ["us"] = {
@@ -668,7 +682,8 @@ do
             },
             ["Thrall"] = {
                 ["Firstclass"] = "Author of mythicpl.us",
-                ["Hulahoops"] = "Raider.IO Cool Kid"
+                ["Hulahoops"] = "Raider.IO Cool Kid",
+                ["Ozrec"] = "Raider.IO RWF Team"
             },
             ["Tichondrius"] = {
                 ["Johnsamdi"] = "Raider.IO Developer",
@@ -679,6 +694,30 @@ do
             },
             ["BurningBlade"] = {
                 ["Pelinal"] = "Raider.IO Developer"
+            },
+            ["Illidan"] = {
+                ["Bunnyfluff"] = "Raider.IO Fluffy Bunny"
+            },
+            ["Blackhand"] = {
+                ["Starkind"] = "Raider.IO RWF Team"
+            },
+            ["Dalaran"] = {
+                ["Abbadorei"] = "Raider.IO RWF Team"
+            },
+            ["Hyjal"] = {
+                ["Truvillain"] = "Raider.IO RWF Team"
+            },
+            ["Kil'jaeden"] = {
+                ["Sparey"] = "Raider.IO RWF Team"
+            },
+            ["MoonGuard"] = {
+                ["Missfirebird"] = "Raider.IO RWF Team"
+            },
+            ["WyrmrestAccord"] = {
+                ["Qarmina"] = "Raider.IO RWF Team"
+            },
+            ["Zul'jin"] = {
+                ["Layria"] = "Raider.IO RWF Team"
             }
         }
     }
@@ -687,6 +726,14 @@ do
     ns.IGNORED_REALMS = {
         ["EU Mythic Dungeons"] = true,
         ["EUMythicDungeons"] = true,
+        ["US Mythic Dungeons"] = true,
+        ["USMythicDungeons"] = true,
+        ["KR Mythic Dungeons"] = true,
+        ["KRMythicDungeons"] = true,
+        ["TW Mythic Dungeons"] = true,
+        ["TWMythicDungeons"] = true,
+        ["CN Mythic Dungeons"] = true,
+        ["CNMythicDungeons"] = true,
     }
 
     ---@class HeadlineMode
