@@ -3811,22 +3811,25 @@ do
     ---@generic T
     ---@param tbl T[]
     ---@param key string
+    ---@param predicate? fun(value: unknown, item: T): boolean?
     ---@return T[][]
-    function util:TableGroup(tbl, key)
+    function util:TableGroup(tbl, key, predicate)
         local temp = {}
         for _, v in pairs(tbl) do
             local keyValue = v[key]
-            local index ---@type number?
-            for i, group in ipairs(temp) do
-                if group[1][key] == keyValue then
-                    index = i
-                    break
+            if not predicate or predicate(keyValue, v) then
+                local index ---@type number?
+                for i, group in ipairs(temp) do
+                    if group[1][key] == keyValue then
+                        index = i
+                        break
+                    end
                 end
-            end
-            if index then
-                temp[index][#temp[index] + 1] = v
-            else
-                temp[#temp + 1] = { v }
+                if index then
+                    temp[index][#temp[index] + 1] = v
+                else
+                    temp[#temp + 1] = { v }
+                end
             end
         end
         return temp
@@ -4030,6 +4033,7 @@ if IS_RETAIL then
     ---@field public ranksGranted number
     ---@field public ranksPurchased number
     ---@field public selectionEntryID number
+    ---@field public ranksPurchasedForTieredNode? number A custom field to tally the total number of purchases on this tiered node.
 
     local bitWidthHeaderVersion = 8
     local bitWidthSpecID = 16
@@ -4169,6 +4173,20 @@ if IS_RETAIL then
         end
     end
 
+    ---@param group ImportLoadoutEntryInfoPolyfill[]
+    local function UpdateCustomTieredNodeRankField(group)
+        local first = group[1]
+        first.ranksPurchasedForTieredNode = first.ranksPurchased
+        for i = 2, #group do
+            local other = group[i]
+            first.ranksPurchasedForTieredNode = first.ranksPurchasedForTieredNode + other.ranksPurchased
+        end
+        for i = 2, #group do
+            local other = group[i]
+            other.ranksPurchasedForTieredNode = first.ranksPurchasedForTieredNode
+        end
+    end
+
     ---@param configID number
     ---@param treeID number
     ---@param loadoutContent LoadoutContentPolyfill[]
@@ -4176,15 +4194,23 @@ if IS_RETAIL then
     local function ConvertToImportLoadoutEntryInfo(configID, treeID, loadoutContent)
         local results = {} ---@type ImportLoadoutEntryInfoPolyfill[]
         local treeNodes = C_Traits.GetTreeNodes(treeID)
+        local tieredNodes = {} ---@type table<number, true>
         for index, treeNodeID in ipairs(treeNodes) do
             local indexInfo = loadoutContent[index]
             local treeNodeInfo = C_Traits.GetNodeInfo(configID, treeNodeID)
             if treeNodeInfo then
-            if treeNodeInfo.type == Enum.TraitNodeType.Tiered then
-                CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
-            else
-                CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
+                if treeNodeInfo.type == Enum.TraitNodeType.Tiered then
+                    tieredNodes[treeNodeInfo.ID] = true
+                    CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
+                else
+                    CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
+                end
             end
+        end
+        for nodeID, _ in pairs(tieredNodes) do
+            local grouped = util:TableGroup(results, "nodeID", function(keyValue) return keyValue == nodeID end)
+            for _, group in ipairs(grouped) do
+                UpdateCustomTieredNodeRankField(group)
             end
         end
         return results
@@ -4323,7 +4349,7 @@ if IS_RETAIL then
     ---@param treeID number
     ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
     ---@param callback? fun(success: boolean)
-    local function ApplyLoadout(configID, treeID, loadoutEntryInfos, callback)
+    local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
         globalUniqueApplyLoadoutID = globalUniqueApplyLoadoutID + 1
         local currentUniqueApplyLoadoutID = globalUniqueApplyLoadoutID
 
@@ -4403,19 +4429,6 @@ if IS_RETAIL then
         end
 
         next()
-    end
-
-    ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
-    local function FlattenTierLoadoutEntryInfos(loadoutEntryInfos)
-        local loadoutEntryInfosGrouped = util:TableGroup(loadoutEntryInfos, "nodeID")
-        return util:TableMap(loadoutEntryInfosGrouped, function(loadoutEntryInfosGroup)
-            local first = loadoutEntryInfosGroup[1]
-            for i = 2, #loadoutEntryInfosGroup do
-                local temp = loadoutEntryInfosGroup[i]
-                first.ranksPurchased = first.ranksPurchased + temp.ranksPurchased
-            end
-            return first
-        end)
     end
 
     -- Returns the real config ID of the currently active loadout.
@@ -4652,7 +4665,7 @@ if IS_RETAIL then
     ---@param importString string
     ---@param callback? fun(success: boolean)
     ---@return boolean? accepted, string? errorText
-    function classTalentImportExport:UpdateActiveLoadoutTalents(importString, callback)
+    function classTalentImportExport:EditActiveLoadoutTalents(importString, callback)
         local canChange, _, changeError = C_ClassTalents.CanChangeTalents()
         if not canChange then
             return nil, changeError or "Can't change talents."
@@ -4674,11 +4687,7 @@ if IS_RETAIL then
             return nil, errorText or "Can't import build."
         end
 
-        -- HOTFIX: the tier nodes and the math we perform later on the "ranksPurchased" value won't work, unless we flatten these tier-nodes into one node
-        -- since we just spam click to apply the points on the node, and the tier-node must be clicked to unlock the later ranks, they all share the same nodeID
-        loadoutEntryInfos = FlattenTierLoadoutEntryInfos(loadoutEntryInfos)
-
-        ApplyLoadout(configID, treeID, loadoutEntryInfos, callback)
+        EditLoadout(configID, treeID, loadoutEntryInfos, callback)
         return true
     end
 
@@ -4688,17 +4697,9 @@ if IS_RETAIL then
         if not configID then
             configID = C_ClassTalents.GetActiveConfigID()
         end
-
         if not configID then
             return
         end
-
-        -- if EnsureClassTalentImportExport() then
-        --     ClassTalentImportExport:SetConfigID(configID, true)
-        --     ClassTalentImportExport:UpdateTreeInfo(true)
-        --     return ClassTalentImportExport:GetLoadoutExportString()
-        -- end
-
         return C_Traits.GenerateImportString(configID)
     end
 
