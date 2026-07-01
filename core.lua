@@ -4491,11 +4491,12 @@ if IS_RETAIL then
     end
 
     ---@param loadout LoadoutQuery
+    ---@param forceUpdateIndex? boolean
     ---@return LoadoutExtendedInfo?
-    local function GetLoadoutsExtendedByQuery(loadout)
+    local function GetLoadoutsExtendedByQuery(loadout, forceUpdateIndex)
         local t = type(loadout)
         if t == "table" then
-            if not loadout.index then
+            if not loadout.index or forceUpdateIndex then
                 local index = classTalentImportExport:GetLoadoutIndexByConfigID(loadout.ID)
                 loadout = GetLoadoutsWithIndexConverter(index, loadout)
             end
@@ -4537,9 +4538,10 @@ if IS_RETAIL then
 
     -- Accepts a `loadout object`, `index` or `name`.
     ---@param loadout LoadoutQuery
+    ---@param forceUpdateIndex? boolean
     ---@return LoadoutExtendedInfo?
-    function classTalentImportExport:GetLoadoutInfo(loadout)
-        return GetLoadoutsExtendedByQuery(loadout)
+    function classTalentImportExport:GetLoadoutInfo(loadout, forceUpdateIndex)
+        return GetLoadoutsExtendedByQuery(loadout, forceUpdateIndex)
     end
 
     -- Accepts a `loadout object`, `index` or `name`.
@@ -4552,9 +4554,37 @@ if IS_RETAIL then
         C_Traits.RollbackConfig(info.ID)
         if info.index and info.index > 0 then
             ClassTalentHelper.SwitchToLoadoutByIndex(info.index)
-        else
-            ClassTalentHelper.SwitchToLoadoutByIndex(info.name)
+        elseif info.name then
+            ClassTalentHelper.SwitchToLoadoutByName(info.name)
         end
+    end
+
+    local currentPersistentTicker ---@type FunctionContainer?
+
+    -- Accepts a `loadout object`, `index` or `name`.
+    ---@param loadout LoadoutQuery
+    ---@param maxAttempts? number Defaults to 6 attempts.
+    ---@param timeBetweenAttempts? number Defaults to 0.5 seconds.
+    function classTalentImportExport:PersistentSwitchToLoadout(loadout, maxAttempts, timeBetweenAttempts)
+        local info = classTalentImportExport:GetLoadoutInfo(loadout)
+        if not info then
+            return
+        end
+        maxAttempts = maxAttempts or 6
+        timeBetweenAttempts = timeBetweenAttempts or 0.5
+        if currentPersistentTicker then
+            currentPersistentTicker:Cancel()
+        end
+        currentPersistentTicker = C_Timer.NewTicker(timeBetweenAttempts, function()
+            info = classTalentImportExport:GetLoadoutInfo(loadout, true)
+            if not info or info.ID == classTalentImportExport:GetActiveLoadoutConfigID() then
+                if currentPersistentTicker then
+                    currentPersistentTicker:Cancel()
+                end
+                return
+            end
+            classTalentImportExport:SwitchToLoadout(info)
+        end, maxAttempts)
     end
 
     -- Accepts a `loadout object`, `index` or `name`.
@@ -4587,7 +4617,7 @@ if IS_RETAIL then
     ---@param importString string
     ---@param name string
     ---@param usesSharedActionBars boolean
-    ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
+    ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, commiting: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
     ---@return boolean? accepted, string? errorText
     function classTalentImportExport:CreateLoadout(importString, name, usesSharedActionBars, callback)
         if not callback then
@@ -4638,8 +4668,12 @@ if IS_RETAIL then
                     info.usesSharedActionBars = usesSharedActionBars
                 end
             end
+            local commiting = false
+            if C_Traits.ConfigHasStagedChanges(info.ID) then
+                commiting = C_ClassTalents.CommitConfig(info.ID)
+            end
             local success = nameSuccess and usesSharedActionBarsSuccess
-            callback(info, success, nameSuccess, usesSharedActionBarsSuccess)
+            callback(info, success, commiting, nameSuccess, usesSharedActionBarsSuccess)
         end)
 
         return true
@@ -16496,22 +16530,33 @@ if IS_RETAIL then
 
         end
 
-        local accepted, errorText = classTalentImportExport:CreateLoadout(
-            build.importString,
-            defaultLoadoutName,
-            defaultUsesSharedActionBars,
-            function(info, success)
-                local function switchToLoadout()
-                    classTalentImportExport:SwitchToLoadout(info)
+        local function createLoadout()
+            local accepted, errorText = classTalentImportExport:CreateLoadout(
+                build.importString,
+                defaultLoadoutName,
+                defaultUsesSharedActionBars,
+                function(info, success, commiting)
+                    local function switchToLoadout()
+                        classTalentImportExport:PersistentSwitchToLoadout(info)
+                    end
+                    if not commiting then
+                        switchToLoadout()
+                    else
+                        EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_UPDATED", switchToLoadout)
+                    end
+                    respond(success, not success and "Failed importing the desired build." or nil) -- TODO
                 end
-                switchToLoadout()
-                EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_UPDATED", switchToLoadout)
-                respond(success, not success and "Failed importing the desired build." or nil) -- TODO
-            end
-        )
+            )
 
-        if not accepted then
-            respond(false, errorText)
+            if not accepted then
+                respond(false, errorText)
+            end
+        end
+
+        if not existingLoadout then
+            createLoadout()
+        else
+            EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_DELETED", createLoadout)
         end
     end
 
