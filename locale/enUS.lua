@@ -486,6 +486,7 @@ L.MINIMAP_SHORTCUT_BROKER_ENABLE_DESC = "Enable to display the icon inside the a
 L.MINIMAP_SHORTCUT_MINIMAP_ENABLE = "Enable minimap button"
 L.MINIMAP_SHORTCUT_MINIMAP_ENABLE_DESC = "Enable to display the icon around the minimap."
 L.MINIMAP_SHORTCUT_MINIMAP_LOCK = "Lock minimap button"
+L.BUILDS_TITLE_FULL = "Raider.IO Talent Builds"
 L.BUILDS_TITLE = "Talent Builds"
 L.BUILDS_SELECT_INSTANCE = "Select instance..."
 L.BUILDS_SELECT_DIFFICULTY = "Difficulty"

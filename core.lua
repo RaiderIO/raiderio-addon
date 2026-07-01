@@ -15258,7 +15258,7 @@ if IS_RETAIL then
     end
 
     -- The first key is the `Encounter ID`, the value is either `Journal Encounter ID`.
-    ---@type table<number, number>
+    ---@type table<number, number?>
     local encounterIDToJournalEncounterID = {}
 
     for encounterIDString, journalEncounterID in pairs(talentBuilds.routes.encounterJournalIds) do
@@ -15313,6 +15313,14 @@ if IS_RETAIL then
         end
     end
 
+    -- TODO: Manually updated by label searching for the phrase in the `Difficulty` db, then adding all the `ID`'s in this table.
+    ---@type table<string, number[]?>
+    local difficultyTextToDifficultyIDs = {
+        ["normal"] = { 1, 12, 14, 38, 147, 150 },
+        ["heroic"] = { 2, 5, 6, 11, 15, 39, 149, 230 },
+        ["mythic"] = { 8, 16, 23, 40, 233 },
+    }
+
     ---@class TalentBuildsDataProviderBuildButton : Button, BackdropTemplate
 
     ---@alias TalentBuildsDataProviderBuildElementData TalentBuildsCompiledProfileBuild
@@ -15337,9 +15345,13 @@ if IS_RETAIL then
     ---@field public isRecommended boolean
     ---@field public dungeonID? "all"|number @If for dungeon, contains "all" or the dungeon ID.
     ---@field public dungeonBracket? string @If for dungeon, contains the keystone bracket text.
+    ---@field public dungeon? Dungeon @If for dungeon, a reference to the dungeon.
     ---@field public raidID? number @If for raid, contains the raid ID.
+    ---@field public raid? DungeonRaid @If for raid, a reference to the raid.
     ---@field public encounterID? "all"|number @If for raid, contains "all" or the encounter ID.
-    ---@field public encounterDiff? string|"mythic"|"heroic"|"normal" @if for raid, contains the encounter difficulty text.
+    ---@field public encounterJournalID? number @If for raid, the encounter journal equivalent ID.
+    ---@field public encounterDiff? string|"mythic"|"heroic"|"normal" @If for raid, contains the encounter difficulty text.
+    ---@field public encounterDifficultyID? number[] @If for raid, the encounter journal equivalent ID's. (This is a table until we store the exact number.)
 
     ---@type TalentBuildsCompiledProfile?
     local compiledPlayerProfile
@@ -15389,27 +15401,35 @@ if IS_RETAIL then
                         prefixImportString = specData.prefix,
                         suffixImportString = specData.builds[buildIndex],
                         importString = format("%s%s", specData.prefix, specData.builds[buildIndex]),
+                        buildPopText = "",
+                        scoreText = "",
                         isRecommended = isRecommended,
                         score = score,
                         dungeonID = nil,
                         dungeonBracket = nil,
+                        dungeon = nil,
                         raidID = nil,
+                        raid = nil,
                         encounterID = nil,
+                        encounterJournalID = nil,
                         encounterDiff = nil,
-                        buildPopText = "",
-                        scoreText = "",
+                        encounterDifficultyID = nil,
                     }
                     if buildType == "raid" then
-                        build.raidID = instanceID
-                        build.encounterID = encounterID
-                        build.encounterDiff = difficultyKey
                         build.buildPopText = util:FormatTimeFromMs(score)
                         build.scoreText = util:StringUpperCaseFirstLetterLowerCaseRest(difficultyKey)
+                        build.raidID = instanceID
+                        build.raid = util:GetRaidByID(instanceID)
+                        build.encounterID = encounterID
+                        build.encounterJournalID = encounterIDToJournalEncounterID[encounterID]
+                        build.encounterDiff = difficultyKey
+                        build.encounterDifficultyID = difficultyTextToDifficultyIDs[difficultyKey]
                     elseif buildType == "dungeon" then
-                        build.dungeonID = instanceID
-                        build.dungeonBracket = difficultyKey
                         build.buildPopText = format("%.0f%%", buildRuns/heroCount*100)
                         build.scoreText = format("+%d", score)
+                        build.dungeonID = instanceID
+                        build.dungeonBracket = difficultyKey
+                        build.dungeon = util:GetDungeonByID(instanceID)
                     end
                     profile.builds[#profile.builds + 1] = build
                 end
@@ -15520,9 +15540,24 @@ if IS_RETAIL then
         return heroCount
     end)
 
+    ---@class TalentBuildsMenuOption : DropDownUtilDynamicMenuOption
+    ---@field public text string
+
+    ---@class TalentBuildsMenuOptionForInstance : TalentBuildsMenuOption
+    ---@field public radiogroup? "instance"
+    ---@field public arg1? "raid"|"dungeon" instanceType
+    ---@field public arg2? "all"|number instanceID
+    ---@field public arg3? "all"|number encounterID
+
+    ---@class TalentBuildsMenuOptionForDifficulty : TalentBuildsMenuOption
+    ---@field public radiogroup "raid"|"dungeon"
+    ---@field public arg1? "all"|TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey difficultyText
+    ---@field public arg2? number[] difficultyIDs
+    ---@field public arg3? nil
+
     -- the current selection of instance and difficulty
-    local currentInstance ---@type DropDownUtilDynamicMenuOption?
-    local currentDifficulty ---@type DropDownUtilDynamicMenuOption?
+    local currentInstance ---@type TalentBuildsMenuOptionForInstance?
+    local currentDifficulty ---@type TalentBuildsMenuOptionForDifficulty?
 
     local function updateDataProvider()
         dataProvider:Flush()
@@ -15531,10 +15566,10 @@ if IS_RETAIL then
             return
         end
 
-        local instanceType = currentInstance.arg1 ---@type "raid"|"dungeon"
-        local instanceID = currentInstance.arg2 ---@type "all"|number
-        local encounterID = currentInstance.arg3 ---@type "all"|number
-        local difficulty = currentDifficulty.arg1 ---@type "all"|string
+        local instanceType = currentInstance.arg1
+        local instanceID = currentInstance.arg2
+        local encounterID = currentInstance.arg3
+        local difficulty = currentDifficulty.arg1
 
         local relevantBuilds = util:TableFilter(
             compiledPlayerProfile.builds,
@@ -15573,8 +15608,8 @@ if IS_RETAIL then
         updatingMenus = false
         local prevInstance = currentInstance
         local prevDifficulty = currentDifficulty
-        currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption()
-        currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption()
+        currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance
+        currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty
         if currentInstance and currentDifficulty and (prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty) then
             updateDataProvider()
         end
@@ -15585,7 +15620,7 @@ if IS_RETAIL then
         return format(L.BUILDS_PROFILE_HERO_FORMAT, build.popPctl * 100, FormatLargeNumber(build.heroCount))
     end
 
-    local starSymbolTextureMarkup = ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup")
+    local starSymbolTextureMarkup = ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup") ---@type string
 
     ---@param build TalentBuildsCompiledProfileBuild
     local function getBuildTitleText(build)
@@ -15621,6 +15656,7 @@ if IS_RETAIL then
         else
             button.ActionMenuToggle.Icon:SetVertexColor(1, 1, 1)
         end
+        button:OnButtonUpdate()
     end
 
     local buildsButtonHeight = 50
@@ -15638,6 +15674,11 @@ if IS_RETAIL then
         edgeSize = 1,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     }
+
+    -- Called when the build button updates/refreshes its visual state.
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnButtonUpdate(self)
+    end
 
     ---@param self TalentBuildsDataProviderBuildButton
     local function buildsButtonSetBackdropFocus(self)
@@ -15704,6 +15745,7 @@ if IS_RETAIL then
         end
 
         button.isInit = true
+        button.OnButtonUpdate = buildsButtonOnButtonUpdate
         button:SetHeight(buildsButtonHeight)
 
         Mixin(button, BackdropTemplateMixin)
@@ -15859,7 +15901,7 @@ if IS_RETAIL then
         self:SetPoint("CENTER", 0, 0)
         self:SetFrameStrata("HIGH")
 
-        self:SetTitle(format("%s %s", L.RAIDERIO, L.BUILDS_TITLE))
+        self:SetTitle(L.BUILDS_TITLE_FULL)
         ButtonFrameTemplate_HidePortrait(self)
 
         self:RegisterForDrag("LeftButton")
@@ -15871,7 +15913,7 @@ if IS_RETAIL then
         self.ResizeButton:SetPoint("BOTTOMRIGHT", -4, 4)
         self.ResizeButton:Init(self, frameWidth, frameHeight, frameWidth, frameHeight*2)
 
-        ---@type DropDownUtilDynamicMenuOption[]
+        ---@type TalentBuildsMenuOptionForInstance[]
         local instanceOptions = {
             {
                 text = L.BUILDS_RAIDS,
@@ -15892,8 +15934,13 @@ if IS_RETAIL then
             if encounters then
                 for _, encounterID in ipairs(encounters) do
                     local journalEncounterID = encounterIDToJournalEncounterID[encounterID]
-                    local name = EJ_GetEncounterInfo(journalEncounterID)
-                    local _, _, _, _, icon = EJ_GetCreatureInfo(1, journalEncounterID)
+                    local _, name, icon ---@type _, string?, number?
+                    if journalEncounterID then
+                        name = EJ_GetEncounterInfo(journalEncounterID)
+                        _, _, _, _, icon = EJ_GetCreatureInfo(1, journalEncounterID)
+                    else
+                        name = tostring(encounterID)
+                    end
                     instanceOptions[#instanceOptions + 1] = {
                         text = icon and format("|T%s:16:32|t%s", icon, name) or name,
                         radiogroup = "instance",
@@ -15915,6 +15962,7 @@ if IS_RETAIL then
             radiogroup = "instance",
             arg1 = "dungeon",
             arg2 = "all",
+            arg3 = nil,
         }
 
         for _, dungeon in ipairs(relevantDungeons) do
@@ -15926,6 +15974,7 @@ if IS_RETAIL then
                 radiogroup = "instance",
                 arg1 = "dungeon",
                 arg2 = dungeon.id,
+                arg3 = nil,
             }
         end
 
@@ -15935,8 +15984,9 @@ if IS_RETAIL then
         self.InstanceMenu:SetPoint("LEFT", self.TopTileStreaks, "LEFT", 10, 0)
         self.InstanceMenu:RegisterCallback(self.InstanceMenu.Event.OnUpdate, updateDifficultyMenuAndDataProvider, self.InstanceMenu)
 
+        ---@return TalentBuildsMenuOptionForInstance?
         local function getSelectedInstance()
-            return self.InstanceMenu:DynamicMenuCollectSelectionOptions()[1]
+            return self.InstanceMenu:DynamicMenuCollectSelectionOptions()[1] ---@type TalentBuildsMenuOptionForInstance?
         end
 
         local function isSelectedInstanceRaid()
@@ -15949,7 +15999,7 @@ if IS_RETAIL then
             return selectedInstance and selectedInstance.arg1 == "dungeon" and true or false
         end
 
-        ---@type DropDownUtilDynamicMenuOption[]
+        ---@type TalentBuildsMenuOptionForDifficulty[]
         local difficultyOptions = {}
 
         local isFirstDefaultRadioSelected = false
@@ -15959,6 +16009,8 @@ if IS_RETAIL then
                 show = isSelectedInstanceRaid,
                 radiogroup = "raid",
                 arg1 = difficulty.key,
+                arg2 = difficultyTextToDifficultyIDs[difficulty.key],
+                arg3 = nil,
             }
             if not isFirstDefaultRadioSelected then
                 isFirstDefaultRadioSelected = true
@@ -15973,6 +16025,8 @@ if IS_RETAIL then
                 show = isSelectedInstanceDungeon,
                 radiogroup = "dungeon",
                 arg1 = bracket.key,
+                arg2 = nil,
+                arg3 = nil,
             }
             if not isFirstDefaultRadioSelected then
                 isFirstDefaultRadioSelected = true
@@ -16056,12 +16110,16 @@ if IS_RETAIL then
     end
 
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ShowFrame(instanceMenuSelection)
+    ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
         if not frame then
             frame = getFrame()
         end
         if instanceMenuSelection then
             frame.InstanceMenu:DynamicMenuSelectOption(instanceMenuSelection)
+        end
+        if difficultyMenuSelection then
+            frame.DifficultyMenu:DynamicMenuSelectOption(difficultyMenuSelection)
         end
         frame:Show()
     end
@@ -16073,11 +16131,12 @@ if IS_RETAIL then
     end
 
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ToggleFrame(instanceMenuSelection)
+    ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection)
         if self:IsFrameShown() then
             self:HideFrame()
         else
-            self:ShowFrame(instanceMenuSelection)
+            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
         end
     end
 
@@ -16098,12 +16157,14 @@ if IS_RETAIL then
             if encounters then
                 for _, encounterID in ipairs(encounters) do
                     local _journalEncounterID = encounterIDToJournalEncounterID[encounterID]
-                    if _journalEncounterID == journalEncounterID then
-                        return true
-                    end
-                    local _, _, _, _, _, _journalInstanceID = EJ_GetEncounterInfo(_journalEncounterID)
-                    if _journalInstanceID == journalInstanceID then
-                        return true
+                    if _journalEncounterID then
+                        if _journalEncounterID == journalEncounterID then
+                            return true
+                        end
+                        local _, _, _, _, _, _journalInstanceID = EJ_GetEncounterInfo(_journalEncounterID)
+                        if _journalInstanceID == journalInstanceID then
+                            return true
+                        end
                     end
                 end
             end
@@ -16132,27 +16193,29 @@ if IS_RETAIL then
             _, _, _, _, _, _, _, _, _, mapID, _, isRaid = EJ_GetInstanceInfo(journalInstanceID)
         end
         talentbuilds:ToggleFrame(
+            ---@param option TalentBuildsMenuOptionForInstance
             function(option)
-                if isRaid == true and option.arg1 == "raid" then
-                    local raidID = option.arg2 ---@type "all"|number
-                    local encounterID = option.arg3 ---@type "all"|number
-                    local _journalEncounterID = encounterIDToJournalEncounterID[encounterID] ---@type number?
-                    if not journalEncounterID and raidID == "all" then
+                local instanceType = option.arg1
+                if isRaid == true and instanceType == "raid" then
+                    local instanceID = option.arg2
+                    local encounterID = option.arg3
+                    local _journalEncounterID = encounterIDToJournalEncounterID[encounterID]
+                    if not journalEncounterID and instanceID == "all" then
                         return true
                     end
                     if _journalEncounterID and _journalEncounterID == journalEncounterID then
                         return true
                     end
                     return false
-                elseif isRaid == false and option.arg1 == "dungeon" then
-                    local dungeonID = option.arg2 ---@type "all"|number
-                    if not journalEncounterID and dungeonID == "all" then
+                elseif isRaid == false and instanceType == "dungeon" then
+                    local instanceID = option.arg2
+                    if not journalEncounterID and instanceID == "all" then
                         return true
                     end
-                    if dungeonID == "all" or not mapID then
+                    if instanceID == "all" or not mapID then
                         return false
                     end
-                    local dungeon = util:GetDungeonByID(dungeonID)
+                    local dungeon = util:GetDungeonByID(instanceID)
                     if not dungeon then
                         return false
                     end
@@ -16161,6 +16224,17 @@ if IS_RETAIL then
                     end
                     return false
                 end
+            end,
+            ---@param option TalentBuildsMenuOptionForDifficulty
+            function(option)
+                if not journalDifficultyID then
+                    return false
+                end
+                local difficultyIDs = option.arg2
+                if not difficultyIDs then
+                    return false
+                end
+                return util:TableContains(difficultyIDs, journalDifficultyID)
             end
         )
     end
@@ -16309,52 +16383,54 @@ if IS_RETAIL then
     end
 
     local shortcutInit = false
-    local shortcutTalentFrameButton ---@type Button?
-    local shortcutEncounterJournalButton ---@type Button?
+    local shortcutTalentFrameButton ---@type UIPanelButtonTemplatePolyfill?
+    local shortcutEncounterJournalButton ---@type UIPanelButtonTemplatePolyfill?
 
     local function shortcutsInitialize()
         if shortcutInit then
             return
         end
         shortcutInit = true
-        local buttonSize = 20
-        local tooltipText = format("%s %s", L.RAIDERIO, L.BUILDS_TITLE)
-        ---@param self Button
-        local function showTooltip(self)
-            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 20, 0)
-            GameTooltip:AddLine(tooltipText, 1, 1, 1, true)
-            GameTooltip:Show()
+        local buttonWidth, buttonHeight = 160, 25
+        local buttonIconMarkup = ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup", 16, 16) ---@type string
+        local buttonText = format("%s %s", buttonIconMarkup, L.BUILDS_TITLE_FULL)
+        local buttonTextPadding = 10
+        ---@param name string
+        ---@param parent Frame
+        local function createButton(name, parent)
+            local button = CreateFrame("Button", format("%s_TalentBuilds%sShortcut", addonName, name), parent, "UIPanelButtonTemplate") ---@type UIPanelButtonTemplatePolyfill
+            button:SetSize(buttonWidth, buttonHeight)
+            button:SetText(buttonText)
+            local width = max(buttonWidth, button:GetTextWidth() + buttonTextPadding * 2)
+            local height = max(buttonHeight, button:GetTextHeight() + buttonTextPadding)
+            button:SetSize(width, height)
+            button:EnableMouse(true)
+            button:RegisterForClicks("LeftButtonUp")
+            button:SetScript("OnClick", function() talentbuilds:ToggleFrame() end)
+            button.Left:SetDesaturated(true)
+            button.Middle:SetDesaturated(true)
+            button.Right:SetDesaturated(true)
+            button:GetHighlightTexture():SetDesaturated(true)
+            button:GetFontString():SetTextColor(1, 1, 1)
+            return button
         end
         EventUtil.ContinueOnAddOnLoaded("Blizzard_PlayerSpells", function()
             local loadoutDropdown = PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame and PlayerSpellsFrame.TalentsFrame.LoadSystem and PlayerSpellsFrame.TalentsFrame.LoadSystem.Dropdown ---@type Button?
             if not loadoutDropdown then
                 return
             end
-            shortcutTalentFrameButton = CreateFrame("Button", format("%s_TalentBuildsTalentFrameShortcut", addonName), loadoutDropdown, "SquareIconButtonTemplate")
-            shortcutTalentFrameButton:SetPoint("RIGHT", loadoutDropdown, "LEFT", -8, 0)
-            shortcutTalentFrameButton:SetSize(buttonSize, buttonSize)
-            util:SetButtonTextureFromIcon(shortcutTalentFrameButton, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE)
-            shortcutTalentFrameButton:EnableMouse(true)
-            shortcutTalentFrameButton:RegisterForClicks("LeftButtonUp")
-            shortcutTalentFrameButton:SetScript("OnEnter", showTooltip)
-            shortcutTalentFrameButton:SetScript("OnLeave", GameTooltip_Hide)
-            shortcutTalentFrameButton:SetScript("OnClick", function()
-                talentbuilds:ToggleFrame()
-            end)
+            shortcutTalentFrameButton = createButton("TalentFrame", loadoutDropdown)
+            shortcutTalentFrameButton:SetPoint("BOTTOMLEFT", loadoutDropdown, "TOPLEFT", 0, 16)
+            shortcutTalentFrameButton:SetScale(0.9)
         end)
         EventUtil.ContinueOnAddOnLoaded("Blizzard_EncounterJournal", function()
             local difficultyDropdown = EncounterJournalEncounterFrameInfoDifficulty ---@type Button?
             if not difficultyDropdown then
                 return
             end
-            shortcutEncounterJournalButton = CreateFrame("Button", format("%s_TalentBuildsEncounterJournalShortcut", addonName), difficultyDropdown, "SquareIconButtonTemplate")
-            shortcutEncounterJournalButton:SetPoint("LEFT", difficultyDropdown, "RIGHT", 2, 0)
-            shortcutEncounterJournalButton:SetSize(buttonSize, buttonSize)
-            util:SetButtonTextureFromIcon(shortcutEncounterJournalButton, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE)
-            shortcutEncounterJournalButton:EnableMouse(true)
-            shortcutEncounterJournalButton:RegisterForClicks("LeftButtonUp")
-            shortcutEncounterJournalButton:SetScript("OnEnter", showTooltip)
-            shortcutEncounterJournalButton:SetScript("OnLeave", GameTooltip_Hide)
+            shortcutEncounterJournalButton = createButton("EncounterJournal", difficultyDropdown)
+            shortcutEncounterJournalButton:SetPoint("BOTTOMRIGHT", difficultyDropdown, "TOPRIGHT", 0, 1)
+            shortcutEncounterJournalButton:SetScale(0.9)
             ---@return number?, number?, number?
             local function getJournalInfo()
                 return EncounterJournal and EncounterJournal.instanceID, EncounterJournal and EncounterJournal.encounterID, EJ_GetDifficulty()
@@ -17917,7 +17993,7 @@ do
         panel.name = addonName
         panel:Hide()
 
-        local button = CreateFrame("Button", "$parentButton", panel, "UIPanelButtonTemplate")
+        local button = CreateFrame("Button", "$parentButton", panel, "UIPanelButtonTemplate") ---@type UIPanelButtonTemplatePolyfill
         button:SetText(L.OPEN_CONFIG)
         button:SetWidth(button:GetTextWidth() + 18)
         button:SetPoint("TOPLEFT", 16, -16)
