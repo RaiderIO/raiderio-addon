@@ -4021,7 +4021,7 @@ if IS_RETAIL then
     ---@field public isNodeSelected boolean
     ---@field public isNodeGranted boolean
     ---@field public isPartiallyRanked boolean
-    ---@field public partialRanksPurchased boolean
+    ---@field public partialRanksPurchased number
     ---@field public isChoiceNode boolean
     ---@field public choiceNodeSelection number
 
@@ -4031,45 +4031,248 @@ if IS_RETAIL then
     ---@field public ranksPurchased number
     ---@field public selectionEntryID number
 
-    ---@class TalentFrameBaseMixinPolyfill
-    ---@field public SetConfigID fun(self: TalentFrameBaseMixinPolyfill, configID: number, forceUpdate?: boolean)
-    ---@field public GetConfigID fun(self: TalentFrameBaseMixinPolyfill): number
-    ---@field public SetTalentTreeID fun(self: TalentFrameBaseMixinPolyfill, talentTreeID: number, forceUpdate?: boolean): success: boolean
-    ---@field public GetTreeInfo fun(self: TalentFrameBaseMixinPolyfill)
-    ---@field public UpdateTreeInfo fun(self: TalentFrameBaseMixinPolyfill, skipButtonUpdates?: boolean)
+    local bitWidthHeaderVersion = 8
+    local bitWidthSpecID = 16
+    local bitWidthRanksPurchased = 6
 
-    ---@class ClassTalentImportExportMixinPolyfill
-    ---@field public bitWidthHeaderVersion 8
-    ---@field public bitWidthSpecID 16
-    ---@field public bitWidthRanksPurchased 6
-    ---@field public ReadLoadoutHeader fun(self: ClassTalentImportExportMixinPolyfill, importStream: ImportDataStreamPolyfill): headerValid: boolean, serializationVersion: string, specID: number, treeHash: string
-    ---@field public ReadLoadoutContent fun(self: ClassTalentImportExportMixinPolyfill, importStream: ImportDataStreamPolyfill, treeID: number): loadoutContent: LoadoutContentPolyfill[]
-    ---@field public ConvertToImportLoadoutEntryInfo fun(self: ClassTalentImportExportMixinPolyfill, configID: number, treeID: number, loadoutContent: LoadoutContentPolyfill[]): loadoutEntryInfos: ImportLoadoutEntryInfoPolyfill[]
-    ---@field public ImportLoadout fun(self: ClassTalentImportExportMixinPolyfill, importText: string, loadoutName: string): success: boolean Import a loadout string to a new loadout name.
-    ---@field public GetLoadoutExportString fun(self: ClassTalentImportExportMixinPolyfill): importString: string Export the current active loadout to a import string.
-
-    ---@class ClassTalentImportExport : TalentFrameBaseMixinPolyfill, ClassTalentImportExportMixinPolyfill, Frame
-    ---@field public excludeStagedChangesForCurrencies boolean
-    ---@field public OnLoad fun(self: ClassTalentImportExport)
-
-    -- It's important to call and handle the success flag from `EnsureClassTalentImportExport` before using this variable.
-    -- We don't wish to initialize it before needing to use it, and we only need to use it to import or export a talent loadout.
-    ---@type ClassTalentImportExport
-    local ClassTalentImportExport
-
-    ---@return boolean success
-    local function EnsureClassTalentImportExport()
-        if ClassTalentImportExport then
-            return true
+    ---@param importStream ImportDataStreamPolyfill
+    ---@return boolean headerValid, number serializationVersion, number specID, number[] treeHash
+    local function ReadLoadoutHeader(importStream)
+        local headerBitWidth = bitWidthHeaderVersion + bitWidthSpecID + 128
+        local importStreamTotalBits = importStream:GetNumberOfBits()
+        local treeHash = {} ---@type number[]
+        if importStreamTotalBits < headerBitWidth then
+            return false, 0, 0, treeHash
         end
-        C_AddOns.LoadAddOn("Blizzard_PlayerSpells")
-        if TalentFrameBaseMixin and ClassTalentImportExportMixin then
-            ClassTalentImportExport = Mixin(CreateFrame("Frame", nil, nil, "TalentFrameBaseTemplate"), ClassTalentImportExportMixin) ---@class ClassTalentImportExport
-            ClassTalentImportExport:Hide()
-            local function noop() end
-            ClassTalentImportExport.OnTraitConfigCreateStarted = noop
+        local serializationVersion = importStream:ExtractValue(bitWidthHeaderVersion)
+        local specID = importStream:ExtractValue(bitWidthSpecID)
+        for i = 1, 16 do
+            treeHash[i] = importStream:ExtractValue(8)
         end
-        return ClassTalentImportExport and true or false
+        return true, serializationVersion, specID, treeHash
+    end
+
+    ---@param importStream ImportDataStreamPolyfill
+    ---@param treeID number
+    ---@return LoadoutContentPolyfill[] loadoutContent
+    local function ReadLoadoutContent(importStream, treeID)
+        local results = {} ---@type LoadoutContentPolyfill[]
+        local treeNodes = C_Traits.GetTreeNodes(treeID)
+        for i, _ in ipairs(treeNodes) do
+            local nodeSelectedValue = importStream:ExtractValue(1)
+            local isNodeSelected =  nodeSelectedValue == 1
+            local isNodePurchased = false
+            local isPartiallyRanked = false
+            local partialRanksPurchased = 0
+            local isChoiceNode = false
+            local choiceNodeSelection = 0
+            if isNodeSelected then
+                local nodePurchasedValue = importStream:ExtractValue(1)
+                isNodePurchased = nodePurchasedValue == 1
+                if isNodePurchased then
+                    local isPartiallyRankedValue = importStream:ExtractValue(1)
+                    isPartiallyRanked = isPartiallyRankedValue == 1
+                    if isPartiallyRanked then
+                        partialRanksPurchased = importStream:ExtractValue(bitWidthRanksPurchased)
+                    end
+                    local isChoiceNodeValue = importStream:ExtractValue(1)
+                    isChoiceNode = isChoiceNodeValue == 1
+                    if isChoiceNode then
+                        choiceNodeSelection = importStream:ExtractValue(2)
+                    end
+                end
+            end
+            ---@type LoadoutContentPolyfill
+            local result = {
+                isNodeSelected = isNodeSelected,
+                isNodeGranted = isNodeSelected and not isNodePurchased,
+                isPartiallyRanked = isPartiallyRanked,
+                partialRanksPurchased = partialRanksPurchased,
+                isChoiceNode = isChoiceNode,
+                choiceNodeSelection = choiceNodeSelection + 1,
+            }
+            results[i] = result
+        end
+        return results
+    end
+
+    ---@param results ImportLoadoutEntryInfoPolyfill[]
+    ---@param configID number
+    ---@param treeNodeInfo TraitNodeInfo
+    ---@param indexInfo LoadoutContentPolyfill
+    local function CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
+        if not treeNodeInfo or not indexInfo then
+            return
+        end
+        if not indexInfo.isNodeSelected then
+            return
+        end
+        local totalRanksPurchased = 0
+        if not indexInfo.isNodeGranted then
+            totalRanksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
+        end
+        local remainingRanks = totalRanksPurchased
+        local i = #results
+        for index, entryID in ipairs(treeNodeInfo.entryIDs) do
+            local entryInfo = C_Traits.GetEntryInfo(configID, entryID)
+            if entryInfo then
+                local ranksForThisEntry = min(remainingRanks, entryInfo.maxRanks)
+                local isGranted = indexInfo.isNodeGranted and index == 1
+                local hasAnyRanksInThisEntry = isGranted or ranksForThisEntry > 0
+                if hasAnyRanksInThisEntry then
+                    ---@type ImportLoadoutEntryInfoPolyfill
+                    local result = {
+                        nodeID = treeNodeInfo.ID,
+                        ranksGranted = isGranted and 1 or 0,
+                        ranksPurchased = ranksForThisEntry,
+                        selectionEntryID = entryID,
+                    }
+                    i = i + 1
+                    results[i] = result
+                end
+                remainingRanks = remainingRanks - ranksForThisEntry
+            end
+        end
+    end
+
+    ---@param results ImportLoadoutEntryInfoPolyfill[]
+    ---@param configID number
+    ---@param treeNodeInfo TraitNodeInfo
+    ---@param indexInfo LoadoutContentPolyfill
+    local function CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
+        if not treeNodeInfo or not indexInfo then
+            return
+        end
+        if not indexInfo.isNodeSelected then
+            return
+        end
+        ---@type ImportLoadoutEntryInfoPolyfill
+        local result = {
+            nodeID = treeNodeInfo.ID,
+            ranksGranted = indexInfo.isNodeGranted and 1 or 0,
+            ranksPurchased = 0,
+            selectionEntryID = nil,
+        }
+        if indexInfo.isNodeSelected and not indexInfo.isNodeGranted then
+            result.ranksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
+        end
+        if indexInfo.isChoiceNode and indexInfo.choiceNodeSelection then
+            result.selectionEntryID = treeNodeInfo.entryIDs[indexInfo.choiceNodeSelection]
+        elseif treeNodeInfo.activeEntry then
+            result.selectionEntryID = treeNodeInfo.activeEntry.entryID
+        end
+        if not result.selectionEntryID then
+            result.selectionEntryID = treeNodeInfo.entryIDs[1]
+        end
+        if result.selectionEntryID ~= nil then
+            table.insert(results, result)
+        end
+    end
+
+    ---@param configID number
+    ---@param treeID number
+    ---@param loadoutContent LoadoutContentPolyfill[]
+    ---@return ImportLoadoutEntryInfoPolyfill[] loadoutEntryInfos
+    local function ConvertToImportLoadoutEntryInfo(configID, treeID, loadoutContent)
+        local results = {} ---@type ImportLoadoutEntryInfoPolyfill[]
+        local treeNodes = C_Traits.GetTreeNodes(treeID)
+        for index, treeNodeID in ipairs(treeNodes) do
+            local indexInfo = loadoutContent[index]
+            local treeNodeInfo = C_Traits.GetNodeInfo(configID, treeNodeID)
+            if treeNodeInfo then
+            if treeNodeInfo.type == Enum.TraitNodeType.Tiered then
+                CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
+            else
+                CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
+            end
+            end
+        end
+        return results
+    end
+
+    ---@param importString string
+    ---@return ImportDataStreamPolyfill? importStream
+    local function MakeImportDataStream(importString)
+        ---@type boolean, ImportDataStreamPolyfill?
+        local success, importStream = pcall(ExportUtil.MakeImportDataStream, importString)
+        if not success or not importStream then
+            return
+        end
+        return importStream
+    end
+
+    ---@param treeHash number[]
+    ---@return boolean isEmpty
+    local function IsHashEmpty(treeHash)
+        for _, value in ipairs(treeHash) do
+            if value ~= 0 then
+                return false
+            end
+        end
+        return true
+    end
+
+    ---@param leftHashTree number[]
+    ---@param rightHashTree number[]
+    ---@return boolean areEqual
+    local function HashEquals(leftHashTree, rightHashTree)
+        if #leftHashTree ~= #rightHashTree then
+            return false
+        end
+        for i, _ in ipairs(leftHashTree) do
+            if leftHashTree[i] ~= rightHashTree[i] then
+                return false
+            end
+        end
+        return true
+    end
+
+    ---@param importString string
+    ---@param loadoutName string
+    ---@param configID number
+    ---@param treeID number
+    ---@return boolean success, string? errorText
+    local function ImportLoadout(importString, loadoutName, configID, treeID)
+        if not loadoutName or loadoutName == "" then
+            return false, "Loadout must have a name."
+        end
+
+        local importStream = MakeImportDataStream(importString)
+        if not importStream then
+            return false, "Unable to unpack import string."
+        end
+
+        local headerValid, serializationVersion, specID, treeHash = ReadLoadoutHeader(importStream)
+        if not headerValid then
+            return false, "Invalid import string."
+        end
+
+        local currentSerializationVersion = C_Traits.GetLoadoutSerializationVersion()
+        if serializationVersion ~= currentSerializationVersion then
+            return false, "Outdated import string. Incompatible with current version."
+        end
+
+        if specID ~= util:GetSpecialization() then
+            local _, name, _, _, _, _, className = GetSpecializationInfoByID(specID)
+            local errorText = "Loadout is for a different specialization"
+            return false, name and className and format("%s: %s %s.", errorText, name, className) or format("%s.", errorText)
+        end
+
+        local treeInfo = C_Traits.GetTreeInfo(configID, treeID)
+        if not IsHashEmpty(treeHash) then
+            if not HashEquals(treeHash, C_Traits.GetTreeHash(treeInfo.ID)) then
+                return false, "Outdated import string. Hash missmatch."
+            end
+        end
+
+        local loadoutContent = ReadLoadoutContent(importStream, treeInfo.ID)
+        local loadoutEntryInfo = ConvertToImportLoadoutEntryInfo(configID, treeInfo.ID, loadoutContent)
+        local success, errorString = C_ClassTalents.ImportLoadout(configID, loadoutEntryInfo, loadoutName, importString)
+        if not success then
+            return false, errorString or "Failed to import loadout."
+        end
+
+        return true
     end
 
     ---@param importString string
@@ -4091,17 +4294,12 @@ if IS_RETAIL then
             return nil, "Missing active config ID."
         end
 
-        ---@type boolean, ImportDataStreamPolyfill?
-        local success, importStream = pcall(ExportUtil.MakeImportDataStream, importString)
-        if not success or not importStream then
+        local importStream = MakeImportDataStream(importString)
+        if not importStream then
             return nil, "Unable to unpack import string."
         end
 
-        if not EnsureClassTalentImportExport() then
-            return nil, "Unable to load ClassTalentImportExportMixin."
-        end
-
-        local headerValid, serializationVersion, specID, treeHash = ClassTalentImportExport:ReadLoadoutHeader(importStream)
+        local headerValid, serializationVersion, specID, treeHash = ReadLoadoutHeader(importStream)
         if not headerValid then
             return nil, "Invalid import string."
         end
@@ -4114,8 +4312,8 @@ if IS_RETAIL then
             return nil, format("Invalid active spec ID. Found %s but expected %s.", tostringall(specID, expectedSpecID))
         end
 
-        local loadoutContent = ClassTalentImportExport:ReadLoadoutContent(importStream, treeID)
-        return ClassTalentImportExport:ConvertToImportLoadoutEntryInfo(activeConfigID, treeID, loadoutContent)
+        local loadoutContent = ReadLoadoutContent(importStream, treeID)
+        return ConvertToImportLoadoutEntryInfo(activeConfigID, treeID, loadoutContent)
     end
 
     local globalUniqueApplyLoadoutID = 0
@@ -4383,10 +4581,6 @@ if IS_RETAIL then
             return nil, "Missing required callback."
         end
 
-        if importString and not EnsureClassTalentImportExport() then
-            return nil, "Unable to load ClassTalentImportExportMixin."
-        end
-
         if not C_ClassTalents.CanCreateNewConfig() then
             return false, "Unable to create a new loadout."
         end
@@ -4409,11 +4603,7 @@ if IS_RETAIL then
             return nil, "Missing tree ID."
         end
 
-        ClassTalentImportExport:SetConfigID(configID, true)
-        ClassTalentImportExport:SetTalentTreeID(treeID, true)
-        ClassTalentImportExport:UpdateTreeInfo(true)
-
-        local success = ClassTalentImportExport:ImportLoadout(importString, name)
+        local success = ImportLoadout(importString, name, configID, treeID)
         if not success then
             return false, "Unable to import loadout."
         end
