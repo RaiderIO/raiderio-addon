@@ -19,9 +19,13 @@ local ScrollBoxUtil do
 
     ScrollBoxUtil = {}
 
+    ---@class CallbackRegistryHandle
+    ---@field public Unregister fun()|fun(self: CallbackRegistryHandle)
+
     ---@class CallbackRegistryMixin
     ---@field public Event table<string, string>
     ---@field public RegisterCallback fun(self: CallbackRegistryMixin, event: string|any, callback: fun())
+    ---@field public RegisterFrameEventAndCallbackWithHandle fun(self: CallbackRegistryMixin, event: WowEvent): CallbackRegistryHandle
 
     ---@class ScrollBoxBaseMixin : CallbackRegistryMixin, Frame
     ---@field public GetFrames fun(): Frame[]
@@ -938,9 +942,21 @@ do
     ---@field public PLAYER_REALM string @The realm of the player character
     ---@field public PLAYER_REALM_SLUG string @The realm slug of the player character
 
-    ns.Print = function(text, r, g, b, ...)
+    ---@param text string
+    ---@param r? number
+    ---@param g? number
+    ---@param b? number
+    function ns.Print(text, r, g, b)
         r, g, b = r or 1, g or 1, b or 0
-        DEFAULT_CHAT_FRAME:AddMessage(tostring(text), r, g, b, ...)
+        DEFAULT_CHAT_FRAME:AddMessage(tostring(text), r, g, b)
+    end
+
+    ---@param text string
+    ---@param r? number
+    ---@param g? number
+    ---@param b? number
+    function ns.PrintWithAddonPrefix(text, r, g, b)
+        ns.Print(format("|cffFFFFFF%s|r %s", L.RAIDERIO, tostring(text)), r, g, b)
     end
 
     ns.EXPANSION = max(GetServerExpansionLevel(), GetMinimumExpansionLevel(), GetExpansionLevel()) - 1
@@ -4055,6 +4071,27 @@ do
         return level >= heroSpecUnlockLevel
     end
 
+    ---@param event WowEvent
+    ---@param callback fun(...)
+    ---@param predicate? fun(...): boolean?
+    ---@return CallbackRegistryHandle handle
+    function util:RegisterOnceFrameEventAndCallback(event, callback, predicate)
+        local unregistered = false
+        local handle ---@type CallbackRegistryHandle
+        local callbackWrapper = function(callbackHandlerID, ...)
+            if predicate and not predicate(...) then
+                return
+            end
+            if not unregistered then
+                handle:Unregister()
+            end
+            callback(...)
+        end
+        handle = EventRegistry:RegisterFrameEventAndCallbackWithHandle(event, callbackWrapper)
+        hooksecurefunc(handle, "Unregister", function() unregistered = true end)
+        return handle
+    end
+
 end
 
 -- classtalentimportexport.lua
@@ -4398,7 +4435,7 @@ if IS_RETAIL then
     ---@param configID number
     ---@param treeID number
     ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
-    ---@param callback? fun(success: boolean)
+    ---@param callback? fun(success: boolean, commiting: boolean)
     local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
         globalUniqueApplyLoadoutID = globalUniqueApplyLoadoutID + 1
         local currentUniqueApplyLoadoutID = globalUniqueApplyLoadoutID
@@ -4472,8 +4509,17 @@ if IS_RETAIL then
                     successProgress = 0
                 end
                 C_Timer.After(0, next)
-            elseif callback then
-                callback(#loadoutEntryInfos == 0)
+                return
+            end
+
+            local commiting = false
+            if C_Traits.ConfigHasStagedChanges(configID) then
+                commiting = C_Traits.CommitConfig(configID)
+            end
+
+            local success = #loadoutEntryInfos == 0
+            if callback then
+                callback(success, commiting)
             end
 
         end
@@ -4609,28 +4655,46 @@ if IS_RETAIL then
         end
     end
 
+    local currentPersistentHandle ---@type CallbackRegistryHandle?
     local currentPersistentTicker ---@type FunctionContainer?
+
+    local function clearCurrentPersistentState()
+        if currentPersistentHandle then
+            currentPersistentHandle:Unregister()
+            currentPersistentHandle = nil
+        end
+        if currentPersistentTicker then
+            currentPersistentTicker:Cancel()
+            currentPersistentTicker = nil
+        end
+    end
 
     -- Accepts a `loadout object`, `index` or `name`.
     ---@param loadout LoadoutQuery
     ---@param maxAttempts? number Defaults to 6 attempts.
     ---@param timeBetweenAttempts? number Defaults to 0.5 seconds.
     function classTalentImportExport:PersistentSwitchToLoadout(loadout, maxAttempts, timeBetweenAttempts)
+        clearCurrentPersistentState()
         local info = classTalentImportExport:GetLoadoutInfo(loadout)
         if not info then
             return
         end
         maxAttempts = maxAttempts or 6
         timeBetweenAttempts = timeBetweenAttempts or 0.5
-        if currentPersistentTicker then
-            currentPersistentTicker:Cancel()
-        end
+        local changing = false
+        currentPersistentHandle = util:RegisterOnceFrameEventAndCallback(
+            "UNIT_SPELLCAST_START",
+            -- The callback flips the flag so we know that we're changing talents.
+            function() changing = true end,
+            -- The predicate ensures to only run the callback when the player is casting the "Changing Talents" spell.
+            ---@param unit UnitToken
+            ---@param spellID number
+            function(unit, _, spellID) return unit == "player" and spellID == 384255 end
+        )
         currentPersistentTicker = C_Timer.NewTicker(timeBetweenAttempts, function()
             info = classTalentImportExport:GetLoadoutInfo(loadout, true)
-            if not info or info.ID == classTalentImportExport:GetActiveLoadoutConfigID() then
-                if currentPersistentTicker then
-                    currentPersistentTicker:Cancel()
-                end
+            if not info or info.ID == classTalentImportExport:GetActiveLoadoutConfigID() or changing then
+                clearCurrentPersistentState()
                 return
             end
             classTalentImportExport:SwitchToLoadout(info)
@@ -4667,7 +4731,7 @@ if IS_RETAIL then
     ---@param importString string
     ---@param name string
     ---@param usesSharedActionBars boolean
-    ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, commiting: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
+    ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
     ---@return boolean? accepted, string? errorText
     function classTalentImportExport:CreateLoadout(importString, name, usesSharedActionBars, callback)
         if not callback then
@@ -4702,7 +4766,7 @@ if IS_RETAIL then
         end
 
         ---@param info TraitConfigInfo
-        EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_CREATED", function(info)
+        util:RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_CREATED", function(info)
             info = GetLoadoutsExtendedByQuery(info) ---@type LoadoutExtendedInfo
             local nameSuccess = true
             local usesSharedActionBarsSuccess = true
@@ -4718,12 +4782,8 @@ if IS_RETAIL then
                     info.usesSharedActionBars = usesSharedActionBars
                 end
             end
-            local commiting = false
-            if C_Traits.ConfigHasStagedChanges(info.ID) then
-                commiting = C_ClassTalents.CommitConfig(info.ID)
-            end
             local success = nameSuccess and usesSharedActionBarsSuccess
-            callback(info, success, commiting, nameSuccess, usesSharedActionBarsSuccess)
+            callback(info, success, nameSuccess, usesSharedActionBarsSuccess)
         end)
 
         return true
@@ -4747,7 +4807,7 @@ if IS_RETAIL then
 
     -- This simply modifies the active loadout to match the desired import string choices.
     ---@param importString string
-    ---@param callback? fun(success: boolean)
+    ---@param callback? fun(success: boolean, commiting: boolean)
     ---@return boolean? accepted, string? errorText
     function classTalentImportExport:EditActiveLoadoutTalents(importString, callback)
         local canChange, _, changeError = C_ClassTalents.CanChangeTalents()
@@ -5342,9 +5402,9 @@ do
         end
         -- print result of this injection
         if aliasRealm then
-            ns.Print(format("|cffFFFFFF%s|r Test client detected. Because |cffFFFFFF%s|r doesn't exist we are borrowing data from |cffFFFFFF%s|r. Region is set to |cffFFFFFF%s|r.", addonName, ns.PLAYER_REALM, aliasRealm, ns.PLAYER_REGION))
+            ns.PrintWithAddonPrefix(format("Test client detected. Because |cffFFFFFF%s|r doesn't exist we are borrowing data from |cffFFFFFF%s|r. Region is set to |cffFFFFFF%s|r.", ns.PLAYER_REALM, aliasRealm, ns.PLAYER_REGION))
         else
-            ns.Print(format("|cffFFFFFF%s|r Test client detected. Couldn't borrow test data from anywhere as no providers appear to be loaded for the region |cffFFFFFF%s|r.", addonName, ns.PLAYER_REGION))
+            ns.PrintWithAddonPrefix(format("Test client detected. Couldn't borrow test data from anywhere as no providers appear to be loaded for the region |cffFFFFFF%s|r.", ns.PLAYER_REGION))
         end
     end
 
@@ -16065,7 +16125,7 @@ if IS_RETAIL then
                             if success then
                                 button:PlaySuccessAnimation()
                             elseif errorText then
-                                print(format("|cffFFFF55%s:|r %s", L.RAIDERIO, errorText))
+                                ns.PrintWithAddonPrefix(errorText)
                             end
                             return true
                         end
@@ -16524,7 +16584,7 @@ if IS_RETAIL then
                 end
             end
             if errorText then
-                print(errorText) -- TODO
+                ns.PrintWithAddonPrefix(errorText)
             end
         end
 
@@ -16533,18 +16593,32 @@ if IS_RETAIL then
             return
         end
 
-        local activeLoadoutConfigID = classTalentImportExport:GetActiveLoadoutConfigID()
+        -- local activeLoadoutConfigID = classTalentImportExport:GetActiveLoadoutConfigID()
         local existingLoadout = classTalentImportExport:GetLoadoutInfo(defaultLoadoutName)
 
         if existingLoadout then
 
             local existingLoadoutConfigID = existingLoadout.ID
 
-            if existingLoadoutConfigID == activeLoadoutConfigID and talentbuilds:IsBuildActiveAsLoadout(build, existingLoadoutConfigID) then
-                classTalentImportExport:SwitchToLoadout(existingLoadout)
+            if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadoutConfigID) then
+                classTalentImportExport:PersistentSwitchToLoadout(existingLoadout)
                 respond(true, "Switching to correct loadout.") -- TODO
                 return
             end
+
+            -- TODO: needs additional scaffolding to edit an existing loadout without the state getting stuck in "apply changes" mode (commenting out so the regular delete+create routine completes the import)
+            -- if activeLoadoutConfigID == existingLoadoutConfigID then
+            --     local accepted, errorText = classTalentImportExport:EditActiveLoadoutTalents(
+            --         build.importString,
+            --         function(success, commiting)
+            --             respond(success, not success and "Failed importing the desired build." or nil) -- TODO
+            --         end
+            --     )
+            --     if not accepted then
+            --         respond(false, errorText)
+            --     end
+            --     return
+            -- end
 
             if not classTalentImportExport:DeleteLoadout(existingLoadout) then
                 respond(false, "Unable to delete old loadout.") -- TODO
@@ -16560,19 +16634,11 @@ if IS_RETAIL then
                 build.importString,
                 defaultLoadoutName,
                 defaultUsesSharedActionBars,
-                function(info, success, commiting)
-                    local function switchToLoadout()
-                        classTalentImportExport:PersistentSwitchToLoadout(info)
-                    end
-                    if not commiting then
-                        switchToLoadout()
-                    else
-                        EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_UPDATED", switchToLoadout)
-                    end
+                function(info, success)
+                    classTalentImportExport:PersistentSwitchToLoadout(info)
                     respond(success, not success and "Failed importing the desired build." or nil) -- TODO
                 end
             )
-
             if not accepted then
                 respond(false, errorText)
             end
@@ -16581,7 +16647,7 @@ if IS_RETAIL then
         if not existingLoadout then
             createLoadout()
         else
-            EventUtil.RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_DELETED", createLoadout)
+            util:RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_DELETED", createLoadout)
         end
     end
 
@@ -18282,6 +18348,22 @@ do
 
             if type(text) == "string" then
 
+                if text:find("^%s*%?") or text:find("^%s*[Hh][Ee][Ll][Pp]") then
+                    ns.PrintWithAddonPrefix("available commands:")
+                    ns.Print("  /rio             Toggle Settings")
+                    ns.Print("  /rio lock        Toggle Profile anchor lock")
+                    ns.Print("  /rio talents     Toggle Talent Builds frame")
+                    if config:Get("debugMode") then
+                        ns.Print("  /rio search [name[ realm[ region]]]")
+                        ns.Print("  /rio group       Export Group JSON data")
+                        ns.Print("  /rio rwf         Toggle RWF mode")
+                        ns.Print("  /rio debug       Toggle Debug mode")
+                    else
+                        ns.Print("  /rio search [name[ realm]]")
+                    end
+                    return
+                end
+
                 if text:find("^%s*[Ll][Oo][Cc][Kk]") then
                     profile:ToggleDrag()
                     return
@@ -18747,7 +18829,7 @@ do
         local utf8 = ns.utf8
 
         if not utf8 then
-            ns.Print("|cffFFFFFFRaiderIO|r Unable to append excessive tests because utf8 is not available.")
+            ns.PrintWithAddonPrefix("Unable to append excessive tests because utf8 is not available.")
             return false
         end
 
@@ -18863,7 +18945,7 @@ do
             coroutine.resume(co, cq)
         end
 
-        ns.Print("|cffFFFFFFRaiderIO|r Running excessive built-in tests:")
+        ns.PrintWithAddonPrefix("Running excessive built-in tests:")
 
         co = coroutine.create(OnUpdate)
         cq = queue
@@ -18878,7 +18960,7 @@ do
 
     local function OnAppendProviderTestsCompleted()
         provider:WipeCache()
-        ns.Print("|cffFFFFFFRaiderIO|r Done!")
+        ns.PrintWithAddonPrefix("Done!")
     end
 
     local function CountProfilesInDataSet(data)
@@ -18896,9 +18978,9 @@ do
 
     local function OnAppendProviderTestsProgress(queue, args)
         if not args or type(args) ~= "table" then
-            ns.Print(format("[#%d] remaining...", #queue + 1))
+            ns.PrintWithAddonPrefix(format("[#%d] remaining...", #queue + 1))
         else
-            ns.Print(format("[#%d] Checking |cffFFFFFF%s %s|r (%d profiles)", #queue + 1, tostring(args[1]), tostring(args[2]), CountProfilesInDataSet(args[3])))
+            ns.PrintWithAddonPrefix(format("[#%d] Checking |cffFFFFFF%s %s|r (%d profiles)", #queue + 1, tostring(args[1]), tostring(args[2]), CountProfilesInDataSet(args[3])))
         end
     end
 
@@ -18913,7 +18995,7 @@ do
 
     function tests:RunTests(showOnlyFailed, noHeaderOrFooter)
         if not noHeaderOrFooter then
-            ns.Print(format("|cffFFFFFFRaiderIO|r Running %d built-in tests:", #collection))
+            ns.PrintWithAddonPrefix(format("Running %d built-in tests:", #collection))
         end
         local printed
         for id, test in ipairs(collection) do
@@ -18948,15 +19030,15 @@ do
                 end
             else
                 printed = true
-                ns.Print(format("|cffFFFFFFRaiderIO|r Test#%d is not supported, skipping.", id))
+                ns.PrintWithAddonPrefix(format("Test#%d is not supported, skipping.", id))
             end
             if status ~= nil and (not showOnlyFailed or not status) then
                 printed = true
-                ns.Print(format("|cffFFFFFFRaiderIO|r Test#%d |cff%s%s|r", id, status and "55FF55" or "FF5555", explanation or (status and "Passed!" or "Failed!")))
+                ns.PrintWithAddonPrefix(format("Test#%d |cff%s%s|r", id, status and "55FF55" or "FF5555", explanation or (status and "Passed!" or "Failed!")))
             end
         end
         if not noHeaderOrFooter then
-            ns.Print(format("|cffFFFFFFRaiderIO|r Done! %s", printed and "" or "|cff55FF55Nothing to report.|r"))
+            ns.PrintWithAddonPrefix(format("Done! %s", printed and "" or "|cff55FF55Nothing to report.|r"))
         end
     end
 
@@ -18995,7 +19077,7 @@ do
         end
         if not IsSafeCall() then
             unsafe = true
-            ns.Print("Error: Another AddOn has modified Raider.IO and is most likely forcing it to return invalid data. Please disable other addons until this message disappears.")
+            ns.PrintWithAddonPrefix("Another AddOn has modified Raider.IO and is most likely forcing it to return invalid data. Please disable other addons until this message disappears.")
             return false
         end
         return true
