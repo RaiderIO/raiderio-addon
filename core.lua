@@ -959,6 +959,7 @@ do
     ns.RAIDERIO_ADDON_DOWNLOAD_URL = "https://rio.gg/addon"
     ns.RAIDERIO_DOMAIN = "raider.io"
 
+    -- ns.RAIDERIO_DOMAIN
     if IS_CLASSIC_ERA then
         ns.RAIDERIO_DOMAIN = "era.raider.io"
     elseif IS_CLASSIC then
@@ -1350,6 +1351,7 @@ do
     ---@field public name string
     ---@field public color RaidDifficultyColor
 
+    -- ns.RAID_DIFFICULTY
     if IS_RETAIL then
         ns.RAID_DIFFICULTY = { -- Table of `1` (normal), `2` (heroic), `3` (mythic) difficulties and their names and colors.
             ---@type RaidDifficulty
@@ -1421,6 +1423,54 @@ do
             }
         }
     end
+
+    ---@class CombatLogDifficultyAlwaysLogging
+    ---@type table<number, true?>
+    --- A map over `Difficulty ID` and the value `true` or `nil`.
+    --- When `true` it means that logging should always be enabled for this difficulty.
+    --- ⚠️ This table ignores instance ID boundary checks in the logic where it is being used.
+    --- Even if the instance ID is not considered "relevant" (not in our database), if you add the `Difficulty ID` to this table, it will enable logging.
+    ns.COMBATLOG_DIFFICULTY_ID_ALWAYS = {
+        -- scenario
+        [167] = true, -- Torghast
+        -- party
+        [23] = true, -- Mythic
+        [8] = true, -- Mythic Keystone
+    }
+
+    --- A map over `Difficulty ID` and the value `true` or `nil`.
+    --- When `true` it means that logging should be enabled for this difficulty.
+    --- ⚠️ This table will be subject of a instance ID boundary check in the logic where it is being used.
+    --- If the instance ID is not considered "relevant" (not in our database) then even if you add it to this table, it won't enable logging.
+    ---@class CombatLogDifficultyEnableLogging
+    ---@type table<number, true?>
+    ns.COMBATLOG_DIFFICULTY_ID_ENABLE = {}
+
+    -- ns.COMBATLOG_DIFFICULTY_ID_ENABLE
+    if IS_RETAIL then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[14] = true -- Normal
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[15] = true -- Heroic
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[16] = true -- Mythic
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[233] = true -- Mythic Flexible
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[17] = true -- LFR
+    elseif IS_CLASSIC_ERA then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[9] = true -- Classic40PlayerRaid
+    elseif IS_CLASSIC then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[3] = true -- Classic10PlayerNormalRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[4] = true -- Classic25PlayerNormalRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[5] = true -- Classic10PlayerHeroicRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[6] = true -- Classic25PlayerHeroicRaid
+    end
+
+    ---@type table<TalentBuildsRaidDifficultyKey|string, number[]?>
+    ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS = {
+        ["normal"] = { 1, 12, 14, 38, 147, 150 },
+        ["heroic"] = { 2, 5, 6, 11, 15, 39, 149, 230 },
+        ["mythic"] = { 8, 16, 23, 40, 233 },
+    }
 
     ---@class RecruitmentEntityTypes
     ns.RECRUITMENT_ENTITY_TYPES = { -- Table over recruitment entity types.
@@ -15126,14 +15176,13 @@ if IS_RETAIL then
 end
 
 -- combatlog.lua
--- dependencies: module, callback, config, util
+-- dependencies: module, callback, config
 do
 
     ---@class CombatLogModule : Module
     local combatlog = ns:NewModule("CombatLog") ---@type CombatLogModule
     local callback = ns:GetModule("Callback") ---@type CallbackModule
     local config = ns:GetModule("Config") ---@type ConfigModule
-    local util = ns:GetModule("Util") ---@type UtilModule
 
     local clientConfig = ns:GetClientConfig()
 
@@ -15191,34 +15240,6 @@ do
         end
     end
 
-    local alwaysLogDifficultyIDs = {
-        -- scenario
-        [167] = true, -- Torghast
-        -- party
-        [23] = true, -- Mythic
-        [8] = true, -- Mythic Keystone
-    }
-
-    local canLogDifficultyIDs = {}
-
-    if IS_RETAIL then
-        -- raid
-        canLogDifficultyIDs[14] = true -- Normal
-        canLogDifficultyIDs[15] = true -- Heroic
-        canLogDifficultyIDs[16] = true -- Mythic
-        canLogDifficultyIDs[233] = true -- Mythic Flexible
-        canLogDifficultyIDs[17] = true -- LFR
-    elseif IS_CLASSIC_ERA then
-        -- classic era
-        canLogDifficultyIDs[9] = true -- Classic40PlayerRaid
-    elseif IS_CLASSIC then
-        -- classic
-        canLogDifficultyIDs[3] = true -- Classic10PlayerNormalRaid
-        canLogDifficultyIDs[4] = true -- Classic25PlayerNormalRaid
-        canLogDifficultyIDs[5] = true -- Classic10PlayerHeroicRaid
-        canLogDifficultyIDs[6] = true -- Classic25PlayerHeroicRaid
-    end
-
     local lastActive
     local previouslyEnabledLogging
     local function CheckInstance(newModuleState)
@@ -15226,7 +15247,7 @@ do
         if not difficultyID or not instanceMapID then
             return
         end
-        local isActive = not not (alwaysLogDifficultyIDs[difficultyID] or (instanceMapID >= autoLogFromMapID and canLogDifficultyIDs[difficultyID]))
+        local isActive = not not (ns.COMBATLOG_DIFFICULTY_ID_ALWAYS[difficultyID] or (instanceMapID >= autoLogFromMapID and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID]))
         if isActive == lastActive then
             return
         end
@@ -15448,103 +15469,107 @@ if IS_RETAIL then
 
     local talentBuilds = ns:GetTalentBuilds()
 
-    ---@type DungeonRaid[]
-    local relevantRaids = {}
+    ---@alias TalentBuildsRaidDifficultyTranslation { key: TalentBuildsRaidDifficultyKey, text: string }
 
-    for _, stringID in ipairs(talentBuilds.routes.raidOrder) do
-        local id = tonumber(stringID)
-        if id then
-            local raid = util:GetRaidByID(id)
-            if raid then
-                relevantRaids[#relevantRaids + 1] = raid
-            end
-        end
-    end
+    ---@alias TalentBuildsDungeonDifficultyTranslation { key: TalentBuildsDungeonDifficultyKey, text: string }
 
-    -- The first key is the `Raid ID`, then the sub-table is ordered `Encounter IDs`.
-    ---@type table<number, number[]>
-    local relevantEncounters = {}
+    local relevantRaids ---@type DungeonRaid[]? Table over all valid raids. Extracted from `routes.raidOrder`.
+    local relevantEncounters ---@type table<number, number[]>? The key is the `Raid ID`, the sub-table is the ordered `Encounter IDs`. Extracted from `routes.encounterOrder`.
+    local encounterIDToJournalEncounterID ---@type table<number, number?>? The key is the `Encounter ID`, the value is `Journal Encounter`. Extracted from `routes.encounterJournalIds`.
+    local relevantDungeons ---@type Dungeon[]? Table over all valid dungeons. Extracted from `routes.dungeonOrder`.
+    local relevantEncounterDifficulties ---@type TalentBuildsRaidDifficultyTranslation[]? A raid difficulty key to localized text mapping array. Extracted from `routes.difficultyOrder`.
+    local relevantDungeonBrackets ---@type TalentBuildsDungeonDifficultyTranslation[]? A dungeon bracket key to localized text mapping array. Extracted from `routes.bracketOrder`.
+    do
 
-    for stringID, encounters in pairs(talentBuilds.routes.encounterOrder) do
-        local id = tonumber(stringID)
-        if id then
-            for _, stringEncounterID in ipairs(encounters) do
-                local encounterID = tonumber(stringEncounterID)
-                if encounterID then
-                    local temp = relevantEncounters[id]
-                    if not temp then
-                        temp =  {}
-                        relevantEncounters[id] = temp
-                    end
-                    temp[#temp + 1] = encounterID
+        relevantRaids = {}
+
+        for _, stringID in ipairs(talentBuilds.routes.raidOrder) do
+            local id = tonumber(stringID)
+            if id then
+                local raid = util:GetRaidByID(id)
+                if raid then
+                    relevantRaids[#relevantRaids + 1] = raid
                 end
             end
         end
-    end
 
-    -- The first key is the `Encounter ID`, the value is either `Journal Encounter ID`.
-    ---@type table<number, number?>
-    local encounterIDToJournalEncounterID = {}
+        relevantEncounters = {}
 
-    for encounterIDString, journalEncounterID in pairs(talentBuilds.routes.encounterJournalIds) do
-        local encounterID = tonumber(encounterIDString)
-        if encounterID then
-            encounterIDToJournalEncounterID[encounterID] = journalEncounterID
-        end
-    end
-
-    ---@type Dungeon[]
-    local relevantDungeons = {}
-
-    for _, stringID in ipairs(talentBuilds.routes.dungeonOrder) do
-        local id = tonumber(stringID)
-        if id then
-            local dungeon = util:GetDungeonByID(id)
-            if dungeon then
-                relevantDungeons[#relevantDungeons + 1] = dungeon
+        for stringID, encounters in pairs(talentBuilds.routes.encounterOrder) do
+            local id = tonumber(stringID)
+            if id then
+                for _, stringEncounterID in ipairs(encounters) do
+                    local encounterID = tonumber(stringEncounterID)
+                    if encounterID then
+                        local temp = relevantEncounters[id]
+                        if not temp then
+                            temp =  {}
+                            relevantEncounters[id] = temp
+                        end
+                        temp[#temp + 1] = encounterID
+                    end
+                end
             end
         end
-    end
 
-    ---@type { key: TalentBuildsRaidDifficultyKey, text: string }[]
-    local relevantEncounterDifficulties = {
-        { key = "all", text = L.BUILDS_ENCOUNTER_DIFFICULY_all },
-        ["all"] = true,
-    }
+        encounterIDToJournalEncounterID = {}
 
-    ---@type { key: TalentBuildsDungeonDifficultyKey, text: string }[]
-    local relevantDungeonBrackets = {
-        { key = "all", text = L.BUILDS_DUNGEON_BRACKET_all },
-        ["all"] = true,
-    }
+        for encounterIDString, journalEncounterID in pairs(talentBuilds.routes.encounterJournalIds) do
+            local encounterID = tonumber(encounterIDString)
+            if encounterID then
+                encounterIDToJournalEncounterID[encounterID] = journalEncounterID
+            end
+        end
 
-    for _, difficultyKey in ipairs(talentBuilds.routes.difficultyOrder) do
-        if not relevantEncounterDifficulties[difficultyKey] then
-            relevantEncounterDifficulties[difficultyKey] = true
-            relevantEncounterDifficulties[#relevantEncounterDifficulties + 1] = {
-                key = difficultyKey,
-                text = L[format("BUILDS_ENCOUNTER_DIFFICULY_%s", difficultyKey)],
+        relevantDungeons = {}
+
+        for _, stringID in ipairs(talentBuilds.routes.dungeonOrder) do
+            local id = tonumber(stringID)
+            if id then
+                local dungeon = util:GetDungeonByID(id)
+                if dungeon then
+                    relevantDungeons[#relevantDungeons + 1] = dungeon
+                end
+            end
+        end
+
+        ---@enum TalentBuildsDifficultyTranslationFormats
+        local difficultyTranslationFormats = {
+            EncounterDifficulty = "BUILDS_ENCOUNTER_DIFFICULY_%s",
+            DungeonBracket = "BUILDS_DUNGEON_BRACKET_%s",
+        }
+
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsDungeonDifficultyTranslation[]
+        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+        ---@param localeFormat TalentBuildsDifficultyTranslationFormats
+        local function appendDifficultyTranslation(difficulties, key, localeFormat)
+            if difficulties[key] then
+                return
+            end
+            difficulties[key] = true
+            difficulties[#difficulties + 1] = {
+                key = key,
+                text = L[format(localeFormat, key)],
             }
         end
-    end
 
-    for _, difficultyKey in ipairs(talentBuilds.routes.bracketOrder) do
-        if not relevantDungeonBrackets[difficultyKey] then
-            relevantDungeonBrackets[difficultyKey] = true
-            relevantDungeonBrackets[#relevantDungeonBrackets + 1] = {
-                key = difficultyKey,
-                text = L[format("BUILDS_DUNGEON_BRACKET_%s", difficultyKey)],
-            }
+        relevantEncounterDifficulties = {}
+
+        appendDifficultyTranslation(relevantEncounterDifficulties, "all", difficultyTranslationFormats.EncounterDifficulty)
+
+        for _, difficultyKey in ipairs(talentBuilds.routes.difficultyOrder) do
+            appendDifficultyTranslation(relevantEncounterDifficulties, difficultyKey, difficultyTranslationFormats.EncounterDifficulty)
         end
-    end
 
-    -- TODO: Manually updated by label searching for the phrase in the `Difficulty` db, then adding all the `ID`'s in this table.
-    ---@type table<string, number[]?>
-    local difficultyTextToDifficultyIDs = {
-        ["normal"] = { 1, 12, 14, 38, 147, 150 },
-        ["heroic"] = { 2, 5, 6, 11, 15, 39, 149, 230 },
-        ["mythic"] = { 8, 16, 23, 40, 233 },
-    }
+        relevantDungeonBrackets = {}
+
+        appendDifficultyTranslation(relevantDungeonBrackets, "all", difficultyTranslationFormats.DungeonBracket)
+
+        for _, difficultyKey in ipairs(talentBuilds.routes.bracketOrder) do
+            appendDifficultyTranslation(relevantDungeonBrackets, difficultyKey, difficultyTranslationFormats.DungeonBracket)
+        end
+
+    end
 
     ---@class TalentBuildsDataProviderBuildButton : Button, BackdropTemplate
 
@@ -15648,7 +15673,7 @@ if IS_RETAIL then
                         build.encounterID = encounterID
                         build.encounterJournalID = encounterIDToJournalEncounterID[encounterID]
                         build.encounterDiff = difficultyKey
-                        build.encounterDifficultyID = difficultyTextToDifficultyIDs[difficultyKey]
+                        build.encounterDifficultyID = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficultyKey]
                     elseif buildType == "dungeon" then
                         build.buildPopText = format("%.0f%%", buildRuns/heroCount*100)
                         build.scoreText = format("+%d", score)
@@ -16234,7 +16259,7 @@ if IS_RETAIL then
                 show = isSelectedInstanceRaid,
                 radiogroup = "raid",
                 arg1 = difficulty.key,
-                arg2 = difficultyTextToDifficultyIDs[difficulty.key],
+                arg2 = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficulty.key],
                 arg3 = nil,
             }
             if not isFirstDefaultRadioSelected then
