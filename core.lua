@@ -4909,13 +4909,10 @@ if IS_RETAIL then
         return C_Traits.GenerateImportString(configID)
     end
 
-    ---@param configID? number Defaults to active config.
+    ---@param configID number
     ---@param useImportString? stringView
     ---@return ImportLoadoutEntryInfoPolyfill[]?
     function classTalentImportExport:GetLoadoutEntryInfos(configID, useImportString)
-        if not configID then
-            configID = C_ClassTalents.GetActiveConfigID()
-        end
         if not configID then
             return
         end
@@ -4953,26 +4950,48 @@ if IS_RETAIL then
         return map, choiceMap
     end
 
-    ---@param configID? number Defaults to active config.
+    -- Both left and right sides must have data, but it's optional if you use the configID or the importString, otherwise
+    -- the return will be false since it won't have enough data to perform a comparison.
+    ---@param leftConfigID? number Defaults to active config.
     ---@param leftImportString? string
-    ---@param rightImportString string
-    ---@return boolean? areEqual
-    function classTalentImportExport:AreImportStringsEqual(configID, leftImportString, rightImportString)
-        local leftInfos = classTalentImportExport:GetLoadoutEntryInfos(configID, leftImportString)
+    ---@param rightConfigID? number Defaults to active config.
+    ---@param rightImportString? string
+    ---@return boolean areEqual
+    function classTalentImportExport:AreImportStringsEqual(leftConfigID, leftImportString, rightConfigID, rightImportString)
+        local activeConfigID = C_ClassTalents.GetActiveConfigID()
+        leftConfigID = leftConfigID or activeConfigID
+        rightConfigID = rightConfigID or activeConfigID
+
+        if not leftConfigID and not rightConfigID then
+            return false
+        end
+
+        if leftConfigID == rightConfigID and leftImportString == rightImportString then
+            return true
+        end
+
+        local leftInfos = classTalentImportExport:GetLoadoutEntryInfos(leftConfigID, leftImportString)
         if not leftInfos then
-            return
+            return false
         end
-        local rightInfos = classTalentImportExport:GetLoadoutEntryInfos(configID, rightImportString)
+
+        local rightInfos = classTalentImportExport:GetLoadoutEntryInfos(rightConfigID, rightImportString)
         if not rightInfos then
-            return
+            return false
         end
+
+        if #leftInfos ~= #rightInfos then
+            return false
+        end
+
         local leftMap, leftChoiceMap = FlattenNodeRanksPurchased(leftInfos)
         local rightMap, rightChoiceMap = FlattenNodeRanksPurchased(rightInfos)
         local nodeIDs = {} ---@type number[]
         local seenNodeIDs = {} ---@type table<number, true?>
         local i = 0
+
         ---@param nodeID number
-        local function appendID(nodeID)
+        local function appendNodeID(nodeID)
             if seenNodeIDs[nodeID] then
                 return
             end
@@ -4980,12 +4999,15 @@ if IS_RETAIL then
             i = i + 1
             nodeIDs[i] = nodeID
         end
+
         for nodeID, _ in pairs(leftMap) do
-            appendID(nodeID)
+            appendNodeID(nodeID)
         end
+
         for nodeID, _ in pairs(rightMap) do
-            appendID(nodeID)
+            appendNodeID(nodeID)
         end
+
         for _, nodeID in ipairs(nodeIDs) do
             local left = leftMap[nodeID] or 0
             local right = rightMap[nodeID] or 0
@@ -4998,6 +5020,7 @@ if IS_RETAIL then
                 return false
             end
         end
+
         return true
     end
 
@@ -15967,6 +15990,7 @@ if IS_RETAIL then
         dataProvider:InsertTable(relevantBuilds)
     end
 
+    local isBuildAndImportStringEqualCache = {} ---@type table<string, boolean?>
     local frame ---@type TalentBuildsFrame?
     local updatingMenus = false
 
@@ -16545,6 +16569,7 @@ if IS_RETAIL then
 
         self:HookScript("OnHide", function()
             callback:UnregisterEvent(forceUpdateDelayed, unpack(forceUpdateEvents))
+            table.wipe(isBuildAndImportStringEqualCache)
         end)
 
     end
@@ -16748,10 +16773,14 @@ if IS_RETAIL then
     ---@param importString string
     ---@return boolean
     function talentbuilds:IsBuildAndImportStringEqual(build, importString)
-        if build.importString == importString then
-            return true
+        local key = format("%s %s", importString, build.importString)
+        local cache = isBuildAndImportStringEqualCache[key]
+        if cache ~= nil then
+            return cache
         end
-        return classTalentImportExport:AreImportStringsEqual(nil, importString, build.importString)
+        cache = classTalentImportExport:AreImportStringsEqual(nil, importString, nil, build.importString)
+        isBuildAndImportStringEqualCache[key] = cache
+        return cache
     end
 
     ---@param build TalentBuildsCompiledProfileBuild
@@ -16863,45 +16892,6 @@ if IS_RETAIL then
             return
         end
         util:ShowCopyRaiderIOTalentLoadoutPopup(L.BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE, importString, build.importString)
-    end
-
-    -- Only returns `TalentBuildsCompiledProfileBuild[]` when the table isn't empty, otherwise it returns `nil`.
-    ---@param useDataProvider? boolean Default behavior is to use the complete talent builds database. Set to `true` to use the dataprovider used by the UI.
-    ---@param resultLimit? number Default is to return all matches, but you can define a upper limit.
-    ---@return TalentBuildsCompiledProfileBuild[]?
-    function talentbuilds:GetBuildsMatchingActiveLoadout(useDataProvider, resultLimit)
-        local importString = classTalentImportExport:ExportLoadout()
-        if not importString then
-            return
-        end
-
-        local checkBuilds = useDataProvider and dataProvider:GetCollection() or (compiledPlayerProfile and compiledPlayerProfile.builds)
-        if not checkBuilds then
-            return
-        end
-
-        local builds ---@type TalentBuildsCompiledProfileBuild[]?
-        local i = 0
-
-        ---@param build TalentBuildsCompiledProfileBuild
-        local function append(build)
-            if not builds then
-                builds = {}
-            end
-            i = i + 1
-            builds[i] = build
-        end
-
-        for _, build in ipairs(checkBuilds) do
-            if talentbuilds:IsBuildAndImportStringEqual(build, importString) then
-                append(build)
-            end
-            if resultLimit and i >= resultLimit then
-                break
-            end
-        end
-
-        return builds
     end
 
     local shortcutInit = false
