@@ -956,7 +956,7 @@ do
     ---@param g? number
     ---@param b? number
     function ns.PrintWithAddonPrefix(text, r, g, b)
-        ns.Print(format("|cffFFFFFF%s|r %s", L.RAIDERIO, tostring(text)), r, g, b)
+        ns.Print(format("|cffFFFFFF%s|r: %s", L.RAIDERIO, tostring(text)), r, g, b)
     end
 
     ns.EXPANSION = max(GetServerExpansionLevel(), GetMinimumExpansionLevel(), GetExpansionLevel()) - 1
@@ -3209,9 +3209,10 @@ do
                             temp.dungeon = dungeon
                             temp.queued = true
                             index = index + 1
+                            ---@type LFDStatusResult
                             temp[index] = {
                                 dungeon = dungeon,
-                                resultID = resultID
+                                resultID = resultID,
                             }
                         end
                     end
@@ -3256,6 +3257,65 @@ do
             focusDungeon = nil
         end
         return focusDungeon
+    end
+
+    -- This is a manual table using the `GroupFinderCategory` db file to pre-map which category is for what kind of activity.
+    ---@enum GroupFinderCategoryPolyfill
+    local GroupFinderCategory = {
+        -- Questing = 1,
+        Dungeons = 2,
+        Raids = 3,
+        -- Arenas = 4,
+        -- Scenarios = 5,
+        -- Custom = 6,
+        -- ArenaSkirmishes = 7,
+        -- Battlegrounds = 8,
+        -- RatedBattlegrounds = 9,
+        -- IslandExpeditions = 111,
+        -- Torghast = 113,
+        -- Delves = 121,
+    }
+
+    -- Attempt to extract the player current activity from their LFD hosted dungeon or their location.
+    -- If the dungeon found and their location match, unless it is based on the LFD 
+    ---@return Dungeon|DungeonRaid|nil dungeon, number? difficultyID, "raid"|"dungeon"? locationType, number? activityID
+    function util:GetPlayerClosestActivityStatus()
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        local activityID ---@type number?
+        if entryInfo then
+            activityID = util:GetLFDActivityID(entryInfo)
+        end
+        local _, instanceType, instanceDifficultyID, _, _, _, _, instanceID = GetInstanceInfo()
+        local locationType = instanceType == "raid" and "raid" or (instanceType == "party" and "dungeon" or nil)
+        local difficultyID ---@type number?
+        local focusDungeon = util:GetLFDStatusForCurrentActivity(activityID)
+        if not focusDungeon then
+            if activityID then
+                local activityInfo = C_LFGList.GetActivityInfoTable(activityID)
+                if activityInfo then
+                    if GroupFinderCategory.Dungeons == activityInfo.categoryID then
+                        locationType = "dungeon"
+                    elseif GroupFinderCategory.Raids == activityInfo.categoryID then
+                        locationType = "raid"
+                        difficultyID = activityInfo.difficultyID
+                    end
+                end
+            end
+            return nil, difficultyID, locationType, activityID
+        end
+        locationType = focusDungeon.type == "RAID" and "raid" or "dungeon"
+        if activityID then
+            local activityInfo = C_LFGList.GetActivityInfoTable(activityID)
+            if activityInfo then
+                difficultyID = activityInfo.difficultyID
+            end
+        end
+        if not difficultyID then
+            if util:TableContains(focusDungeon.instance_map_ids, instanceID) then
+                difficultyID = instanceDifficultyID
+            end
+        end
+        return focusDungeon, difficultyID, locationType, activityID
     end
 
     ---@param raid DungeonRaid
@@ -16419,11 +16479,48 @@ if IS_RETAIL then
         return frame and frame:IsShown()
     end
 
+    ---@param option TalentBuildsMenuOptionForInstance
+    local function defaultInstanceMenuSelection(option)
+        local instanceType = option.arg1
+        local instanceID = option.arg2
+        local encounterID = option.arg3
+        local dungeon, difficultyID, locationType, activityID = util:GetPlayerClosestActivityStatus()
+        if instanceType ~= locationType then
+            return
+        end
+        if dungeon and locationType == "dungeon" then
+            return dungeon.id == instanceID
+        end
+        return instanceID == "all" or encounterID == "all"
+    end
+
+    ---@param option TalentBuildsMenuOptionForDifficulty
+    ---@type DropDownUtilDynamicMenuSelectOptionOrPredicate
+    local function defaultDifficultyMenuSelection(option)
+        local difficulty = option.arg1
+        local difficultyIDs = option.arg2
+        local dungeon, difficultyID, locationType, activityID = util:GetPlayerClosestActivityStatus()
+        if difficultyIDs then
+            if difficultyID then
+                return util:TableContains(difficultyIDs, difficultyID)
+            end
+            return
+        end
+        if not difficultyID then
+            return
+        end
+        return difficulty == "all"
+    end
+
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
         if not frame then
             frame = getFrame()
+        end
+        if not instanceMenuSelection and not difficultyMenuSelection then
+            instanceMenuSelection = defaultInstanceMenuSelection
+            difficultyMenuSelection = defaultDifficultyMenuSelection
         end
         if instanceMenuSelection then
             frame.InstanceMenu:DynamicMenuSelectOption(instanceMenuSelection)
@@ -18348,32 +18445,19 @@ do
 
             if type(text) == "string" then
 
-                if text:find("^%s*%?") or text:find("^%s*[Hh][Ee][Ll][Pp]") then
-                    ns.PrintWithAddonPrefix("available commands:")
-                    ns.Print("  /rio             Toggle Settings")
-                    ns.Print("  /rio lock        Toggle Profile anchor lock")
-                    ns.Print("  /rio talents     Toggle Talent Builds frame")
-                    if config:Get("debugMode") then
-                        ns.Print("  /rio search [name[ realm[ region]]]")
-                        ns.Print("  /rio group       Export Group JSON data")
-                        ns.Print("  /rio rwf         Toggle RWF mode")
-                        ns.Print("  /rio debug       Toggle Debug mode")
-                    else
-                        ns.Print("  /rio search [name[ realm]]")
-                    end
-                    return
-                end
-
+                -- lock
                 if text:find("^%s*[Ll][Oo][Cc][Kk]") then
                     profile:ToggleDrag()
                     return
                 end
 
+                -- debug
                 if text:find("^%s*[Dd][Ee][Bb][Uu][Gg]") then
                     util:ShowStaticPopupDialog(DEBUG_POPUP)
                     return
                 end
 
+                -- rwf
                 if rwf and text:find("^%s*[Rr][Ww][Ff]") then
                     if rwf:IsLoaded() and config:Get("rwfMode") then
                         rwf:ToggleFrame()
@@ -18383,11 +18467,13 @@ do
                     return
                 end
 
+                -- group
                 if text:find("^%s*[Gg][Rr][Oo][Uu][Pp]") then
                     json:OpenCopyDialog()
                     return
                 end
 
+                -- search
                 local searchQuery = text:match("^%s*[Ss][Ee][Aa][Rr][Cc][Hh]%s*(.-)$")
                 if searchQuery then
                     if strlenutf8(searchQuery) > 0 then
@@ -18399,6 +18485,7 @@ do
                     return
                 end
 
+                -- talent / build
                 if text:find("^%s*[Tt][Aa][Ll][Ee][Nn][Tt]") or text:find("^%s*[Bb][Uu][Ii][Ll][Dd]") then
                     if talentbuilds:IsEnabled() then
                         talentbuilds:ToggleFrame()
@@ -18406,9 +18493,29 @@ do
                     return
                 end
 
+                -- ? / help
+                if text:find("^%s*%?") or text:find("^%s*[Hh][Ee][Ll][Pp]") then
+                    local debugMode = config:Get("debugMode")
+                    ns.PrintWithAddonPrefix("Available commands:")
+                    ns.Print("  |cffFFFFFF/rio|r           Toggle Settings")
+                    ns.Print("  |cffFFFFFF/rio lock|r      Toggle Profile anchor lock")
+                    ns.Print("  |cffFFFFFF/rio talents|r   Toggle Talent Builds frame")
+                    if debugMode then
+                        ns.Print("  |cffFFFFFF/rio search [name[ realm[ region]]]|r")
+                    else
+                        ns.Print("  |cffFFFFFF/rio search [name[ realm]]|r")
+                    end
+                        ns.Print("  |cffFFFFFF/rio group|r     Export Group JSON data")
+                    if debugMode then
+                        ns.Print("  |cffFFFFFF/rio rwf|r       Toggle RWF mode")
+                        ns.Print("  |cffFFFFFF/rio debug|r     Toggle Debug mode")
+                    end
+                    return
+                end
+
             end
 
-            -- resume regular routine
+            -- fallback to toggle settings
             if not InCombatLockdown() then
                 settings:Toggle()
             end
