@@ -1834,8 +1834,10 @@ do
     ---@alias TalentBuildsDungeonKey "all"|string The dungeon ID as a string. Such as `"4813"` for `4813` (Pit of Saron).
     ---@alias TalentBuildsRaidKey string The raid ID as a string. Such as `"8062"` for `8062` (Sporefall).
     ---@alias TalentBuildsDungeonDifficultyKey "6-9"|"10-99"|"15-99"|"20-99"|string The bracket keys.
+    ---@alias TalentBuildsDungeonExtraKey "2h"|"1hdw"|string The dungeon extra keys.
     ---@alias TalentBuildsRaidEncounterKey "all"|string The encounter ID as a string. Such as `"3176"` for `3176` (Imperator Averzian).
     ---@alias TalentBuildsRaidDifficultyKey "mythic"|"heroic"|"normal"|string The encounter difficulty keys.
+    ---@alias TalentBuildsRaidExtraKey "fast"|"median"|string The raid extra keys.
 
     ---@class TalentBuilds
     ---@field public date string UTC timestamp such as `2026-06-27T04:20:51Z`
@@ -15925,14 +15927,21 @@ if IS_RETAIL then
     ---@field public arg2? number[] difficultyIDs
     ---@field public arg3? nil
 
+    ---@class TalentBuildsMenuOptionForExtra : TalentBuildsMenuOption
+    ---@field public radiogroup "raid"|"dungeon"
+    ---@field public arg1? "all"|TalentBuildsRaidExtraKey|TalentBuildsDungeonExtraKey extraText
+    ---@field public arg2? nil
+    ---@field public arg3? nil
+
     -- the current selection of instance and difficulty
     local currentInstance ---@type TalentBuildsMenuOptionForInstance?
     local currentDifficulty ---@type TalentBuildsMenuOptionForDifficulty?
+    local currentExtra ---@type TalentBuildsMenuOptionForExtra?
 
     local function updateDataProvider()
         dataProvider:Flush()
 
-        if not compiledPlayerProfile or not currentInstance or not currentDifficulty then
+        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentExtra then
             return
         end
 
@@ -15940,6 +15949,7 @@ if IS_RETAIL then
         local instanceID = currentInstance.arg2
         local encounterID = currentInstance.arg3
         local difficulty = currentDifficulty.arg1
+        local extra = currentExtra.arg1 -- TODO
 
         local relevantBuilds = util:TableFilter(
             compiledPlayerProfile.builds,
@@ -15962,7 +15972,7 @@ if IS_RETAIL then
 
     ---@param owner WowStyle1DropdownTemplatePolyfill
     ---@param selections WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
-    local function updateDifficultyMenuAndDataProvider(owner, _, _, selections)
+    local function updateMenuAndDataProvider(owner, _, _, selections)
         if not frame then
             return
         end
@@ -15974,13 +15984,27 @@ if IS_RETAIL then
             frame.DifficultyMenu:OpenMenu()
             frame.DifficultyMenu:CloseMenu()
             frame.DifficultyMenu:SetEnabled(#selections > 0)
+            frame.ExtraMenu:OpenMenu()
+            frame.ExtraMenu:CloseMenu()
+            frame.ExtraMenu:SetEnabled(#selections > 0)
         end
         updatingMenus = false
         local prevInstance = currentInstance
         local prevDifficulty = currentDifficulty
-        currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance
-        currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty
-        if currentInstance and currentDifficulty and (prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty) then
+        local prevExtra = currentExtra
+        currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
+        if not currentInstance then
+            return
+        end
+        currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty?
+        if not currentDifficulty then
+            return
+        end
+        currentExtra = frame.ExtraMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForExtra?
+        if not currentExtra then
+            return
+        end
+        if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevExtra ~= currentExtra then
             updateDataProvider()
         end
     end
@@ -16350,9 +16374,9 @@ if IS_RETAIL then
 
         self.InstanceMenu = DropDownUtil:CreateDynamicMenu(self, instanceOptions)
         self.InstanceMenu:SetDefaultText(L.BUILDS_SELECT_INSTANCE)
-        self.InstanceMenu:SetWidth(450)
+        self.InstanceMenu:SetWidth(350)
         self.InstanceMenu:SetPoint("LEFT", self.TopTileStreaks, "LEFT", 10, 0)
-        self.InstanceMenu:RegisterCallback(self.InstanceMenu.Event.OnUpdate, updateDifficultyMenuAndDataProvider, self.InstanceMenu)
+        self.InstanceMenu:RegisterCallback(self.InstanceMenu.Event.OnUpdate, updateMenuAndDataProvider, self.InstanceMenu)
 
         ---@return TalentBuildsMenuOptionForInstance?
         local function getSelectedInstance()
@@ -16406,9 +16430,69 @@ if IS_RETAIL then
 
         self.DifficultyMenu = DropDownUtil:CreateDynamicMenu(self, difficultyOptions)
         self.DifficultyMenu:SetDefaultText(L.BUILDS_SELECT_DIFFICULTY)
-        self.DifficultyMenu:SetWidth(150)
+        self.DifficultyMenu:SetWidth(120)
         self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 10, 0)
-        self.DifficultyMenu:RegisterCallback(self.DifficultyMenu.Event.OnUpdate, updateDifficultyMenuAndDataProvider, self.DifficultyMenu)
+        self.DifficultyMenu:RegisterCallback(self.DifficultyMenu.Event.OnUpdate, updateMenuAndDataProvider, self.DifficultyMenu)
+
+        ---@type TalentBuildsMenuOptionForExtra[]
+        local extraOptions = {
+            {
+                text = "All kills", -- TODO
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
+                radioselected = true,
+                arg1 = "all",
+                arg2 = nil,
+                arg3 = nil,
+            },
+            {
+                text = "Fast kills (top 20%)", -- TODO
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
+                arg1 = "fast",
+                arg2 = nil,
+                arg3 = nil,
+            },
+            {
+                text = "Median kills (mid 20%)", -- TODO
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
+                arg1 = "median",
+                arg2 = nil,
+                arg3 = nil,
+            },
+            {
+                text = "All weapons", -- TODO
+                show = isSelectedInstanceDungeon,
+                radiogroup = "dungeon",
+                radioselected = true,
+                arg1 = "all",
+                arg2 = nil,
+                arg3 = nil,
+            },
+            {
+                text = "2H", -- TODO
+                show = isSelectedInstanceDungeon,
+                radiogroup = "dungeon",
+                arg1 = "2h",
+                arg2 = nil,
+                arg3 = nil,
+            },
+            {
+                text = "1H Dual Wield", -- TODO
+                show = isSelectedInstanceDungeon,
+                radiogroup = "dungeon",
+                arg1 = "1hdw",
+                arg2 = nil,
+                arg3 = nil,
+            },
+        }
+
+        self.ExtraMenu = DropDownUtil:CreateDynamicMenu(self, extraOptions)
+        self.ExtraMenu:SetDefaultText(L.BUILDS_SELECT_EXTRA)
+        self.ExtraMenu:SetWidth(120)
+        self.ExtraMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 10, 0)
+        self.ExtraMenu:RegisterCallback(self.ExtraMenu.Event.OnUpdate, updateMenuAndDataProvider, self.ExtraMenu)
 
         self.CloseButton:HookScript("OnClick", function() talentbuilds:HideFrame() end)
 
@@ -16512,21 +16596,33 @@ if IS_RETAIL then
         return difficulty == "all"
     end
 
+    ---@param option TalentBuildsMenuOptionForExtra
+    ---@type DropDownUtilDynamicMenuSelectOptionOrPredicate
+    local function defaultExtraMenuSelection(option)
+        local extra = option.arg1
+        return extra == "all" -- TODO
+    end
+
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
+    ---@param extraMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
         if not frame then
             frame = getFrame()
         end
-        if not instanceMenuSelection and not difficultyMenuSelection then
+        if not instanceMenuSelection and not difficultyMenuSelection and not extraMenuSelection then
             instanceMenuSelection = defaultInstanceMenuSelection
             difficultyMenuSelection = defaultDifficultyMenuSelection
+            extraMenuSelection = defaultExtraMenuSelection
         end
         if instanceMenuSelection then
             frame.InstanceMenu:DynamicMenuSelectOption(instanceMenuSelection)
         end
         if difficultyMenuSelection then
             frame.DifficultyMenu:DynamicMenuSelectOption(difficultyMenuSelection)
+        end
+        if extraMenuSelection then
+            frame.ExtraMenu:DynamicMenuSelectOption(extraMenuSelection)
         end
         frame:Show()
     end
@@ -16539,11 +16635,12 @@ if IS_RETAIL then
 
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection)
+    ---@param extraMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
         if self:IsFrameShown() then
             self:HideFrame()
         else
-            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
+            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
         end
     end
 
@@ -16642,7 +16739,8 @@ if IS_RETAIL then
                     return false
                 end
                 return util:TableContains(difficultyIDs, journalDifficultyID)
-            end
+            end,
+            defaultExtraMenuSelection
         )
     end
 
