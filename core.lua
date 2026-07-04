@@ -15201,10 +15201,13 @@ if IS_RETAIL then
         button.HeroText:SetFormattedText("|cff999999%s|r", getHeroTitleText(build))
         button.BuildTitle:SetText(getBuildTitleText(build))
         button.BuildText:SetFormattedText("|cff999999%s|r", getBuildStatsText(build))
-        if talentbuilds:IsBuildActiveAsLoadout(build) then
+        local isActive = talentbuilds:IsBuildActiveAsLoadout(build)
+        if isActive then
             button.ActionMenuToggle.Icon:SetVertexColor(0, 1, 0)
-        else
+        elseif isActive == false then
             button.ActionMenuToggle.Icon:SetVertexColor(1, 1, 1)
+        else
+            button.ActionMenuToggle.Icon:SetVertexColor(1, 0.5, 0.5)
         end
         button:OnButtonUpdate()
     end
@@ -15354,7 +15357,7 @@ if IS_RETAIL then
 
         button.ActionMenu = DropDownUtil:CreateDynamicMenu(button, {
             {
-                show = function(option) option.arg1 = talentbuilds:IsBuildActiveAsLoadout(button.elementData) return option.arg1 end,
+                show = function(option) option.arg1 = talentbuilds:IsBuildActiveAsLoadout(button.elementData) return option.arg1 or false end,
                 icon = "|A:perks-owned-small:15:17:2:0|a ",
                 text = L.BUILDS_PROFILE_ACTIVE_LOADOUT_TITLE,
                 unclickable = true,
@@ -15995,6 +15998,17 @@ if IS_RETAIL then
     ---@param build TalentBuildsCompiledProfileBuild
     ---@param configID? number Defaults to active config.
     function talentbuilds:IsBuildActiveAsLoadout(build, configID)
+        configID = configID or C_ClassTalents.GetActiveConfigID()
+        if not configID then
+            return
+        end
+        if C_Traits.ConfigHasStagedChanges(configID) then
+            return
+        end
+        local activeConfigID = LibClassTalentsImportExport:GetActiveLoadoutConfigID()
+        if activeConfigID and activeConfigID ~= configID and C_Traits.ConfigHasStagedChanges(activeConfigID) then
+            return
+        end
         local importString = LibClassTalentsImportExport.ExportLoadout(configID)
         if not importString then
             return
