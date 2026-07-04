@@ -16108,9 +16108,10 @@ if IS_RETAIL then
                 return
             end
 
-            if existingLoadout.usesSharedActionBars ~= nil then
-                usesSharedActionBars = existingLoadout.usesSharedActionBars
-            end
+            -- TODO: this should work, but it doesn't, adding a comment and for now forcing the build to use the shared action bars for the re-usable loadout
+            -- if existingLoadout.usesSharedActionBars ~= nil then
+            --     usesSharedActionBars = existingLoadout.usesSharedActionBars
+            -- end
 
         end
 
