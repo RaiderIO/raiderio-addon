@@ -4156,877 +4156,6 @@ do
 
 end
 
--- classtalentimportexport.lua
--- dependencies: module, util
-if IS_RETAIL then
-
-    ---@class ClassTalentImportExportModule : Module
-    local classTalentImportExport = ns:NewModule("ClassTalentImportExport") ---@type ClassTalentImportExportModule
-    local util = ns:GetModule("Util") ---@type UtilModule
-
-    ---@class ImportDataStreamPolyfill
-    ---@field public Init fun(self: ImportDataStreamPolyfill, exportString: string)
-    ---@field public ExtractValue fun(self: ImportDataStreamPolyfill, bitWidth: number): number
-    ---@field public GetNumberOfBits fun(self: ImportDataStreamPolyfill): number
-
-    ---@class LoadoutContentPolyfill
-    ---@field public isNodeSelected boolean
-    ---@field public isNodeGranted boolean
-    ---@field public isPartiallyRanked boolean
-    ---@field public partialRanksPurchased number
-    ---@field public isChoiceNode boolean
-    ---@field public choiceNodeSelection number
-
-    ---@class ImportLoadoutEntryInfoPolyfill
-    ---@field public nodeID number
-    ---@field public ranksGranted number
-    ---@field public ranksPurchased number
-    ---@field public selectionEntryID number
-    ---@field public ranksPurchasedForTieredNode? number A custom field to tally the total number of purchases on this tiered node.
-
-    local bitWidthHeaderVersion = 8
-    local bitWidthSpecID = 16
-    local bitWidthRanksPurchased = 6
-
-    ---@param importStream ImportDataStreamPolyfill
-    ---@return boolean headerValid, number serializationVersion, number specID, number[] treeHash
-    local function ReadLoadoutHeader(importStream)
-        local headerBitWidth = bitWidthHeaderVersion + bitWidthSpecID + 128
-        local importStreamTotalBits = importStream:GetNumberOfBits()
-        local treeHash = {} ---@type number[]
-        if importStreamTotalBits < headerBitWidth then
-            return false, 0, 0, treeHash
-        end
-        local serializationVersion = importStream:ExtractValue(bitWidthHeaderVersion)
-        local specID = importStream:ExtractValue(bitWidthSpecID)
-        for i = 1, 16 do
-            treeHash[i] = importStream:ExtractValue(8)
-        end
-        return true, serializationVersion, specID, treeHash
-    end
-
-    ---@param importStream ImportDataStreamPolyfill
-    ---@param treeID number
-    ---@return LoadoutContentPolyfill[] loadoutContent
-    local function ReadLoadoutContent(importStream, treeID)
-        local results = {} ---@type LoadoutContentPolyfill[]
-        local treeNodes = C_Traits.GetTreeNodes(treeID)
-        for i, _ in ipairs(treeNodes) do
-            local nodeSelectedValue = importStream:ExtractValue(1)
-            local isNodeSelected =  nodeSelectedValue == 1
-            local isNodePurchased = false
-            local isPartiallyRanked = false
-            local partialRanksPurchased = 0
-            local isChoiceNode = false
-            local choiceNodeSelection = 0
-            if isNodeSelected then
-                local nodePurchasedValue = importStream:ExtractValue(1)
-                isNodePurchased = nodePurchasedValue == 1
-                if isNodePurchased then
-                    local isPartiallyRankedValue = importStream:ExtractValue(1)
-                    isPartiallyRanked = isPartiallyRankedValue == 1
-                    if isPartiallyRanked then
-                        partialRanksPurchased = importStream:ExtractValue(bitWidthRanksPurchased)
-                    end
-                    local isChoiceNodeValue = importStream:ExtractValue(1)
-                    isChoiceNode = isChoiceNodeValue == 1
-                    if isChoiceNode then
-                        choiceNodeSelection = importStream:ExtractValue(2)
-                    end
-                end
-            end
-            ---@type LoadoutContentPolyfill
-            local result = {
-                isNodeSelected = isNodeSelected,
-                isNodeGranted = isNodeSelected and not isNodePurchased,
-                isPartiallyRanked = isPartiallyRanked,
-                partialRanksPurchased = partialRanksPurchased,
-                isChoiceNode = isChoiceNode,
-                choiceNodeSelection = choiceNodeSelection + 1,
-            }
-            results[i] = result
-        end
-        return results
-    end
-
-    ---@param results ImportLoadoutEntryInfoPolyfill[]
-    ---@param configID number
-    ---@param treeNodeInfo TraitNodeInfo
-    ---@param indexInfo LoadoutContentPolyfill
-    local function CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
-        if not treeNodeInfo or not indexInfo then
-            return
-        end
-        if not indexInfo.isNodeSelected then
-            return
-        end
-        local totalRanksPurchased = 0
-        if not indexInfo.isNodeGranted then
-            totalRanksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
-        end
-        local remainingRanks = totalRanksPurchased
-        local i = #results
-        for index, entryID in ipairs(treeNodeInfo.entryIDs) do
-            local entryInfo = C_Traits.GetEntryInfo(configID, entryID)
-            if entryInfo then
-                local ranksForThisEntry = min(remainingRanks, entryInfo.maxRanks)
-                local isGranted = indexInfo.isNodeGranted and index == 1
-                local hasAnyRanksInThisEntry = isGranted or ranksForThisEntry > 0
-                if hasAnyRanksInThisEntry then
-                    ---@type ImportLoadoutEntryInfoPolyfill
-                    local result = {
-                        nodeID = treeNodeInfo.ID,
-                        ranksGranted = isGranted and 1 or 0,
-                        ranksPurchased = ranksForThisEntry,
-                        selectionEntryID = entryID,
-                    }
-                    i = i + 1
-                    results[i] = result
-                end
-                remainingRanks = remainingRanks - ranksForThisEntry
-            end
-        end
-    end
-
-    ---@param results ImportLoadoutEntryInfoPolyfill[]
-    ---@param configID number
-    ---@param treeNodeInfo TraitNodeInfo
-    ---@param indexInfo LoadoutContentPolyfill
-    local function CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
-        if not treeNodeInfo or not indexInfo then
-            return
-        end
-        if not indexInfo.isNodeSelected then
-            return
-        end
-        ---@type ImportLoadoutEntryInfoPolyfill
-        local result = {
-            nodeID = treeNodeInfo.ID,
-            ranksGranted = indexInfo.isNodeGranted and 1 or 0,
-            ranksPurchased = 0,
-            selectionEntryID = nil,
-        }
-        if indexInfo.isNodeSelected and not indexInfo.isNodeGranted then
-            result.ranksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
-        end
-        if indexInfo.isChoiceNode and indexInfo.choiceNodeSelection then
-            result.selectionEntryID = treeNodeInfo.entryIDs[indexInfo.choiceNodeSelection]
-        elseif treeNodeInfo.activeEntry then
-            result.selectionEntryID = treeNodeInfo.activeEntry.entryID
-        end
-        if not result.selectionEntryID then
-            result.selectionEntryID = treeNodeInfo.entryIDs[1]
-        end
-        if result.selectionEntryID ~= nil then
-            table.insert(results, result)
-        end
-    end
-
-    ---@param group ImportLoadoutEntryInfoPolyfill[]
-    local function UpdateCustomTieredNodeRankField(group)
-        local first = group[1]
-        first.ranksPurchasedForTieredNode = first.ranksPurchased
-        for i = 2, #group do
-            local other = group[i]
-            first.ranksPurchasedForTieredNode = first.ranksPurchasedForTieredNode + other.ranksPurchased
-        end
-        for i = 2, #group do
-            local other = group[i]
-            other.ranksPurchasedForTieredNode = first.ranksPurchasedForTieredNode
-        end
-    end
-
-    ---@param configID number
-    ---@param treeID number
-    ---@param loadoutContent LoadoutContentPolyfill[]
-    ---@return ImportLoadoutEntryInfoPolyfill[] loadoutEntryInfos
-    local function ConvertToImportLoadoutEntryInfo(configID, treeID, loadoutContent)
-        local results = {} ---@type ImportLoadoutEntryInfoPolyfill[]
-        local treeNodes = C_Traits.GetTreeNodes(treeID)
-        local tieredNodes = {} ---@type table<number, true>
-        for index, treeNodeID in ipairs(treeNodes) do
-            local indexInfo = loadoutContent[index]
-            local treeNodeInfo = C_Traits.GetNodeInfo(configID, treeNodeID)
-            if treeNodeInfo then
-                if treeNodeInfo.type == Enum.TraitNodeType.Tiered then
-                    tieredNodes[treeNodeInfo.ID] = true
-                    CreateImportLoadoutEntryInfoFromTieredNode(results, configID, treeNodeInfo, indexInfo)
-                else
-                    CreateImportLoadoutEntryInfoFromSingleNode(results, configID, treeNodeInfo, indexInfo)
-                end
-            end
-        end
-        for nodeID, _ in pairs(tieredNodes) do
-            local grouped = util:TableGroup(results, "nodeID", function(keyValue) return keyValue == nodeID end)
-            for _, group in ipairs(grouped) do
-                UpdateCustomTieredNodeRankField(group)
-            end
-        end
-        return results
-    end
-
-    ---@param importString string
-    ---@return ImportDataStreamPolyfill? importStream
-    local function MakeImportDataStream(importString)
-        ---@type boolean, ImportDataStreamPolyfill?
-        local success, importStream = pcall(ExportUtil.MakeImportDataStream, importString)
-        if not success or not importStream then
-            return
-        end
-        return importStream
-    end
-
-    ---@param treeHash number[]
-    ---@return boolean isEmpty
-    local function IsHashEmpty(treeHash)
-        for _, value in ipairs(treeHash) do
-            if value ~= 0 then
-                return false
-            end
-        end
-        return true
-    end
-
-    ---@param leftHashTree number[]
-    ---@param rightHashTree number[]
-    ---@return boolean areEqual
-    local function HashEquals(leftHashTree, rightHashTree)
-        if #leftHashTree ~= #rightHashTree then
-            return false
-        end
-        for i, _ in ipairs(leftHashTree) do
-            if leftHashTree[i] ~= rightHashTree[i] then
-                return false
-            end
-        end
-        return true
-    end
-
-    ---@param importString string
-    ---@param loadoutName string
-    ---@param configID number
-    ---@param treeID number
-    ---@return boolean success, string? errorText
-    local function ImportLoadout(importString, loadoutName, configID, treeID)
-        if not loadoutName or loadoutName == "" then
-            return false, "Loadout must have a name."
-        end
-
-        local importStream = MakeImportDataStream(importString)
-        if not importStream then
-            return false, "Unable to unpack import string."
-        end
-
-        local headerValid, serializationVersion, specID, treeHash = ReadLoadoutHeader(importStream)
-        if not headerValid then
-            return false, "Invalid import string."
-        end
-
-        local currentSerializationVersion = C_Traits.GetLoadoutSerializationVersion()
-        if serializationVersion ~= currentSerializationVersion then
-            return false, "Outdated import string. Incompatible with current version."
-        end
-
-        if specID ~= util:GetSpecialization() then
-            local _, name, _, _, _, _, className = GetSpecializationInfoByID(specID)
-            local errorText = "Loadout is for a different specialization"
-            return false, name and className and format("%s: %s %s.", errorText, name, className) or format("%s.", errorText)
-        end
-
-        local treeInfo = C_Traits.GetTreeInfo(configID, treeID)
-        if not IsHashEmpty(treeHash) then
-            if not HashEquals(treeHash, C_Traits.GetTreeHash(treeInfo.ID)) then
-                return false, "Outdated import string. Hash missmatch."
-            end
-        end
-
-        local loadoutContent = ReadLoadoutContent(importStream, treeInfo.ID)
-        local loadoutEntryInfo = ConvertToImportLoadoutEntryInfo(configID, treeInfo.ID, loadoutContent)
-        local success, errorString = C_ClassTalents.ImportLoadout(configID, loadoutEntryInfo, loadoutName, importString)
-        if not success then
-            return false, errorString or "Failed to import loadout."
-        end
-
-        return true
-    end
-
-    ---@param importString string
-    ---@param treeID number
-    ---@param expectedSpecID? number
-    ---@param configID? number
-    ---@return ImportLoadoutEntryInfoPolyfill[]? loadoutEntryInfos, string? errorText
-    local function UnpackImportString(importString, treeID, expectedSpecID, configID)
-        if not expectedSpecID then
-            expectedSpecID = util:GetSpecialization()
-        end
-
-        if not expectedSpecID then
-            return nil, "Missing player spec ID."
-        end
-
-        local activeConfigID = configID or C_ClassTalents.GetActiveConfigID()
-        if not activeConfigID then
-            return nil, "Missing active config ID."
-        end
-
-        local importStream = MakeImportDataStream(importString)
-        if not importStream then
-            return nil, "Unable to unpack import string."
-        end
-
-        local headerValid, serializationVersion, specID, treeHash = ReadLoadoutHeader(importStream)
-        if not headerValid then
-            return nil, "Invalid import string."
-        end
-
-        if serializationVersion ~= C_Traits.GetLoadoutSerializationVersion() then
-            return nil, "Invalid serialization version."
-        end
-
-        if specID ~= expectedSpecID then
-            return nil, format("Invalid active spec ID. Found %s but expected %s.", tostringall(specID, expectedSpecID))
-        end
-
-        local loadoutContent = ReadLoadoutContent(importStream, treeID)
-        return ConvertToImportLoadoutEntryInfo(activeConfigID, treeID, loadoutContent)
-    end
-
-    local globalUniqueApplyLoadoutID = 0
-    local maxIterationsPerCycle = 100
-
-    ---@param configID number
-    ---@param treeID number
-    ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
-    ---@param callback? fun(success: boolean, commiting: boolean)
-    local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
-        globalUniqueApplyLoadoutID = globalUniqueApplyLoadoutID + 1
-        local currentUniqueApplyLoadoutID = globalUniqueApplyLoadoutID
-
-        C_Traits.ResetTree(configID, treeID)
-
-        local sortedNodes = C_Traits.GetTreeNodes(treeID)
-        table.sort(sortedNodes, function(a, b)
-            local x = C_Traits.GetNodeInfo(configID, a)
-            local y = C_Traits.GetNodeInfo(configID, b)
-            if x.posY == y.posY then
-                return x.posX < y.posX
-            end
-            return x.posY < y.posY
-        end)
-
-        local i = 0
-        local numSortedNodes = #sortedNodes
-        local successProgress = 0
-
-        local function next()
-
-            if currentUniqueApplyLoadoutID ~= globalUniqueApplyLoadoutID then
-                return
-            end
-
-            local processed = 0
-            while processed < maxIterationsPerCycle and i <= numSortedNodes do
-
-                i = i + 1
-                processed = processed + 1
-
-                local nodeID = sortedNodes[i]
-                local loadoutEntryInfo, loadoutEntryInfoIndex = util:TableFind(loadoutEntryInfos, function(loadoutEntryInfo) return loadoutEntryInfo.nodeID == nodeID end)
-
-                if loadoutEntryInfo and loadoutEntryInfoIndex then
-                    local success = not loadoutEntryInfo.ranksPurchased
-
-                    if loadoutEntryInfo.ranksPurchased then
-                        local nodeInfo = C_Traits.GetNodeInfo(configID, nodeID)
-                        if nodeInfo.type == Enum.TraitNodeType.Selection or nodeInfo.type == Enum.TraitNodeType.SubTreeSelection then
-                            success = C_Traits.SetSelection(configID, loadoutEntryInfo.nodeID, loadoutEntryInfo.selectionEntryID)
-                        elseif nodeInfo.type == Enum.TraitNodeType.Single or nodeInfo.type == Enum.TraitNodeType.Tiered then
-                            local numMissingRanks = loadoutEntryInfo.ranksPurchased - nodeInfo.ranksPurchased
-                            local numPendingRanks = numMissingRanks
-                            for _ = 1, numMissingRanks do
-                                if C_Traits.PurchaseRank(configID, loadoutEntryInfo.nodeID) then
-                                    numPendingRanks = numPendingRanks - 1
-                                end
-                            end
-                            if numPendingRanks == 0 then
-                                success = true
-                            end
-                        else
-                            success = false
-                        end
-                    end
-
-                    if success then
-                        successProgress = successProgress + 1
-                        table.remove(loadoutEntryInfos, loadoutEntryInfoIndex)
-                    end
-                end
-
-            end
-
-            local pending = i <= numSortedNodes or successProgress > 0
-            if pending then
-                if successProgress > 0 then
-                    i = 0
-                    successProgress = 0
-                end
-                C_Timer.After(0, next)
-                return
-            end
-
-            local commiting = false
-            if C_Traits.ConfigHasStagedChanges(configID) then
-                commiting = C_Traits.CommitConfig(configID)
-            end
-
-            local success = #loadoutEntryInfos == 0
-            if callback then
-                callback(success, commiting)
-            end
-
-        end
-
-        next()
-    end
-
-    -- Returns the real config ID of the currently active loadout.
-    ---@return number? configID
-    function classTalentImportExport:GetActiveLoadoutConfigID()
-        local specID = util:GetSpecialization()
-        local lastSelectedConfigID = specID and C_ClassTalents.GetLastSelectedSavedConfigID(specID)
-        local uiSelectedConfigID = PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame and PlayerSpellsFrame.TalentsFrame.LoadSystem and PlayerSpellsFrame.TalentsFrame.LoadSystem.GetSelectionID and PlayerSpellsFrame.TalentsFrame.LoadSystem:GetSelectionID() ---@type number?
-        -- prioritize the default UI, then API, then active config ID, and nil is last resort and a complete failure
-        return uiSelectedConfigID or lastSelectedConfigID or C_ClassTalents.GetActiveConfigID()
-    end
-
-    ---@class LoadoutExtendedInfo : TraitConfigInfo
-    ---@field public index number
-
-    ---@alias LoadoutInfo LoadoutExtendedInfo|TraitConfigInfo
-    ---@alias LoadoutQuery LoadoutInfo|number|string
-
-    ---@generic T
-    ---@param predicate? fun(index: number, info: TraitConfigInfo): boolean?
-    ---@param converter? fun(index: number, info: TraitConfigInfo): T?
-    ---@param onlyOne? boolean
-    ---@return T[]
-    local function GetLoadouts(predicate, converter, onlyOne)
-        local results = {}
-        local i = 0
-        local configIDs = C_ClassTalents.GetConfigIDsBySpecID()
-        for index, configID in ipairs(configIDs) do
-            local info = C_Traits.GetConfigInfo(configID)
-            if info and (not predicate or predicate(index, info)) then
-                local result = info
-                if converter then
-                    result = converter(index, info)
-                end
-                if result ~= nil then
-                    i = i + 1
-                    results[i] = result
-                    if onlyOne then
-                        break
-                    end
-                end
-            end
-        end
-        return results
-    end
-
-    ---@param index number
-    ---@param info LoadoutExtendedInfo
-    ---@return LoadoutExtendedInfo
-    local function GetLoadoutsWithIndexConverter(index, info)
-        info.index = index
-        return info
-    end
-
-    ---@param predicate? fun(index: number, info: TraitConfigInfo): boolean?
-    ---@param onlyOne? boolean
-    ---@return LoadoutExtendedInfo[]
-    local function GetLoadoutsExtended(predicate, onlyOne)
-        return GetLoadouts(predicate, GetLoadoutsWithIndexConverter, onlyOne)
-    end
-
-    ---@param loadout LoadoutQuery
-    ---@param forceUpdateIndex? boolean
-    ---@return LoadoutExtendedInfo?
-    local function GetLoadoutsExtendedByQuery(loadout, forceUpdateIndex)
-        local t = type(loadout)
-        if t == "table" then
-            if not loadout.index or forceUpdateIndex then
-                local index = classTalentImportExport:GetLoadoutIndexByConfigID(loadout.ID)
-                loadout = GetLoadoutsWithIndexConverter(index, loadout)
-            end
-            return loadout
-        elseif t == "number" and loadout > 0 then
-            return GetLoadoutsExtended(function(index) return index == loadout end, true)[1]
-        elseif t == "string" then
-            return GetLoadoutsExtended(function(_, info) return info.name == loadout end, true)[1]
-        end
-    end
-
-    ---@param configID number
-    ---@return number? loadoutIndex
-    function classTalentImportExport:GetLoadoutIndexByConfigID(configID)
-        local configIDs = C_ClassTalents.GetConfigIDsBySpecID()
-        for index, id in ipairs(configIDs) do
-            if id == configID then
-                return index
-            end
-        end
-    end
-
-    ---@param index number
-    ---@return number? configID
-    function classTalentImportExport:GetLoadoutConfigIDByIndex(index)
-        local configIDs = C_ClassTalents.GetConfigIDsBySpecID()
-        for idx, configID in ipairs(configIDs) do
-            if idx == index then
-                return configID
-            end
-        end
-    end
-
-    -- Returns all the loadouts available to the player.
-    ---@return LoadoutExtendedInfo[]
-    function classTalentImportExport:GetLoadouts()
-        return GetLoadoutsExtended()
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    ---@param forceUpdateIndex? boolean
-    ---@return LoadoutExtendedInfo?
-    function classTalentImportExport:GetLoadoutInfo(loadout, forceUpdateIndex)
-        return GetLoadoutsExtendedByQuery(loadout, forceUpdateIndex)
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    function classTalentImportExport:SwitchToLoadout(loadout)
-        local info = classTalentImportExport:GetLoadoutInfo(loadout)
-        if not info then
-            return
-        end
-        C_Traits.RollbackConfig(info.ID)
-        if info.index and info.index > 0 then
-            ClassTalentHelper.SwitchToLoadoutByIndex(info.index)
-        elseif info.name then
-            ClassTalentHelper.SwitchToLoadoutByName(info.name)
-        end
-    end
-
-    local currentPersistentHandle ---@type CallbackRegistryHandle?
-    local currentPersistentTicker ---@type FunctionContainer?
-
-    local function clearCurrentPersistentState()
-        if currentPersistentHandle then
-            currentPersistentHandle:Unregister()
-            currentPersistentHandle = nil
-        end
-        if currentPersistentTicker then
-            currentPersistentTicker:Cancel()
-            currentPersistentTicker = nil
-        end
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    ---@param maxAttempts? number Defaults to 6 attempts.
-    ---@param timeBetweenAttempts? number Defaults to 0.5 seconds.
-    function classTalentImportExport:PersistentSwitchToLoadout(loadout, maxAttempts, timeBetweenAttempts)
-        clearCurrentPersistentState()
-        local info = classTalentImportExport:GetLoadoutInfo(loadout)
-        if not info then
-            return
-        end
-        maxAttempts = maxAttempts or 6
-        timeBetweenAttempts = timeBetweenAttempts or 0.5
-        local changing = false
-        currentPersistentHandle = util:RegisterOnceFrameEventAndCallback(
-            "UNIT_SPELLCAST_START",
-            -- The callback flips the flag so we know that we're changing talents.
-            function() changing = true end,
-            -- The predicate ensures to only run the callback when the player is casting the "Changing Talents" spell.
-            ---@param unit UnitToken
-            ---@param spellID number
-            function(unit, _, spellID) return unit == "player" and spellID == 384255 end
-        )
-        currentPersistentTicker = C_Timer.NewTicker(timeBetweenAttempts, function()
-            info = classTalentImportExport:GetLoadoutInfo(loadout, true)
-            if not info or info.ID == classTalentImportExport:GetActiveLoadoutConfigID() or changing then
-                clearCurrentPersistentState()
-                return
-            end
-            classTalentImportExport:SwitchToLoadout(info)
-        end, maxAttempts)
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    ---@return boolean? success
-    function classTalentImportExport:DeleteLoadout(loadout)
-        local info = classTalentImportExport:GetLoadoutInfo(loadout)
-        if not info then
-            return
-        end
-        return C_ClassTalents.DeleteConfig(info.ID)
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    ---@param name? string
-    ---@return boolean? success
-    function classTalentImportExport:RenameLoadout(loadout, name)
-        if type(name) ~= "string" or name:len() == 0 then
-            return
-        end
-        local info = classTalentImportExport:GetLoadoutInfo(loadout)
-        if not info then
-            return
-        end
-        return C_ClassTalents.RenameConfig(info.ID, name)
-    end
-
-    -- This can either create a new loadout which is empty, or one where the import string gets automatically handled.
-    ---@param importString string
-    ---@param name string
-    ---@param usesSharedActionBars boolean
-    ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
-    ---@return boolean? accepted, string? errorText
-    function classTalentImportExport:CreateLoadout(importString, name, usesSharedActionBars, callback)
-        if not callback then
-            return nil, "Missing required callback."
-        end
-
-        if not C_ClassTalents.CanCreateNewConfig() then
-            return false, "Unable to create a new loadout."
-        end
-
-        -- if not importString then
-        --     local success = C_ClassTalents.RequestNewConfig(name)
-        --     if not success then
-        --         return false, "Request to create a new loadout failed."
-        --     end
-        --     return true
-        -- end
-
-        local configID = C_ClassTalents.GetActiveConfigID()
-        if not configID then
-            return nil, "Missing config ID."
-        end
-
-        local treeID = util:GetSpecializationTreeID(configID)
-        if not treeID then
-            return nil, "Missing tree ID."
-        end
-
-        local success = ImportLoadout(importString, name, configID, treeID)
-        if not success then
-            return false, "Unable to import loadout."
-        end
-
-        ---@param info TraitConfigInfo
-        util:RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_CREATED", function(info)
-            info = GetLoadoutsExtendedByQuery(info) ---@type LoadoutExtendedInfo
-            local nameSuccess = true
-            local usesSharedActionBarsSuccess = true
-            if info.name ~= name then
-                nameSuccess = classTalentImportExport:RenameLoadout(info, name)
-                if nameSuccess then
-                    info.name = name
-                end
-            end
-            if info.usesSharedActionBars ~= usesSharedActionBars then
-                usesSharedActionBarsSuccess = classTalentImportExport:UpdateLoadoutSharedActionBars(info, usesSharedActionBars)
-                if usesSharedActionBarsSuccess then
-                    info.usesSharedActionBars = usesSharedActionBars
-                end
-            end
-            local success = nameSuccess and usesSharedActionBarsSuccess
-            callback(info, success, nameSuccess, usesSharedActionBarsSuccess)
-        end)
-
-        return true
-    end
-
-    -- Accepts a `loadout object`, `index` or `name`.
-    ---@param loadout LoadoutQuery
-    ---@param usesSharedActionBars boolean
-    function classTalentImportExport:UpdateLoadoutSharedActionBars(loadout, usesSharedActionBars)
-        if usesSharedActionBars == nil then
-            return
-        end
-        local info = classTalentImportExport:GetLoadoutInfo(loadout)
-        if not info then
-            return
-        end
-        usesSharedActionBars = not not usesSharedActionBars
-        C_ClassTalents.SetUsesSharedActionBars(info.ID, usesSharedActionBars)
-        return true
-    end
-
-    -- This simply modifies the active loadout to match the desired import string choices.
-    ---@param importString string
-    ---@param callback? fun(success: boolean, commiting: boolean)
-    ---@return boolean? accepted, string? errorText
-    function classTalentImportExport:EditActiveLoadoutTalents(importString, callback)
-        local canChange, _, changeError = C_ClassTalents.CanChangeTalents()
-        if not canChange then
-            return nil, changeError or "Can't change talents."
-        end
-
-        local configID = C_ClassTalents.GetActiveConfigID()
-        if not configID then
-            return nil, "Missing config ID."
-        end
-
-        local treeID = util:GetSpecializationTreeID(configID)
-        if not treeID then
-            return nil, "Missing tree ID."
-        end
-
-        local specID = util:GetSpecialization()
-        local loadoutEntryInfos, errorText = UnpackImportString(importString, treeID, specID, configID)
-        if not loadoutEntryInfos or errorText then
-            return nil, errorText or "Can't import build."
-        end
-
-        EditLoadout(configID, treeID, loadoutEntryInfos, callback)
-        return true
-    end
-
-    ---@param configID? number Defaults to active config.
-    ---@return string? importString
-    function classTalentImportExport:ExportLoadout(configID)
-        if not configID then
-            configID = C_ClassTalents.GetActiveConfigID()
-        end
-        if not configID then
-            return
-        end
-        return C_Traits.GenerateImportString(configID)
-    end
-
-    ---@param configID number
-    ---@param useImportString? stringView
-    ---@return ImportLoadoutEntryInfoPolyfill[]?
-    function classTalentImportExport:GetLoadoutEntryInfos(configID, useImportString)
-        if not configID then
-            return
-        end
-
-        local importString = useImportString or classTalentImportExport:ExportLoadout(configID)
-        if not importString then
-            return
-        end
-
-        local treeID = util:GetSpecializationTreeID(configID)
-        if not treeID then
-            return
-        end
-
-        local specID = util:GetSpecialization()
-        local loadoutEntryInfos = UnpackImportString(importString, treeID, specID, configID)
-        return loadoutEntryInfos
-    end
-
-    ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
-    local function FlattenNodeRanksPurchased(loadoutEntryInfos)
-        local map = {} ---@type table<number, number>
-        local choiceMap = {} ---@type table<number, number>
-        for _, info in ipairs(loadoutEntryInfos) do
-            local nodeID = info.nodeID
-            local ranksPurchased = info.ranksPurchased
-            local selectionEntryID = info.selectionEntryID
-            if ranksPurchased and ranksPurchased > 0 then
-                map[nodeID] = (map[nodeID] or 0) + ranksPurchased
-            end
-            if selectionEntryID and selectionEntryID > 0 then
-                choiceMap[nodeID] = selectionEntryID
-            end
-        end
-        return map, choiceMap
-    end
-
-    -- Both left and right sides must have data, but it's optional if you use the configID or the importString, otherwise
-    -- the return will be false since it won't have enough data to perform a comparison.
-    ---@param leftConfigID? number Defaults to active config.
-    ---@param leftImportString? string
-    ---@param rightConfigID? number Defaults to active config.
-    ---@param rightImportString? string
-    ---@return boolean areEqual
-    function classTalentImportExport:AreImportStringsEqual(leftConfigID, leftImportString, rightConfigID, rightImportString)
-        local activeConfigID = C_ClassTalents.GetActiveConfigID()
-        leftConfigID = leftConfigID or activeConfigID
-        rightConfigID = rightConfigID or activeConfigID
-
-        if not leftConfigID and not rightConfigID then
-            return false
-        end
-
-        if leftConfigID == rightConfigID and leftImportString == rightImportString then
-            return true
-        end
-
-        local leftInfos = classTalentImportExport:GetLoadoutEntryInfos(leftConfigID, leftImportString)
-        if not leftInfos then
-            return false
-        end
-
-        local rightInfos = classTalentImportExport:GetLoadoutEntryInfos(rightConfigID, rightImportString)
-        if not rightInfos then
-            return false
-        end
-
-        if #leftInfos ~= #rightInfos then
-            return false
-        end
-
-        local leftMap, leftChoiceMap = FlattenNodeRanksPurchased(leftInfos)
-        local rightMap, rightChoiceMap = FlattenNodeRanksPurchased(rightInfos)
-        local nodeIDs = {} ---@type number[]
-        local seenNodeIDs = {} ---@type table<number, true?>
-        local i = 0
-
-        ---@param nodeID number
-        local function appendNodeID(nodeID)
-            if seenNodeIDs[nodeID] then
-                return
-            end
-            seenNodeIDs[nodeID] = true
-            i = i + 1
-            nodeIDs[i] = nodeID
-        end
-
-        for nodeID, _ in pairs(leftMap) do
-            appendNodeID(nodeID)
-        end
-
-        for nodeID, _ in pairs(rightMap) do
-            appendNodeID(nodeID)
-        end
-
-        for _, nodeID in ipairs(nodeIDs) do
-            local left = leftMap[nodeID] or 0
-            local right = rightMap[nodeID] or 0
-            if left ~= right then
-                return false
-            end
-            local leftChoice = leftChoiceMap[nodeID] or 0
-            local rightChoice = rightChoiceMap[nodeID] or 0
-            if leftChoice ~= rightChoice then
-                return false
-            end
-        end
-
-        return true
-    end
-
-    classTalentImportExport:Enable()
-end
-
 -- json.lua
 -- dependencies: module, config, callback, util
 do
@@ -15554,7 +14683,7 @@ do
 end
 
 -- talentbuilds.lua
--- dependencies: module, callback, config, util, classTalentImportExport
+-- dependencies: module, callback, config, util + LibClassTalentsImportExport
 if IS_RETAIL then
 
     ---@class TalentBuildsModule : Module
@@ -15562,7 +14691,9 @@ if IS_RETAIL then
     local callback = ns:GetModule("Callback") ---@type CallbackModule
     local config = ns:GetModule("Config") ---@type ConfigModule
     local util = ns:GetModule("Util") ---@type UtilModule
-    local classTalentImportExport = ns:GetModule("ClassTalentImportExport") ---@type ClassTalentImportExportModule
+
+    ---@type LibClassTalentsImportExport-1.0
+    local LibClassTalentsImportExport = LibStub and LibStub:GetLibrary("LibClassTalentsImportExport-1.0", true)
 
     ---@class TitledPanelMixinPolyfill
     ---@field public SetTitleColor fun(self: TitledPanelMixinPolyfill, color: ColorMixin)
@@ -16778,7 +15909,7 @@ if IS_RETAIL then
         if cache ~= nil then
             return cache
         end
-        cache = classTalentImportExport:AreImportStringsEqual(nil, importString, nil, build.importString)
+        cache = LibClassTalentsImportExport.AreImportStringsEqual(nil, importString, nil, build.importString)
         isBuildAndImportStringEqualCache[key] = cache
         return cache
     end
@@ -16786,7 +15917,7 @@ if IS_RETAIL then
     ---@param build TalentBuildsCompiledProfileBuild
     ---@param configID? number Defaults to active config.
     function talentbuilds:IsBuildActiveAsLoadout(build, configID)
-        local importString = classTalentImportExport:ExportLoadout(configID)
+        local importString = LibClassTalentsImportExport.ExportLoadout(configID)
         if not importString then
             return
         end
@@ -16818,14 +15949,14 @@ if IS_RETAIL then
         end
 
         -- local activeLoadoutConfigID = classTalentImportExport:GetActiveLoadoutConfigID()
-        local existingLoadout = classTalentImportExport:GetLoadoutInfo(defaultLoadoutName)
+        local existingLoadout = LibClassTalentsImportExport.GetLoadoutInfo(defaultLoadoutName)
 
         if existingLoadout then
 
             local existingLoadoutConfigID = existingLoadout.ID
 
             if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadoutConfigID) then
-                classTalentImportExport:PersistentSwitchToLoadout(existingLoadout)
+                LibClassTalentsImportExport.PersistentSwitchToLoadout(existingLoadout)
                 respond(true, "Switching to correct loadout.") -- TODO
                 return
             end
@@ -16844,7 +15975,7 @@ if IS_RETAIL then
             --     return
             -- end
 
-            if not classTalentImportExport:DeleteLoadout(existingLoadout) then
+            if not LibClassTalentsImportExport.DeleteLoadout(existingLoadout) then
                 respond(false, "Unable to delete old loadout.") -- TODO
                 return
             end
@@ -16854,12 +15985,12 @@ if IS_RETAIL then
         end
 
         local function createLoadout()
-            local accepted, errorText = classTalentImportExport:CreateLoadout(
+            local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
                 build.importString,
                 defaultLoadoutName,
                 defaultUsesSharedActionBars,
                 function(info, success)
-                    classTalentImportExport:PersistentSwitchToLoadout(info)
+                    LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
                     respond(success, not success and "Failed importing the desired build." or nil) -- TODO
                 end
             )
@@ -16887,7 +16018,7 @@ if IS_RETAIL then
 
     ---@param build TalentBuildsCompiledProfileBuild
     function talentbuilds:CopyCompareLink(build)
-        local importString = classTalentImportExport:ExportLoadout()
+        local importString = LibClassTalentsImportExport.ExportLoadout()
         if not importString then
             return
         end
@@ -16979,7 +16110,7 @@ if IS_RETAIL then
     end
 
     function talentbuilds:CanLoad()
-        return config:IsEnabled()
+        return config:IsEnabled() and LibClassTalentsImportExport and LibClassTalentsImportExport.IsCompatible()
     end
 
     local function OnPlayerSpecializationChange()
@@ -18658,7 +17789,7 @@ do
 end
 
 -- shortcuts.lua
--- dependencies: module, callback, config, util, profile, search, settings, classTalentImportExport, talentbuilds, LibDataBroker + LibDBIcon
+-- dependencies: module, callback, config, util, profile, search, settings, talentbuilds, LibClassTalentsImportExport + LibDataBroker + LibDBIcon
 do
 
     ---@class ShortcutsModule : Module
@@ -18669,12 +17800,19 @@ do
     local profile = ns:GetModule("Profile") ---@type ProfileModule
     local search = ns:GetModule("Search") ---@type SearchModule
     local settings = ns:GetModule("Settings") ---@type SettingsModule
-    local classTalentImportExport = ns:GetModule("ClassTalentImportExport") ---@type ClassTalentImportExportModule
     local talentbuilds = ns:GetModule("TalentBuilds", true) ---@type TalentBuildsModule?
 
-    local LDB = LibStub("LibDataBroker-1.1", true)
-    local LDBI = LibStub("LibDBIcon-1.0", true)
-    local anchorFrame ---@type Frame
+    ---@type LibClassTalentsImportExport-1.0
+    local LibClassTalentsImportExport = LibStub and LibStub:GetLibrary("LibClassTalentsImportExport-1.0", true)
+
+    ---@type LibDataBroker-1.1
+    local LibDataBroker = LibStub("LibDataBroker-1.1", true)
+
+    ---@type LibDBIcon-1.0
+    local LibDBIcon = LibStub("LibDBIcon-1.0", true)
+
+    ---@type Frame
+    local anchorFrame
 
     local TooltipHelpTextMinimap = format(
         "%s%s\n%s%s",
@@ -18751,7 +17889,7 @@ do
     end
 
     local function ShowCopyActiveLoadout()
-        local importString = classTalentImportExport:ExportLoadout()
+        local importString = LibClassTalentsImportExport and LibClassTalentsImportExport.ExportLoadout()
         if not importString then
             return
         end
@@ -18831,7 +17969,7 @@ do
                     },
                     {
                         text = L.MINIMAP_SHORTCUT_MENU_COPY_BUILD,
-                        show = function() return classTalentImportExport:IsEnabled() end,
+                        show = function() return LibClassTalentsImportExport and LibClassTalentsImportExport.IsCompatible() end,
                         func = ShowCopyActiveLoadout,
                     },
                 })
@@ -18848,10 +17986,10 @@ do
     end
 
     function shortcuts:InitializeDataBroker()
-        if not LDB or self.dataBroker then
+        if not LibDataBroker or self.dataBroker then
             return
         end
-        self.dataBroker = LDB:NewDataObject(addonName, {
+        self.dataBroker = LibDataBroker:NewDataObject(addonName, {
             text = L.RAIDERIO,
             type = "launcher",
             icon = "Interface\\AddOns\\RaiderIO\\icons\\logo",
@@ -18862,39 +18000,41 @@ do
     end
 
     function shortcuts:InitializeDBIcon()
-        if not LDBI or self.dbIcon or not self.dataBroker then
+        if not LibDBIcon or self.dbIcon or not self.dataBroker then
             return
         end
         local db = self:GetMinimapIconDB()
         config:Set("minimapIcon", db) -- force save the initial settings in the SV file
-        LDBI:Register(addonName, self.dataBroker, db)
-        self.dbIcon = LDBI:IsRegistered(addonName)
+        LibDBIcon:Register(addonName, self.dataBroker, db)
+        self.dbIcon = LibDBIcon:IsRegistered(addonName)
     end
 
     function shortcuts:ShowIcon()
+        if not LibDBIcon or not self.dbIcon then
+            return
+        end
         local db = self:GetMinimapIconDB()
-        if self.dbIcon then
-            if db.showInCompartment then
-                LDBI:AddButtonToCompartment(addonName)
-            end
-            if not db.hide then
-                LDBI:Show(addonName)
-            end
-            if db.showInCompartment or not db.hide then
-                LDBI:Refresh(addonName, db)
-            end
+        if db.showInCompartment then
+            LibDBIcon:AddButtonToCompartment(addonName)
+        end
+        if not db.hide then
+            LibDBIcon:Show(addonName)
+        end
+        if db.showInCompartment or not db.hide then
+            LibDBIcon:Refresh(addonName, db)
         end
     end
 
     function shortcuts:HideIcon()
+        if not LibDBIcon or not self.dbIcon then
+            return
+        end
         local db = self:GetMinimapIconDB()
-        if self.dbIcon then
-            if not db.showInCompartment then
-                LDBI:RemoveButtonFromCompartment(addonName)
-            end
-            if db.hide then
-                LDBI:Hide(addonName)
-            end
+        if not db.showInCompartment then
+            LibDBIcon:RemoveButtonFromCompartment(addonName)
+        end
+        if db.hide then
+            LibDBIcon:Hide(addonName)
         end
     end
 
@@ -18919,7 +18059,7 @@ do
     end
 
     function shortcuts:CanLoad()
-        return config:IsEnabled() and profile:IsEnabled() and search:IsEnabled() and settings:IsEnabled() and (not talentbuilds or talentbuilds:IsEnabled())
+        return config:IsEnabled() and profile:IsEnabled() and search:IsEnabled() and settings:IsEnabled()
     end
 
     function shortcuts:OnLoad()
