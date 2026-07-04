@@ -591,17 +591,6 @@ end
 
 --- MARK: Library API
 
---- Returns the real config ID of the currently active loadout.
----
---- ⚠️ Prioritize the `default UI`, then `API`, then `active config ID`, and lastly `nil` as the last resort in the event of a complete faliure.
----@return number? configID
-function LibClassTalentsImportExport.GetActiveLoadoutConfigID()
-    local specID = LibClassTalentsImportExport.GetSpecialization()
-    local lastSelectedConfigID = specID and C_ClassTalents.GetLastSelectedSavedConfigID(specID)
-    local uiSelectedConfigID = PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame and PlayerSpellsFrame.TalentsFrame.LoadSystem and PlayerSpellsFrame.TalentsFrame.LoadSystem.GetSelectionID and PlayerSpellsFrame.TalentsFrame.LoadSystem:GetSelectionID() ---@type number?
-    return uiSelectedConfigID or lastSelectedConfigID or C_ClassTalents.GetActiveConfigID()
-end
-
 ---@class LoadoutExtendedInfo : TraitConfigInfo
 ---@field public index number
 
@@ -672,6 +661,28 @@ local function GetLoadoutsExtendedByQuery(loadout, forceUpdateIndex)
     elseif t == "string" then
         return GetLoadoutsExtended(function(_, info) return info.name == loadout end, true)[1]
     end
+end
+
+--- Returns the real config ID of the currently active loadout.
+---
+--- ⚠️ Prioritize the `default UI`, then `API`, then `active config ID`, and lastly `nil` as the last resort in the event of a complete faliure.
+---@return number? configID
+function LibClassTalentsImportExport.GetActiveLoadoutConfigID()
+    local specID = LibClassTalentsImportExport.GetSpecialization()
+    local lastSelectedConfigID = specID and C_ClassTalents.GetLastSelectedSavedConfigID(specID)
+    local uiSelectedConfigID = PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame and PlayerSpellsFrame.TalentsFrame.LoadSystem and PlayerSpellsFrame.TalentsFrame.LoadSystem.GetSelectionID and PlayerSpellsFrame.TalentsFrame.LoadSystem:GetSelectionID() ---@type number?
+    return uiSelectedConfigID or lastSelectedConfigID or C_ClassTalents.GetActiveConfigID()
+end
+
+--- Similar to `GetActiveLoadoutConfigID` but it instead returns the loadout object itself.
+---@return LoadoutExtendedInfo? loadoutInfo
+function LibClassTalentsImportExport.GetActiveLoadout()
+    local configID = LibClassTalentsImportExport.GetActiveLoadoutConfigID()
+    if not configID then
+        return
+    end
+    local loadoutInfos = GetLoadoutsExtended(function(_, loadout) return loadout.ID == configID end, true)
+    return loadoutInfos[1]
 end
 
 --- Get the loadout index from a loadout config ID.
@@ -818,6 +829,16 @@ function LibClassTalentsImportExport.RenameLoadout(loadout, name)
     return C_ClassTalents.RenameConfig(info.ID, name)
 end
 
+---@enum LibClassTalentsImportExportCreateLoadoutErrorTexts
+LibClassTalentsImportExport.CreateLoadoutErrorTexts = {
+    MissingRequiredCallback = "Missing required callback.",
+    UnableToCreateNewLoadout = "Unable to create a new loadout.",
+    -- ErrorCreatingNewLoadout = "Request to create a new loadout failed.",
+    MissingConfigID = "Missing config ID.",
+    MissingTreeID = "Missing tree ID.",
+    ErrorImportingLoadout = "Unable to import loadout.",
+}
+
 --- ⚠️ TODO: This will currently not update an existing loadout, but simply delete it and create a new one with the desired importString.
 ---
 --- This can either create a new loadout which is empty, or one where the import string gets automatically handled.
@@ -825,37 +846,37 @@ end
 ---@param name string
 ---@param usesSharedActionBars boolean
 ---@param callback fun(info: LoadoutExtendedInfo, success: boolean, nameSuccess: boolean, usesSharedActionBarsSuccess: boolean)
----@return boolean? accepted, string? errorText
+---@return boolean? accepted, LibClassTalentsImportExportCreateLoadoutErrorTexts? errorText
 function LibClassTalentsImportExport.CreateLoadout(importString, name, usesSharedActionBars, callback)
     if not callback then
-        return nil, "Missing required callback."
+        return nil, LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback
     end
 
     if not C_ClassTalents.CanCreateNewConfig() then
-        return false, "Unable to create a new loadout."
+        return false, LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout
     end
 
     -- if not importString then
     --     local success = C_ClassTalents.RequestNewConfig(name)
     --     if not success then
-    --         return false, "Request to create a new loadout failed."
+    --         return false, LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorCreatingNewLoadout
     --     end
     --     return true
     -- end
 
     local configID = C_ClassTalents.GetActiveConfigID()
     if not configID then
-        return nil, "Missing config ID."
+        return nil, LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingConfigID
     end
 
     local treeID = LibClassTalentsImportExport.GetSpecializationTreeID(configID)
     if not treeID then
-        return nil, "Missing tree ID."
+        return nil, LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingTreeID
     end
 
     local success = ImportLoadout(importString, name, configID, treeID)
     if not success then
-        return false, "Unable to import loadout."
+        return false, LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout
     end
 
     ---@param info TraitConfigInfo
@@ -897,32 +918,40 @@ function LibClassTalentsImportExport.UpdateLoadoutSharedActionBars(loadout, uses
     return true
 end
 
+---@enum LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts
+LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts = {
+    UnableToChangeTalents = "Can't change talents.",
+    MissingConfigID = "Missing config ID.",
+    MissingTreeID = "Missing tree ID.",
+    UnableToImportTalents = "Can't import talents.",
+}
+
 --- ⚠️ TODO: WIP
 ---
 --- This simply modifies the active loadout to match the desired import string choices.
 ---@param importString string
 ---@param callback? fun(success: boolean, commiting: boolean)
----@return boolean? accepted, string? errorText
+---@return boolean? accepted, LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts? errorText
 function LibClassTalentsImportExport.EditActiveLoadoutTalents(importString, callback)
     local canChange, _, changeError = C_ClassTalents.CanChangeTalents()
     if not canChange then
-        return nil, changeError or "Can't change talents."
+        return nil, changeError or LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToChangeTalents
     end
 
     local configID = C_ClassTalents.GetActiveConfigID()
     if not configID then
-        return nil, "Missing config ID."
+        return nil, LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID
     end
 
     local treeID = LibClassTalentsImportExport.GetSpecializationTreeID(configID)
     if not treeID then
-        return nil, "Missing tree ID."
+        return nil, LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID
     end
 
     local specID = LibClassTalentsImportExport.GetSpecialization()
     local loadoutEntryInfos, errorText = UnpackImportString(importString, treeID, specID, configID)
     if not loadoutEntryInfos or errorText then
-        return nil, errorText or "Can't import build."
+        return nil, errorText or LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents
     end
 
     EditLoadout(configID, treeID, loadoutEntryInfos, callback)
@@ -1009,10 +1038,6 @@ function LibClassTalentsImportExport.AreImportStringsEqual(leftConfigID, leftImp
 
     local rightInfos = LibClassTalentsImportExport.GetLoadoutEntryInfos(rightConfigID, rightImportString)
     if not rightInfos then
-        return false
-    end
-
-    if #leftInfos ~= #rightInfos then
         return false
     end
 

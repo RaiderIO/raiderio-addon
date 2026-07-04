@@ -15123,6 +15123,7 @@ if IS_RETAIL then
 
     local isBuildAndImportStringEqualCache = {} ---@type table<string, boolean?>
     local frame ---@type TalentBuildsFrame?
+    local frameFeedback ---@type TalentBuilsFrameFeedback?
     local updatingMenus = false
 
     ---@param owner WowStyle1DropdownTemplatePolyfill
@@ -15251,8 +15252,12 @@ if IS_RETAIL then
     end
 
     ---@param self TalentBuildsDataProviderBuildButton
-    local function buildsButtonPlaySuccessAnimation(self)
+    ---@param resultText? string
+    local function buildsButtonPlaySuccessAnimation(self, resultText)
         self.ActionMenuToggle.SuccessAnimation:Play()
+        if frameFeedback and resultText then
+            frameFeedback:Open(self, resultText)
+        end
     end
 
     ---@param self TalentBuildsDataProviderBuildButton
@@ -15359,12 +15364,14 @@ if IS_RETAIL then
                 text = function(option) return format("|cff%s%s|r", option.arg1 and "999999" or "ffffff", L.BUILDS_PROFILE_LOAD_LOADOUT_ACTION_TITLE) end,
                 func = function()
                     talentbuilds:LoadBuild(
+                        L.BUILDS_PROFILE_LOADOUT_NAME,
+                        true,
                         button.elementData,
-                        function(success, errorText)
+                        function(success, resultText)
                             if success then
-                                button:PlaySuccessAnimation()
-                            elseif errorText then
-                                ns.PrintWithAddonPrefix(errorText)
+                                button:PlaySuccessAnimation(resultText)
+                            elseif resultText then
+                                ns.PrintWithAddonPrefix(resultText)
                             end
                             return true
                         end
@@ -15705,6 +15712,74 @@ if IS_RETAIL then
 
     end
 
+    ---@param frameFeedback TalentBuilsFrameFeedback
+    local function onLoadFeedback(frameFeedback)
+
+        ---@class TalentBuilsFrameFeedback : Frame
+        local self = frameFeedback
+
+        self:EnableMouse(true)
+        self:SetToplevel(true)
+        self:SetSize(226, 36)
+        self:SetFlattensRenderLayers(true)
+        self:SetFrameStrata("DIALOG")
+
+        self.Text = self:CreateFontString(nil, "OVERLAY", "GameFontHighlightLeft")
+        self.Text:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -5)
+        self.Text:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -5, 5)
+        self.Text:SetJustifyH("CENTER")
+        self.Text:SetJustifyV("MIDDLE")
+
+        function self:Close()
+            self:Hide()
+        end
+
+        self:Close()
+
+        local autoCloseHandler ---@type FunctionContainer?
+
+        local function clearAutoClose()
+            if not autoCloseHandler then
+                return
+            end
+            autoCloseHandler:Cancel()
+            autoCloseHandler = nil
+        end
+
+        local function close()
+            clearAutoClose()
+            self:Close()
+        end
+
+        self.autoCloseAfterSeconds = 5
+
+        ---@param button TalentBuildsDataProviderBuildButton
+        ---@param text string
+        function self:Open(button, text)
+            self.button = button
+            self.elementData = button.elementData
+            self:SetPoint("RIGHT", button.ActionMenuToggle, "LEFT", -5, 0)
+            self.Text:SetText(text)
+            self:Show()
+            clearAutoClose()
+            autoCloseHandler = C_Timer.NewTimer(self.autoCloseAfterSeconds, close)
+        end
+
+        self:SetScript("OnUpdate", function()
+            local button = self.button
+            if not button or not button:IsVisible() then
+                close()
+                return
+            end
+            local buttonElementData = button.elementData
+            local elementData = self.elementData
+            if buttonElementData ~= elementData then
+                close()
+            end
+        end)
+
+    end
+
     local function getFrame()
         if frame then
             return frame
@@ -15712,6 +15787,9 @@ if IS_RETAIL then
         frame = CreateFrame("Frame", format("%s_TalentBuildsFrame", addonName), UIParent, "ButtonFrameTemplate") ---@type TalentBuildsFrame
         frame:Hide()
         onLoad(frame)
+        frameFeedback = CreateFrame("Frame", nil, frame, "GlowBoxTemplate") ---@type TalentBuilsFrameFeedback
+        frameFeedback:Hide()
+        onLoadFeedback(frameFeedback)
         return frame
     end
 
@@ -15924,49 +16002,85 @@ if IS_RETAIL then
         return talentbuilds:IsBuildAndImportStringEqual(build, importString)
     end
 
-    local defaultLoadoutName = L.BUILDS_PROFILE_LOADOUT_NAME
-    local defaultUsesSharedActionBars = true
+    ---@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts, string?>
+    local createLoadoutTranslations = {
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        -- [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorCreatingNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToChangeTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+    }
 
+    ---@param loadoutName string
+    ---@param usesSharedActionBars? boolean
     ---@param build TalentBuildsCompiledProfileBuild
-    ---@param callback? fun(success: boolean, errorText?: string): boolean?
-    function talentbuilds:LoadBuild(build, callback)
+    ---@param callback? fun(success: boolean, resultText?: string): boolean?
+    function talentbuilds:LoadBuild(loadoutName, usesSharedActionBars, build, callback)
         ---@param success boolean
-        ---@param errorText? string
-        local function respond(success, errorText)
+        ---@param resultText? string
+        local function respond(success, resultText)
+            if resultText then
+                resultText = createLoadoutTranslations[resultText] or resultText
+            end
             if callback then
-                if callback(success, errorText) then
+                if callback(success, resultText) then
                     return
                 end
             end
-            if errorText then
-                ns.PrintWithAddonPrefix(errorText)
+            if resultText then
+                ns.PrintWithAddonPrefix(resultText)
             end
         end
 
-        if talentbuilds:IsBuildActiveAsLoadout(build) then
-            respond(true, "Build is already active.") -- TODO
+        -- Undo any unsaved alterations in the active config.
+        -- This state may block us from changing builds, and the user may end up in this state by accidentally cancelling a build swap.
+        -- The next time they re-try to change their loadout, this should unstuck them and let the code below proceed.
+        local activeConfigID = C_ClassTalents.GetActiveConfigID()
+        if activeConfigID and C_Traits.ConfigHasStagedChanges(activeConfigID) then
+            C_Traits.RollbackConfig(activeConfigID)
+        end
+
+        -- Find the real active loadout, and if it matches the desired build, ensure to swap to it in case we're in some weird state.
+        local activeLoadout = LibClassTalentsImportExport.GetActiveLoadout()
+        if activeLoadout and talentbuilds:IsBuildActiveAsLoadout(build, activeLoadout.ID) then
+            LibClassTalentsImportExport.PersistentSwitchToLoadout(activeLoadout)
+            respond(true, L.BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE)
             return
         end
 
-        -- local activeLoadoutConfigID = classTalentImportExport:GetActiveLoadoutConfigID()
-        local existingLoadout = LibClassTalentsImportExport.GetLoadoutInfo(defaultLoadoutName)
+        -- Find any loadout that matches the desired build, then swap to it.
+        -- There is no reason to create additional loadouts that are identical.
+        -- This is nice because it ensures to also load their specific setup, which may use separate action bars if they configured it that way.
+        local loadouts = LibClassTalentsImportExport.GetLoadouts()
+        for _, loadout in ipairs(loadouts) do
+            if talentbuilds:IsBuildActiveAsLoadout(build, loadout.ID) then
+                LibClassTalentsImportExport.PersistentSwitchToLoadout(loadout)
+                respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT, loadout.name))
+                return
+            end
+        end
 
+        -- If the loadout exists by our name, then we ensure to clean it up and import the new desired build.
+        local existingLoadout = util:TableFind(loadouts, function(loadout) return loadout.name == loadoutName end)
         if existingLoadout then
 
-            local existingLoadoutConfigID = existingLoadout.ID
-
-            if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadoutConfigID) then
+            if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadout.ID) then
                 LibClassTalentsImportExport.PersistentSwitchToLoadout(existingLoadout)
-                respond(true, "Switching to correct loadout.") -- TODO
+                respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_LOADOUT, existingLoadout.name))
                 return
             end
 
             -- TODO: needs additional scaffolding to edit an existing loadout without the state getting stuck in "apply changes" mode (commenting out so the regular delete+create routine completes the import)
-            -- if activeLoadoutConfigID == existingLoadoutConfigID then
-            --     local accepted, errorText = classTalentImportExport:EditActiveLoadoutTalents(
+            -- if activeLoadout and activeLoadout.ID == existingLoadout.ID then
+            --     local accepted, errorText = LibClassTalentsImportExport.EditActiveLoadoutTalents(
             --         build.importString,
             --         function(success, commiting)
-            --             respond(success, not success and "Failed importing the desired build." or nil) -- TODO
+            --             respond(success, success and format(L.BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT, existingLoadout.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
             --         end
             --     )
             --     if not accepted then
@@ -15976,22 +16090,25 @@ if IS_RETAIL then
             -- end
 
             if not LibClassTalentsImportExport.DeleteLoadout(existingLoadout) then
-                respond(false, "Unable to delete old loadout.") -- TODO
+                respond(false, format(L.BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT, existingLoadout.name))
                 return
             end
 
-            -- defaultUsesSharedActionBars = existingLoadout.usesSharedActionBars
+            if existingLoadout.usesSharedActionBars ~= nil then
+                usesSharedActionBars = existingLoadout.usesSharedActionBars
+            end
 
         end
 
+        -- This will import a new loadout with the desired build, then switch to it.
         local function createLoadout()
             local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
                 build.importString,
-                defaultLoadoutName,
-                defaultUsesSharedActionBars,
+                loadoutName,
+                usesSharedActionBars,
                 function(info, success)
                     LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
-                    respond(success, not success and "Failed importing the desired build." or nil) -- TODO
+                    respond(success, success and format(L.BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
                 end
             )
             if not accepted then
@@ -15999,6 +16116,7 @@ if IS_RETAIL then
             end
         end
 
+        -- We can create the loadout right away, or if we have to wait for the delete event, we do so first.
         if not existingLoadout then
             createLoadout()
         else
