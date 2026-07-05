@@ -15097,6 +15097,9 @@ if IS_RETAIL then
 
     -- controls how the builds are sorted
     dataProvider:SetSortComparator(function(a, b)
+        if a.buildIndex ~= b.buildIndex then
+            return a.buildIndex > b.buildIndex
+        end
         local aAll = (a.encounterID == "all" and 1 or 0) or (a.dungeonID == "all" and 1 or 0)
         local bAll = (b.encounterID == "all" and 1 or 0) or (b.dungeonID == "all" and 1 or 0)
         if aAll ~= bAll then
@@ -15293,6 +15296,32 @@ if IS_RETAIL then
         return format(L.BUILDS_PROFILE_STATS_FORMAT, build.buildPopText, build.scoreText, FormatLargeNumber(build.buildRuns))
     end
 
+    ---@param texture Texture
+    ---@param outline Texture
+    ---@param atlas string
+    ---@param shown boolean
+    local function applyAtlasColorToTexture(texture, outline, atlas, shown)
+        if not shown then
+            texture:Hide()
+            outline:Hide()
+            return
+        end
+        local info = C_Texture.GetAtlasInfo(atlas)
+        local width = info.width
+        local height = info.height
+        local l, r = info.leftTexCoord, info.rightTexCoord
+        local t, b = info.topTexCoord, info.bottomTexCoord
+        local lr = (r - l)/width
+        local tb = (b - t)/height
+        local offset = 6
+        local x = floor(width/2 + offset)
+        local y = floor(height/2 + offset)
+        texture:SetTexture(info.file or info.filename)
+        texture:SetTexCoord(l + x*lr, l + (x + 1)*lr, t + y*tb, t + (y + 1)*tb)
+        texture:Show()
+        outline:Show()
+    end
+
     ---@param button TalentBuildsDataProviderBuildButton
     local function updateBuildButton(button)
         local build = button.elementData
@@ -15316,6 +15345,17 @@ if IS_RETAIL then
         else
             button.ActionMenuToggle.Icon:SetVertexColor(1, 0.5, 0.5)
         end
+        local buildIndex = build.buildIndex
+        local index = dataProvider:FindIndex(build)
+        local prevBuild = dataProvider:Find(index - 1)
+        local nextBuild = dataProvider:Find(index + 1)
+        local isPrevBuildSame = buildIndex == (prevBuild and prevBuild.buildIndex)
+        local isNextBuildSame = buildIndex == (nextBuild and nextBuild.buildIndex)
+        local isBothBuildSame = isPrevBuildSame and isNextBuildSame
+        local atlas = info and info.iconElementID or "raidframe-hp-bg-white"
+        applyAtlasColorToTexture(button.BuildIsSameTop, button.BuildIsSameTopOutline, atlas, isPrevBuildSame and not isBothBuildSame)
+        applyAtlasColorToTexture(button.BuildIsSameMid, button.BuildIsSameMidOutline, atlas, isBothBuildSame)
+        applyAtlasColorToTexture(button.BuildIsSameBot, button.BuildIsSameBotOutline, atlas, isNextBuildSame and not isBothBuildSame)
         button:OnButtonUpdate()
     end
 
@@ -15393,6 +15433,20 @@ if IS_RETAIL then
     ---@param self TalentBuildsDataProviderBuildButton
     local function buildsButtonActionMenuToggle(self)
         DropDownUtil:ToggleDynamicMenu(self.ActionMenu, "TOPLEFT", self.ActionMenuToggle, "TOPRIGHT")
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    ---@param height number
+    ---@param point FramePoint
+    ---@param subLevel number
+    ---@param paddingX number
+    local function createBuildIsSameTexture(self, height, point, subLevel, paddingX)
+        local texture = self:CreateTexture(nil, "BACKGROUND", nil, subLevel)
+        texture:SetSize(2 + paddingX*2, height)
+        texture:SetPoint(point, 30 - paddingX, 0)
+        texture:SetSnapToPixelGrid(true)
+        texture:SetTexelSnappingBias(1)
+        return texture
     end
 
     ---@param button TalentBuildsDataProviderBuildButton
@@ -15547,6 +15601,16 @@ if IS_RETAIL then
         scale:SetScaleFrom(1.5, 1.5)
         scale:SetScaleTo(1, 1)
         button.PlaySuccessAnimation = buildsButtonPlaySuccessAnimation
+
+        button.BuildIsSameTop = createBuildIsSameTexture(button, buildsButtonHeight/2, "TOPLEFT", 5, 0)
+        button.BuildIsSameTopOutline = createBuildIsSameTexture(button, buildsButtonHeight/2, "TOPLEFT", 4, 1)
+        button.BuildIsSameTopOutline:SetColorTexture(0.8, 0.8, 0.8)
+        button.BuildIsSameMid = createBuildIsSameTexture(button, buildsButtonHeight, "LEFT", 5, 0)
+        button.BuildIsSameMidOutline = createBuildIsSameTexture(button, buildsButtonHeight, "LEFT", 4, 1)
+        button.BuildIsSameMidOutline:SetColorTexture(0.8, 0.8, 0.8)
+        button.BuildIsSameBot = createBuildIsSameTexture(button, buildsButtonHeight/2, "BOTTOMLEFT", 5, 0)
+        button.BuildIsSameBotOutline = createBuildIsSameTexture(button, buildsButtonHeight/2, "BOTTOMLEFT", 4, 1)
+        button.BuildIsSameBotOutline:SetColorTexture(0.8, 0.8, 0.8)
 
         updateBuildButton(button)
     end
