@@ -98,6 +98,7 @@
         "MYTHIC_PLUS_POWER_LEVEL",
         "NEWS_ITEM_LOOTED",
         "NEWS_LEGENDARY_LOOTED",
+        "NineSliceUtil",
         "NORMAL_FONT_COLOR",
         "ObjectiveTrackerFrame",
         "OpacitySliderFrame",

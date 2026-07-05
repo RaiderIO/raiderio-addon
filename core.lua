@@ -15815,6 +15815,32 @@ if IS_RETAIL then
 
         self.ScrollBox:SetDataProvider(dataProvider)
 
+        ---@class TalentBuildsFrameEmptyContainer : Frame
+        ---@field public TopLeftCorner Texture
+        ---@field public BottomRightCorner Texture
+
+        ---@class TalentBuildsFrameEmptyContainer
+        self.EmptyContainer = CreateFrame("Frame", nil, self)
+        self.EmptyContainer:SetSize(400, 200)
+        NineSliceUtil.ApplyUniqueCornersLayout(self.EmptyContainer, "NewPlayerTutorial")
+        self.EmptyContainer.Image = self.EmptyContainer:CreateTexture(nil, "ARTWORK")
+        self.EmptyContainer.Image:SetPoint("RIGHT", self.EmptyContainer, "LEFT", 60, 40)
+        local imageAtlas = "shop-image-bundle-mbp1"
+        local imageOffsetX = 50
+        if C_Texture.GetAtlasExists(imageAtlas) then
+            self.EmptyContainer.Image:SetSize(143, 217)
+            self.EmptyContainer.Image:SetAtlas(imageAtlas)
+        end
+        self.EmptyContainer:SetPoint("TOP", self.ScrollBox, "TOP", imageAtlas and imageOffsetX or 0, -100)
+        self.EmptyContainer.Text = self.EmptyContainer:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
+        self.EmptyContainer.Text:SetPoint("TOPLEFT", self.EmptyContainer.TopLeftCorner, "BOTTOMRIGHT", 0, 0)
+        self.EmptyContainer.Text:SetPoint("BOTTOMRIGHT", self.EmptyContainer.BottomRightCorner, "TOPLEFT", 0, 0)
+        self.EmptyContainer.Text:SetText(L.BUILDS_PROFILE_NO_DATA)
+
+        self.ScrollBox:RegisterCallback(self.ScrollBox.Event.OnUpdate, function()
+            self.EmptyContainer:SetShown(dataProvider:IsEmpty())
+        end)
+
         ---@type WowEvent[]
         local forceUpdateEvents = {
             "TRAIT_CONFIG_UPDATED",
@@ -15833,7 +15859,7 @@ if IS_RETAIL then
             if onChangeHandler then
                 onChangeHandler:Cancel()
             end
-            onChangeHandler = C_Timer.NewTimer(0.5, forceUpdate)
+            onChangeHandler = C_Timer.NewTimer(0.25, forceUpdate)
         end
 
         self:HookScript("OnShow", function()
