@@ -1834,10 +1834,10 @@ do
     ---@alias TalentBuildsDungeonKey "all"|string The dungeon ID as a string. Such as `"4813"` for `4813` (Pit of Saron).
     ---@alias TalentBuildsRaidKey string The raid ID as a string. Such as `"8062"` for `8062` (Sporefall).
     ---@alias TalentBuildsDungeonDifficultyKey "6-9"|"10-99"|"15-99"|"20-99"|string The bracket keys.
-    ---@alias TalentBuildsDungeonExtraKey "2h"|"1hdw"|string The dungeon extra keys.
+    ---@alias TalentBuildsWeaponKey "all"|"3"|"1"|string The dungeon extra keys.
     ---@alias TalentBuildsRaidEncounterKey "all"|string The encounter ID as a string. Such as `"3176"` for `3176` (Imperator Averzian).
     ---@alias TalentBuildsRaidDifficultyKey "mythic"|"heroic"|"normal"|string The encounter difficulty keys.
-    ---@alias TalentBuildsRaidExtraKey "fast"|"median"|string The raid extra keys.
+    ---@alias TalentBuildsSpeedKey "all"|"fast"|"median"|string The raid extra keys.
 
     ---@class TalentBuilds
     ---@field public date string UTC timestamp such as `2026-06-27T04:20:51Z`
@@ -1856,17 +1856,24 @@ do
     ---@field public encounterJournalIds table<string, number> `{ ["3159"] = 2711, ["3176"] = 2733, ... }`
     ---@field public encounterOrder table<string, "all"|string[]> `{ ["16340"] = { "all", "3176", "3177", ... }, ... }`
     ---@field public difficultyOrder TalentBuildsRaidDifficultyKey[] `{ "mythic", "heroic", ... }`
+    ---@field public raidKillSpeedOrder TalentBuildsSpeedKey[] `{ "all", "fast", "median", ... }`
 
     ---@class TalentBuildsSpec
-    ---@field prefix string The talent import string prefix such as `C4DAAAAAAAAAAAAAAAAAAAAAA`.
-    ---@field builds string[] Table over partial talent import strings. Each has to be prefixed with the `prefix` to produce the full import string.
-    ---@field heroTrees table<TalentBuildsHeroID, TalentBuildsHeroTree>
-    ---@field mplus table<TalentBuildsDungeonKey, table<TalentBuildsDungeonDifficultyKey, TalentBuildsStats[]>>
-    ---@field raid table<TalentBuildsRaidKey, table<TalentBuildsRaidEncounterKey, table<TalentBuildsRaidDifficultyKey, TalentBuildsStats[]>>>
+    ---@field public prefix string The talent import string prefix such as `C4DAAAAAAAAAAAAAAAAAAAAAA`.
+    ---@field public builds string[] Table over partial talent import strings. Each has to be prefixed with the `prefix` to produce the full import string.
+    ---@field public heroTrees table<TalentBuildsHeroID, TalentBuildsHeroTree>
+    ---@field public weaponConfigOrder TalentBuildsWeaponKey[]
+    ---@field public weaponConfigs table<TalentBuildsWeaponKey, TalentBuildsDungeonWeapon>
+    ---@field public mplus table<TalentBuildsDungeonKey, table<TalentBuildsDungeonDifficultyKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>
+    ---@field public raid table<TalentBuildsRaidKey, table<TalentBuildsRaidEncounterKey, table<TalentBuildsRaidDifficultyKey, table<TalentBuildsSpeedKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>>>
 
     ---@class TalentBuildsHeroTree
     ---@field public name string `Sunfury`
     ---@field public slug string `sunfury`
+
+    ---@class TalentBuildsDungeonWeapon
+    ---@field public label string `1H Dual Wield`
+    ---@field public shape string `dual-wield`
 
     ---@class TalentBuildsStats
     ---@field public [1] number heroTreeId (`40`)
@@ -14747,7 +14754,11 @@ if IS_RETAIL then
 
     ---@alias TalentBuildsRaidDifficultyTranslation { key: TalentBuildsRaidDifficultyKey, text: string }
 
+    ---@alias TalentBuildsSpeedTranslation { key: TalentBuildsSpeedKey, text: string  }
+
     ---@alias TalentBuildsDungeonDifficultyTranslation { key: TalentBuildsDungeonDifficultyKey, text: string }
+
+    ---@alias TalentBuildsWeaponTranslation { key: TalentBuildsWeaponKey, text: string, specID?: number }
 
     local relevantRaids ---@type DungeonRaid[]? Table over all valid raids. Extracted from `routes.raidOrder`.
     local relevantEncounters ---@type table<number, number[]>? The key is the `Raid ID`, the sub-table is the ordered `Encounter IDs`. Extracted from `routes.encounterOrder`.
@@ -14755,6 +14766,8 @@ if IS_RETAIL then
     local relevantDungeons ---@type Dungeon[]? Table over all valid dungeons. Extracted from `routes.dungeonOrder`.
     local relevantEncounterDifficulties ---@type TalentBuildsRaidDifficultyTranslation[]? A raid difficulty key to localized text mapping array. Extracted from `routes.difficultyOrder`.
     local relevantDungeonBrackets ---@type TalentBuildsDungeonDifficultyTranslation[]? A dungeon bracket key to localized text mapping array. Extracted from `routes.bracketOrder`.
+    local relevantWeapons ---@type TalentBuildsWeaponTranslation[]? A weapon key to localized text mapping array. Extracted from `specs[].weaponConfigOrder`.
+    local relevantSpeeds ---@type TalentBuildsSpeedTranslation[]? A speed key to localized text mapping array. Extracted from `routes.raidKillSpeedOrder`.
     do
 
         relevantRaids = {}
@@ -14809,16 +14822,19 @@ if IS_RETAIL then
             end
         end
 
-        ---@enum TalentBuildsDifficultyTranslationFormats
-        local difficultyTranslationFormats = {
+        ---@enum TalentBuildsTranslationFormats
+        local translationFormats = {
             EncounterDifficulty = "BUILDS_ENCOUNTER_DIFFICULY_%s",
             DungeonBracket = "BUILDS_DUNGEON_BRACKET_%s",
+            Weapon = "BUILDS_WEAPON_%s",
+            Speed = "BUILDS_SPEED_%s",
         }
 
-        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsDungeonDifficultyTranslation[]
-        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
-        ---@param localeFormat TalentBuildsDifficultyTranslationFormats
-        local function appendDifficultyTranslation(difficulties, key, localeFormat)
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
+        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
+        ---@param localeFormat TalentBuildsTranslationFormats
+        ---@param specID? number
+        local function appendDifficultyTranslation(difficulties, key, localeFormat, specID)
             if difficulties[key] then
                 return
             end
@@ -14826,23 +14842,45 @@ if IS_RETAIL then
             difficulties[#difficulties + 1] = {
                 key = key,
                 text = L[format(localeFormat, key)],
+                specID = specID,
             }
         end
 
         relevantEncounterDifficulties = {}
 
-        appendDifficultyTranslation(relevantEncounterDifficulties, "all", difficultyTranslationFormats.EncounterDifficulty)
+        appendDifficultyTranslation(relevantEncounterDifficulties, "all", translationFormats.EncounterDifficulty)
 
         for _, difficultyKey in ipairs(talentBuilds.routes.difficultyOrder) do
-            appendDifficultyTranslation(relevantEncounterDifficulties, difficultyKey, difficultyTranslationFormats.EncounterDifficulty)
+            appendDifficultyTranslation(relevantEncounterDifficulties, difficultyKey, translationFormats.EncounterDifficulty)
         end
 
         relevantDungeonBrackets = {}
 
-        appendDifficultyTranslation(relevantDungeonBrackets, "all", difficultyTranslationFormats.DungeonBracket)
+        appendDifficultyTranslation(relevantDungeonBrackets, "all", translationFormats.DungeonBracket)
 
         for _, difficultyKey in ipairs(talentBuilds.routes.bracketOrder) do
-            appendDifficultyTranslation(relevantDungeonBrackets, difficultyKey, difficultyTranslationFormats.DungeonBracket)
+            appendDifficultyTranslation(relevantDungeonBrackets, difficultyKey, translationFormats.DungeonBracket)
+        end
+
+        relevantWeapons = {}
+
+        appendDifficultyTranslation(relevantWeapons, "all", translationFormats.Weapon)
+
+        for specIDString, spec in pairs(talentBuilds.specs) do
+            local specID = tonumber(specIDString)
+            if specID and next(spec.weaponConfigs) then
+                for _, weaponKey in ipairs(spec.weaponConfigOrder) do
+                    appendDifficultyTranslation(relevantWeapons, weaponKey, translationFormats.Weapon, specID)
+                end
+            end
+        end
+
+        relevantSpeeds = {}
+
+        appendDifficultyTranslation(relevantSpeeds, "all", translationFormats.Speed)
+
+        for _, speedKey in ipairs(talentBuilds.routes.raidKillSpeedOrder) do
+            appendDifficultyTranslation(relevantSpeeds, speedKey, translationFormats.Speed)
         end
 
     end
@@ -14869,14 +14907,16 @@ if IS_RETAIL then
     ---@field public buildPopText string
     ---@field public scoreText string
     ---@field public isRecommended boolean
+    ---@field public weapon TalentBuildsWeaponKey @The weapon text.
+    ---@field public speed TalentBuildsSpeedKey @The speed text.
     ---@field public dungeonID? "all"|number @If for dungeon, contains "all" or the dungeon ID.
-    ---@field public dungeonBracket? string @If for dungeon, contains the keystone bracket text.
+    ---@field public dungeonBracket? TalentBuildsDungeonDifficultyKey @If for dungeon, contains the keystone bracket text.
     ---@field public dungeon? Dungeon @If for dungeon, a reference to the dungeon.
     ---@field public raidID? number @If for raid, contains the raid ID.
     ---@field public raid? DungeonRaid @If for raid, a reference to the raid.
     ---@field public encounterID? "all"|number @If for raid, contains "all" or the encounter ID.
     ---@field public encounterJournalID? number @If for raid, the encounter journal equivalent ID.
-    ---@field public encounterDiff? string|"mythic"|"heroic"|"normal" @If for raid, contains the encounter difficulty text.
+    ---@field public encounterDiff? TalentBuildsRaidDifficultyKey @If for raid, contains the encounter difficulty text.
     ---@field public encounterDifficultyID? number[] @If for raid, the encounter journal equivalent ID's. (This is a table until we store the exact number.)
 
     ---@type TalentBuildsCompiledProfile?
@@ -14903,6 +14943,8 @@ if IS_RETAIL then
 
                 ---@param buildType "raid"|"dungeon"
                 ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param weaponKey TalentBuildsWeaponKey
+                ---@param speedKey TalentBuildsSpeedKey
                 ---@param instanceID number
                 ---@param encounterID? "all"|string|number
                 ---@param heroID number
@@ -14912,7 +14954,7 @@ if IS_RETAIL then
                 ---@param buildRuns? number
                 ---@param score? number
                 ---@param isRecommended boolean
-                local function appendBuild(buildType, difficultyKey, instanceID, encounterID, heroID, popPctl, heroCount, buildIndex, buildRuns, score, isRecommended)
+                local function appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, buildIndex, buildRuns, score, isRecommended)
                     if not buildIndex or not buildRuns or not score then
                         return
                     end
@@ -14930,6 +14972,8 @@ if IS_RETAIL then
                         buildPopText = "",
                         scoreText = "",
                         isRecommended = isRecommended,
+                        weapon = weaponKey,
+                        speed = speedKey,
                         score = score,
                         dungeonID = nil,
                         dungeonBracket = nil,
@@ -14962,14 +15006,16 @@ if IS_RETAIL then
 
                 ---@param buildType "raid"|"dungeon"
                 ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param weaponKey TalentBuildsWeaponKey
+                ---@param speedKey? TalentBuildsSpeedKey
                 ---@param instanceID number
                 ---@param encounterID? "all"|string|number
                 ---@param stats TalentBuildsStats[]
-                local function appendBuilds(buildType, difficultyKey, instanceID, encounterID, stats)
+                local function appendBuilds(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, stats)
                     for _, stat in ipairs(stats) do
                         local heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, defBuildIndex, defBuildRuns, defScore = stat[1], stat[2], stat[3], stat[4], stat[5], stat[6], stat[7], stat[8], stat[9]
-                        appendBuild(buildType, difficultyKey, instanceID, encounterID, heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, true)
-                        appendBuild(buildType, difficultyKey, instanceID, encounterID, heroID, popPctl, heroCount, defBuildIndex, defBuildRuns, defScore, false)
+                        appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, true)
+                        appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, defBuildIndex, defBuildRuns, defScore, false)
                     end
                 end
 
@@ -14979,8 +15025,12 @@ if IS_RETAIL then
                         for dataKey, diffData in pairs(data) do
                             local encounterID = dataKey == "all" and "all" or tonumber(dataKey) or nil
                             if encounterID then
-                                for diffKey, stats in pairs(diffData) do
-                                    appendBuilds("raid", diffKey, raidID, encounterID, stats)
+                                for diffKey, raidSpeeds in pairs(diffData) do
+                                    for speedKey, bracketWeapons in pairs(raidSpeeds) do
+                                        for weaponKey, stats in pairs(bracketWeapons) do
+                                            appendBuilds("raid", diffKey, weaponKey, speedKey, raidID, encounterID, stats)
+                                        end
+                                    end
                                 end
                             end
                         end
@@ -14992,8 +15042,10 @@ if IS_RETAIL then
                     local dungeonID = dungeonKey == "all" and "all" or tonumber(dungeonKey) or nil
                     if dungeonID then
                         local data = specData.mplus[dungeonKey]
-                        for bracketKey, stats in pairs(data) do
-                            appendBuilds("dungeon", bracketKey, dungeonID, nil, stats)
+                        for bracketKey, bracketWeapons in pairs(data) do
+                            for weaponKey, stats in pairs(bracketWeapons) do
+                                appendBuilds("dungeon", bracketKey, weaponKey, nil, dungeonID, nil, stats)
+                            end
                         end
                     end
                 end
@@ -15077,25 +15129,32 @@ if IS_RETAIL then
 
     ---@class TalentBuildsMenuOptionForDifficulty : TalentBuildsMenuOption
     ---@field public radiogroup "raid"|"dungeon"
-    ---@field public arg1? "all"|TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey difficultyText
+    ---@field public arg1 "all"|TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey difficultyText
     ---@field public arg2? number[] difficultyIDs
     ---@field public arg3? nil
 
-    ---@class TalentBuildsMenuOptionForExtra : TalentBuildsMenuOption
-    ---@field public radiogroup "raid"|"dungeon"
-    ---@field public arg1? "all"|TalentBuildsRaidExtraKey|TalentBuildsDungeonExtraKey extraText
+    ---@class TalentBuildsMenuOptionForWeapon : TalentBuildsMenuOption
+    ---@field public radiogroup "instance"
+    ---@field public arg1 "all"|TalentBuildsWeaponKey weaponKey
+    ---@field public arg2? number weaponSpecID
+    ---@field public arg3? nil
+
+    ---@class TalentBuildsMenuOptionForSpeed : TalentBuildsMenuOption
+    ---@field public radiogroup "instance"
+    ---@field public arg1 "all"|TalentBuildsSpeedKey speedText
     ---@field public arg2? nil
     ---@field public arg3? nil
 
-    -- the current selection of instance and difficulty
+    -- the current selection of menu choices
     local currentInstance ---@type TalentBuildsMenuOptionForInstance?
     local currentDifficulty ---@type TalentBuildsMenuOptionForDifficulty?
-    local currentExtra ---@type TalentBuildsMenuOptionForExtra?
+    local currentWeapon ---@type TalentBuildsMenuOptionForWeapon?
+    local currentSpeed ---@type TalentBuildsMenuOptionForSpeed?
 
     local function updateDataProvider()
         dataProvider:Flush()
 
-        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentExtra then
+        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentWeapon or not currentSpeed then
             return
         end
 
@@ -15103,16 +15162,37 @@ if IS_RETAIL then
         local instanceID = currentInstance.arg2
         local encounterID = currentInstance.arg3
         local difficulty = currentDifficulty.arg1
-        local extra = currentExtra.arg1 -- TODO
+        local weapon = currentWeapon.arg1
+        local weaponSpecID = currentWeapon.arg2
+        local speed = currentSpeed.arg1
+        local specID = util:GetSpecialization()
 
         local relevantBuilds = util:TableFilter(
             compiledPlayerProfile.builds,
             function(build)
-                if instanceType == "raid" and (instanceID == "all" or build.raidID == instanceID) and build.encounterID == encounterID then
-                    return difficulty == "all" or build.encounterDiff == difficulty
+                if weapon ~= "all" and weapon ~= build.weapon then
+                    return false
                 end
-                if instanceType == "dungeon" and build.dungeonID == instanceID then
-                    return difficulty == "all" or build.dungeonBracket == difficulty
+                if weaponSpecID and weaponSpecID ~= specID then
+                    return false
+                end
+                if speed ~= "all" and speed ~= build.speed then
+                    return false
+                end
+                if instanceType == "raid" then
+                    if instanceID ~= "all" and instanceID ~= build.raidID then
+                        return false
+                    end
+                    if encounterID ~= build.encounterID then
+                        return false
+                    end
+                    return difficulty == "all" or difficulty == build.encounterDiff
+                end
+                if instanceType == "dungeon" then
+                    if instanceID ~= build.dungeonID then
+                        return false
+                    end
+                    return difficulty == "all" or difficulty == build.dungeonBracket
                 end
                 return false
             end
@@ -15126,6 +15206,20 @@ if IS_RETAIL then
     local frameFeedback ---@type TalentBuilsFrameFeedback?
     local updatingMenus = false
 
+    ---@param option DropDownUtilDynamicMenuOption
+    local function isOptionShownAndNotAll(option)
+        return option.arg1 ~= "all" and option:show()
+    end
+
+    ---@param menu UIDropDownMenuTemplatePolyfill|WowStyle1DropdownTemplatePolyfill
+    local function hasOtherMenuOptionOtherThanAll(menu)
+        local options = menu.DynamicMenuOptions
+        if not options then
+            return false
+        end
+        return util:TableFind(options, isOptionShownAndNotAll) ~= nil
+    end
+
     ---@param owner WowStyle1DropdownTemplatePolyfill
     ---@param selections WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
     local function updateMenuAndDataProvider(owner, _, _, selections)
@@ -15137,17 +15231,25 @@ if IS_RETAIL then
         end
         updatingMenus = true
         if owner == frame.InstanceMenu then
+            local hasSelections = #selections > 0
             frame.DifficultyMenu:OpenMenu()
             frame.DifficultyMenu:CloseMenu()
-            frame.DifficultyMenu:SetEnabled(#selections > 0)
-            frame.ExtraMenu:OpenMenu()
-            frame.ExtraMenu:CloseMenu()
-            frame.ExtraMenu:SetEnabled(#selections > 0)
+            frame.DifficultyMenu:SetEnabled(hasSelections)
+            frame.WeaponMenu:OpenMenu()
+            frame.WeaponMenu:CloseMenu()
+            frame.WeaponMenu:SetEnabled(hasSelections)
+            frame.SpeedMenu:OpenMenu()
+            frame.SpeedMenu:CloseMenu()
+            frame.SpeedMenu:SetEnabled(hasSelections)
+            local hasWeaponOptions = hasSelections and hasOtherMenuOptionOtherThanAll(frame.WeaponMenu)
+            local hasSpeedOptions = hasSelections and hasOtherMenuOptionOtherThanAll(frame.SpeedMenu)
+            frame:SetMenuShown(hasWeaponOptions, hasSpeedOptions)
         end
         updatingMenus = false
         local prevInstance = currentInstance
         local prevDifficulty = currentDifficulty
-        local prevExtra = currentExtra
+        local prevWeapon = currentWeapon
+        local prevSpeed = currentSpeed
         currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
         if not currentInstance then
             return
@@ -15156,11 +15258,15 @@ if IS_RETAIL then
         if not currentDifficulty then
             return
         end
-        currentExtra = frame.ExtraMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForExtra?
-        if not currentExtra then
+        currentWeapon = frame.WeaponMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForWeapon?
+        if not currentWeapon then
             return
         end
-        if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevExtra ~= currentExtra then
+        currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForSpeed?
+        if not currentSpeed then
+            return
+        end
+        if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevWeapon ~= currentWeapon or prevSpeed ~= currentSpeed then
             updateDataProvider()
         end
     end
@@ -15170,13 +15276,16 @@ if IS_RETAIL then
         return format(L.BUILDS_PROFILE_HERO_FORMAT, build.popPctl * 100, FormatLargeNumber(build.heroCount))
     end
 
-    local starSymbolTextureMarkup = ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup") ---@type string
+    local starSymbolTextureMarkup = "|A:PetJournal-FavoritesIcon:0:0:0:-2|a"
 
     ---@param build TalentBuildsCompiledProfileBuild
     local function getBuildTitleText(build)
         local title = build.isRecommended and L.BUILDS_PROFILE_RECOMMENDED or L.BUILDS_PROFILE_DEFAULT
         if build.encounterID == "all" or build.dungeonID == "all" then
-            title = format("%s %s", starSymbolTextureMarkup, title)
+            title = format("%s%s", starSymbolTextureMarkup, title)
+        end
+        if build.weapon ~= "all" then
+            title = format("%s (%s)", title, L[format("BUILDS_WEAPON_%s", build.weapon)])
         end
         return title
     end
@@ -15460,8 +15569,9 @@ if IS_RETAIL then
         self:SetPoint("CENTER", 0, 0)
         self:SetFrameStrata("HIGH")
 
-        self:SetTitle(L.BUILDS_TITLE_FULL)
         ButtonFrameTemplate_HidePortrait(self)
+        self:SetTitle(format("%s%s", ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup", 16, 16, 2, 0), L.BUILDS_TITLE_FULL))
+        self.TitleContainer.TitleText:SetPoint("TOP", 0, -3)
 
         self:RegisterForDrag("LeftButton")
         self:HookScript("OnDragStart", function() self:StartMoving() end)
@@ -15539,8 +15649,8 @@ if IS_RETAIL then
 
         self.InstanceMenu = DropDownUtil:CreateDynamicMenu(self, instanceOptions)
         self.InstanceMenu:SetDefaultText(L.BUILDS_SELECT_INSTANCE)
-        self.InstanceMenu:SetWidth(350)
-        self.InstanceMenu:SetPoint("LEFT", self.TopTileStreaks, "LEFT", 10, 0)
+        self.InstanceMenu:SetWidth(240)
+        self.InstanceMenu:SetPoint("LEFT", self.TopTileStreaks, "LEFT", 9, 0)
         self.InstanceMenu:RegisterCallback(self.InstanceMenu.Event.OnUpdate, updateMenuAndDataProvider, self.InstanceMenu)
 
         ---@return TalentBuildsMenuOptionForInstance?
@@ -15556,6 +15666,15 @@ if IS_RETAIL then
         local function isSelectedInstanceDungeon()
             local selectedInstance = getSelectedInstance()
             return selectedInstance and selectedInstance.arg1 == "dungeon" and true or false
+        end
+
+        ---@param option TalentBuildsMenuOptionForWeapon
+        local function isSelectedInstanceAndSpecID(option)
+            if not getSelectedInstance() then
+                return false
+            end
+            local specID = option.arg2
+            return not specID or specID == util:GetSpecialization()
         end
 
         ---@type TalentBuildsMenuOptionForDifficulty[]
@@ -15596,68 +15715,84 @@ if IS_RETAIL then
         self.DifficultyMenu = DropDownUtil:CreateDynamicMenu(self, difficultyOptions)
         self.DifficultyMenu:SetDefaultText(L.BUILDS_SELECT_DIFFICULTY)
         self.DifficultyMenu:SetWidth(120)
-        self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 10, 0)
+        self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 5, 0)
         self.DifficultyMenu:RegisterCallback(self.DifficultyMenu.Event.OnUpdate, updateMenuAndDataProvider, self.DifficultyMenu)
 
-        ---@type TalentBuildsMenuOptionForExtra[]
-        local extraOptions = {
-            {
-                text = "All kills", -- TODO
-                show = isSelectedInstanceRaid,
-                radiogroup = "raid",
-                radioselected = true,
-                arg1 = "all",
-                arg2 = nil,
-                arg3 = nil,
-            },
-            {
-                text = "Fast kills (top 20%)", -- TODO
-                show = isSelectedInstanceRaid,
-                radiogroup = "raid",
-                arg1 = "fast",
-                arg2 = nil,
-                arg3 = nil,
-            },
-            {
-                text = "Median kills (mid 20%)", -- TODO
-                show = isSelectedInstanceRaid,
-                radiogroup = "raid",
-                arg1 = "median",
-                arg2 = nil,
-                arg3 = nil,
-            },
-            {
-                text = "All weapons", -- TODO
-                show = isSelectedInstanceDungeon,
-                radiogroup = "dungeon",
-                radioselected = true,
-                arg1 = "all",
-                arg2 = nil,
-                arg3 = nil,
-            },
-            {
-                text = "2H", -- TODO
-                show = isSelectedInstanceDungeon,
-                radiogroup = "dungeon",
-                arg1 = "2h",
-                arg2 = nil,
-                arg3 = nil,
-            },
-            {
-                text = "1H Dual Wield", -- TODO
-                show = isSelectedInstanceDungeon,
-                radiogroup = "dungeon",
-                arg1 = "1hdw",
-                arg2 = nil,
-                arg3 = nil,
-            },
-        }
+        ---@type TalentBuildsMenuOptionForWeapon[]
+        local weaponOptions = {}
 
-        self.ExtraMenu = DropDownUtil:CreateDynamicMenu(self, extraOptions)
-        self.ExtraMenu:SetDefaultText(L.BUILDS_SELECT_EXTRA)
-        self.ExtraMenu:SetWidth(120)
-        self.ExtraMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 10, 0)
-        self.ExtraMenu:RegisterCallback(self.ExtraMenu.Event.OnUpdate, updateMenuAndDataProvider, self.ExtraMenu)
+        isFirstDefaultRadioSelected = false
+        for _, weapon in ipairs(relevantWeapons) do
+            weaponOptions[#weaponOptions + 1] = {
+                text = weapon.text,
+                show = isSelectedInstanceAndSpecID,
+                radiogroup = "instance",
+                arg1 = weapon.key,
+                arg2 = weapon.specID,
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected then
+                isFirstDefaultRadioSelected = true
+                weaponOptions[#weaponOptions].radioselected = true
+            end
+        end
+
+        self.WeaponMenu = DropDownUtil:CreateDynamicMenu(self, weaponOptions)
+        self.WeaponMenu:SetDefaultText(L.BUILDS_SELECT_EXTRA)
+        self.WeaponMenu:SetWidth(120)
+        self.WeaponMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 5, 0)
+        self.WeaponMenu:RegisterCallback(self.WeaponMenu.Event.OnUpdate, updateMenuAndDataProvider, self.WeaponMenu)
+
+        ---@type TalentBuildsMenuOptionForSpeed[]
+        local speedOptions = {}
+
+        isFirstDefaultRadioSelected = false
+        for _, speed in ipairs(relevantSpeeds) do
+            speedOptions[#speedOptions + 1] = {
+                text = speed.text,
+                show = getSelectedInstance,
+                radiogroup = "instance",
+                arg1 = speed.key,
+                arg2 = nil,
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected then
+                isFirstDefaultRadioSelected = true
+                speedOptions[#speedOptions].radioselected = true
+            end
+        end
+
+        self.SpeedMenu = DropDownUtil:CreateDynamicMenu(self, speedOptions)
+        self.SpeedMenu:SetDefaultText(L.BUILDS_SELECT_EXTRA)
+        self.SpeedMenu:SetWidth(120)
+        self.SpeedMenu:SetPoint("LEFT", self.WeaponMenu, "RIGHT", 5, 0)
+        self.SpeedMenu:RegisterCallback(self.SpeedMenu.Event.OnUpdate, updateMenuAndDataProvider, self.SpeedMenu)
+
+        local instanceMenuWidth = { [0] = 460, [1] = 305, [2] = 240 }
+        local otherMenuWidth = { [0] = 150, [1] = 150, [2] = 120 }
+
+        ---@param showWeaponMenu? boolean
+        ---@param showSpeedMenu? boolean
+        function self:SetMenuShown(showWeaponMenu, showSpeedMenu)
+            local numExtraMenu = (showWeaponMenu and 1 or 0) + (showSpeedMenu and 1 or 0)
+            local instanceWidth = instanceMenuWidth[numExtraMenu]
+            local otherWidth = otherMenuWidth[numExtraMenu]
+            self.InstanceMenu:SetWidth(instanceWidth)
+            self.DifficultyMenu:SetWidth(otherWidth)
+            self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 5, 0)
+            if showWeaponMenu then
+                self.WeaponMenu:SetWidth(otherWidth)
+                self.WeaponMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 5, 0)
+            else
+                self.WeaponMenu:ClearAllPoints()
+            end
+            if showSpeedMenu then
+                self.SpeedMenu:SetWidth(otherWidth)
+                self.SpeedMenu:SetPoint("LEFT", showWeaponMenu and self.WeaponMenu or self.DifficultyMenu, "RIGHT", 5, 0)
+            else
+                self.SpeedMenu:ClearAllPoints()
+            end
+        end
 
         self.CloseButton:HookScript("OnClick", function() talentbuilds:HideFrame() end)
 
@@ -15833,33 +15968,21 @@ if IS_RETAIL then
         return difficulty == "all"
     end
 
-    ---@param option TalentBuildsMenuOptionForExtra
-    ---@type DropDownUtilDynamicMenuSelectOptionOrPredicate
-    local function defaultExtraMenuSelection(option)
-        local extra = option.arg1
-        return extra == "all" -- TODO
-    end
-
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    ---@param extraMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
+    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
         if not frame then
             frame = getFrame()
         end
-        if not instanceMenuSelection and not difficultyMenuSelection and not extraMenuSelection then
+        if not instanceMenuSelection and not difficultyMenuSelection then
             instanceMenuSelection = defaultInstanceMenuSelection
             difficultyMenuSelection = defaultDifficultyMenuSelection
-            extraMenuSelection = defaultExtraMenuSelection
         end
         if instanceMenuSelection then
             frame.InstanceMenu:DynamicMenuSelectOption(instanceMenuSelection)
         end
         if difficultyMenuSelection then
             frame.DifficultyMenu:DynamicMenuSelectOption(difficultyMenuSelection)
-        end
-        if extraMenuSelection then
-            frame.ExtraMenu:DynamicMenuSelectOption(extraMenuSelection)
         end
         frame:Show()
     end
@@ -15872,12 +15995,11 @@ if IS_RETAIL then
 
     ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
     ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    ---@param extraMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
-    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
+    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection)
         if self:IsFrameShown() then
             self:HideFrame()
         else
-            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection, extraMenuSelection)
+            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
         end
     end
 
@@ -15976,8 +16098,7 @@ if IS_RETAIL then
                     return false
                 end
                 return util:TableContains(difficultyIDs, journalDifficultyID)
-            end,
-            defaultExtraMenuSelection
+            end
         )
     end
 
