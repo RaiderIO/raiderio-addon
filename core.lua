@@ -1834,10 +1834,10 @@ do
     ---@alias TalentBuildsDungeonKey "all"|string The dungeon ID as a string. Such as `"4813"` for `4813` (Pit of Saron).
     ---@alias TalentBuildsRaidKey string The raid ID as a string. Such as `"8062"` for `8062` (Sporefall).
     ---@alias TalentBuildsDungeonDifficultyKey "6-9"|"10-99"|"15-99"|"20-99"|string The bracket keys.
-    ---@alias TalentBuildsWeaponKey "all"|"3"|"1"|string The dungeon extra keys.
+    ---@alias TalentBuildsWeaponKey "all"|"3"|"1"|string The weapon keys.
     ---@alias TalentBuildsRaidEncounterKey "all"|string The encounter ID as a string. Such as `"3176"` for `3176` (Imperator Averzian).
     ---@alias TalentBuildsRaidDifficultyKey "mythic"|"heroic"|"normal"|string The encounter difficulty keys.
-    ---@alias TalentBuildsSpeedKey "all"|"fast"|"median"|string The raid extra keys.
+    ---@alias TalentBuildsRaidSpeedKey "all"|"fast"|"median"|string The raid speed keys.
 
     ---@class TalentBuilds
     ---@field public date string UTC timestamp such as `2026-06-27T04:20:51Z`
@@ -1856,7 +1856,7 @@ do
     ---@field public encounterJournalIds table<string, number> `{ ["3159"] = 2711, ["3176"] = 2733, ... }`
     ---@field public encounterOrder table<string, "all"|string[]> `{ ["16340"] = { "all", "3176", "3177", ... }, ... }`
     ---@field public difficultyOrder TalentBuildsRaidDifficultyKey[] `{ "mythic", "heroic", ... }`
-    ---@field public raidKillSpeedOrder TalentBuildsSpeedKey[] `{ "all", "fast", "median", ... }`
+    ---@field public raidKillSpeedOrder TalentBuildsRaidSpeedKey[] `{ "all", "fast", "median", ... }`
 
     ---@class TalentBuildsSpec
     ---@field public prefix string The talent import string prefix such as `C4DAAAAAAAAAAAAAAAAAAAAAA`.
@@ -1865,7 +1865,7 @@ do
     ---@field public weaponConfigOrder TalentBuildsWeaponKey[]
     ---@field public weaponConfigs table<TalentBuildsWeaponKey, TalentBuildsDungeonWeapon>
     ---@field public mplus table<TalentBuildsDungeonKey, table<TalentBuildsDungeonDifficultyKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>
-    ---@field public raid table<TalentBuildsRaidKey, table<TalentBuildsRaidEncounterKey, table<TalentBuildsRaidDifficultyKey, table<TalentBuildsSpeedKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>>>
+    ---@field public raid table<TalentBuildsRaidKey, table<TalentBuildsRaidEncounterKey, table<TalentBuildsRaidDifficultyKey, table<TalentBuildsRaidSpeedKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>>>
 
     ---@class TalentBuildsHeroTree
     ---@field public name string `Sunfury`
@@ -14754,7 +14754,7 @@ if IS_RETAIL then
 
     ---@alias TalentBuildsRaidDifficultyTranslation { key: TalentBuildsRaidDifficultyKey, text: string }
 
-    ---@alias TalentBuildsSpeedTranslation { key: TalentBuildsSpeedKey, text: string  }
+    ---@alias TalentBuildsRaidSpeedTranslation { key: TalentBuildsRaidSpeedKey, text: string  }
 
     ---@alias TalentBuildsDungeonDifficultyTranslation { key: TalentBuildsDungeonDifficultyKey, text: string }
 
@@ -14767,7 +14767,7 @@ if IS_RETAIL then
     local relevantEncounterDifficulties ---@type TalentBuildsRaidDifficultyTranslation[]? A raid difficulty key to localized text mapping array. Extracted from `routes.difficultyOrder`.
     local relevantDungeonBrackets ---@type TalentBuildsDungeonDifficultyTranslation[]? A dungeon bracket key to localized text mapping array. Extracted from `routes.bracketOrder`.
     local relevantWeapons ---@type TalentBuildsWeaponTranslation[]? A weapon key to localized text mapping array. Extracted from `specs[].weaponConfigOrder`.
-    local relevantSpeeds ---@type TalentBuildsSpeedTranslation[]? A speed key to localized text mapping array. Extracted from `routes.raidKillSpeedOrder`.
+    local relevantSpeeds ---@type TalentBuildsRaidSpeedTranslation[]? A speed key to localized text mapping array. Extracted from `routes.raidKillSpeedOrder`.
     do
 
         relevantRaids = {}
@@ -14830,8 +14830,8 @@ if IS_RETAIL then
             Speed = "BUILDS_SPEED_%s",
         }
 
-        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
-        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
+        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsRaidSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
         ---@param localeFormat TalentBuildsTranslationFormats
         ---@param specID? number
         local function appendDifficultyTranslation(difficulties, key, localeFormat, specID)
@@ -14908,7 +14908,6 @@ if IS_RETAIL then
     ---@field public scoreText string
     ---@field public isRecommended boolean
     ---@field public weapon TalentBuildsWeaponKey @The weapon text.
-    ---@field public speed TalentBuildsSpeedKey @The speed text.
     ---@field public dungeonID? "all"|number @If for dungeon, contains "all" or the dungeon ID.
     ---@field public dungeonBracket? TalentBuildsDungeonDifficultyKey @If for dungeon, contains the keystone bracket text.
     ---@field public dungeon? Dungeon @If for dungeon, a reference to the dungeon.
@@ -14918,6 +14917,7 @@ if IS_RETAIL then
     ---@field public encounterJournalID? number @If for raid, the encounter journal equivalent ID.
     ---@field public encounterDiff? TalentBuildsRaidDifficultyKey @If for raid, contains the encounter difficulty text.
     ---@field public encounterDifficultyID? number[] @If for raid, the encounter journal equivalent ID's. (This is a table until we store the exact number.)
+    ---@field public raidSpeed? TalentBuildsRaidSpeedKey @If for raid, the speed text.
 
     ---@type TalentBuildsCompiledProfile?
     local compiledPlayerProfile
@@ -14943,8 +14943,8 @@ if IS_RETAIL then
 
                 ---@param buildType "raid"|"dungeon"
                 ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param raidSpeedKey? TalentBuildsRaidSpeedKey
                 ---@param weaponKey TalentBuildsWeaponKey
-                ---@param speedKey TalentBuildsSpeedKey
                 ---@param instanceID number
                 ---@param encounterID? "all"|string|number
                 ---@param heroID number
@@ -14954,7 +14954,7 @@ if IS_RETAIL then
                 ---@param buildRuns? number
                 ---@param score? number
                 ---@param isRecommended boolean
-                local function appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, buildIndex, buildRuns, score, isRecommended)
+                local function appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, buildIndex, buildRuns, score, isRecommended)
                     if not buildIndex or not buildRuns or not score then
                         return
                     end
@@ -14973,7 +14973,6 @@ if IS_RETAIL then
                         scoreText = "",
                         isRecommended = isRecommended,
                         weapon = weaponKey,
-                        speed = speedKey,
                         score = score,
                         dungeonID = nil,
                         dungeonBracket = nil,
@@ -14984,6 +14983,7 @@ if IS_RETAIL then
                         encounterJournalID = nil,
                         encounterDiff = nil,
                         encounterDifficultyID = nil,
+                        raidSpeed = nil,
                     }
                     if buildType == "raid" then
                         build.buildPopText = util:FormatTimeFromMs(score)
@@ -14994,6 +14994,7 @@ if IS_RETAIL then
                         build.encounterJournalID = encounterIDToJournalEncounterID[encounterID]
                         build.encounterDiff = difficultyKey
                         build.encounterDifficultyID = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficultyKey]
+                        build.raidSpeed = raidSpeedKey
                     elseif buildType == "dungeon" then
                         build.buildPopText = format("%.0f%%", buildRuns/heroCount*100)
                         build.scoreText = format("+%d", score)
@@ -15006,16 +15007,16 @@ if IS_RETAIL then
 
                 ---@param buildType "raid"|"dungeon"
                 ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param raidSpeedKey? TalentBuildsRaidSpeedKey
                 ---@param weaponKey TalentBuildsWeaponKey
-                ---@param speedKey? TalentBuildsSpeedKey
                 ---@param instanceID number
                 ---@param encounterID? "all"|string|number
                 ---@param stats TalentBuildsStats[]
-                local function appendBuilds(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, stats)
+                local function appendBuilds(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, stats)
                     for _, stat in ipairs(stats) do
                         local heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, defBuildIndex, defBuildRuns, defScore = stat[1], stat[2], stat[3], stat[4], stat[5], stat[6], stat[7], stat[8], stat[9]
-                        appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, true)
-                        appendBuild(buildType, difficultyKey, weaponKey, speedKey, instanceID, encounterID, heroID, popPctl, heroCount, defBuildIndex, defBuildRuns, defScore, false)
+                        appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, true)
+                        appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, defBuildIndex, defBuildRuns, defScore, false)
                     end
                 end
 
@@ -15026,9 +15027,9 @@ if IS_RETAIL then
                             local encounterID = dataKey == "all" and "all" or tonumber(dataKey) or nil
                             if encounterID then
                                 for diffKey, raidSpeeds in pairs(diffData) do
-                                    for speedKey, bracketWeapons in pairs(raidSpeeds) do
+                                    for raidSpeedKey, bracketWeapons in pairs(raidSpeeds) do
                                         for weaponKey, stats in pairs(bracketWeapons) do
-                                            appendBuilds("raid", diffKey, weaponKey, speedKey, raidID, encounterID, stats)
+                                            appendBuilds("raid", diffKey, raidSpeedKey, weaponKey, raidID, encounterID, stats)
                                         end
                                     end
                                 end
@@ -15044,7 +15045,7 @@ if IS_RETAIL then
                         local data = specData.mplus[dungeonKey]
                         for bracketKey, bracketWeapons in pairs(data) do
                             for weaponKey, stats in pairs(bracketWeapons) do
-                                appendBuilds("dungeon", bracketKey, weaponKey, nil, dungeonID, nil, stats)
+                                appendBuilds("dungeon", bracketKey, nil, weaponKey, dungeonID, nil, stats)
                             end
                         end
                     end
@@ -15140,8 +15141,8 @@ if IS_RETAIL then
     ---@field public arg3? nil
 
     ---@class TalentBuildsMenuOptionForSpeed : TalentBuildsMenuOption
-    ---@field public radiogroup "instance"
-    ---@field public arg1 "all"|TalentBuildsSpeedKey speedText
+    ---@field public radiogroup "raid"
+    ---@field public arg1 "all"|TalentBuildsRaidSpeedKey speedText
     ---@field public arg2? nil
     ---@field public arg3? nil
 
@@ -15154,7 +15155,7 @@ if IS_RETAIL then
     local function updateDataProvider()
         dataProvider:Flush()
 
-        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentWeapon or not currentSpeed then
+        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentWeapon then
             return
         end
 
@@ -15164,7 +15165,7 @@ if IS_RETAIL then
         local difficulty = currentDifficulty.arg1
         local weapon = currentWeapon.arg1
         local weaponSpecID = currentWeapon.arg2
-        local speed = currentSpeed.arg1
+        local raidSpeed = currentSpeed and currentSpeed.arg1
         local specID = util:GetSpecialization()
 
         local relevantBuilds = util:TableFilter(
@@ -15173,10 +15174,7 @@ if IS_RETAIL then
                 if weapon ~= "all" and weapon ~= build.weapon then
                     return false
                 end
-                if weaponSpecID and weaponSpecID ~= specID then
-                    return false
-                end
-                if speed ~= "all" and speed ~= build.speed then
+                if weaponSpecID and weaponSpecID ~= specID and weaponSpecID ~= build.specID then
                     return false
                 end
                 if instanceType == "raid" then
@@ -15186,10 +15184,13 @@ if IS_RETAIL then
                     if encounterID ~= build.encounterID then
                         return false
                     end
+                    if raidSpeed and raidSpeed ~= "all" and raidSpeed ~= build.raidSpeed then
+                        return false
+                    end
                     return difficulty == "all" or difficulty == build.encounterDiff
                 end
                 if instanceType == "dungeon" then
-                    if instanceID ~= build.dungeonID then
+                    if instanceID ~= "all" and instanceID ~= build.dungeonID then
                         return false
                     end
                     return difficulty == "all" or difficulty == build.dungeonBracket
@@ -15263,9 +15264,6 @@ if IS_RETAIL then
             return
         end
         currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForSpeed?
-        if not currentSpeed then
-            return
-        end
         if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevWeapon ~= currentWeapon or prevSpeed ~= currentSpeed then
             updateDataProvider()
         end
@@ -15673,8 +15671,8 @@ if IS_RETAIL then
             if not getSelectedInstance() then
                 return false
             end
-            local specID = option.arg2
-            return not specID or specID == util:GetSpecialization()
+            local weaponSpecID = option.arg2
+            return not weaponSpecID or weaponSpecID == util:GetSpecialization()
         end
 
         ---@type TalentBuildsMenuOptionForDifficulty[]
@@ -15750,8 +15748,8 @@ if IS_RETAIL then
         for _, speed in ipairs(relevantSpeeds) do
             speedOptions[#speedOptions + 1] = {
                 text = speed.text,
-                show = getSelectedInstance,
-                radiogroup = "instance",
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
                 arg1 = speed.key,
                 arg2 = nil,
                 arg3 = nil,
