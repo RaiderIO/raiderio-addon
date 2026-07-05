@@ -15178,7 +15178,7 @@ if IS_RETAIL then
                     return false
                 end
                 if instanceType == "raid" then
-                    if instanceID ~= "all" and instanceID ~= build.raidID then
+                    if instanceID ~= "all" and build.raidID and instanceID ~= build.raidID then
                         return false
                     end
                     if encounterID ~= build.encounterID then
@@ -15190,7 +15190,7 @@ if IS_RETAIL then
                     return difficulty == "all" or difficulty == build.encounterDiff
                 end
                 if instanceType == "dungeon" then
-                    if instanceID ~= "all" and instanceID ~= build.dungeonID then
+                    if instanceID ~= build.dungeonID then
                         return false
                     end
                     return difficulty == "all" or difficulty == build.dungeonBracket
