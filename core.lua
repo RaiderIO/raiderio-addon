@@ -15412,7 +15412,7 @@ if IS_RETAIL then
     ---@param height number
     ---@param point FramePoint
     local function createBuildIsSameTexture(self, height, point)
-        local texture = self:CreateTexture(nil, "BACKGROUND")
+        local texture = self:CreateTexture(nil, "BORDER", nil, 1)
         texture:SetSize(20, height)
         texture:SetPoint(point, 20, 0)
         texture:SetTexture(3801271)
