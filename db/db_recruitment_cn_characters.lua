@@ -2,7 +2,7 @@
 -- Copyright (c) 2026 by RaiderIO, Inc.
 -- All rights reserved.
 --
-local provider={name=...,data=3,region="cn",date="2026-07-08T22:08:33Z",numCharacters=30579,db={}}
+local provider={name=...,data=3,region="cn",date="2026-07-09T11:28:14Z",numCharacters=30894,db={}}
 local F
 
 F = function() provider.db["熊猫酒仙"]={0,"不被世界催眠","墨林","浅丨喜"} end F()
