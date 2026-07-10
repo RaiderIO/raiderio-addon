@@ -2114,7 +2114,16 @@ do
         end
     end)
 
-    ---@param callbackFunc function
+    ---@alias CallbackModuleEvent WowEvent
+    ---|"RAIDERIO_CONFIG_READY"
+    ---|"RAIDERIO_SETTINGS_CLOSED"
+    ---|"RAIDERIO_SETTINGS_SAVED"
+    ---|"RAIDERIO_SETTINGS_WIDGET_UPDATE"
+
+    ---@alias CallbackModuleFunction fun(event: CallbackModuleEvent, ...: any)
+
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:RegisterEvent(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects RegisterEvent(callback[, ...events])")
         local events = {...}
@@ -2127,8 +2136,8 @@ do
         end
     end
 
-    ---@param callbackFunc function
-    ---@param event string
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param event WowEvent
     function callback:RegisterUnitEvent(callbackFunc, event, ...)
         assert(type(callbackFunc) == "function" and type(event) == "string", "Raider.IO Callback expects RegisterUnitEvent(callback, event, ...units)")
         if not callbacks[event] then
@@ -2138,6 +2147,8 @@ do
         handler:RegisterUnitEvent(event, ...)
     end
 
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:UnregisterEvent(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects UnregisterEvent(callback, ...events)")
         local events = {...}
@@ -2156,7 +2167,7 @@ do
         end
     end
 
-    ---@param callbackFunc function
+    ---@param callbackFunc CallbackModuleFunction
     function callback:UnregisterCallback(callbackFunc)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects UnregisterCallback(callback)")
         for event, _ in pairs(callbacks) do
@@ -2164,7 +2175,8 @@ do
         end
     end
 
-    ---@param event string
+    ---@param event CallbackModuleEvent
+    ---@param ... any
     function callback:SendEvent(event, ...)
         assert(type(event) == "string", "Raider.IO Callback expects SendEvent(event[, ...args])")
         local eventCallbacks = callbacks[event]
@@ -2192,7 +2204,8 @@ do
         end
     end
 
-    ---@param callbackFunc function
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:RegisterEventOnce(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects RegisterEventOnce(callback[, ...events])")
         callbackOnce[callbackFunc] = true
@@ -2292,6 +2305,8 @@ do
     ---|"replayPoint" @`ConfigProfilePoint` NEW in 10.1.5
     ---|"minimapIcon" @`MinimapIconDB` NEW in 10.2.6
     ---|"disableDropdownMenu" @NEW in 12.0.5
+    ---|"showTalentBuildsButtonInTalentFrame" @NEW in 12.0.7
+    ---|"showTalentBuildsButtonInJournalFrame" @NEW in 12.0.7
 
     -- fallback saved variables
     ---@class FallbackConfig
@@ -2352,6 +2367,8 @@ do
         replayPoint = { point = nil, x = 0, y = 0 }, -- `ConfigProfilePoint` NEW in 10.1.5
         minimapIcon = { hide = false, lock = false, showInCompartment = true, minimapPos = 180 }, -- `MinimapIconDB` NEW in 10.2.6
         disableDropdownMenu = false, -- NEW in 12.0.5
+        showTalentBuildsButtonInTalentFrame = true, -- NEW in 12.0.7
+        showTalentBuildsButtonInJournalFrame = true, -- NEW in 12.0.7
     }
 
     -- fallback metatable looks up missing keys into the fallback config table
@@ -2477,8 +2494,8 @@ do
         table.sort(SORTED_DUNGEONS, SortByLocaleName)
         table.sort(SORTED_RAIDS, SortByLocaleName)
     end
-    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
+
+    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
 
     ---@return Dungeon[]
     function util:GetSortedDungeons()
@@ -3706,9 +3723,9 @@ do
     function util:ShowCopyRaiderIOTalentLoadoutPopup(title, importString, compareAgainstImportString)
         local url ---@type string?
         if importString and compareAgainstImportString then
-            url = format("https://raider.io/specs/compare?loadoutA=%s&loadoutB=%s", util:EncodeURIComponent(importString), util:EncodeURIComponent(compareAgainstImportString))
+            url = format("https://raider.io/specs/compare?loadoutA=%s&loadoutB=%s&utm_source=addon", util:EncodeURIComponent(importString), util:EncodeURIComponent(compareAgainstImportString))
         elseif importString then
-            url = format("https://raider.io/specs/compare?loadoutA=%s", util:EncodeURIComponent(importString))
+            url = format("https://raider.io/specs/compare?loadoutA=%s&utm_source=addon", util:EncodeURIComponent(importString))
         end
         if not url then
             return
@@ -12235,10 +12252,7 @@ if IS_RETAIL then
         replayFrame:SetBackgroundColor(config:Get("replayBackground"))
         replayFrame:SetFrameAlpha(config:Get("replayAlpha"))
         OnSettingsChanged()
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_CLOSED")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_WIDGET_UPDATE")
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED", "RAIDERIO_SETTINGS_CLOSED", "RAIDERIO_SETTINGS_WIDGET_UPDATE")
     end
 
     function replay:OnEnable()
@@ -14213,8 +14227,8 @@ if IS_RETAIL then
                 end
             end
         end
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
+
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
 
         local function CalculateEventDelta(oldTimestamp, oldFrameCounter, currentTimestamp, currentFrameCounter)
             if oldTimestamp ~= currentTimestamp then
@@ -15038,6 +15052,30 @@ if IS_RETAIL then
                     end
                 end
 
+                -- find all raid related builds marked as "all"
+                local allRaidBuilds = util:TableGroup(profile.builds, "encounterID", function(_, build) return build.encounterID == "all" end)[1] ---@type TalentBuildsCompiledProfileBuild[]?
+                if allRaidBuilds then
+                    -- group on the hero tree
+                    local allRaidBuildsPerHeroTree = util:TableGroup(allRaidBuilds, "heroID")
+                    ---@param a TalentBuildsCompiledProfileBuild
+                    ---@param b TalentBuildsCompiledProfileBuild
+                    local function sortHeroTreeBuild(a, b)
+                        return a.popPctl > b.popPctl
+                    end
+                    -- in each hero tree, sort so the most popular build is on top
+                    for _, heroTreeBuilds in ipairs(allRaidBuildsPerHeroTree) do
+                        table.sort(heroTreeBuilds, sortHeroTreeBuild)
+                        -- remove the rest of the "all" builds that are less popular
+                        for i = 2, #heroTreeBuilds do
+                            local build = heroTreeBuilds[i]
+                            local index = util:TableContains(profile.builds, build)
+                            if index then
+                                table.remove(profile.builds, index)
+                            end
+                        end
+                    end
+                end
+
                 local dungeonKeys = util:TableKeys(specData.mplus)
                 for _, dungeonKey in pairs(dungeonKeys) do
                     local dungeonID = dungeonKey == "all" and "all" or tonumber(dungeonKey) or nil
@@ -15281,7 +15319,7 @@ if IS_RETAIL then
 
     ---@param build TalentBuildsCompiledProfileBuild
     local function getBuildTitleText(build)
-        local title = build.isRecommended and L.BUILDS_PROFILE_RECOMMENDED or L.BUILDS_PROFILE_DEFAULT
+        local title = build.isRecommended and L.BUILDS_PROFILE_RECOMMENDED or L.BUILDS_PROFILE_ALTERNATE
         if build.encounterID == "all" or build.dungeonID == "all" then
             title = format("%s%s", starSymbolTextureMarkup, title)
         end
@@ -15293,7 +15331,7 @@ if IS_RETAIL then
 
     ---@param build TalentBuildsCompiledProfileBuild
     local function getBuildStatsText(build)
-        return format(L.BUILDS_PROFILE_STATS_FORMAT, build.buildPopText, build.scoreText, FormatLargeNumber(build.buildRuns))
+        return format(L.BUILDS_PROFILE_STATS_FORMAT, build.buildPopText, build.scoreText, FormatLargeNumber(build.buildRuns), build.raidID and L.BUILDS_PROFILE_STATS_SUFFIX_KILLS or L.BUILDS_PROFILE_STATS_SUFFIX_RUNS)
     end
 
     ---@param button TalentBuildsDataProviderBuildButton
@@ -15661,6 +15699,10 @@ if IS_RETAIL then
             arg2 = "all",
             arg3 = nil,
         }
+
+        table.sort(relevantDungeons, function(a, b)
+            return a.shortNameLocale < b.shortNameLocale
+        end)
 
         for _, dungeon in ipairs(relevantDungeons) do
             local name = format("%s (%s)", dungeon.shortNameLocale, dungeon.name)
@@ -16338,6 +16380,9 @@ if IS_RETAIL then
     local shortcutEncounterJournalButton ---@type UIPanelButtonTemplatePolyfill?
 
     local function shortcutsInitialize()
+        if not config:Get("showTalentBuildsButtonInTalentFrame") and not config:Get("showTalentBuildsButtonInJournalFrame") then
+            return
+        end
         if shortcutInit then
             return
         end
@@ -16390,6 +16435,9 @@ if IS_RETAIL then
                 talentbuilds:ToggleFrameFromEncounterJournal(getJournalInfo())
             end)
             local function update()
+                if not config:Get("showTalentBuildsButtonInJournalFrame") then
+                    return
+                end
                 local hasBuilds = talentbuilds:HasBuildsForEncounterJournal(getJournalInfo())
                 shortcutEncounterJournalButton:SetShown(hasBuilds)
             end
@@ -16400,12 +16448,7 @@ if IS_RETAIL then
 
     function talentbuilds:ShowShortcuts()
         shortcutsInitialize()
-        if shortcutTalentFrameButton then
-            shortcutTalentFrameButton:Show()
-        end
-        if shortcutEncounterJournalButton then
-            shortcutEncounterJournalButton:Show()
-        end
+        self:UpdateShortcutsVisibility()
     end
 
     function talentbuilds:HideShortcuts()
@@ -16414,6 +16457,15 @@ if IS_RETAIL then
         end
         if shortcutEncounterJournalButton then
             shortcutEncounterJournalButton:Hide()
+        end
+    end
+
+    function talentbuilds:UpdateShortcutsVisibility()
+        if shortcutTalentFrameButton then
+            shortcutTalentFrameButton:SetShown(config:Get("showTalentBuildsButtonInTalentFrame"))
+        end
+        if shortcutEncounterJournalButton then
+            shortcutEncounterJournalButton:SetShown(config:Get("showTalentBuildsButtonInJournalFrame"))
         end
     end
 
@@ -16441,6 +16493,13 @@ if IS_RETAIL then
         "PLAYER_TALENT_UPDATE",
     }
 
+    local function OnSettingsChanged()
+        if not config:IsEnabled() then
+            return
+        end
+        talentbuilds:UpdateShortcutsVisibility()
+    end
+
     function talentbuilds:OnLoad()
         self:Enable()
     end
@@ -16449,12 +16508,14 @@ if IS_RETAIL then
         OnPlayerSpecializationChangeDelayed()
         callback:RegisterUnitEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED", "player")
         callback:RegisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
         self:ShowShortcuts()
     end
 
     function talentbuilds:OnDisable()
         callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED")
         callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
+        callback:UnregisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
         self:HideShortcuts()
         self:HideFrame()
     end
@@ -17802,6 +17863,13 @@ do
                 end,
             })
 
+            if IS_RETAIL then
+                configOptions:CreatePadding()
+                configOptions:CreateHeadline(L.BUILDS_TITLE_FULL)
+                configOptions:CreateOptionToggle(L.BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON, L.BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON_DESC, "showTalentBuildsButtonInTalentFrame")
+                configOptions:CreateOptionToggle(L.BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON, L.BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON_DESC, "showTalentBuildsButtonInJournalFrame")
+            end
+
             ---@alias RaiderIODBModuleRegion "US"|"EU"|"KR"|"CN"|"TW"
             ---@alias RaiderIODBModuleType "M"|"R"|"F"
 
@@ -17866,7 +17934,7 @@ do
             reset:SetScript("OnClick", Reset_OnClick)
 
             -- adjust frame height dynamically
-            local height = -30
+            local height = -20
             local lastWidget = configOptions.lastWidget
             repeat
                 if not lastWidget then
