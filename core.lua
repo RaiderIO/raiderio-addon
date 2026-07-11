@@ -14862,7 +14862,7 @@ if IS_RETAIL then
 
         relevantEncounterDifficulties = {}
 
-        appendDifficultyTranslation(relevantEncounterDifficulties, "all", translationFormats.EncounterDifficulty)
+        -- appendDifficultyTranslation(relevantEncounterDifficulties, "all", translationFormats.EncounterDifficulty)
 
         for _, difficultyKey in ipairs(talentBuilds.routes.difficultyOrder) do
             appendDifficultyTranslation(relevantEncounterDifficulties, difficultyKey, translationFormats.EncounterDifficulty)
@@ -15648,6 +15648,8 @@ if IS_RETAIL then
         self.ResizeButton:SetPoint("BOTTOMRIGHT", -4, 4)
         self.ResizeButton:Init(self, frameWidth, frameHeight, frameWidth, frameHeight*2)
 
+        local isFirstDefaultRadioSelected = false
+
         ---@type TalentBuildsMenuOptionForInstance[]
         local instanceOptions = {
             {
@@ -15663,6 +15665,26 @@ if IS_RETAIL then
                 arg3 = "all",
             },
         }
+
+        -- isFirstDefaultRadioSelected = false
+        -- for _, raid in ipairs(relevantRaids) do
+        --     local journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(raid.instance_map_ids[1])
+        --     local icon = journalInstanceID and select(4, EJ_GetInstanceInfo(journalInstanceID)) or nil ---@type number?
+        --     instanceOptions[#instanceOptions + 1] = {
+        --         text = function()
+        --             local name = format(L.BUILDS_RAIDS_ENCOUNTERS_ALL, raid.shortNameLocale)
+        --             return icon and format("|T%s:16:32:0:0:256:128:4:190:4:92|t%s", icon, name) or name
+        --         end,
+        --         radiogroup = "instance",
+        --         arg1 = "raid",
+        --         arg2 = raid.id,
+        --         arg3 = "all",
+        --     }
+        --     if not isFirstDefaultRadioSelected then
+        --         isFirstDefaultRadioSelected = true
+        --         instanceOptions[#instanceOptions].radioselected = true
+        --     end
+        -- end
 
         for _, raid in ipairs(relevantRaids) do
             local encounters = relevantEncounters[raid.id]
@@ -15700,16 +15722,19 @@ if IS_RETAIL then
             arg3 = nil,
         }
 
+        -- TODO: this won't re-sort the order if the locale choice changes in the settings, it will stick to how it was when the frame was loaded
         table.sort(relevantDungeons, function(a, b)
             return a.shortNameLocale < b.shortNameLocale
         end)
 
         for _, dungeon in ipairs(relevantDungeons) do
-            local name = format("%s (%s)", dungeon.shortNameLocale, dungeon.name)
             local journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(dungeon.instance_map_ids[1])
-            local icon = journalInstanceID and select(4, EJ_GetInstanceInfo(journalInstanceID)) or nil
+            local icon = journalInstanceID and select(4, EJ_GetInstanceInfo(journalInstanceID)) or nil ---@type number?
             instanceOptions[#instanceOptions + 1] = {
-                text = icon and format("|T%s:16:32:0:0:256:128:4:190:4:92|t%s", icon, name) or name,
+                text = function()
+                    local name = format(L.BUILDS_DUNGEONS_SPECIFIC, dungeon.shortNameLocale, dungeon.name)
+                    return icon and format("|T%s:16:32:0:0:256:128:4:190:4:92|t%s", icon, name) or name
+                end,
                 radiogroup = "instance",
                 arg1 = "dungeon",
                 arg2 = dungeon.id,
@@ -15750,7 +15775,7 @@ if IS_RETAIL then
         ---@type TalentBuildsMenuOptionForDifficulty[]
         local difficultyOptions = {}
 
-        local isFirstDefaultRadioSelected = false
+        isFirstDefaultRadioSelected = false
         for _, difficulty in ipairs(relevantEncounterDifficulties) do
             difficultyOptions[#difficultyOptions + 1] = {
                 text = difficulty.text,
