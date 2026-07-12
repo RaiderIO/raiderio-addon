@@ -15172,7 +15172,7 @@ if IS_RETAIL then
     local function updateDataProvider()
         dataProvider:Flush()
 
-        if not compiledPlayerProfile or not currentInstance or not currentDifficulty or not currentWeapon then
+        if not compiledPlayerProfile or not currentInstance or not currentDifficulty then
             return
         end
 
@@ -15180,15 +15180,15 @@ if IS_RETAIL then
         local instanceID = currentInstance.arg2
         local encounterID = currentInstance.arg3
         local difficulty = currentDifficulty.arg1
-        local weapon = currentWeapon.arg1
-        local weaponSpecID = currentWeapon.arg2
+        local weapon = currentWeapon and currentWeapon.arg1
+        local weaponSpecID = currentWeapon and currentWeapon.arg2
         local raidSpeed = currentSpeed and currentSpeed.arg1
         local specID = util:GetSpecialization()
 
         local relevantBuilds = util:TableFilter(
             compiledPlayerProfile.builds,
             function(build)
-                if weapon ~= build.weapon then
+                if weapon and weapon ~= build.weapon then
                     return false
                 end
                 if weaponSpecID and weaponSpecID ~= specID and weaponSpecID ~= build.specID then
@@ -15269,17 +15269,8 @@ if IS_RETAIL then
         local prevWeapon = currentWeapon
         local prevSpeed = currentSpeed
         currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
-        if not currentInstance then
-            return
-        end
         currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty?
-        if not currentDifficulty then
-            return
-        end
         currentWeapon = frame.WeaponMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForWeapon?
-        if not currentWeapon then
-            return
-        end
         currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForSpeed?
         if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevWeapon ~= currentWeapon or prevSpeed ~= currentSpeed then
             updateDataProvider()
@@ -15559,7 +15550,7 @@ if IS_RETAIL then
         button.ActionMenuToggle:SetPoint("RIGHT", button, "RIGHT", -buildsButtonActionButtonOffsetX, 0)
         button.ActionMenuToggle:EnableMouse(true)
         button.ActionMenuToggle:SetMouseClickEnabled(true)
-        button.ActionMenuToggle:RegisterForClicks("LeftButtonUp")
+        button.ActionMenuToggle:RegisterForClicks("LeftButtonUp", "RightButtonUp")
         button.ActionMenuToggle:SetScript("OnClick", function() buildsButtonActionMenuToggle(button) end)
 
         button.BuildTitle:SetPoint("BOTTOMRIGHT", button.ActionMenuToggle, "LEFT", -buildsButtonSharedPaddingX, 0)
