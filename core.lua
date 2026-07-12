@@ -301,6 +301,7 @@ local DropDownUtil do
     ---@field public RegisterCallback fun(self: WowStyle1DropdownTemplatePolyfill, event: string, func: fun(owner: Frame, previousRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, nextRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, selections: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]), owner: Frame, ...: any)
     ---@field public RegisterCallbackWithHandle fun(self: WowStyle1DropdownTemplatePolyfill, event: string, func: function, owner: number, ...: any): { Unregister: fun() }
     ---@field public UnregisterCallback fun(self: WowStyle1DropdownTemplatePolyfill, event: string, owner: number)
+    ---@field public TriggerEvent fun(self: WowStyle1DropdownTemplatePolyfill, event: string, ...: any)
 
     ---@class WowStyle1DropdownTemplateRootDescriptionPolyfill
     ---@field public AddInitializer fun(owner: WowStyle1DropdownTemplatePolyfill, elementDescription?: WowStyle1DropdownTemplateElementDescriptionPolyfill, menu?: any)
@@ -369,10 +370,7 @@ local DropDownUtil do
         end
         for radiogroup, option in pairs(args.radioGroupIndex) do
             if option.radiogroup == radiogroup then
-                local show = option.show
-                if type(show) == "function" then
-                    show = show(option)
-                end
+                local show = DropDownUtil:IsDynamicMenuOptionShown(option)
                 if includeHidden or show ~= false then
                     selection[1] = option
                     return selection
@@ -382,10 +380,7 @@ local DropDownUtil do
         local i = 0
         for option, checked in pairs(args.checkedIndice) do
             if checked then
-                local show = option.show
-                if type(show) == "function" then
-                    show = show(option)
-                end
+                local show = DropDownUtil:IsDynamicMenuOptionShown(option)
                 if includeHidden or show ~= false then
                     i = i + 1
                     selection[i] = option
@@ -553,26 +548,6 @@ local DropDownUtil do
     ---@field public arg2? any
     ---@field public arg3? any
 
-    ---@param option DropDownUtilDynamicMenuOption
-    ---@return string
-    local function GetDynamicMenuOptionText(option)
-        local icon = option.icon
-        local text = option.text
-        if not icon and not text then
-            return ""
-        end
-        if type(icon) == "function" then
-            icon = icon(option)
-        end
-        if type(text) == "function" then
-            text = text(option)
-        end
-        if icon and text then
-            return format("%s%s", icon, text)
-        end
-        return text or icon or ""
-    end
-
     local dropDownDividerTextureMarkup = "|T918860:0:13|t"
 
     ---@param owner Frame
@@ -585,19 +560,13 @@ local DropDownUtil do
             ---@param useOptions? DropDownUtilDynamicMenuOption[]
             local function func(_, rootDescription, useOptions)
                 for _, option in ipairs(useOptions or options) do
-                    local show = option.show
-                    if type(show) == "function" then
-                        show = show(option)
-                    end
+                    local show = DropDownUtil:IsDynamicMenuOptionShown(option)
                     if show ~= false then
                         if option.separator then
                             rootDescription:CreateDivider()
                         else
-                            local unclickable = option.unclickable
-                            if type(unclickable) == "function" then
-                                unclickable = unclickable(option)
-                            end
-                            local text = GetDynamicMenuOptionText(option)
+                            local unclickable = DropDownUtil:IsDynamicMenuOptionUnclickable(option)
+                            local text = DropDownUtil:GetDynamicMenuOptionText(option)
                             if unclickable then
                                 text = format("|cffFFFFFF%s|r", text)
                                 rootDescription:CreateTitle(text)
@@ -661,21 +630,15 @@ local DropDownUtil do
             info.arg1 = parent
             for _, option in ipairs(options) do
                 if option.menulist == menuList then
-                    local show = option.show
-                    if type(show) == "function" then
-                        show = show(option)
-                    end
+                    local show = DropDownUtil:IsDynamicMenuOptionShown(option)
                     if show ~= false then
                         info.arg2 = option
                         if option.separator then
                             info.text = dropDownDividerTextureMarkup
                         else
-                            info.text = GetDynamicMenuOptionText(option)
+                            info.text = DropDownUtil:GetDynamicMenuOptionText(option)
                         end
-                        local unclickable = option.unclickable
-                        if type(unclickable) == "function" then
-                            unclickable = unclickable(option)
-                        end
+                        local unclickable = DropDownUtil:IsDynamicMenuOptionUnclickable(option)
                         info.notClickable = option.separator or unclickable
                         info.notCheckable = true
                         info.disabled = false
@@ -702,6 +665,46 @@ local DropDownUtil do
         elseif menu.DynamicMenuType == "dropdown" then
             self:ToggleDropDown(menu, anchorRelativePoint, anchorX, anchorY)
         end
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return boolean?
+    function DropDownUtil:IsDynamicMenuOptionShown(option)
+        local show = option.show
+        if type(show) == "function" then
+            show = show(option)
+        end
+        return show
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return boolean?
+    function DropDownUtil:IsDynamicMenuOptionUnclickable(option)
+        local unclickable = option.unclickable
+        if type(unclickable) == "function" then
+            unclickable = unclickable(option)
+        end
+        return unclickable
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return string
+    function DropDownUtil:GetDynamicMenuOptionText(option)
+        local icon = option.icon
+        local text = option.text
+        if not icon and not text then
+            return ""
+        end
+        if type(icon) == "function" then
+            icon = icon(option)
+        end
+        if type(text) == "function" then
+            text = text(option)
+        end
+        if icon and text then
+            return format("%s%s", icon, text)
+        end
+        return text or icon or ""
     end
 
 end
@@ -1834,7 +1837,7 @@ do
     ---@alias TalentBuildsDungeonKey "all"|string The dungeon ID as a string. Such as `"4813"` for `4813` (Pit of Saron).
     ---@alias TalentBuildsRaidKey string The raid ID as a string. Such as `"8062"` for `8062` (Sporefall).
     ---@alias TalentBuildsDungeonDifficultyKey "6-9"|"10-99"|"15-99"|"20-99"|string The bracket keys.
-    ---@alias TalentBuildsWeaponKey "all"|"3"|"1"|string The weapon keys.
+    ---@alias TalentBuildsWeaponKey "all"|"1"|"2"|"3"|"4"|"5"|"6"|string The weapon keys.
     ---@alias TalentBuildsRaidEncounterKey "all"|string The encounter ID as a string. Such as `"3176"` for `3176` (Imperator Averzian).
     ---@alias TalentBuildsRaidDifficultyKey "mythic"|"heroic"|"normal"|string The encounter difficulty keys.
     ---@alias TalentBuildsRaidSpeedKey "all"|"fast"|"median"|string The raid speed keys.
@@ -4016,6 +4019,15 @@ do
         end
         local totalSeconds = floor(ms/1000)
         return format("%d:%02d", floor(totalSeconds / 60), totalSeconds % 60)
+    end
+
+    ---@param value number
+    ---@param pattern? string Defaults to `%.2f`.
+    ---@param appendPercentage? boolean Defaults to `true`.
+    function util:FormatPercentile(value, pattern, appendPercentage)
+        pattern = pattern or "%.2f"
+        local text = format(pattern, value)
+        return format("%s%s", text:gsub("%.?0+$", ""), appendPercentage ~= false and "%" or "")
     end
 
     ---@class AnimationGroupFadeScaleInOut : AnimationGroup
@@ -14852,10 +14864,11 @@ if IS_RETAIL then
         ---@param localeFormat TalentBuildsTranslationFormats
         ---@param specID? number
         local function appendDifficultyTranslation(difficulties, key, localeFormat, specID)
-            if difficulties[key] then
+            local uniqueKey = specID and format("%s_%s", key, specID) or key
+            if difficulties[uniqueKey] then
                 return
             end
-            difficulties[key] = true
+            difficulties[uniqueKey] = true
             difficulties[#difficulties + 1] = {
                 key = key,
                 text = L[format(localeFormat, key)],
@@ -14978,7 +14991,7 @@ if IS_RETAIL then
                         prefixImportString = specData.prefix,
                         suffixImportString = specData.builds[buildIndex],
                         importString = format("%s%s", specData.prefix, specData.builds[buildIndex]),
-                        buildPopText = "",
+                        buildPopText = util:FormatPercentile(buildRuns/heroCount*100),
                         scoreText = "",
                         isRecommended = isRecommended,
                         weapon = weaponKey,
@@ -14995,8 +15008,7 @@ if IS_RETAIL then
                         raidSpeed = nil,
                     }
                     if buildType == "raid" then
-                        build.buildPopText = util:FormatTimeFromMs(score)
-                        build.scoreText = util:StringUpperCaseFirstLetterLowerCaseRest(difficultyKey)
+                        build.scoreText = util:FormatTimeFromMs(score)
                         build.raidID = instanceID
                         build.raid = util:GetRaidByID(instanceID)
                         build.encounterID = encounterID
@@ -15005,7 +15017,6 @@ if IS_RETAIL then
                         build.encounterDifficultyID = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficultyKey]
                         build.raidSpeed = raidSpeedKey
                     elseif buildType == "dungeon" then
-                        build.buildPopText = format("%.0f%%", buildRuns/heroCount*100)
                         build.scoreText = format("+%d", score)
                         build.dungeonID = instanceID
                         build.dungeonBracket = difficultyKey
@@ -15109,33 +15120,6 @@ if IS_RETAIL then
     ---@type DataProviderPolyfill<TalentBuildsDataProviderBuildElementData>
     local dataProvider = CreateDataProvider()
 
-    -- controls how the builds are sorted
-    dataProvider:SetSortComparator(function(a, b)
-        if a.buildIndex ~= b.buildIndex then
-            return a.buildIndex > b.buildIndex
-        end
-        local aAll = (a.encounterID == "all" and 1 or 0) or (a.dungeonID == "all" and 1 or 0)
-        local bAll = (b.encounterID == "all" and 1 or 0) or (b.dungeonID == "all" and 1 or 0)
-        if aAll ~= bAll then
-            return aAll > bAll
-        end
-        local heroCount = a.heroCount > b.heroCount
-        local x = a.score
-        local y = b.score
-        if a.raidID and b.raidID then
-            if x == y then
-                return heroCount
-            end
-            return x < y
-        elseif a.dungeonID and b.dungeonID then
-            if x == y then
-                return heroCount
-            end
-            return x > y
-        end
-        return heroCount
-    end)
-
     ---@class TalentBuildsMenuOption : DropDownUtilDynamicMenuOption
     ---@field public text string
 
@@ -15153,15 +15137,20 @@ if IS_RETAIL then
 
     ---@class TalentBuildsMenuOptionForWeapon : TalentBuildsMenuOption
     ---@field public radiogroup "instance"
-    ---@field public arg1 "all"|TalentBuildsWeaponKey weaponKey
+    ---@field public arg1 TalentBuildsWeaponKey weaponKey
     ---@field public arg2? number weaponSpecID
     ---@field public arg3? nil
 
     ---@class TalentBuildsMenuOptionForSpeed : TalentBuildsMenuOption
     ---@field public radiogroup "raid"
-    ---@field public arg1 "all"|TalentBuildsRaidSpeedKey speedText
+    ---@field public arg1 TalentBuildsRaidSpeedKey speedText
     ---@field public arg2? nil
     ---@field public arg3? nil
+
+    local isBuildAndImportStringEqualCache = {} ---@type table<string, boolean?>
+    local frame ---@type TalentBuildsFrame?
+    local frameFeedback ---@type TalentBuilsFrameFeedback?
+    local updatingMenus = false
 
     -- the current selection of menu choices
     local currentInstance ---@type TalentBuildsMenuOptionForInstance?
@@ -15217,16 +15206,19 @@ if IS_RETAIL then
         )
 
         dataProvider:InsertTable(relevantBuilds)
-    end
 
-    local isBuildAndImportStringEqualCache = {} ---@type table<string, boolean?>
-    local frame ---@type TalentBuildsFrame?
-    local frameFeedback ---@type TalentBuilsFrameFeedback?
-    local updatingMenus = false
+        if not frame or not dataProvider:IsEmpty() then
+            return
+        end
+
+        local hasWeaponFilter = weapon ~= nil and weapon ~= "all"
+        local hasRaidSpeedFilter = raidSpeed ~= nil and raidSpeed ~= "all"
+        frame:ResetWeaponAndRaidSpeedFilters(hasWeaponFilter, hasRaidSpeedFilter)
+    end
 
     ---@param option DropDownUtilDynamicMenuOption
     local function isOptionShownAndNotAll(option)
-        return option.arg1 ~= "all" and option:show()
+        return option.arg1 ~= "all" and DropDownUtil:IsDynamicMenuOptionShown(option)
     end
 
     ---@param menu UIDropDownMenuTemplatePolyfill|WowStyle1DropdownTemplatePolyfill
@@ -15239,7 +15231,7 @@ if IS_RETAIL then
     end
 
     ---@param owner WowStyle1DropdownTemplatePolyfill
-    ---@param selections WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
+    ---@param selections? WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
     local function updateMenuAndDataProvider(owner, _, _, selections)
         if not frame then
             return
@@ -15249,7 +15241,7 @@ if IS_RETAIL then
         end
         updatingMenus = true
         if owner == frame.InstanceMenu then
-            local hasSelections = #selections > 0
+            local hasSelections = selections and #selections > 0 and true or false
             frame.DifficultyMenu:OpenMenu()
             frame.DifficultyMenu:CloseMenu()
             frame.DifficultyMenu:SetEnabled(hasSelections)
@@ -15279,7 +15271,7 @@ if IS_RETAIL then
 
     ---@param build TalentBuildsCompiledProfileBuild
     local function getHeroTitleText(build)
-        return format(L.BUILDS_PROFILE_HERO_FORMAT, build.popPctl * 100, FormatLargeNumber(build.heroCount))
+        return format(L.BUILDS_PROFILE_HERO_FORMAT, util:FormatPercentile(build.popPctl * 100), FormatLargeNumber(build.heroCount))
     end
 
     local starSymbolTextureMarkup = "|A:PetJournal-FavoritesIcon:0:0:0:-2|a"
@@ -15613,6 +15605,8 @@ if IS_RETAIL then
         self.ResizeButton:Init(self, frameWidth, frameHeight, frameWidth, frameHeight*2)
 
         local isFirstDefaultRadioSelected = false
+        local defaultRaidSelected = util:TableFind(relevantRaids, function(raid) return raid.id == 16340 end) -- TODO: do we want this default selection to come from the db itself?
+        local defaultDungeonBracketSelected = util:TableFind(relevantDungeonBrackets, function(bracket) return bracket.key == "10-99" end) -- TODO: do we want this default selection to come from the db itself?
 
         ---@type TalentBuildsMenuOptionForInstance[]
         local instanceOptions = {
@@ -15636,7 +15630,7 @@ if IS_RETAIL then
                 arg2 = raid.id,
                 arg3 = "all",
             }
-            if not isFirstDefaultRadioSelected then
+            if not isFirstDefaultRadioSelected and (not defaultRaidSelected or defaultRaidSelected.id == instanceOptions[#instanceOptions].arg2) then
                 isFirstDefaultRadioSelected = true
                 instanceOptions[#instanceOptions].radioselected = true
             end
@@ -15706,7 +15700,7 @@ if IS_RETAIL then
 
         ---@return TalentBuildsMenuOptionForInstance?
         local function getSelectedInstance()
-            return self.InstanceMenu:DynamicMenuCollectSelectionOptions()[1] ---@type TalentBuildsMenuOptionForInstance?
+            return self.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
         end
 
         local function isSelectedInstanceRaid()
@@ -15757,7 +15751,7 @@ if IS_RETAIL then
                 arg2 = nil,
                 arg3 = nil,
             }
-            if not isFirstDefaultRadioSelected and difficultyOptions[#difficultyOptions].arg1 == "10-99" then -- TODO: select the 10+ bracked by default, not the actual first one in the list
+            if not isFirstDefaultRadioSelected and (not defaultDungeonBracketSelected or difficultyOptions[#difficultyOptions].arg1 == defaultDungeonBracketSelected.key) then
                 isFirstDefaultRadioSelected = true
                 difficultyOptions[#difficultyOptions].radioselected = true
             end
@@ -15782,7 +15776,7 @@ if IS_RETAIL then
                 arg2 = weapon.specID,
                 arg3 = nil,
             }
-            if not isFirstDefaultRadioSelected then
+            if not isFirstDefaultRadioSelected and DropDownUtil:IsDynamicMenuOptionShown(weaponOptions[#weaponOptions]) then
                 isFirstDefaultRadioSelected = true
                 weaponOptions[#weaponOptions].radioselected = true
             end
@@ -15843,6 +15837,39 @@ if IS_RETAIL then
             else
                 self.SpeedMenu:ClearAllPoints()
             end
+        end
+
+        ---@param option TalentBuildsMenuOptionForWeapon|TalentBuildsMenuOptionForSpeed
+        local function selectAllOptionPredicate(option)
+            return option.arg1 == "all" and DropDownUtil:IsDynamicMenuOptionShown(option)
+        end
+
+        ---@param menu WowStyle1DropdownTemplatePolyfill
+        ---@param resetToAllOption? boolean
+        local function updateMenu(menu, resetToAllOption)
+            if resetToAllOption and menu:DynamicMenuSelectOption(selectAllOptionPredicate) == 0 then
+                return
+            end
+            menu:TriggerEvent(menu.Event.OnUpdate, menu:DynamicMenuCollectSelectionOptions())
+            local function toggle()
+                menu:CloseMenu()
+                menu:OpenMenu()
+                menu:CloseMenu()
+            end
+            toggle()
+            C_Timer.After(0, toggle)
+        end
+
+        ---@param resetWeapon? boolean Defaults as `true`. Must be `false` to skip resetting the weapon filter.
+        ---@param resetRaidSpeed? boolean Defaults as `true`. Must be `false` to skip resetting the raid speed filter.
+        function self:ResetWeaponAndRaidSpeedFilters(resetWeapon, resetRaidSpeed)
+            if resetWeapon ~= false then
+                updateMenu(self.WeaponMenu, true)
+            end
+            if resetRaidSpeed ~= false then
+                updateMenu(self.SpeedMenu, true)
+            end
+            updateMenu(self.InstanceMenu)
         end
 
         self.CloseButton:HookScript("OnClick", function() talentbuilds:HideFrame() end)
@@ -16461,6 +16488,9 @@ if IS_RETAIL then
     end
 
     local function OnPlayerSpecializationChange()
+        if frame then
+            frame:ResetWeaponAndRaidSpeedFilters()
+        end
         compileTalentBuilds()
         updateDataProvider()
     end
