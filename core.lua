@@ -19,8 +19,13 @@ local ScrollBoxUtil do
 
     ScrollBoxUtil = {}
 
+    ---@class CallbackRegistryHandle
+    ---@field public Unregister fun()|fun(self: CallbackRegistryHandle)
+
     ---@class CallbackRegistryMixin
-    ---@field public RegisterCallback fun(event: string|any, callback: fun())
+    ---@field public Event table<string, string>
+    ---@field public RegisterCallback fun(self: CallbackRegistryMixin, event: string|any, callback: fun())
+    ---@field public RegisterFrameEventAndCallbackWithHandle fun(self: CallbackRegistryMixin, event: WowEvent): CallbackRegistryHandle
 
     ---@class ScrollBoxBaseMixin : CallbackRegistryMixin, Frame
     ---@field public GetFrames fun(): Frame[]
@@ -193,23 +198,64 @@ local DropDownUtil do
     ---@class UIDropDownMenuTemplatePolyfill : Frame
 
     ---@class UIDropDownMenuInfoPolyfill
-    ---@field public checked boolean
-    ---@field public text string
-    ---@field public hasArrow boolean
-    ---@field public notCheckable boolean
-    ---@field public tooltipTitle? string
-    ---@field public tooltipText? string
-    ---@field public tooltipOnButton? boolean
-    ---@field public menuList any
-    ---@field public func? fun(self: UIDropDownMenuInfoPolyfill)
-    ---@field public arg1 any
-    ---@field public arg2 any
+    ---@field public text string @The text of the button
+    ---@field public value? any @The value that UIDROPDOWNMENU_MENU_VALUE is set to when the button is clicked
+    ---@field public func? fun(self: UIDropDownMenuInfoPolyfill) @The function that is called when you click the button
+    ---@field public checked? boolean|fun():boolean? @Check the button if true or function returns true
+    ---@field public isNotRadio? boolean @Check the button uses radial image if false check box image if true
+    ---@field public isTitle? boolean @If it's a title the button is disabled and the font color is set to yellow
+    ---@field public disabled? boolean @Disable the button and show an invisible button that still traps the mouseover event so menu doesn't time out
+    ---@field public tooltipWhileDisabled? boolean @Show the tooltip, even when the button is disabled.
+    ---@field public hasArrow? boolean @Show the expand arrow for multilevel menus
+    ---@field public arrowXOffset? number @Number of pixels to shift the button's icon to the left or right (positive numbers shift right, negative numbers shift left).
+    ---@field public hasColorSwatch? boolean @Show color swatch or not, for color selection
+    ---@field public r? number @Red color value of the color swatch (0-255)
+    ---@field public g? number @Green color value of the color swatch (0-255)
+    ---@field public b? number @Blue color value of the color swatch (0-255)
+    ---@field public colorCode? string @"|cAARRGGBB" embedded hex value of the button text color. Only used when button is enabled
+    ---@field public swatchFunc? fun() @Function called by the color picker on color change
+    ---@field public hasOpacity? boolean @Show the opacity slider on the colorpicker frame
+    ---@field public opacity? number @Percentatge of the opacity, 1.0 is fully shown, 0 is transparent
+    ---@field public opacityFunc? fun() @Function called by the opacity slider when you change its value
+    ---@field public cancelFunc? fun(prevValue: any) @Function called by the colorpicker when you click the cancel button (it takes the previous values as its argument)
+    ---@field public notClickable? boolean @Disable the button and color the font white
+    ---@field public notCheckable? boolean @Shrink the size of the buttons and don't display a check box
+    ---@field public owner? Frame @Dropdown frame that "owns" the current dropdownlist
+    ---@field public keepShownOnClick? boolean @Don't hide the dropdownlist after a button is clicked
+    ---@field public tooltipTitle? string @Title of the tooltip shown on mouseover
+    ---@field public tooltipText? string @Text of the tooltip shown on mouseover
+    ---@field public tooltipWarning? string @Warning-style text of the tooltip shown on mouseover
+    ---@field public tooltipInstruction? string @Instruction-style text of the tooltip shown on mouseover
+    ---@field public tooltipOnButton? boolean @Show the tooltip attached to the button instead of as a Newbie tooltip.
+    ---@field public tooltipBackdropStyle? backdropInfo @Optional Backdrop style of the tooltip shown on mouseover
+    ---@field public tooltipAnchor? TooltipAnchor @Pass a custom tooltip anchor (Default is "ANCHOR_RIGHT")
+    ---@field public justifyH? JustifyHorizontal @Justify button text (Might only support "CENTER")
+    ---@field public arg1? any @This is the first argument used by info.func
+    ---@field public arg2? any @This is the second argument used by info.func
+    ---@field public fontObject? FontObject @font object replacement for Normal and Highlight
+    ---@field public menuList? table @This contains an array of info tables to be displayed as a child menu
+    ---@field public menuListDisplayMode? "MENU" @If menuList is set, show the sub drop down with an override display mode.
+    ---@field public noClickSound? boolean @Set to 1 to suppress the sound when clicking the button. The sound only plays if .func is set.
+    ---@field public padding? number @Number of pixels to pad the text on the right side
+    ---@field public topPadding? number @Extra spacing between buttons.
+    ---@field public leftPadding? number @Number of pixels to pad the button on the left side
+    ---@field public minWidth? number @Minimum width for this line
+    ---@field public customFrame? Frame @Allows this button to be a completely custom frame, should inherit from UIDropDownCustomMenuEntryTemplate and override appropriate methods.
+    ---@field public icon? number|string @An icon for the button.
+    ---@field public iconXOffset? number @Number of pixels to shift the button's icon to the left or right (positive numbers shift right, negative numbers shift left).
+    ---@field public iconTooltipTitle? string @Title of the tooltip shown on icon mouseover
+    ---@field public iconTooltipText? string @Text of the tooltip shown on icon mouseover
+    ---@field public iconTooltipBackdropStyle? backdropInfo @Optional Backdrop style of the tooltip shown on icon mouseover
+    ---@field public mouseOverIcon? number|string @An override icon when a button is moused over.
+    ---@field public ignoreAsMenuSelection? boolean @Never set the menu text/icon to this, even when this button is checked
+    ---@field public registerForRightClick? boolean @Register dropdown buttons for right clicks
+    ---@field public registerForAnyClick? boolean @Register dropdown buttons for any clicks
 
     ---@alias WowStyle1DropdownTemplateGeneratorFunctionPolyfill fun(owner: WowStyle1DropdownTemplatePolyfill, rootDescription: WowStyle1DropdownTemplateRootDescriptionPolyfill)
     ---@alias WowStyle1DropdownTemplateTooltipHandlerPolyfill fun(tooltip: GameTooltip, elementDescription: WowStyle1DropdownTemplateElementDescriptionPolyfill)
     ---@alias WowStyle1DropdownTemplateButtonBindingPolyfill fun(data: any)
-    ---@alias WowStyle1DropdownTemplateRadioIsSelectedPolyfill fun(index: number): boolean?
-    ---@alias WowStyle1DropdownTemplateRadioSetSelectedPolyfill fun(index: number)
+    ---@alias WowStyle1DropdownTemplateIsSelectedPolyfill fun(index: any): boolean?
+    ---@alias WowStyle1DropdownTemplateSetSelectedPolyfill fun(index: any)
 
     ---@class WowStyle1DropdownTemplateMenuAnchorPolyfill
     ---@field public point FramePoint
@@ -218,7 +264,10 @@ local DropDownUtil do
     ---@field public x number
     ---@field public y number
 
+    ---@alias WowStyle1DropdownTemplateEventPolyfill { OnMenuOpen: "OnMenuOpen", OnMenuClose: "OnMenuClose", OnUpdate: "OnUpdate" }
+
     ---@class WowStyle1DropdownTemplatePolyfill : Button
+    ---@field public Event WowStyle1DropdownTemplateEventPolyfill
     ---@field public intrinsic "DropdownButton"
     ---@field public menu? Frame @The menu frame when the menu is being shown.
     ---@field public menuAnchor WowStyle1DropdownTemplateMenuAnchorPolyfill
@@ -239,24 +288,29 @@ local DropDownUtil do
     ---@field public SetMenuAnchor fun(self: WowStyle1DropdownTemplatePolyfill, anchor: WowStyle1DropdownTemplateMenuAnchorPolyfill)
     ---@field public SetMouseWheelEnabled fun(self: WowStyle1DropdownTemplatePolyfill, enabled?: boolean)
     ---@field public SetMenuOpen fun(self: WowStyle1DropdownTemplatePolyfill, open?: boolean)
-    ---@field public OpenMenu fun(self: WowStyle1DropdownTemplatePolyfill, ownerRegion: Region, menuDescription: WowStyle1DropdownTemplateRootDescriptionPolyfill, anchor: WowStyle1DropdownTemplateMenuAnchorPolyfill)
+    ---@field public OpenMenu fun(self: WowStyle1DropdownTemplatePolyfill, ownerRegion?: Region, menuDescription?: WowStyle1DropdownTemplateRootDescriptionPolyfill, anchor?: WowStyle1DropdownTemplateMenuAnchorPolyfill)
     ---@field public CloseMenu fun(self: WowStyle1DropdownTemplatePolyfill)
     ---@field public SetSelectionText fun(self: WowStyle1DropdownTemplatePolyfill) @TODO
     ---@field public SetSelectionTranslator fun(self: WowStyle1DropdownTemplatePolyfill) @TODO
-    ---@field public GetSelectionData fun(self: WowStyle1DropdownTemplatePolyfill) @TODO
+    ---@field public CollectSelectionData fun(self: WowStyle1DropdownTemplatePolyfill): previousRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, nextRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, selections: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
+    ---@field public GetSelectionData fun(self: WowStyle1DropdownTemplatePolyfill): previousRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?
     ---@field public SetText fun(self: WowStyle1DropdownTemplatePolyfill, text?: string)
     ---@field public GetText fun(self: WowStyle1DropdownTemplatePolyfill): string?
     ---@field public GetUpdateText fun(self: WowStyle1DropdownTemplatePolyfill): string?
     ---@field public SetTooltip fun(self: WowStyle1DropdownTemplatePolyfill, tooltipFunction?: WowStyle1DropdownTemplateTooltipHandlerPolyfill)
+    ---@field public RegisterCallback fun(self: WowStyle1DropdownTemplatePolyfill, event: string, func: fun(owner: Frame, previousRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, nextRadio: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill?, selections: WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]), owner: Frame, ...: any)
+    ---@field public RegisterCallbackWithHandle fun(self: WowStyle1DropdownTemplatePolyfill, event: string, func: function, owner: number, ...: any): { Unregister: fun() }
+    ---@field public UnregisterCallback fun(self: WowStyle1DropdownTemplatePolyfill, event: string, owner: number)
+    ---@field public TriggerEvent fun(self: WowStyle1DropdownTemplatePolyfill, event: string, ...: any)
 
     ---@class WowStyle1DropdownTemplateRootDescriptionPolyfill
     ---@field public AddInitializer fun(owner: WowStyle1DropdownTemplatePolyfill, elementDescription?: WowStyle1DropdownTemplateElementDescriptionPolyfill, menu?: any)
-    ---@field public CreateButton fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string, binding?: WowStyle1DropdownTemplateButtonBindingPolyfill): WowStyle1DropdownTemplateRootDescriptionCheckboxPolyfill
-    ---@field public CreateCheckbox fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
+    ---@field public CreateButton fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string, binding?: WowStyle1DropdownTemplateButtonBindingPolyfill): WowStyle1DropdownTemplateRootDescriptionButtonPolyfill
+    ---@field public CreateCheckbox fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string, isSelected: WowStyle1DropdownTemplateIsSelectedPolyfill, setSelected: WowStyle1DropdownTemplateSetSelectedPolyfill): WowStyle1DropdownTemplateRootDescriptionCheckboxPolyfill
     ---@field public CreateColorSwatch fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
     ---@field public CreateDivider fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
     ---@field public CreateFrame fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
-    ---@field public CreateRadio fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string, isSelected: WowStyle1DropdownTemplateRadioIsSelectedPolyfill, setSelected: WowStyle1DropdownTemplateRadioSetSelectedPolyfill, index: number): WowStyle1DropdownTemplateRootDescriptionRadioPolyfill
+    ---@field public CreateRadio fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string, isSelected: WowStyle1DropdownTemplateIsSelectedPolyfill, setSelected: WowStyle1DropdownTemplateSetSelectedPolyfill, index: any): WowStyle1DropdownTemplateRootDescriptionRadioPolyfill
     ---@field public CreateSpacer fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
     ---@field public CreateTemplate fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
     ---@field public CreateTitle fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, text?: string)
@@ -266,16 +320,21 @@ local DropDownUtil do
     ---@field public SetTooltip fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill, tooltipFunction?: WowStyle1DropdownTemplateTooltipHandlerPolyfill)
     ---@field public SetTitleAndTextTooltip fun(self: WowStyle1DropdownTemplateRootDescriptionPolyfill) TODO
 
-    ---@class WowStyle1DropdownTemplateRootDescriptionCheckboxPolyfill : WowStyle1DropdownTemplateRootDescriptionPolyfill
-    ---@field public defaultResponse number `2`
+    ---@class WowStyle1DropdownTemplateRootDescriptionChildPolyfill : WowStyle1DropdownTemplateRootDescriptionPolyfill
+    ---@field public defaultResponse number `MenuResponse.Refresh = 2`
+    ---@field public SetResponder fun(self: WowStyle1DropdownTemplateRootDescriptionChildPolyfill, responseOrCallback: number | (fun(data, menuInputData, menu): number))
 
-    ---@class WowStyle1DropdownTemplateRootDescriptionRadioPolyfill : WowStyle1DropdownTemplateRootDescriptionPolyfill
-    ---@field public isRadio true
-    ---@field public soundKit number
-
-    ---@class WowStyle1DropdownTemplateElementDescriptionPolyfill : WowStyle1DropdownTemplateRootDescriptionPolyfill
+    ---@class WowStyle1DropdownTemplateElementDescriptionPolyfill : WowStyle1DropdownTemplateRootDescriptionChildPolyfill
     ---@field public text string
     ---@field public data number
+
+    ---@class WowStyle1DropdownTemplateRootDescriptionButtonPolyfill : WowStyle1DropdownTemplateElementDescriptionPolyfill
+
+    ---@class WowStyle1DropdownTemplateRootDescriptionCheckboxPolyfill : WowStyle1DropdownTemplateElementDescriptionPolyfill
+
+    ---@class WowStyle1DropdownTemplateRootDescriptionRadioPolyfill : WowStyle1DropdownTemplateElementDescriptionPolyfill
+    ---@field public isRadio true
+    ---@field public soundKit number
 
     DropDownUtil = {}
 
@@ -287,11 +346,96 @@ local DropDownUtil do
         PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON)
     end
 
+    ---@class DropDownUtilDynamicMenuArgs
+    ---@field public checkedIndice table<DropDownUtilDynamicMenuOption, boolean>
+    ---@field public radioGroupIndex table<string, DropDownUtilDynamicMenuOption>
+
+    local function createDynamicMenuArgs()
+        ---@type DropDownUtilDynamicMenuArgs
+        return {
+            checkedIndice = {},
+            radioGroupIndex = {},
+        }
+    end
+
+    ---@param menu WowStyle1DropdownTemplatePolyfill
+    ---@param includeHidden? boolean
+    local function dynamicMenuCollectSelectionOptions(menu, includeHidden)
+        ---@type DropDownUtilDynamicMenuOption[]
+        local selection = {}
+        local options = menu.DynamicMenuOptions
+        local args = menu.DynamicMenuArgs
+        if not options or not args then
+            return selection
+        end
+        for radiogroup, option in pairs(args.radioGroupIndex) do
+            if option.radiogroup == radiogroup then
+                local show = DropDownUtil:IsDynamicMenuOptionShown(option)
+                if includeHidden or show ~= false then
+                    selection[1] = option
+                    return selection
+                end
+            end
+        end
+        local i = 0
+        for option, checked in pairs(args.checkedIndice) do
+            if checked then
+                local show = DropDownUtil:IsDynamicMenuOptionShown(option)
+                if includeHidden or show ~= false then
+                    i = i + 1
+                    selection[i] = option
+                end
+            end
+        end
+        return selection
+    end
+
+    ---@param menu WowStyle1DropdownTemplatePolyfill
+    ---@param includeHidden? boolean
+    ---@return DropDownUtilDynamicMenuOption?
+    local function dynamicMenuCollectSelectionOption(menu, includeHidden)
+        local selections = dynamicMenuCollectSelectionOptions(menu, includeHidden)
+        return selections[1]
+    end
+
+    ---@alias DropDownUtilDynamicMenuSelectOptionOrPredicate fun(option: DropDownUtilDynamicMenuOption, menu: WowStyle1DropdownTemplatePolyfill): boolean?
+
+    ---@param menu WowStyle1DropdownTemplatePolyfill
+    ---@param optionOrPredicate DropDownUtilDynamicMenuSelectOptionOrPredicate
+    ---@return number numUpdated
+    local function dynamicMenuSelectOption(menu, optionOrPredicate)
+        local changed = 0
+        local args = menu.DynamicMenuArgs
+        if not args then
+            return changed
+        end
+        for _, option in ipairs(menu.DynamicMenuOptions) do
+            if option == optionOrPredicate or (type(optionOrPredicate) == "function" and optionOrPredicate(option, menu)) then
+                changed = changed + 1
+                if option.checkable then
+                    args.checkedIndice[option] = true
+                elseif option.radiogroup then
+                    args.radioGroupIndex[option.radiogroup] = option
+                end
+            end
+        end
+        return changed
+    end
+
     ---@generic T
     ---@param owner T
     ---@param generatorFunction fun(owner: T, rootDescription: WowStyle1DropdownTemplateRootDescriptionPolyfill)
-    function DropDownUtil:CreateMenu(owner, generatorFunction)
+    ---@param dynamicMenuOptions? DropDownUtilDynamicMenuOption[]
+    ---@param dynamicMenuArgs? DropDownUtilDynamicMenuArgs
+    function DropDownUtil:CreateMenu(owner, generatorFunction, dynamicMenuOptions, dynamicMenuArgs)
         local menu = CreateFrame("DropdownButton", nil, owner, "WowStyle1DropdownTemplate") ---@class WowStyle1DropdownTemplatePolyfill
+        menu.DynamicMenuType = "menu"
+        menu.DynamicMenuOwner = owner
+        menu.DynamicMenuOptions = dynamicMenuOptions
+        menu.DynamicMenuArgs = dynamicMenuArgs
+        menu.DynamicMenuCollectSelectionOptions = dynamicMenuCollectSelectionOptions
+        menu.DynamicMenuCollectSelectionOption = dynamicMenuCollectSelectionOption
+        menu.DynamicMenuSelectOption = dynamicMenuSelectOption
         menu:SetupMenu(generatorFunction)
         return menu
     end
@@ -299,10 +443,19 @@ local DropDownUtil do
     ---@generic T, L
     ---@param owner T
     ---@param initialize fun(self: UIDropDownMenuTemplatePolyfill, level: number, menuList?: L)
-    ---@param style? "MENU"
-    function DropDownUtil:CreateDropDown(owner, initialize, style)
+    ---@param dynamicMenuOptions? DropDownUtilDynamicMenuOption[]
+    ---@param style? "MENU"|"DROPDOWN"
+    function DropDownUtil:CreateDropDown(owner, initialize, dynamicMenuOptions, style)
         local menu = CreateFrame("Frame", nil, owner, "UIDropDownMenuTemplate") ---@class UIDropDownMenuTemplatePolyfill
-        UIDropDownMenu_Initialize(menu, initialize, style or "MENU")
+        menu.DynamicMenuType = "dropdown"
+        menu.DynamicMenuOwner = owner
+        menu.DynamicMenuOptions = dynamicMenuOptions
+        if style == "DROPDOWN" then
+            style = nil
+        else
+            style = "MENU"
+        end
+        UIDropDownMenu_Initialize(menu, initialize, style)
         return menu
     end
 
@@ -376,6 +529,182 @@ local DropDownUtil do
         else
             self:OpenDropDown(dropDownMenu, anchor, anchorX, anchorY)
         end
+    end
+
+    ---@class DropDownUtilDynamicMenuOption
+    ---@field public icon? number | string | fun(option: DropDownUtilDynamicMenuOption): (number | string)?
+    ---@field public text? string | fun(option: DropDownUtilDynamicMenuOption): string?
+    ---@field public func? fun(option: DropDownUtilDynamicMenuOption)
+    ---@field public show? boolean | fun(option: DropDownUtilDynamicMenuOption): boolean?
+    ---@field public separator? boolean
+    ---@field public unclickable? boolean | fun(option: DropDownUtilDynamicMenuOption): boolean?
+    ---@field public checkable? boolean
+    ---@field public checked? boolean
+    ---@field public radiogroup? string
+    ---@field public radioselected? boolean
+    ---@field public menulist? string
+    ---@field public options? DropDownUtilDynamicMenuOption[]
+    ---@field public arg1? any
+    ---@field public arg2? any
+    ---@field public arg3? any
+
+    local dropDownDividerTextureMarkup = "|T918860:0:13|t"
+
+    ---@param owner Frame
+    ---@param options DropDownUtilDynamicMenuOption[]
+    ---@param dropDownStyle? "MENU"|"DROPDOWN"
+    function DropDownUtil:CreateDynamicMenu(owner, options, dropDownStyle)
+        if self:IsMenuSupported() then
+            local args = createDynamicMenuArgs()
+            ---@param rootDescription WowStyle1DropdownTemplateRootDescriptionPolyfill
+            ---@param useOptions? DropDownUtilDynamicMenuOption[]
+            local function func(_, rootDescription, useOptions)
+                for _, option in ipairs(useOptions or options) do
+                    local show = DropDownUtil:IsDynamicMenuOptionShown(option)
+                    if show ~= false then
+                        if option.separator then
+                            rootDescription:CreateDivider()
+                        else
+                            local unclickable = DropDownUtil:IsDynamicMenuOptionUnclickable(option)
+                            local text = DropDownUtil:GetDynamicMenuOptionText(option)
+                            if unclickable then
+                                text = format("|cffFFFFFF%s|r", text)
+                                rootDescription:CreateTitle(text)
+                            elseif option.checkable then
+                                rootDescription:CreateCheckbox(
+                                    text,
+                                    function()
+                                        if args.checkedIndice[option] == nil then
+                                            args.checkedIndice[option] = option.checked or false
+                                        end
+                                        return args.checkedIndice[option]
+                                    end,
+                                    function()
+                                        local checked = not option.checked
+                                        option.checked = checked
+                                        args.checkedIndice[option] = checked
+                                    end
+                                )
+                            elseif option.radiogroup then
+                                rootDescription:CreateRadio(
+                                    text,
+                                    function()
+                                        if option.radioselected and args.radioGroupIndex[option.radiogroup] == nil then
+                                            args.radioGroupIndex[option.radiogroup] = option
+                                        end
+                                        return args.radioGroupIndex[option.radiogroup] == option
+                                    end,
+                                    function()
+                                        args.radioGroupIndex[option.radiogroup] = option
+                                    end,
+                                    option
+                                )
+                            else
+                                local optionFunc = option.func and function() option:func() end or nil
+                                local buttonDescription = rootDescription:CreateButton(text, optionFunc)
+                                if option.options then
+                                    func(_, buttonDescription, option.options)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            return self:CreateMenu(owner, func, options, args)
+        end
+        ---@param button { arg1: UIDropDownMenuTemplatePolyfill, arg2: DropDownUtilDynamicMenuOption }
+        local function onClick(button)
+            local parent = button.arg1
+            local option = button.arg2
+            if option.func then
+                option:func()
+            end
+            self:CloseDropDown(parent)
+        end
+        ---@param parent UIDropDownMenuTemplatePolyfill
+        ---@param level number
+        ---@param menuList? string
+        local function func(parent, level, menuList)
+            local info = UIDropDownMenu_CreateInfo() ---@type UIDropDownMenuInfoPolyfill
+            info.func = onClick
+            info.arg1 = parent
+            for _, option in ipairs(options) do
+                if option.menulist == menuList then
+                    local show = DropDownUtil:IsDynamicMenuOptionShown(option)
+                    if show ~= false then
+                        info.arg2 = option
+                        if option.separator then
+                            info.text = dropDownDividerTextureMarkup
+                        else
+                            info.text = DropDownUtil:GetDynamicMenuOptionText(option)
+                        end
+                        local unclickable = DropDownUtil:IsDynamicMenuOptionUnclickable(option)
+                        info.notClickable = option.separator or unclickable
+                        info.notCheckable = true
+                        info.disabled = false
+                        UIDropDownMenu_AddButton(info, level)
+                    end
+                end
+            end
+        end
+        return self:CreateDropDown(owner, func, options, dropDownStyle)
+    end
+
+    ---@param menu WowStyle1DropdownTemplatePolyfill | UIDropDownMenuTemplatePolyfill
+    ---@param anchorPoint? FramePoint
+    ---@param anchorRelativePoint? Region
+    ---@param anchorRelativeTo? FramePoint
+    ---@param anchorX? number
+    ---@param anchorY? number
+    function DropDownUtil:ToggleDynamicMenu(menu, anchorPoint, anchorRelativePoint, anchorRelativeTo, anchorX, anchorY)
+        if anchorRelativePoint == nil then
+            anchorRelativePoint = menu.DynamicMenuOwner
+        end
+        if menu.DynamicMenuType == "menu" then
+            self:ToggleMenu(menu, anchorPoint, anchorRelativePoint, anchorRelativeTo, anchorX, anchorY)
+        elseif menu.DynamicMenuType == "dropdown" then
+            self:ToggleDropDown(menu, anchorRelativePoint, anchorX, anchorY)
+        end
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return boolean?
+    function DropDownUtil:IsDynamicMenuOptionShown(option)
+        local show = option.show
+        if type(show) == "function" then
+            show = show(option)
+        end
+        return show
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return boolean?
+    function DropDownUtil:IsDynamicMenuOptionUnclickable(option)
+        local unclickable = option.unclickable
+        if type(unclickable) == "function" then
+            unclickable = unclickable(option)
+        end
+        return unclickable
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    ---@return string
+    function DropDownUtil:GetDynamicMenuOptionText(option)
+        local icon = option.icon
+        local text = option.text
+        if not icon and not text then
+            return ""
+        end
+        if type(icon) == "function" then
+            icon = icon(option)
+        end
+        if type(text) == "function" then
+            text = text(option)
+        end
+        if icon and text then
+            return format("%s%s", icon, text)
+        end
+        return text or icon or ""
     end
 
 end
@@ -567,7 +896,7 @@ end
 -- constants.lua (ns)
 -- dependencies: none
 do
-    
+
     ---@alias RegionString "us"|"kr"|"eu"|"tw"|"cn" @`us`, `kr`, `eu`, `tw`, `cn`
 
     ---@alias RegionNumber 1|2|3|4|5 @`1` (us), `2` (kr), `3` (eu), `4` (tw), `5` (cn)
@@ -598,6 +927,8 @@ do
     ---@field public SCORE_TIERS_SIMPLE_PREV table<number, ScoreTierSimple>
     ---@field public previousScoreTiersSimple table<number, ScoreTierSimple> @DEPRECATED
     ---@field public CUSTOM_TITLES table<number, RecruitmentTitle>
+    ---@field public talentBuilds? TalentBuilds
+    ---@field public TALENT_BUILDS TalentBuilds
     ---@field public CLIENT_CHARACTERS table<string, CharacterCollection>
     ---@field public CLIENT_RECENT_CHARACTERS table<string, RecentCharacterCollection>
     ---@field public CLIENT_COLORS table<number, ScoreColor>
@@ -614,9 +945,21 @@ do
     ---@field public PLAYER_REALM string @The realm of the player character
     ---@field public PLAYER_REALM_SLUG string @The realm slug of the player character
 
-    ns.Print = function(text, r, g, b, ...)
+    ---@param text string
+    ---@param r? number
+    ---@param g? number
+    ---@param b? number
+    function ns.Print(text, r, g, b)
         r, g, b = r or 1, g or 1, b or 0
-        DEFAULT_CHAT_FRAME:AddMessage(tostring(text), r, g, b, ...)
+        DEFAULT_CHAT_FRAME:AddMessage(tostring(text), r, g, b)
+    end
+
+    ---@param text string
+    ---@param r? number
+    ---@param g? number
+    ---@param b? number
+    function ns.PrintWithAddonPrefix(text, r, g, b)
+        ns.Print(format("|cffFFFFFF%s|r: %s", L.RAIDERIO, tostring(text)), r, g, b)
     end
 
     ns.EXPANSION = max(GetServerExpansionLevel(), GetMinimumExpansionLevel(), GetExpansionLevel()) - 1
@@ -635,6 +978,7 @@ do
     ns.RAIDERIO_ADDON_DOWNLOAD_URL = "https://rio.gg/addon"
     ns.RAIDERIO_DOMAIN = "raider.io"
 
+    -- ns.RAIDERIO_DOMAIN
     if IS_CLASSIC_ERA then
         ns.RAIDERIO_DOMAIN = "era.raider.io"
     elseif IS_CLASSIC then
@@ -1026,6 +1370,7 @@ do
     ---@field public name string
     ---@field public color RaidDifficultyColor
 
+    -- ns.RAID_DIFFICULTY
     if IS_RETAIL then
         ns.RAID_DIFFICULTY = { -- Table of `1` (normal), `2` (heroic), `3` (mythic) difficulties and their names and colors.
             ---@type RaidDifficulty
@@ -1097,6 +1442,54 @@ do
             }
         }
     end
+
+    ---@class CombatLogDifficultyAlwaysLogging
+    ---@type table<number, true?>
+    --- A map over `Difficulty ID` and the value `true` or `nil`.
+    --- When `true` it means that logging should always be enabled for this difficulty.
+    --- ⚠️ This table ignores instance ID boundary checks in the logic where it is being used.
+    --- Even if the instance ID is not considered "relevant" (not in our database), if you add the `Difficulty ID` to this table, it will enable logging.
+    ns.COMBATLOG_DIFFICULTY_ID_ALWAYS = {
+        -- scenario
+        [167] = true, -- Torghast
+        -- party
+        [23] = true, -- Mythic
+        [8] = true, -- Mythic Keystone
+    }
+
+    --- A map over `Difficulty ID` and the value `true` or `nil`.
+    --- When `true` it means that logging should be enabled for this difficulty.
+    --- ⚠️ This table will be subject of a instance ID boundary check in the logic where it is being used.
+    --- If the instance ID is not considered "relevant" (not in our database) then even if you add it to this table, it won't enable logging.
+    ---@class CombatLogDifficultyEnableLogging
+    ---@type table<number, true?>
+    ns.COMBATLOG_DIFFICULTY_ID_ENABLE = {}
+
+    -- ns.COMBATLOG_DIFFICULTY_ID_ENABLE
+    if IS_RETAIL then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[14] = true -- Normal
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[15] = true -- Heroic
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[16] = true -- Mythic
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[233] = true -- Mythic Flexible
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[17] = true -- LFR
+    elseif IS_CLASSIC_ERA then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[9] = true -- Classic40PlayerRaid
+    elseif IS_CLASSIC then
+        -- raid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[3] = true -- Classic10PlayerNormalRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[4] = true -- Classic25PlayerNormalRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[5] = true -- Classic10PlayerHeroicRaid
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[6] = true -- Classic25PlayerHeroicRaid
+    end
+
+    ---@type table<TalentBuildsRaidDifficultyKey|string, number[]?>
+    ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS = {
+        ["normal"] = { 1, 12, 14, 38, 147, 150 },
+        ["heroic"] = { 2, 5, 6, 11, 15, 39, 149, 230 },
+        ["mythic"] = { 8, 16, 23, 40, 233 },
+    }
 
     ---@class RecruitmentEntityTypes
     ns.RECRUITMENT_ENTITY_TYPES = { -- Table over recruitment entity types.
@@ -1305,6 +1698,7 @@ do
 
     ---@class DungeonInstance
     ---@field public id number
+    ---@field public instance_map_id number @Deprecated, should use `instance_map_ids` instead.
     ---@field public instance_map_ids number[]
     ---@field public lfd_activity_ids number[]
     ---@field public name string
@@ -1436,6 +1830,71 @@ do
     ---@return table<number, RecruitmentTitle>
     function ns:GetRecruitmentTitles()
         return ns.CUSTOM_TITLES
+    end
+
+    ---@alias TalentBuildsSpecID string The spec ID as a string. Such as `"62"` for `62` (Arcane Mage).
+    ---@alias TalentBuildsHeroID string The hero ID as a string. Such as `"39"` for `39` (Sunfury).
+    ---@alias TalentBuildsDungeonKey "all"|string The dungeon ID as a string. Such as `"4813"` for `4813` (Pit of Saron).
+    ---@alias TalentBuildsRaidKey string The raid ID as a string. Such as `"8062"` for `8062` (Sporefall).
+    ---@alias TalentBuildsDungeonDifficultyKey "6-9"|"10-99"|"15-99"|"20-99"|string The bracket keys.
+    ---@alias TalentBuildsWeaponKey "all"|"1"|"2"|"3"|"4"|"5"|"6"|string The weapon keys.
+    ---@alias TalentBuildsRaidEncounterKey "all"|string The encounter ID as a string. Such as `"3176"` for `3176` (Imperator Averzian).
+    ---@alias TalentBuildsRaidDifficultyKey "mythic"|"heroic"|"normal"|string The encounter difficulty keys.
+    ---@alias TalentBuildsRaidSpeedKey "all"|"fast"|"median"|string The raid speed keys.
+
+    ---@class TalentBuilds
+    ---@field public date string UTC timestamp such as `2026-06-27T04:20:51Z`
+    ---@field public routes TalentBuildsRoutes The season data about specs, dungeons, raids, and sorting.
+    ---@field public specs table<TalentBuildsSpecID, TalentBuildsSpec> The season data about the specs and their talent builds and stats.
+
+    ---@class TalentBuildsRoutes
+    ---@field public season string `season-mn-1`
+    ---@field public specPageSlugs table<string, string> `{ ["62"] = "arcane-mage", ... }`
+    ---@field public dungeonOrder "all"|string[] `{ "all", "16573", ... }`
+    ---@field public dungeons table<string, string> `{ ["4813"] = "pit-of-saron", ["6988"] = "skyreach", ... }`
+    ---@field public bracketOrder TalentBuildsDungeonDifficultyKey[] `{ "6-9", "10-99", ... }`
+    ---@field public raidOrder string[] `{ "8062", "16340", ... }`
+    ---@field public raids table<string, string> `{ ["16340"] = "tier-mn-1", ... }`
+    ---@field public encounters table<string, string> `{ ["3159"] = "rotmire", ["3176"] = "imperator-averzian", ... }`
+    ---@field public encounterJournalIds table<string, number> `{ ["3159"] = 2711, ["3176"] = 2733, ... }`
+    ---@field public encounterOrder table<string, "all"|string[]> `{ ["16340"] = { "all", "3176", "3177", ... }, ... }`
+    ---@field public difficultyOrder TalentBuildsRaidDifficultyKey[] `{ "mythic", "heroic", ... }`
+    ---@field public raidKillSpeedOrder TalentBuildsRaidSpeedKey[] `{ "all", "fast", "median", ... }`
+
+    ---@class TalentBuildsSpec
+    ---@field public prefix string The talent import string prefix such as `C4DAAAAAAAAAAAAAAAAAAAAAA`.
+    ---@field public builds string[] Table over partial talent import strings. Each has to be prefixed with the `prefix` to produce the full import string.
+    ---@field public heroTrees table<TalentBuildsHeroID, TalentBuildsHeroTree>
+    ---@field public weaponConfigOrder TalentBuildsWeaponKey[]
+    ---@field public weaponConfigs table<TalentBuildsWeaponKey, TalentBuildsDungeonWeapon>
+    ---@field public mplus table<TalentBuildsDungeonKey, table<TalentBuildsDungeonDifficultyKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>
+    ---@field public raid table<TalentBuildsRaidKey, table<TalentBuildsRaidEncounterKey, table<TalentBuildsRaidDifficultyKey, table<TalentBuildsRaidSpeedKey, table<TalentBuildsWeaponKey, TalentBuildsStats[]>>>>>
+
+    ---@class TalentBuildsHeroTree
+    ---@field public name string `Sunfury`
+    ---@field public slug string `sunfury`
+
+    ---@class TalentBuildsDungeonWeapon
+    ---@field public label string `1H Dual Wield`
+    ---@field public shape string `dual-wield`
+
+    ---@class TalentBuildsStats
+    ---@field public [1] number heroTreeId (`40`)
+    ---@field public [2] number popularityShare (`0.0 to 1.0`)
+    ---@field public [3] number heroTreeRunCount (`229`)
+    ---@field public [4]? number recommendedBuildIndex (`6`)
+    ---@field public [5]? number recommendedBuildRunCount (`106`)
+    ---@field public [6]? number recommendedScore (`235898`)
+    ---@field public [7]? number alternateBuildIndex (`8`)
+    ---@field public [8]? number alternateBuildRunCount (`25`)
+    ---@field public [9]? number alternateScore (`297527`)
+    ---@field public [10]? number otherBuildIndex (`39`)
+    ---@field public [11]? number otherBuildRunCount (`227`)
+    ---@field public [12]? number otherScore (`16`)
+
+    ---@return TalentBuilds
+    function ns:GetTalentBuilds()
+        return ns.TALENT_BUILDS or ns.talentBuilds or {} -- DEPRECATED: ns.talentBuilds + FALLBACK
     end
 
 end
@@ -1661,7 +2120,16 @@ do
         end
     end)
 
-    ---@param callbackFunc function
+    ---@alias CallbackModuleEvent WowEvent
+    ---|"RAIDERIO_CONFIG_READY"
+    ---|"RAIDERIO_SETTINGS_CLOSED"
+    ---|"RAIDERIO_SETTINGS_SAVED"
+    ---|"RAIDERIO_SETTINGS_WIDGET_UPDATE"
+
+    ---@alias CallbackModuleFunction fun(event: CallbackModuleEvent, ...: any)
+
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:RegisterEvent(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects RegisterEvent(callback[, ...events])")
         local events = {...}
@@ -1674,8 +2142,8 @@ do
         end
     end
 
-    ---@param callbackFunc function
-    ---@param event string
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param event WowEvent
     function callback:RegisterUnitEvent(callbackFunc, event, ...)
         assert(type(callbackFunc) == "function" and type(event) == "string", "Raider.IO Callback expects RegisterUnitEvent(callback, event, ...units)")
         if not callbacks[event] then
@@ -1685,6 +2153,8 @@ do
         handler:RegisterUnitEvent(event, ...)
     end
 
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:UnregisterEvent(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects UnregisterEvent(callback, ...events)")
         local events = {...}
@@ -1703,7 +2173,7 @@ do
         end
     end
 
-    ---@param callbackFunc function
+    ---@param callbackFunc CallbackModuleFunction
     function callback:UnregisterCallback(callbackFunc)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects UnregisterCallback(callback)")
         for event, _ in pairs(callbacks) do
@@ -1711,7 +2181,8 @@ do
         end
     end
 
-    ---@param event string
+    ---@param event CallbackModuleEvent
+    ---@param ... any
     function callback:SendEvent(event, ...)
         assert(type(event) == "string", "Raider.IO Callback expects SendEvent(event[, ...args])")
         local eventCallbacks = callbacks[event]
@@ -1739,7 +2210,8 @@ do
         end
     end
 
-    ---@param callbackFunc function
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param ... CallbackModuleEvent
     function callback:RegisterEventOnce(callbackFunc, ...)
         assert(type(callbackFunc) == "function", "Raider.IO Callback expects RegisterEventOnce(callback[, ...events])")
         callbackOnce[callbackFunc] = true
@@ -1839,6 +2311,8 @@ do
     ---|"replayPoint" @`ConfigProfilePoint` NEW in 10.1.5
     ---|"minimapIcon" @`MinimapIconDB` NEW in 10.2.6
     ---|"disableDropdownMenu" @NEW in 12.0.5
+    ---|"showTalentBuildsButtonInTalentFrame" @NEW in 12.0.7
+    ---|"showTalentBuildsButtonInJournalFrame" @NEW in 12.0.7
 
     -- fallback saved variables
     ---@class FallbackConfig
@@ -1899,6 +2373,8 @@ do
         replayPoint = { point = nil, x = 0, y = 0 }, -- `ConfigProfilePoint` NEW in 10.1.5
         minimapIcon = { hide = false, lock = false, showInCompartment = true, minimapPos = 180 }, -- `MinimapIconDB` NEW in 10.2.6
         disableDropdownMenu = false, -- NEW in 12.0.5
+        showTalentBuildsButtonInTalentFrame = true, -- NEW in 12.0.7
+        showTalentBuildsButtonInJournalFrame = true, -- NEW in 12.0.7
     }
 
     -- fallback metatable looks up missing keys into the fallback config table
@@ -2024,8 +2500,8 @@ do
         table.sort(SORTED_DUNGEONS, SortByLocaleName)
         table.sort(SORTED_RAIDS, SortByLocaleName)
     end
-    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
+
+    callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
 
     ---@return Dungeon[]
     function util:GetSortedDungeons()
@@ -2765,9 +3241,10 @@ do
                             temp.dungeon = dungeon
                             temp.queued = true
                             index = index + 1
+                            ---@type LFDStatusResult
                             temp[index] = {
                                 dungeon = dungeon,
-                                resultID = resultID
+                                resultID = resultID,
                             }
                         end
                     end
@@ -2812,6 +3289,65 @@ do
             focusDungeon = nil
         end
         return focusDungeon
+    end
+
+    -- This is a manual table using the `GroupFinderCategory` db file to pre-map which category is for what kind of activity.
+    ---@enum GroupFinderCategoryPolyfill
+    local GroupFinderCategory = {
+        -- Questing = 1,
+        Dungeons = 2,
+        Raids = 3,
+        -- Arenas = 4,
+        -- Scenarios = 5,
+        -- Custom = 6,
+        -- ArenaSkirmishes = 7,
+        -- Battlegrounds = 8,
+        -- RatedBattlegrounds = 9,
+        -- IslandExpeditions = 111,
+        -- Torghast = 113,
+        -- Delves = 121,
+    }
+
+    -- Attempt to extract the player current activity from their LFD hosted dungeon or their location.
+    -- If the dungeon found and their location match, unless it is based on the LFD 
+    ---@return Dungeon|DungeonRaid|nil dungeon, number? difficultyID, "raid"|"dungeon"? locationType, number? activityID
+    function util:GetPlayerClosestActivityStatus()
+        local entryInfo = C_LFGList.GetActiveEntryInfo()
+        local activityID ---@type number?
+        if entryInfo then
+            activityID = util:GetLFDActivityID(entryInfo)
+        end
+        local _, instanceType, instanceDifficultyID, _, _, _, _, instanceID = GetInstanceInfo()
+        local locationType = instanceType == "raid" and "raid" or (instanceType == "party" and "dungeon" or nil)
+        local difficultyID ---@type number?
+        local focusDungeon = util:GetLFDStatusForCurrentActivity(activityID)
+        if not focusDungeon then
+            if activityID then
+                local activityInfo = C_LFGList.GetActivityInfoTable(activityID)
+                if activityInfo then
+                    if GroupFinderCategory.Dungeons == activityInfo.categoryID then
+                        locationType = "dungeon"
+                    elseif GroupFinderCategory.Raids == activityInfo.categoryID then
+                        locationType = "raid"
+                        difficultyID = activityInfo.difficultyID
+                    end
+                end
+            end
+            return nil, difficultyID, locationType, activityID
+        end
+        locationType = focusDungeon.type == "RAID" and "raid" or "dungeon"
+        if activityID then
+            local activityInfo = C_LFGList.GetActivityInfoTable(activityID)
+            if activityInfo then
+                difficultyID = activityInfo.difficultyID
+            end
+        end
+        if not difficultyID then
+            if util:TableContains(focusDungeon.instance_map_ids, instanceID) then
+                difficultyID = instanceDifficultyID
+            end
+        end
+        return focusDungeon, difficultyID, locationType, activityID
     end
 
     ---@param raid DungeonRaid
@@ -3013,6 +3549,31 @@ do
         return format("|T982414:%d:%d:0:0:64:64:0:1:0:1|t", height or 1, width)
     end
 
+    ---@class AutoScalingFontStringMixinPolyfill : FontString
+    ---@field public minLineHeight number
+    ---@field public SetMinLineHeight fun(self: AutoScalingFontStringMixinPolyfill, minLineHeight: number)
+    ---@field public ScaleTextToFit fun(self: AutoScalingFontStringMixinPolyfill)
+
+    -- Inherits the `AutoScalingFontStringMixin` which adds a custom `SetText` and `SetFormattedText` methods to the `FontString`.
+    ---@param ... FontString
+    function util:SetupAutoScalingFontString(...)
+        local temp = {...}
+        for _, fontString in ipairs(temp) do
+            fontString = Mixin(fontString, AutoScalingFontStringMixin) ---@type AutoScalingFontStringMixinPolyfill
+            fontString:SetMinLineHeight(1)
+        end
+    end
+
+    ---@param chr string
+    local function encodeURIComponent(chr)
+        return format("%%%02X", chr:byte())
+    end
+
+    ---@param text string
+    function util:EncodeURIComponent(text)
+        return (text:gsub("[^%w%-_%.~]", encodeURIComponent))
+    end
+
     ---@param ... string
     ---@return string? url, string? name, string? realm, string? realmSlug
     function util:GetRaiderIOProfileUrl(...)
@@ -3091,7 +3652,7 @@ do
     end
 
     ---@type InternalStaticPopupDialog
-    local COPY_PROFILE_URL_POPUP = {
+    local COPY_TEXT_POPUP = {
         id = "RAIDERIO_COPY_URL",
         text = "%s",
         button2 = CLOSE,
@@ -3132,7 +3693,7 @@ do
             local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
             editBox:HighlightText()
         else
-            util:ShowStaticPopupDialog(COPY_PROFILE_URL_POPUP, format("%s (%s)", name, realm), url)
+            util:ShowStaticPopupDialog(COPY_TEXT_POPUP, format("%s (%s)", name, realm), url)
         end
     end
 
@@ -3147,19 +3708,35 @@ do
             local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
             editBox:HighlightText()
         else
-            util:ShowStaticPopupDialog(COPY_PROFILE_URL_POPUP, format("%s (%s)", name, realm), url)
+            util:ShowStaticPopupDialog(COPY_TEXT_POPUP, format("%s (%s)", name, realm), url)
         end
     end
 
     ---@param title string
-    ---@param url string
-    function util:ShowCopyRaiderIOReplayPopup(title, url)
+    ---@param text string
+    function util:ShowCopyRaiderIOPopup(title, text)
         if IsModifiedClick("CHATLINK") then
-            local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
+            local editBox = ChatFrame_OpenChat(text, DEFAULT_CHAT_FRAME)
             editBox:HighlightText()
         else
-            util:ShowStaticPopupDialog(COPY_PROFILE_URL_POPUP, title, url)
+            util:ShowStaticPopupDialog(COPY_TEXT_POPUP, title, text)
         end
+    end
+
+    ---@param title string
+    ---@param importString string
+    ---@param compareAgainstImportString? string
+    function util:ShowCopyRaiderIOTalentLoadoutPopup(title, importString, compareAgainstImportString)
+        local url ---@type string?
+        if importString and compareAgainstImportString then
+            url = format("https://raider.io/specs/compare?loadoutA=%s&loadoutB=%s&utm_source=addon", util:EncodeURIComponent(importString), util:EncodeURIComponent(compareAgainstImportString))
+        elseif importString then
+            url = format("https://raider.io/specs/compare?loadoutA=%s&utm_source=addon", util:EncodeURIComponent(importString))
+        end
+        if not url then
+            return
+        end
+        util:ShowCopyRaiderIOPopup(title, url)
     end
 
     --- Dynamically check the `profile` values for any entry with the `hasRenderableData` property set.
@@ -3183,9 +3760,10 @@ do
     ---@param frame Frame
     ---@param icon CustomIcon
     ---@param layer? DrawLayer
-    function util:CreateTextureFromIcon(frame, icon, layer)
+    ---@param subLevel? number
+    function util:CreateTextureFromIcon(frame, icon, layer, subLevel)
         local info = icon("Texture") ---@type CustomIconTexture
-        local texture = frame:CreateTexture(nil, layer)
+        local texture = frame:CreateTexture(nil, layer, nil, subLevel)
         texture:SetTexture(info.texture)
         texture:SetTexCoord(info.texCoord[1], info.texCoord[2], info.texCoord[3], info.texCoord[4])
         return texture, info
@@ -3234,23 +3812,30 @@ do
         end
     end
 
-    ---@generic T
-    ---@alias TableFunc fun(value: T, index: number, tbl: T[], tbl2: T[]): any
+    ---@generic T, R
+    ---@alias TableMapFunc<R> fun(value: T, index: number, tbl: T[], tbl2: T[]): R
 
-    ---@generic T
+    ---@generic T, K
+    ---@alias TableFilterFunc fun(value: T, index: K, tbl: T[], tbl2: T[]): boolean?
+
+    ---@generic T, K
+    ---@alias TableFindFunc fun(value: T, index: K, tbl: T[]): boolean?
+
+    ---@generic T, R
     ---@param tbl T[]
-    ---@param func TableFunc
+    ---@param func TableMapFunc<R>
+    ---@return R[]
     function util:TableMap(tbl, func)
-        local temp = {} ---@type any[]
+        local temp = {}
         for k, v in pairs(tbl) do
             temp[k] = func(v, k, tbl, temp)
         end
         return temp
     end
 
-    ---@generic T
+    ---@generic T, R
     ---@param tbl T[]
-    ---@param func TableFunc
+    ---@param func TableMapFunc<R>
     ---@return string
     function util:TableMapConcat(tbl, func, delim)
         local temp = util:TableMap(tbl, func)
@@ -3270,8 +3855,10 @@ do
 
     ---@generic T
     ---@param tbl T[]
+    ---@param dir "asc"|"desc"
     ---@param ... string
-    function util:TableSort(tbl, ...)
+    function util:TableSort(tbl, dir, ...)
+        local asc = dir == "asc"
         local keys = {...}
         if not keys[1] then
             return tbl
@@ -3280,23 +3867,167 @@ do
             local x = type(a)
             local y = type(b)
             if x ~= y then
-                return x < y
+                if asc then
+                    return x < y
+                end
+                return x > y
             elseif x == "number" or x == "string" then
-                return a < b
+                if asc then
+                    return a < b
+                end
+                return a > b
             elseif x == "table" then
                 for _, key in ipairs(keys) do
                     x = a[key]
                     y = b[key]
                     if x ~= nil and y ~= nil then
                         if x ~= y then
+                            if asc then
+                                return x < y
+                            end
                             return x > y
                         end
                     end
                 end
             end
-            return tostring(a) < tostring(b)
+            x = tostring(a)
+            y = tostring(b)
+            if asc then
+                return x < y
+            end
+            return x > y
         end)
         return tbl
+    end
+
+    ---@generic T
+    ---@param tbl T[]
+    ---@param ... string
+    function util:TableSortAsc(tbl, ...)
+        return self:TableSort(tbl, "asc", ...)
+    end
+
+    ---@generic T
+    ---@param tbl T[]
+    ---@param ... string
+    function util:TableSortDesc(tbl, ...)
+        return self:TableSort(tbl, "desc", ...)
+    end
+
+    ---@generic K, V
+    ---@param tbl table<K, V>
+    ---@return K[]
+    function util:TableKeys(tbl)
+        local keys = {}
+        local i = 0
+        for key, _ in pairs(tbl) do
+            i = i + 1
+            keys[i] = key
+        end
+        return keys
+    end
+
+    ---@generic T
+    ---@param tbl T[]
+    ---@param func TableFilterFunc
+    ---@return T[]
+    function util:TableFilter(tbl, func)
+        local isArray = tbl[1] ~= nil
+        local iter, curr, next
+        if isArray then
+            iter, curr, next = ipairs(tbl)
+        else
+            iter, curr, next = pairs(tbl)
+        end
+        local temp = {}
+        local i = 0
+        for k, v in iter, curr, next do
+            if func(v, k, tbl, temp) then
+                if isArray then
+                    i = i + 1
+                    temp[i] = v
+                else
+                    temp[k] = v
+                end
+            end
+        end
+        return temp
+    end
+
+    ---@generic T
+    ---@param tbl T[]
+    ---@param func TableFindFunc
+    ---@return T? value, number? index
+    function util:TableFind(tbl, func)
+        for k, v in ipairs(tbl) do
+            if func(v, k, tbl) then
+                return v, k
+            end
+        end
+    end
+
+    ---@generic T
+    ---@param tbl T[]
+    ---@param key string
+    ---@param predicate? fun(value: unknown, item: T): boolean?
+    ---@return T[][]
+    function util:TableGroup(tbl, key, predicate)
+        local temp = {}
+        for _, v in pairs(tbl) do
+            local keyValue = v[key]
+            if not predicate or predicate(keyValue, v) then
+                local index ---@type number?
+                for i, group in ipairs(temp) do
+                    if group[1][key] == keyValue then
+                        index = i
+                        break
+                    end
+                end
+                if index then
+                    temp[index][#temp[index] + 1] = v
+                else
+                    temp[#temp + 1] = { v }
+                end
+            end
+        end
+        return temp
+    end
+
+    ---@param str string
+    function util:StringUpperCaseFirstLetterLowerCaseRest(str)
+        if not str or str == "" then
+            return str
+        end
+        local firstEnd = 1
+        local b = str:byte(1)
+        if b >= 0xF0 then
+            firstEnd = 4
+        elseif b >= 0xE0 then
+            firstEnd = 3
+        elseif b >= 0xC0 then
+            firstEnd = 2
+        end
+        local first = str:sub(1, firstEnd)
+        local rest = str:sub(firstEnd + 1)
+        return format("%s%s", first:upper(), rest:lower())
+    end
+
+    ---@param ms? number
+    function util:FormatTimeFromMs(ms)
+        if not ms then
+            return
+        end
+        local totalSeconds = floor(ms/1000)
+        return format("%d:%02d", floor(totalSeconds / 60), totalSeconds % 60)
+    end
+
+    ---@param value number
+    ---@param pattern? string Defaults to `%.2f`.
+    ---@param appendPercentage? boolean Defaults to `true`.
+    function util:FormatPercentile(value, pattern, appendPercentage)
+        pattern = pattern or "%.2f"
+        local text = format(pattern, value)
+        return format("%s%s", text:gsub("%.?0+$", ""), appendPercentage ~= false and "%" or "")
     end
 
     ---@class AnimationGroupFadeScaleInOut : AnimationGroup
@@ -3373,6 +4104,93 @@ do
             return false, seasonID
         end
         return true, seasonID
+    end
+
+    ---@param specIndex? number
+    ---@return number? specId, string? name, number? icon, string? role
+    function util:GetSpecialization(specIndex)
+        if not C_SpecializationInfo or not C_SpecializationInfo.GetSpecialization then
+            return
+        end
+        if not specIndex then
+            specIndex = C_SpecializationInfo.GetSpecialization()
+        end
+        if not specIndex then
+            return
+        end
+        local specId, name, _, icon, role = C_SpecializationInfo.GetSpecializationInfo(specIndex)
+        return specId, name, icon, role
+    end
+
+    ---@param configID? number
+    ---@return number? treeID
+    function util:GetSpecializationTreeID(configID)
+        if not configID then
+            configID = C_ClassTalents.GetActiveConfigID()
+        end
+        local configInfo = C_Traits.GetConfigInfo(configID)
+        if not configInfo or not configInfo.treeIDs then
+            return
+        end
+        return configInfo.treeIDs[1]
+    end
+
+    ---@param subTreeID number
+    ---@param configID? number
+    function util:GetSpecializationSubTreeInfo(subTreeID, configID)
+        if not configID then
+            configID = C_ClassTalents.GetActiveConfigID()
+        end
+        if not configID then
+            return
+        end
+        local subTreeInfo = C_Traits.GetSubTreeInfo(configID, subTreeID)
+        return subTreeInfo
+    end
+
+    ---@return boolean?
+    function util:IsTalentUIAvailable()
+        if not C_SpecializationInfo or not C_SpecializationInfo.CanPlayerUseTalentUI then
+            return
+        end
+        return (C_SpecializationInfo.CanPlayerUseTalentUI())
+    end
+
+    ---@return boolean?
+    function util:IsHeroTalentUIAvailable()
+        if not C_ClassTalents or not C_ClassTalents.GetHeroTalentSpecsForClassSpec then
+            return
+        end
+        local subTreeIDs, heroSpecUnlockLevel = C_ClassTalents.GetHeroTalentSpecsForClassSpec()
+        if not subTreeIDs or #subTreeIDs == 0 or not heroSpecUnlockLevel then
+            return false
+        end
+        local level = UnitLevel("player")
+        if issecretvalue(level) then
+            return true
+        end
+        return level >= heroSpecUnlockLevel
+    end
+
+    ---@param event WowEvent
+    ---@param callback fun(...)
+    ---@param predicate? fun(...): boolean?
+    ---@return CallbackRegistryHandle handle
+    function util:RegisterOnceFrameEventAndCallback(event, callback, predicate)
+        local unregistered = false
+        local handle ---@type CallbackRegistryHandle
+        local callbackWrapper = function(callbackHandlerID, ...)
+            if predicate and not predicate(...) then
+                return
+            end
+            if not unregistered then
+                handle:Unregister()
+            end
+            callback(...)
+        end
+        handle = EventRegistry:RegisterFrameEventAndCallbackWithHandle(event, callbackWrapper)
+        hooksecurefunc(handle, "Unregister", function() unregistered = true end)
+        return handle
     end
 
 end
@@ -3837,9 +4655,9 @@ do
         end
         -- print result of this injection
         if aliasRealm then
-            ns.Print(format("|cffFFFFFF%s|r Test client detected. Because |cffFFFFFF%s|r doesn't exist we are borrowing data from |cffFFFFFF%s|r. Region is set to |cffFFFFFF%s|r.", addonName, ns.PLAYER_REALM, aliasRealm, ns.PLAYER_REGION))
+            ns.PrintWithAddonPrefix(format("Test client detected. Because |cffFFFFFF%s|r doesn't exist we are borrowing data from |cffFFFFFF%s|r. Region is set to |cffFFFFFF%s|r.", ns.PLAYER_REALM, aliasRealm, ns.PLAYER_REGION))
         else
-            ns.Print(format("|cffFFFFFF%s|r Test client detected. Couldn't borrow test data from anywhere as no providers appear to be loaded for the region |cffFFFFFF%s|r.", addonName, ns.PLAYER_REGION))
+            ns.PrintWithAddonPrefix(format("Test client detected. Couldn't borrow test data from anywhere as no providers appear to be loaded for the region |cffFFFFFF%s|r.", ns.PLAYER_REGION))
         end
     end
 
@@ -8673,18 +9491,6 @@ if IS_RETAIL then
     ---@type table<number, boolean?>
     local ActiveEncounters = {}
 
-    ---@class AutoScalingFontStringMixin : FontString
-    ---@field public minLineHeight number
-
-    ---@param ... FontString
-    local function SetupAutoScalingFontStringMixin(...)
-        local temp = {...}
-        for _, fontString in ipairs(temp) do
-            fontString = Mixin(fontString, AutoScalingFontStringMixin) ---@type AutoScalingFontStringMixin
-            fontString.minLineHeight = 1
-        end
-    end
-
     ---@param ms number
     ---@return number roundedSeconds
     local function ConvertMillisecondsToSeconds(ms)
@@ -9116,7 +9922,7 @@ if IS_RETAIL then
         obj:HookScript("OnEnter", obj.OnEnter)
         obj:HookScript("OnLeave", obj.OnLeave)
         obj:SetMouseClickEnabled(false)
-        SetupAutoScalingFontStringMixin(obj.Name, obj.InfoL, obj.InfoR)
+        util:SetupAutoScalingFontString(obj.Name, obj.InfoL, obj.InfoR)
     end
 
     ---@param self BossFramePool
@@ -9599,11 +10405,11 @@ if IS_RETAIL then
             local replayMenu = rootDescription:CreateButton(L.REPLAY_MENU_REPLAY)
             do
                 local mapID, _, otherMapIDs = replayFrame:GetKeystone()
-                ---@type WowStyle1DropdownTemplateRadioIsSelectedPolyfill
+                ---@param index number
                 local function isSelected(index)
                     return currentReplay == replays[index]
                 end
-                ---@type WowStyle1DropdownTemplateRadioSetSelectedPolyfill
+                ---@param index number
                 local function setSelected(index)
                     local replay = replays[index]
                     self:OnMenuOptionClick("replay", replay)
@@ -9628,11 +10434,11 @@ if IS_RETAIL then
             local timingMenu = rootDescription:CreateButton(L.REPLAY_MENU_TIMING)
             do
                 local currentTiming = replayFrame:GetTiming()
-                ---@type WowStyle1DropdownTemplateRadioIsSelectedPolyfill
+                ---@param index number
                 local function isSelected(index)
                     return currentTiming == ReplayFrameTimings[index]
                 end
-                ---@type WowStyle1DropdownTemplateRadioSetSelectedPolyfill
+                ---@param index number
                 local function setSelected(index)
                     local timing = ReplayFrameTimings[index]
                     self:OnMenuOptionClick("timing", timing)
@@ -9645,11 +10451,11 @@ if IS_RETAIL then
             local styleMenu = rootDescription:CreateButton(L.REPLAY_MENU_STYLE)
             do
                 local currentStyle = replayFrame:GetStyle()
-                ---@type WowStyle1DropdownTemplateRadioIsSelectedPolyfill
+                ---@param index number
                 local function isSelected(index)
                     return currentStyle == ReplayFrameStyles[index]
                 end
-                ---@type WowStyle1DropdownTemplateRadioSetSelectedPolyfill
+                ---@param index number
                 local function setSelected(index)
                     local style = ReplayFrameStyles[index]
                     self:OnMenuOptionClick("style", style)
@@ -9698,7 +10504,7 @@ if IS_RETAIL then
 
         ---@param replay Replay
         function ReplayFrameConfigButtonMixin:OnMenuCopyReplayUrlClick(replay)
-            util:ShowCopyRaiderIOReplayPopup(replay.title, replay.run_url)
+            util:ShowCopyRaiderIOPopup(replay.title, replay.run_url)
             self:Close()
         end
 
@@ -9848,7 +10654,7 @@ if IS_RETAIL then
         function ReplayFrameConfigButtonMixin:OnDropDownCopyReplayUrlClick()
             local dropDownMenu = self.arg1
             local value = self.arg2 ---@type Replay
-            util:ShowCopyRaiderIOReplayPopup(value.title, value.run_url)
+            util:ShowCopyRaiderIOPopup(value.title, value.run_url)
             dropDownMenu:Close()
         end
 
@@ -10254,7 +11060,7 @@ if IS_RETAIL then
                 RF:SetPoint("TOPLEFT", MF, "TOPRIGHT", 0, 0)
                 RF:SetJustifyH("LEFT")
                 RF:SetJustifyV("MIDDLE")
-                SetupAutoScalingFontStringMixin(LF, MF, RF)
+                util:SetupAutoScalingFontString(LF, MF, RF)
                 return LF, MF, RF
             end
 
@@ -10337,7 +11143,7 @@ if IS_RETAIL then
                 RF:SetPoint("TOPLEFT", LF, "TOPRIGHT", self.edgePaddingMDI + middlePadding, 0)
                 RF:SetJustifyH("LEFT")
                 RF:SetJustifyV("MIDDLE")
-                SetupAutoScalingFontStringMixin(LF, RF)
+                util:SetupAutoScalingFontString(LF, RF)
                 return LF, RF
             end
 
@@ -11449,7 +12255,7 @@ if IS_RETAIL then
     function replay:OnLoad()
         TrimHistoryFromSV()
         replays = ns:GetReplays()
-        util:TableSort(replays, "date", "keystone_run_id")
+        util:TableSortDesc(replays, "date", "keystone_run_id")
         SortReplaysByLevelAndTime(replays)
         hiddenContainer = CreateFrame("Frame")
         hiddenContainer:SetClipsChildren(true)
@@ -11461,10 +12267,7 @@ if IS_RETAIL then
         replayFrame:SetBackgroundColor(config:Get("replayBackground"))
         replayFrame:SetFrameAlpha(config:Get("replayAlpha"))
         OnSettingsChanged()
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_CLOSED")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_WIDGET_UPDATE")
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED", "RAIDERIO_SETTINGS_CLOSED", "RAIDERIO_SETTINGS_WIDGET_UPDATE")
     end
 
     function replay:OnEnable()
@@ -13033,7 +13836,9 @@ if IS_RETAIL then
     ---@field public IsAtEnd fun(self: WowScrollBoxListPolyfill): boolean
     ---@field public HasScrollableExtent fun(self: WowScrollBoxListPolyfill): boolean
     ---@field public ScrollToEnd fun(self: WowScrollBoxListPolyfill)
-    ---@field public SetDataProvider fun(self: WowScrollBoxListPolyfill)
+    ---@field public SetDataProvider fun(self: WowScrollBoxListPolyfill, dataProvider: any)
+    ---@field public ForEachFrame fun(self: WowScrollBoxListPolyfill, func: fun(frame: Frame))
+    ---@field public Update fun(self: WowScrollBoxListPolyfill, forceLayout?: boolean)
 
     ---@class WowTrimScrollBarPolyfill : Frame
     ---@field public OnLoad fun(self: WowTrimScrollBarPolyfill)
@@ -13437,8 +14242,8 @@ if IS_RETAIL then
                 end
             end
         end
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY")
-        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_SETTINGS_SAVED")
+
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
 
         local function CalculateEventDelta(oldTimestamp, oldFrameCounter, currentTimestamp, currentFrameCounter)
             if oldTimestamp ~= currentTimestamp then
@@ -13614,7 +14419,7 @@ if IS_RETAIL then
         view:SetElementExtent(20)
         view:SetElementInitializer("Button", function(button, elementData) frame:CreateButtonAndInit(button, elementData) end)
 
-        local pad, spacing = 2
+        local pad, spacing = 2, nil
         view:SetPadding(pad, pad, pad, pad, spacing)
         ScrollUtil.InitScrollBoxListWithScrollBar(frame.Log.Events.ScrollBox, frame.Log.Events.ScrollBar, view)
         frame.Log.Events.ScrollBox:SetDataProvider(frame.logDataProvider)
@@ -13681,14 +14486,13 @@ if IS_RETAIL then
 end
 
 -- combatlog.lua
--- dependencies: module, callback, config, util
+-- dependencies: module, callback, config
 do
 
     ---@class CombatLogModule : Module
     local combatlog = ns:NewModule("CombatLog") ---@type CombatLogModule
     local callback = ns:GetModule("Callback") ---@type CallbackModule
     local config = ns:GetModule("Config") ---@type ConfigModule
-    local util = ns:GetModule("Util") ---@type UtilModule
 
     local clientConfig = ns:GetClientConfig()
 
@@ -13718,7 +14522,7 @@ do
     end
 
     local LibCombatLogging = LibStub and LibStub:GetLibrary("LibCombatLogging-1.0", true) ---@type LibCombatLogging
-    local LoggingCombat = LibCombatLogging and function(...) return LibCombatLogging.LoggingCombat("Raider.IO", ...) end or _G.LoggingCombat
+    local LoggingCombat = LibCombatLogging and function(...) return LibCombatLogging.LoggingCombat(L.RAIDERIO, ...) end or _G.LoggingCombat
 
     local autoLogFromMapID do
         ---@param instances DungeonInstance[]
@@ -13746,34 +14550,6 @@ do
         end
     end
 
-    local alwaysLogDifficultyIDs = {
-        -- scenario
-        [167] = true, -- Torghast
-        -- party
-        [23] = true, -- Mythic
-        [8] = true, -- Mythic Keystone
-    }
-
-    local canLogDifficultyIDs = {}
-
-    if IS_RETAIL then
-        -- raid
-        canLogDifficultyIDs[14] = true -- Normal
-        canLogDifficultyIDs[15] = true -- Heroic
-        canLogDifficultyIDs[16] = true -- Mythic
-        canLogDifficultyIDs[233] = true -- Mythic Flexible
-        canLogDifficultyIDs[17] = true -- LFR
-    elseif IS_CLASSIC_ERA then
-        -- classic era
-        canLogDifficultyIDs[9] = true -- Classic40PlayerRaid
-    elseif IS_CLASSIC then
-        -- classic
-        canLogDifficultyIDs[3] = true -- Classic10PlayerNormalRaid
-        canLogDifficultyIDs[4] = true -- Classic25PlayerNormalRaid
-        canLogDifficultyIDs[5] = true -- Classic10PlayerHeroicRaid
-        canLogDifficultyIDs[6] = true -- Classic25PlayerHeroicRaid
-    end
-
     local lastActive
     local previouslyEnabledLogging
     local function CheckInstance(newModuleState)
@@ -13781,7 +14557,7 @@ do
         if not difficultyID or not instanceMapID then
             return
         end
-        local isActive = not not (alwaysLogDifficultyIDs[difficultyID] or (instanceMapID >= autoLogFromMapID and canLogDifficultyIDs[difficultyID]))
+        local isActive = not not (ns.COMBATLOG_DIFFICULTY_ID_ALWAYS[difficultyID] or (instanceMapID >= autoLogFromMapID and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID]))
         if isActive == lastActive then
             return
         end
@@ -13827,8 +14603,1944 @@ do
 
 end
 
+-- serverlog.lua (requires debug mode)
+-- dependencies: module, callback, config, util
+do
+
+    ---@class ServerLogModule : Module
+    local serverlog = ns:NewModule("ServerLog") ---@type ServerLogModule
+    local callback = ns:GetModule("Callback") ---@type CallbackModule
+    local config = ns:GetModule("Config") ---@type ConfigModule
+    local util = ns:GetModule("Util") ---@type UtilModule
+
+    local TRACKING_EVENTS = {
+        -- "COMBAT_LOG_EVENT_UNFILTERED", -- TODO: This didn't error on beta, but started to upon 12.0 release
+        "UNIT_AURA",
+        "UNIT_FLAGS",
+        "UNIT_MODEL_CHANGED",
+        "UNIT_NAME_UPDATE",
+        "UNIT_PHASE",
+        "UNIT_SPELLCAST_CHANNEL_START",
+        "UNIT_SPELLCAST_CHANNEL_STOP",
+        "UNIT_SPELLCAST_START",
+        "UNIT_SPELLCAST_STOP",
+        "UNIT_TARGET",
+    }
+
+    local COMBATLOG_OBJECT_AFFILIATION_MINE = _G.COMBATLOG_OBJECT_AFFILIATION_MINE or 0x00000001 ---@diagnostic disable-line: undefined-field
+    local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = _G.COMBATLOG_OBJECT_AFFILIATION_OUTSIDER or 0x00000008 ---@diagnostic disable-line: undefined-field
+    local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER or 0x00000100 ---@diagnostic disable-line: undefined-field
+    local COMBATLOG_OBJECT_TYPE_PLAYER = _G.COMBATLOG_OBJECT_TYPE_PLAYER or 0x00000400 ---@diagnostic disable-line: undefined-field
+
+    local MINE = bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_CONTROL_PLAYER)
+    local OTHER_PLAYER = bor(COMBATLOG_OBJECT_AFFILIATION_OUTSIDER, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PLAYER)
+
+    local CHECKED = {}
+
+    ---@return boolean @`true` if the provided guid is another player (context assumes we do check the flags for this information, if flags is nil we only care that guid exists).
+    local function IsOtherPlayerGUID(guid, flags)
+        if not guid then
+            return false
+        end
+        if flags ~= nil and (band(flags, MINE) == MINE or band(flags, OTHER_PLAYER) ~= OTHER_PLAYER) then
+            return false
+        end
+        return true
+    end
+
+    ---@return nil @The provided guid is checked if it's a player, and if the serverId is unknown, if that's the case we will log it into the SV and map it to our known regionId.
+    ---@param guid? string
+    local function InspectPlayerGUID(guid)
+        if issecretvalue(guid) or not guid then
+            return
+        end
+        local guidType, serverId = strsplit("-", guid) ---@type string, string|number
+        if guidType ~= "Player" then
+            return
+        end
+        if CHECKED[serverId] then
+            return
+        end
+        CHECKED[serverId] = true
+        serverId = tonumber(serverId) or 0
+        if serverId < 1 then
+            return
+        end
+        local ltd, regionId = util:GetRegionForServerId(serverId)
+        if ltd or regionId then
+            return
+        end
+        local cache = _G.RaiderIO_MissingServers[serverId]
+        if cache ~= nil then
+            return
+        end
+        _G.RaiderIO_MissingServers[serverId] = ns.PLAYER_REGION_ID
+    end
+
+    local function OnEvent(event, ...)
+        if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+            local _, _, _, sourceGUID, _, sourceFlags, _, destGUID, _, destFlags = ...
+            if IsOtherPlayerGUID(sourceGUID, sourceFlags) then
+                InspectPlayerGUID(sourceGUID)
+            end
+            if IsOtherPlayerGUID(destGUID, destFlags) then
+                InspectPlayerGUID(destGUID)
+            end
+        else
+            local unit = ...
+            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) then
+                return
+            end
+            local isPlayer = UnitIsUnit(unit, "player")
+            if issecretvalue(isPlayer) or isPlayer then
+                return
+            end
+            InspectPlayerGUID(UnitGUID(unit))
+        end
+    end
+
+    function serverlog:CanLoad()
+        return config:IsEnabled() and config:Get("debugMode") -- TODO: do not load this module by default (it's not yet tested well enough) but we do load it if debug mode is enabled
+    end
+
+    function serverlog:OnLoad()
+        self:Enable()
+        InspectPlayerGUID(UnitGUID("player")) -- in case we are on a missing server we will ensure we log it with this call
+    end
+
+    function serverlog:OnEnable()
+        callback:RegisterEvent(OnEvent, unpack(TRACKING_EVENTS))
+    end
+
+    function serverlog:OnDisable()
+        callback:UnregisterEvent(OnEvent, unpack(TRACKING_EVENTS))
+    end
+
+end
+
+-- talentbuilds.lua
+-- dependencies: module, callback, config, util + LibClassTalentsImportExport
+if IS_RETAIL then
+
+    ---@class TalentBuildsModule : Module
+    local talentbuilds = ns:NewModule("TalentBuilds") ---@type TalentBuildsModule
+    local callback = ns:GetModule("Callback") ---@type CallbackModule
+    local config = ns:GetModule("Config") ---@type ConfigModule
+    local util = ns:GetModule("Util") ---@type UtilModule
+
+    ---@type LibClassTalentsImportExport-1.0
+    local LibClassTalentsImportExport = LibStub and LibStub:GetLibrary("LibClassTalentsImportExport-1.0", true)
+
+    ---@class TitledPanelMixinPolyfill
+    ---@field public SetTitleColor fun(self: TitledPanelMixinPolyfill, color: ColorMixin)
+    ---@field public SetTitle fun(self: TitledPanelMixinPolyfill, title?: string)
+    ---@field public SetTitleFormatted fun(self: TitledPanelMixinPolyfill, fmt: string, ...: any)
+    ---@field public SetTitleMaxLinesAndHeight fun(self: TitledPanelMixinPolyfill, maxLines: number, height: number)
+    ---@field public SetTitleOffsets fun(self: TitledPanelMixinPolyfill, leftOffset?: number, rightOffset?: number)
+
+    ---@class PortraitFrameMixinPolyfill : TitledPanelMixinPolyfill
+    ---@field public SetPortraitToAsset fun(self: PortraitFrameMixinPolyfill, texture: number|string)
+    ---@field public SetPortraitTextureRaw fun(self: PortraitFrameMixinPolyfill, texture: number|string)
+    ---@field public SetPortraitAtlasRaw fun(self: PortraitFrameMixinPolyfill, atlas: string, ...: any)
+    ---@field public SetPortraitTexCoord fun(self: PortraitFrameMixinPolyfill, ...: any)
+    ---@field public SetPortraitShown fun(self: PortraitFrameMixinPolyfill, shown?: boolean)
+
+    ---@class PortraitFrameBaseTemplatePolyfillPortraitContainer : Frame
+    ---@field public portrait Texture
+    ---@field public CircleMask MaskTexture
+
+    ---@class PortraitFrameBaseTemplatePolyfillTitleContainer : Frame
+    ---@field public TitleText FontString
+
+    ---@class PanelDragBarTemplatePolyfill : Button
+    ---@field public showCursorOnHover boolean
+    ---@field public OnLoad fun(self: PanelDragBarTemplatePolyfill)
+    ---@field public OnEnter fun(self: PanelDragBarTemplatePolyfill)
+    ---@field public OnLeave fun(self: PanelDragBarTemplatePolyfill)
+    ---@field public OnDragStart fun(self: PanelDragBarTemplatePolyfill)
+    ---@field public OnDragStop fun(self: PanelDragBarTemplatePolyfill)
+    ---@field public Init fun(self: PanelDragBarTemplatePolyfill, target: Region)
+    ---@field public SetTarget fun(self: PanelDragBarTemplatePolyfill, target: Region)
+    ---@field public SetDragSuspended fun(self: PanelDragBarTemplatePolyfill, suspendDrag?: boolean)
+
+    ---@class PortraitFrameBaseTemplatePolyfill : Frame, PortraitFrameMixinPolyfill
+    ---@field public layoutType string
+    ---@field public NineSlice Frame
+    ---@field public PortraitContainer PortraitFrameBaseTemplatePolyfillPortraitContainer
+    ---@field public TitleContainer PortraitFrameBaseTemplatePolyfillTitleContainer|PanelDragBarTemplatePolyfill
+
+    ---@class ButtonFrameTemplatePolyfill : PortraitFrameBaseTemplatePolyfill
+    ---@field public Bg Texture
+    ---@field public TopTileStreaks Texture
+    ---@field public CloseButton Button
+    ---@field public Inset Frame
+
+    ---@class MinimalScrollBarPolyfill : EventFrame
+
+    ---@class TalentBuildsFrame : ButtonFrameTemplatePolyfill
+
+    local talentBuilds = ns:GetTalentBuilds()
+
+    ---@alias TalentBuildsRaidDifficultyTranslation { key: TalentBuildsRaidDifficultyKey, text: string }
+
+    ---@alias TalentBuildsRaidSpeedTranslation { key: TalentBuildsRaidSpeedKey, text: string  }
+
+    ---@alias TalentBuildsDungeonDifficultyTranslation { key: TalentBuildsDungeonDifficultyKey, text: string }
+
+    ---@alias TalentBuildsWeaponTranslation { key: TalentBuildsWeaponKey, text: string, specID?: number }
+
+    local relevantRaids ---@type DungeonRaid[]? Table over all valid raids. Extracted from `routes.raidOrder`.
+    local relevantEncounters ---@type table<number, number[]>? The key is the `Raid ID`, the sub-table is the ordered `Encounter IDs`. Extracted from `routes.encounterOrder`.
+    local encounterIDToJournalEncounterID ---@type table<number, number?>? The key is the `Encounter ID`, the value is `Journal Encounter`. Extracted from `routes.encounterJournalIds`.
+    local relevantDungeons ---@type Dungeon[]? Table over all valid dungeons. Extracted from `routes.dungeonOrder`.
+    local relevantEncounterDifficulties ---@type TalentBuildsRaidDifficultyTranslation[]? A raid difficulty key to localized text mapping array. Extracted from `routes.difficultyOrder`.
+    local relevantDungeonBrackets ---@type TalentBuildsDungeonDifficultyTranslation[]? A dungeon bracket key to localized text mapping array. Extracted from `routes.bracketOrder`.
+    local relevantWeapons ---@type TalentBuildsWeaponTranslation[]? A weapon key to localized text mapping array. Extracted from `specs[].weaponConfigOrder`.
+    local relevantSpeeds ---@type TalentBuildsRaidSpeedTranslation[]? A speed key to localized text mapping array. Extracted from `routes.raidKillSpeedOrder`.
+    do
+
+        relevantRaids = {}
+
+        for _, stringID in ipairs(talentBuilds.routes.raidOrder) do
+            local id = tonumber(stringID)
+            if id then
+                local raid = util:GetRaidByID(id)
+                if raid then
+                    relevantRaids[#relevantRaids + 1] = raid
+                end
+            end
+        end
+
+        relevantEncounters = {}
+
+        for stringID, encounters in pairs(talentBuilds.routes.encounterOrder) do
+            local id = tonumber(stringID)
+            if id then
+                for _, stringEncounterID in ipairs(encounters) do
+                    local encounterID = tonumber(stringEncounterID)
+                    if encounterID then
+                        local temp = relevantEncounters[id]
+                        if not temp then
+                            temp =  {}
+                            relevantEncounters[id] = temp
+                        end
+                        temp[#temp + 1] = encounterID
+                    end
+                end
+            end
+        end
+
+        encounterIDToJournalEncounterID = {}
+
+        for encounterIDString, journalEncounterID in pairs(talentBuilds.routes.encounterJournalIds) do
+            local encounterID = tonumber(encounterIDString)
+            if encounterID then
+                encounterIDToJournalEncounterID[encounterID] = journalEncounterID
+            end
+        end
+
+        relevantDungeons = {}
+
+        for _, stringID in ipairs(talentBuilds.routes.dungeonOrder) do
+            local id = tonumber(stringID)
+            if id then
+                local dungeon = util:GetDungeonByID(id)
+                if dungeon then
+                    relevantDungeons[#relevantDungeons + 1] = dungeon
+                end
+            end
+        end
+
+        ---@enum TalentBuildsTranslationFormats
+        local translationFormats = {
+            EncounterDifficulty = "BUILDS_ENCOUNTER_DIFFICULY_%s",
+            DungeonBracket = "BUILDS_DUNGEON_BRACKET_%s",
+            Weapon = "BUILDS_WEAPON_%s",
+            Speed = "BUILDS_SPEED_%s",
+        }
+
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
+        ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsRaidSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
+        ---@param localeFormat TalentBuildsTranslationFormats
+        ---@param specID? number
+        local function appendDifficultyTranslation(difficulties, key, localeFormat, specID)
+            local uniqueKey = specID and format("%s_%s", key, specID) or key
+            if difficulties[uniqueKey] then
+                return
+            end
+            difficulties[uniqueKey] = true
+            difficulties[#difficulties + 1] = {
+                key = key,
+                text = L[format(localeFormat, key)],
+                specID = specID,
+            }
+        end
+
+        relevantEncounterDifficulties = {}
+
+        for _, difficultyKey in ipairs(talentBuilds.routes.difficultyOrder) do
+            appendDifficultyTranslation(relevantEncounterDifficulties, difficultyKey, translationFormats.EncounterDifficulty)
+        end
+
+        relevantDungeonBrackets = {}
+
+        for _, difficultyKey in ipairs(talentBuilds.routes.bracketOrder) do
+            appendDifficultyTranslation(relevantDungeonBrackets, difficultyKey, translationFormats.DungeonBracket)
+        end
+
+        relevantWeapons = {}
+
+        for specIDString, spec in pairs(talentBuilds.specs) do
+            local specID = tonumber(specIDString)
+            if specID and next(spec.weaponConfigs) then
+                for _, weaponKey in ipairs(spec.weaponConfigOrder) do
+                    appendDifficultyTranslation(relevantWeapons, weaponKey, translationFormats.Weapon, specID)
+                end
+            end
+        end
+
+        relevantSpeeds = {}
+
+        for _, speedKey in ipairs(talentBuilds.routes.raidKillSpeedOrder) do
+            appendDifficultyTranslation(relevantSpeeds, speedKey, translationFormats.Speed)
+        end
+
+    end
+
+    ---@class TalentBuildsDataProviderBuildButton : Button, BackdropTemplate
+
+    ---@alias TalentBuildsDataProviderBuildElementData TalentBuildsCompiledProfileBuild
+
+    ---@class TalentBuildsCompiledProfile
+    ---@field public specID number
+    ---@field public builds TalentBuildsCompiledProfileBuild[]
+
+    ---@class TalentBuildsCompiledProfileBuild
+    ---@field public specID number
+    ---@field public heroID number `stat[1]`
+    ---@field public popPctl number `stat[2]`
+    ---@field public heroCount number `stat[3]`
+    ---@field public buildIndex number `stat[4]` or `stat[7]`
+    ---@field public buildRuns number `stat[5]` or `stat[8]`
+    ---@field public score number `stat[6]` or `stat[9]`
+    ---@field public prefixImportString string
+    ---@field public suffixImportString string
+    ---@field public importString string
+    ---@field public buildPopText string
+    ---@field public scoreText string
+    ---@field public isRecommended boolean
+    ---@field public weapon TalentBuildsWeaponKey @The weapon text.
+    ---@field public dungeonID? "all"|number @If for dungeon, contains "all" or the dungeon ID.
+    ---@field public dungeonBracket? TalentBuildsDungeonDifficultyKey @If for dungeon, contains the keystone bracket text.
+    ---@field public dungeon? Dungeon @If for dungeon, a reference to the dungeon.
+    ---@field public raidID? number @If for raid, contains the raid ID.
+    ---@field public raid? DungeonRaid @If for raid, a reference to the raid.
+    ---@field public encounterID? "all"|number @If for raid, contains "all" or the encounter ID.
+    ---@field public encounterJournalID? number @If for raid, the encounter journal equivalent ID.
+    ---@field public encounterDiff? TalentBuildsRaidDifficultyKey @If for raid, contains the encounter difficulty text.
+    ---@field public encounterDifficultyID? number[] @If for raid, the encounter journal equivalent ID's. (This is a table until we store the exact number.)
+    ---@field public raidSpeed? TalentBuildsRaidSpeedKey @If for raid, the speed text.
+
+    ---@type TalentBuildsCompiledProfile?
+    local compiledPlayerProfile
+
+    local function compileTalentBuilds()
+        compiledPlayerProfile = nil
+
+        local playerSpecID = util:GetSpecialization()
+        if not playerSpecID then
+            return
+        end
+
+        for specId, specData in pairs(talentBuilds.specs) do
+            local specID = tonumber(specId)
+
+            if specID and specID == playerSpecID then
+
+                ---@type TalentBuildsCompiledProfile
+                local profile = {
+                    specID = specID,
+                    builds = {},
+                }
+
+                ---@param buildType "raid"|"dungeon"
+                ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param raidSpeedKey? TalentBuildsRaidSpeedKey
+                ---@param weaponKey TalentBuildsWeaponKey
+                ---@param instanceID number
+                ---@param encounterID? "all"|string|number
+                ---@param heroID number
+                ---@param popPctl number
+                ---@param heroCount number
+                ---@param buildIndex? number
+                ---@param buildRuns? number
+                ---@param score? number
+                ---@param isRecommended boolean
+                local function appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, buildIndex, buildRuns, score, isRecommended)
+                    if not buildIndex or not buildRuns or not score then
+                        return
+                    end
+                    ---@type TalentBuildsCompiledProfileBuild
+                    local build = {
+                        specID = specID,
+                        heroID = heroID,
+                        popPctl = popPctl,
+                        heroCount = heroCount,
+                        buildIndex = buildIndex,
+                        buildRuns = buildRuns,
+                        prefixImportString = specData.prefix,
+                        suffixImportString = specData.builds[buildIndex],
+                        importString = format("%s%s", specData.prefix, specData.builds[buildIndex]),
+                        buildPopText = util:FormatPercentile(buildRuns/heroCount*100),
+                        scoreText = "",
+                        isRecommended = isRecommended,
+                        weapon = weaponKey,
+                        score = score,
+                        dungeonID = nil,
+                        dungeonBracket = nil,
+                        dungeon = nil,
+                        raidID = nil,
+                        raid = nil,
+                        encounterID = nil,
+                        encounterJournalID = nil,
+                        encounterDiff = nil,
+                        encounterDifficultyID = nil,
+                        raidSpeed = nil,
+                    }
+                    if buildType == "raid" then
+                        build.scoreText = util:FormatTimeFromMs(score)
+                        build.raidID = instanceID
+                        build.raid = util:GetRaidByID(instanceID)
+                        build.encounterID = encounterID
+                        build.encounterJournalID = encounterIDToJournalEncounterID[encounterID]
+                        build.encounterDiff = difficultyKey
+                        build.encounterDifficultyID = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficultyKey]
+                        build.raidSpeed = raidSpeedKey
+                    elseif buildType == "dungeon" then
+                        build.scoreText = format("+%d", score)
+                        build.dungeonID = instanceID
+                        build.dungeonBracket = difficultyKey
+                        build.dungeon = util:GetDungeonByID(instanceID)
+                    end
+                    profile.builds[#profile.builds + 1] = build
+                end
+
+                ---@param buildType "raid"|"dungeon"
+                ---@param difficultyKey TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+                ---@param raidSpeedKey? TalentBuildsRaidSpeedKey
+                ---@param weaponKey TalentBuildsWeaponKey
+                ---@param instanceID number
+                ---@param encounterID? "all"|string|number
+                ---@param stats TalentBuildsStats[]
+                local function appendBuilds(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, stats)
+                    for _, stat in ipairs(stats) do
+                        local heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, altBuildIndex, altBuildRuns, altScore, otherBuildIndex, otherBuildRuns, otherBuildScore = stat[1], stat[2], stat[3], stat[4], stat[5], stat[6], stat[7], stat[8], stat[9], stat[10], stat[11], stat[12]
+                        if recBuildIndex then
+                            appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, recBuildIndex, recBuildRuns, recScore, true)
+                        elseif altBuildIndex then
+                            appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, altBuildIndex, altBuildRuns, altScore, false)
+                        elseif otherBuildIndex then
+                            appendBuild(buildType, difficultyKey, raidSpeedKey, weaponKey, instanceID, encounterID, heroID, popPctl, heroCount, otherBuildIndex, otherBuildRuns, otherBuildScore, false)
+                        end
+                    end
+                end
+
+                for raidKey, data in pairs(specData.raid) do
+                    local raidID = tonumber(raidKey)
+                    if raidID then
+                        for dataKey, diffData in pairs(data) do
+                            local encounterID = dataKey == "all" and "all" or tonumber(dataKey) or nil
+                            if encounterID then
+                                for diffKey, raidSpeeds in pairs(diffData) do
+                                    for raidSpeedKey, bracketWeapons in pairs(raidSpeeds) do
+                                        for weaponKey, stats in pairs(bracketWeapons) do
+                                            appendBuilds("raid", diffKey, raidSpeedKey, weaponKey, raidID, encounterID, stats)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+
+                local dungeonKeys = util:TableKeys(specData.mplus)
+                for _, dungeonKey in pairs(dungeonKeys) do
+                    local dungeonID = dungeonKey == "all" and "all" or tonumber(dungeonKey) or nil
+                    if dungeonID then
+                        local data = specData.mplus[dungeonKey]
+                        for bracketKey, bracketWeapons in pairs(data) do
+                            for weaponKey, stats in pairs(bracketWeapons) do
+                                appendBuilds("dungeon", bracketKey, nil, weaponKey, dungeonID, nil, stats)
+                            end
+                        end
+                    end
+                end
+
+                compiledPlayerProfile = profile
+                break
+
+            end
+        end
+    end
+
+    ---@generic T
+    ---@class DataProviderPolyfill<T>
+    ---@field public Enumerate fun(self: DataProviderPolyfill, indexBegin?: number, indexEnd?: number): fun(): index: number, elementData: T
+    ---@field public EnumerateEntireRange fun(self: DataProviderPolyfill): fun(): index: number, elementData: T
+    ---@field public ReverseEnumerate fun(self: DataProviderPolyfill, indexBegin?: number, indexEnd?: number): fun(): index: number, elementData: T
+    ---@field public ReverseEnumerateEntireRange fun(self: DataProviderPolyfill): fun(): index: number, elementData: T
+    ---@field public GetCollection fun(self: DataProviderPolyfill): T[]
+    ---@field public GetSize fun(self: DataProviderPolyfill): number
+    ---@field public IsEmpty fun(self: DataProviderPolyfill): boolean
+    ---@field public InsertAtIndex fun(self: DataProviderPolyfill, elementData: T, insertIndex: number)
+    ---@field public Insert fun(self: DataProviderPolyfill, ...: T)
+    ---@field public InsertTable fun(self: DataProviderPolyfill, tbl: T[])
+    ---@field public InsertTableRange fun(self: DataProviderPolyfill, tbl: T[], indexBegin: number, indexEnd: number)
+    ---@field public MoveElementDataToIndex fun(self: DataProviderPolyfill, elementData: T, newIndex: number)
+    ---@field public Remove fun(self: DataProviderPolyfill, ...: T)
+    ---@field public RemoveAllByPredicate fun(self: DataProviderPolyfill, predicate: fun(elementData: T): boolean?)
+    ---@field public RemoveByPredicate fun(self: DataProviderPolyfill, predicate: fun(elementData: T): boolean?)
+    ---@field public RemoveIndex fun(self: DataProviderPolyfill, index: number)
+    ---@field public RemoveIndexRange fun(self: DataProviderPolyfill, indexBegin: number, indexEnd: number)
+    ---@field public ReplaceAtIndex fun(self: DataProviderPolyfill, index: number, newElementData: T)
+    ---@field public SetSortComparator fun(self: DataProviderPolyfill, sortComparator: fun(a: T, b: T): boolean, skipSort: boolean?)
+    ---@field public ClearSortComparator fun(self: DataProviderPolyfill)
+    ---@field public HasSortComparator fun(self: DataProviderPolyfill): boolean
+    ---@field public Sort fun(sortComparator: fun(a: T, b: T): number)
+    ---@field public Find fun(self: DataProviderPolyfill, index: number): T
+    ---@field public FindLast fun(self: DataProviderPolyfill): elementData: T?
+    ---@field public FindIndex fun(self: DataProviderPolyfill, elementData: T): index: number?, elementData: T
+    ---@field public FindByPredicate fun(self: DataProviderPolyfill, predicate: fun(elementData: T): boolean?): index: number?, elementData: T?
+    ---@field public FindElementDataByPredicate fun(self: DataProviderPolyfill, predicate: fun(elementData: T): boolean?): elementData: T?
+    ---@field public FindIndexByPredicate fun(self: DataProviderPolyfill, predicate: fun(elementData: T): boolean?): index: number?
+    ---@field public ForEach fun(self: DataProviderPolyfill, func: fun(elementData: T))
+    ---@field public ReverseForEach fun(self: DataProviderPolyfill, func: fun(elementData: T))
+    ---@field public Flush fun(self: DataProviderPolyfill)
+
+    ---@type DataProviderPolyfill<TalentBuildsDataProviderBuildElementData>
+    local dataProvider = CreateDataProvider()
+
+    ---@class TalentBuildsMenuOption : DropDownUtilDynamicMenuOption
+    ---@field public text string
+
+    ---@class TalentBuildsMenuOptionForInstance : TalentBuildsMenuOption
+    ---@field public radiogroup? "instance"
+    ---@field public arg1? "raid"|"dungeon" instanceType
+    ---@field public arg2? "all"|number instanceID
+    ---@field public arg3? "all"|number encounterID
+
+    ---@class TalentBuildsMenuOptionForDifficulty : TalentBuildsMenuOption
+    ---@field public radiogroup "raid"|"dungeon"
+    ---@field public arg1 TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey difficultyText
+    ---@field public arg2? number[] difficultyIDs
+    ---@field public arg3? nil
+
+    ---@class TalentBuildsMenuOptionForWeapon : TalentBuildsMenuOption
+    ---@field public radiogroup "instance"
+    ---@field public arg1 TalentBuildsWeaponKey weaponKey
+    ---@field public arg2? number weaponSpecID
+    ---@field public arg3? nil
+
+    ---@class TalentBuildsMenuOptionForSpeed : TalentBuildsMenuOption
+    ---@field public radiogroup "raid"
+    ---@field public arg1 TalentBuildsRaidSpeedKey speedText
+    ---@field public arg2? nil
+    ---@field public arg3? nil
+
+    local isBuildAndImportStringEqualCache = {} ---@type table<string, boolean?>
+    local frame ---@type TalentBuildsFrame?
+    local frameFeedback ---@type TalentBuilsFrameFeedback?
+    local updatingMenus = false
+
+    -- the current selection of menu choices
+    local currentInstance ---@type TalentBuildsMenuOptionForInstance?
+    local currentDifficulty ---@type TalentBuildsMenuOptionForDifficulty?
+    local currentWeapon ---@type TalentBuildsMenuOptionForWeapon?
+    local currentSpeed ---@type TalentBuildsMenuOptionForSpeed?
+
+    local function updateDataProvider()
+        dataProvider:Flush()
+
+        if not compiledPlayerProfile or not currentInstance or not currentDifficulty then
+            return
+        end
+
+        local instanceType = currentInstance.arg1
+        local instanceID = currentInstance.arg2
+        local encounterID = currentInstance.arg3
+        local difficulty = currentDifficulty.arg1
+        local weapon = currentWeapon and currentWeapon.arg1
+        local weaponSpecID = currentWeapon and currentWeapon.arg2
+        local raidSpeed = currentSpeed and currentSpeed.arg1
+        local specID = util:GetSpecialization()
+
+        local relevantBuilds = util:TableFilter(
+            compiledPlayerProfile.builds,
+            function(build)
+                if weapon and weapon ~= build.weapon then
+                    return false
+                end
+                if weaponSpecID and weaponSpecID ~= specID and weaponSpecID ~= build.specID then
+                    return false
+                end
+                if instanceType == "raid" then
+                    if instanceID ~= build.raidID then
+                        return false
+                    end
+                    if encounterID ~= build.encounterID then
+                        return false
+                    end
+                    if raidSpeed and raidSpeed ~= build.raidSpeed then
+                        return false
+                    end
+                    return difficulty == build.encounterDiff
+                end
+                if instanceType == "dungeon" then
+                    if instanceID ~= build.dungeonID then
+                        return false
+                    end
+                    return difficulty == build.dungeonBracket
+                end
+                return false
+            end
+        )
+
+        dataProvider:InsertTable(relevantBuilds)
+
+        if not frame or not dataProvider:IsEmpty() then
+            return
+        end
+
+        local hasWeaponFilter = weapon ~= nil and weapon ~= "all"
+        local hasRaidSpeedFilter = raidSpeed ~= nil and raidSpeed ~= "all"
+        frame:ResetWeaponAndRaidSpeedFilters(hasWeaponFilter, hasRaidSpeedFilter)
+    end
+
+    ---@param option DropDownUtilDynamicMenuOption
+    local function isOptionShownAndNotAll(option)
+        return option.arg1 ~= "all" and DropDownUtil:IsDynamicMenuOptionShown(option)
+    end
+
+    ---@param menu UIDropDownMenuTemplatePolyfill|WowStyle1DropdownTemplatePolyfill
+    local function hasOtherMenuOptionOtherThanAll(menu)
+        local options = menu.DynamicMenuOptions
+        if not options then
+            return false
+        end
+        return util:TableFind(options, isOptionShownAndNotAll) ~= nil
+    end
+
+    ---@param owner WowStyle1DropdownTemplatePolyfill
+    ---@param selections? WowStyle1DropdownTemplateRootDescriptionRadioPolyfill[]
+    local function updateMenuAndDataProvider(owner, _, _, selections)
+        if not frame then
+            return
+        end
+        if updatingMenus then
+            return
+        end
+        updatingMenus = true
+        if owner == frame.InstanceMenu then
+            local hasSelections = selections and #selections > 0 and true or false
+            frame.DifficultyMenu:OpenMenu()
+            frame.DifficultyMenu:CloseMenu()
+            frame.DifficultyMenu:SetEnabled(hasSelections)
+            frame.WeaponMenu:OpenMenu()
+            frame.WeaponMenu:CloseMenu()
+            frame.WeaponMenu:SetEnabled(hasSelections)
+            frame.SpeedMenu:OpenMenu()
+            frame.SpeedMenu:CloseMenu()
+            frame.SpeedMenu:SetEnabled(hasSelections)
+            local hasWeaponOptions = hasSelections and hasOtherMenuOptionOtherThanAll(frame.WeaponMenu)
+            local hasSpeedOptions = hasSelections and hasOtherMenuOptionOtherThanAll(frame.SpeedMenu)
+            frame:SetMenuShown(hasWeaponOptions, hasSpeedOptions)
+        end
+        updatingMenus = false
+        local prevInstance = currentInstance
+        local prevDifficulty = currentDifficulty
+        local prevWeapon = currentWeapon
+        local prevSpeed = currentSpeed
+        currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
+        currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty?
+        currentWeapon = frame.WeaponMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForWeapon?
+        currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForSpeed?
+        if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevWeapon ~= currentWeapon or prevSpeed ~= currentSpeed then
+            updateDataProvider()
+        end
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    local function getHeroTitleText(build)
+        return format(L.BUILDS_PROFILE_HERO_FORMAT, util:FormatPercentile(build.popPctl * 100), FormatLargeNumber(build.heroCount))
+    end
+
+    local starSymbolTextureMarkup = "|A:PetJournal-FavoritesIcon:0:0:0:-2|a"
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    local function getBuildTitleText(build)
+        local title = build.isRecommended and L.BUILDS_PROFILE_RECOMMENDED or L.BUILDS_PROFILE_ALTERNATE
+        if build.encounterID == "all" or build.dungeonID == "all" then
+            title = format("%s%s", starSymbolTextureMarkup, title)
+        end
+        return title
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    local function getBuildStatsText(build)
+        return format(L.BUILDS_PROFILE_STATS_FORMAT, build.buildPopText, build.scoreText, FormatLargeNumber(build.buildRuns), build.raidID and L.BUILDS_PROFILE_STATS_SUFFIX_KILLS or L.BUILDS_PROFILE_STATS_SUFFIX_RUNS)
+    end
+
+    ---@param button TalentBuildsDataProviderBuildButton
+    local function updateBuildButton(button)
+        local build = button.elementData
+        local info = util:GetSpecializationSubTreeInfo(build.heroID)
+        if info then
+            button.HeroTexture:Show()
+            button.HeroTexture:SetAtlas(info.iconElementID)
+            button.HeroTitle:SetText(info.name)
+        else
+            button.HeroTexture:Hide()
+            button.HeroTitle:SetFormattedText("Hero Tree #%d", build.heroID)
+        end
+        button.HeroText:SetFormattedText("|cff999999%s|r", getHeroTitleText(build))
+        button.BuildTitle:SetText(getBuildTitleText(build))
+        button.BuildText:SetFormattedText("|cff999999%s|r", getBuildStatsText(build))
+        local isActive = talentbuilds:IsBuildActiveAsLoadout(build)
+        if isActive then
+            button.ActionMenuToggle.Icon:SetVertexColor(0, 1, 0)
+        elseif isActive == false then
+            button.ActionMenuToggle.Icon:SetVertexColor(1, 1, 1)
+        else
+            button.ActionMenuToggle.Icon:SetVertexColor(1, 0.5, 0.5)
+        end
+        local buildIndex = build.buildIndex
+        local index = dataProvider:FindIndex(build)
+        local prevBuild = dataProvider:Find(index - 1)
+        local nextBuild = dataProvider:Find(index + 1)
+        local isPrevBuildSame = buildIndex == (prevBuild and prevBuild.buildIndex)
+        local isNextBuildSame = buildIndex == (nextBuild and nextBuild.buildIndex)
+        local isBothBuildSame = isPrevBuildSame and isNextBuildSame
+        button.BuildIsSameTop:SetShown(isPrevBuildSame and not isBothBuildSame)
+        button.BuildIsSameMid:SetShown(isBothBuildSame)
+        button.BuildIsSameBot:SetShown(isNextBuildSame and not isBothBuildSame)
+        button:OnButtonUpdate()
+    end
+
+    local buildsButtonHeight = 50
+    local buildsButtonSharedPaddingX = 10
+    local buildsButtonSharedPaddingY = buildsButtonSharedPaddingX
+    local buildsButtonTextOffsetY = 5
+    local buildsButtonSecondColumnOffsetX = 200
+    local buildsButtonActionButtonSize = 20
+    local buildsButtonActionButtonOffsetX = 15
+
+    ---@type backdropInfo
+    local buildsButtonBackdrop = {
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+        edgeFile = "Interface\\Buttons\\WHITE8X8",
+        edgeSize = 1,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 },
+    }
+
+    -- Called when the build button updates/refreshes its visual state.
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnButtonUpdate(self)
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonSetBackdropFocus(self)
+        self:SetBackdropColor(0.1, 0.1, 0.1, 0.67)
+        self:SetBackdropBorderColor(1, 1, 1, 0.67)
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonClearBackdropFocus(self)
+        self:SetBackdropColor(0, 0, 0, 0.67)
+        self:SetBackdropBorderColor(1, 1, 1, 0)
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonUpdateBackdropFocus(self)
+        if self:IsMouseOver() then
+            self:SetBackdropFocus()
+        else
+            self:ClearBackdropFocus()
+        end
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    ---@param resultText? string
+    local function buildsButtonPlaySuccessAnimation(self, resultText)
+        self.ActionMenuToggle.SuccessAnimation:Play()
+        if frameFeedback and resultText then
+            frameFeedback:Open(self, resultText)
+        end
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnEnter(self)
+        self:SetBackdropFocus()
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnLeave(self)
+        self:ClearBackdropFocus()
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnShow(self)
+        self:ClearBackdropFocus()
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonOnHide(self)
+        self:ClearBackdropFocus()
+    end
+
+    ---@param self TalentBuildsDataProviderBuildButton
+    local function buildsButtonActionMenuToggle(self)
+        DropDownUtil:ToggleDynamicMenu(self.ActionMenu, "TOPLEFT", self.ActionMenuToggle, "TOPRIGHT")
+    end
+
+    ---@param self Frame
+    ---@param height number
+    ---@param point FramePoint
+    local function createBuildIsSameTexture(self, height, point)
+        local texture = self:CreateTexture(nil, "BORDER", nil, 1)
+        texture:SetSize(20, height)
+        texture:SetPoint(point, 20, 0)
+        texture:SetTexture(3801271)
+        texture:SetTexCoord(0/64, 64/64, 20/64, 40/64)
+        texture:SetVertexColor(1, 1, 1)
+        return texture
+    end
+
+    ---@param button TalentBuildsDataProviderBuildButton
+    ---@param build TalentBuildsDataProviderBuildElementData
+    local function createBuild(button, build)
+
+        ---@class TalentBuildsDataProviderBuildButton
+        local button = button
+        button.elementData = build
+
+        if button.isInit then
+            updateBuildButton(button)
+            return
+        end
+
+        button.isInit = true
+        button.OnButtonUpdate = buildsButtonOnButtonUpdate
+        button:SetHeight(buildsButtonHeight)
+
+        Mixin(button, BackdropTemplateMixin)
+        button:OnBackdropLoaded()
+        button:SetBackdrop(buildsButtonBackdrop)
+
+        button.SetBackdropFocus = buildsButtonSetBackdropFocus
+        button.ClearBackdropFocus = buildsButtonClearBackdropFocus
+        button.UpdateBackdropFocus = buildsButtonUpdateBackdropFocus
+        button:ClearBackdropFocus()
+
+        button:SetScript("OnEnter", buildsButtonOnEnter)
+        button:SetScript("OnLeave", buildsButtonOnLeave)
+        button:SetScript("OnShow", buildsButtonOnShow)
+        button:SetScript("OnHide", buildsButtonOnHide)
+
+        button.HeroTexture = button:CreateTexture(nil, "ARTWORK", nil, 2)
+        button.HeroTexture:SetSize(buildsButtonHeight - buildsButtonSharedPaddingX, buildsButtonHeight - buildsButtonSharedPaddingY)
+        button.HeroTexture:SetPoint("LEFT", button, "LEFT", buildsButtonSharedPaddingX, 0)
+
+        button.HeroTexturePlaceholder = util:CreateTextureFromIcon(button, ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE, "ARTWORK", 1)
+        button.HeroTexturePlaceholder:SetAllPoints(button.HeroTexture)
+
+        button.HeroTitle = button:CreateFontString(nil, "OVERLAY", "System15Font")
+        button.HeroTitle:SetPoint("TOPLEFT", button.HeroTexture, "TOPRIGHT", buildsButtonSharedPaddingX, -buildsButtonTextOffsetY)
+        button.HeroTitle:SetJustifyH("LEFT")
+        button.HeroTitle:SetWordWrap(false)
+        button.HeroTitle:SetMaxLines(1)
+
+        button.HeroText = button:CreateFontString(nil, "OVERLAY", "System15Font")
+        button.HeroText:SetPoint("BOTTOMLEFT", button.HeroTexture, "BOTTOMRIGHT", buildsButtonSharedPaddingX, buildsButtonTextOffsetY)
+        button.HeroText:SetJustifyH("LEFT")
+        button.HeroText:SetWordWrap(false)
+        button.HeroText:SetMaxLines(1)
+
+        button.BuildTitle = button:CreateFontString(nil, "OVERLAY", "System15Font")
+        button.BuildTitle:SetPoint("TOPLEFT", button.HeroTexture, "TOPRIGHT", buildsButtonSharedPaddingX + buildsButtonSecondColumnOffsetX, -buildsButtonTextOffsetY)
+        button.BuildTitle:SetJustifyH("LEFT")
+        button.BuildTitle:SetWordWrap(false)
+        button.BuildTitle:SetMaxLines(1)
+
+        button.BuildText = button:CreateFontString(nil, "OVERLAY", "System15Font")
+        button.BuildText:SetPoint("BOTTOMLEFT", button.HeroTexture, "BOTTOMRIGHT", buildsButtonSharedPaddingX + buildsButtonSecondColumnOffsetX, buildsButtonTextOffsetY)
+        button.BuildText:SetJustifyH("LEFT")
+        button.BuildText:SetWordWrap(false)
+        button.BuildText:SetMaxLines(1)
+
+        button.HeroTitle:SetPoint("TOPRIGHT", button.BuildTitle, "TOPLEFT", -buildsButtonSharedPaddingX, 0)
+        button.HeroText:SetPoint("TOPRIGHT", button.BuildText, "TOPLEFT", -buildsButtonSharedPaddingX, 0)
+
+        util:SetupAutoScalingFontString(button.HeroTitle, button.HeroText, button.BuildTitle, button.BuildText)
+
+        button.ActionMenu = DropDownUtil:CreateDynamicMenu(button, {
+            {
+                show = function(option) option.arg1 = talentbuilds:IsBuildActiveAsLoadout(button.elementData) return option.arg1 or false end,
+                icon = "|A:perks-owned-small:15:17:2:0|a ",
+                text = L.BUILDS_PROFILE_ACTIVE_LOADOUT_TITLE,
+                unclickable = true,
+            },
+            {
+                show = function(option) option.arg1 = talentbuilds:IsBuildActiveAsLoadout(button.elementData) return true end,
+                text = function(option) return format("|cff%s%s|r", option.arg1 and "999999" or "ffffff", L.BUILDS_PROFILE_LOAD_LOADOUT_ACTION_TITLE) end,
+                func = function()
+                    talentbuilds:LoadBuild(
+                        L.BUILDS_PROFILE_LOADOUT_NAME,
+                        true,
+                        button.elementData,
+                        function(success, resultText)
+                            if success then
+                                button:PlaySuccessAnimation(resultText)
+                            elseif resultText then
+                                ns.PrintWithAddonPrefix(resultText)
+                            end
+                            return true
+                        end
+                    )
+                end,
+                unclickable = function(option) return option.arg1 end,
+            },
+            {
+                text = L.BUILDS_PROFILE_COPY_LOADOUT_ACTION_TITLE,
+                func = function() talentbuilds:ExportBuild(button.elementData) end,
+            },
+            {
+                text = L.BUILDS_PROFILE_COPY_LOADOUT_LINK_ACTION_TITLE,
+                func = function() talentbuilds:CopyBuildLink(button.elementData) end,
+            },
+            {
+                show = function(option) option.arg1 = talentbuilds:IsBuildActiveAsLoadout(button.elementData) return true end,
+                text = function(option) return format("|cff%s%s|r", option.arg1 and "999999" or "ffffff", L.BUILDS_PROFILE_COPY_COMPARELINK_ACTION_TITLE) end,
+                func = function() talentbuilds:CopyCompareLink(button.elementData) end,
+                unclickable = function(option) return option.arg1 end,
+            },
+        })
+
+        ---@class TalentBuildsDataProviderBuildButtonActionMenuToggle
+        ---@field public OnLoad fun(self: TalentBuildsDataProviderBuildButtonActionMenuToggle)
+        ---@field public Icon Texture
+
+        ---@class TalentBuildsDataProviderBuildButtonActionMenuToggle : Button
+        button.ActionMenuToggle = CreateFrame("Button", nil, button, "SquareIconButtonTemplate")
+        button.ActionMenuToggle.iconAtlas = "common-dropdown-icon-next"
+        button.ActionMenuToggle.useIconAsHighlight = true
+        button.ActionMenuToggle.iconSize = buildsButtonActionButtonSize
+        button.ActionMenuToggle:OnLoad()
+        button.ActionMenuToggle:GetNormalTexture():SetAlpha(0)
+        button.ActionMenuToggle:GetPushedTexture():SetAlpha(0)
+        button.ActionMenuToggle:GetDisabledTexture():SetAlpha(0)
+        button.ActionMenuToggle:SetSize(buildsButtonActionButtonSize, buildsButtonActionButtonSize)
+        button.ActionMenuToggle:SetPoint("RIGHT", button, "RIGHT", -buildsButtonActionButtonOffsetX, 0)
+        button.ActionMenuToggle:EnableMouse(true)
+        button.ActionMenuToggle:SetMouseClickEnabled(true)
+        button.ActionMenuToggle:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+        button.ActionMenuToggle:SetScript("OnClick", function() buildsButtonActionMenuToggle(button) end)
+
+        button.BuildTitle:SetPoint("BOTTOMRIGHT", button.ActionMenuToggle, "LEFT", -buildsButtonSharedPaddingX, 0)
+        button.BuildText:SetPoint("TOPRIGHT", button.ActionMenuToggle, "LEFT", -buildsButtonSharedPaddingX, 0)
+
+        local function updateBackdropFocus()
+            button:UpdateBackdropFocus()
+        end
+
+        button.ActionMenuToggle:SetScript("OnEnter", updateBackdropFocus)
+        button.ActionMenuToggle:SetScript("OnLeave", updateBackdropFocus)
+        button.ActionMenu:RegisterCallback(button.ActionMenu.Event.OnMenuClose, updateBackdropFocus, button.ActionMenu)
+
+        button.ActionMenuToggle.SuccessAnimation = button.ActionMenuToggle:CreateAnimationGroup()
+        button.ActionMenuToggle.SuccessAnimation:SetLooping("NONE")
+        local scale = button.ActionMenuToggle.SuccessAnimation:CreateAnimation("Scale")
+        scale:SetSmoothing("IN_OUT")
+        scale:SetTarget(button.ActionMenuToggle)
+        scale:SetDuration(1)
+        scale:SetOrigin("CENTER", 0, 0)
+        scale:SetScale(1, 1)
+        scale:SetScaleFrom(1.5, 1.5)
+        scale:SetScaleTo(1, 1)
+        button.PlaySuccessAnimation = buildsButtonPlaySuccessAnimation
+
+        button.BuildIsSameTop = createBuildIsSameTexture(button, buildsButtonHeight/2, "TOPLEFT")
+        button.BuildIsSameMid = createBuildIsSameTexture(button, buildsButtonHeight, "LEFT")
+        button.BuildIsSameBot = createBuildIsSameTexture(button, buildsButtonHeight/2, "BOTTOMLEFT")
+
+        updateBuildButton(button)
+    end
+
+    ---@param frame TalentBuildsFrame
+    local function onLoad(frame)
+
+        ---@class TalentBuildsFrame
+        local self = frame
+
+        self:EnableMouse(true)
+        self:SetToplevel(true)
+        self:SetMovable(true)
+        self:SetClampedToScreen(true)
+
+        local frameWidth, frameHeight = 640, 20 + 43 + (buildsButtonHeight * 8) + 22
+        self:SetSize(frameWidth, frameHeight)
+        self:SetPoint("CENTER", 0, 0)
+        self:SetFrameStrata("HIGH")
+
+        ButtonFrameTemplate_HidePortrait(self)
+        self:SetTitle(format("%s%s", ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup", 16, 16, 2, 0), L.BUILDS_TITLE_FULL))
+        self.TitleContainer.TitleText:SetPoint("TOP", 0, -3)
+
+        self:RegisterForDrag("LeftButton")
+        self:HookScript("OnDragStart", function() self:StartMoving() end)
+        self:HookScript("OnDragStop", function() self:StopMovingOrSizing() end)
+        self:SetResizable(true)
+
+        self.ResizeButton = CreateFrame("Button", "$parent_ResizeButton", self, "PanelResizeButtonTemplate")
+        self.ResizeButton:SetPoint("BOTTOMRIGHT", -4, 4)
+        self.ResizeButton:Init(self, frameWidth, frameHeight, frameWidth, frameHeight*2)
+
+        local isFirstDefaultRadioSelected = false
+        local defaultRaidSelected = util:TableFind(relevantRaids, function(raid) return raid.id == 16340 end) -- TODO: do we want this default selection to come from the db itself?
+        local defaultDungeonBracketSelected = util:TableFind(relevantDungeonBrackets, function(bracket) return bracket.key == "10-99" end) -- TODO: do we want this default selection to come from the db itself?
+
+        ---@type TalentBuildsMenuOptionForInstance[]
+        local instanceOptions = {
+            {
+                text = L.BUILDS_RAIDS,
+                unclickable = true,
+            },
+        }
+
+        isFirstDefaultRadioSelected = false
+        for _, raid in ipairs(relevantRaids) do
+            local journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(raid.instance_map_ids[1])
+            local icon = journalInstanceID and select(4, EJ_GetInstanceInfo(journalInstanceID)) or nil ---@type number?
+            instanceOptions[#instanceOptions + 1] = {
+                text = function()
+                    local name = format(L.BUILDS_RAIDS_ENCOUNTERS_ALL, raid.shortNameLocale)
+                    return icon and format("|T%s:16:32:0:0:256:128:4:190:4:92|t%s", icon, name) or name
+                end,
+                radiogroup = "instance",
+                arg1 = "raid",
+                arg2 = raid.id,
+                arg3 = "all",
+            }
+            if not isFirstDefaultRadioSelected and (not defaultRaidSelected or defaultRaidSelected.id == instanceOptions[#instanceOptions].arg2) then
+                isFirstDefaultRadioSelected = true
+                instanceOptions[#instanceOptions].radioselected = true
+            end
+        end
+
+        for _, raid in ipairs(relevantRaids) do
+            local encounters = relevantEncounters[raid.id]
+            if encounters then
+                for _, encounterID in ipairs(encounters) do
+                    local journalEncounterID = encounterIDToJournalEncounterID[encounterID]
+                    local _, name, icon ---@type _, string?, number?
+                    if journalEncounterID then
+                        name = EJ_GetEncounterInfo(journalEncounterID)
+                        _, _, _, _, icon = EJ_GetCreatureInfo(1, journalEncounterID)
+                    else
+                        name = tostring(encounterID)
+                    end
+                    instanceOptions[#instanceOptions + 1] = {
+                        text = icon and format("|T%s:16:32|t%s", icon, name) or name,
+                        radiogroup = "instance",
+                        arg1 = "raid",
+                        arg2 = raid.id,
+                        arg3 = encounterID,
+                    }
+                end
+            end
+        end
+
+        instanceOptions[#instanceOptions + 1] = {
+            text = L.BUILDS_DUNGEONS,
+            unclickable = true,
+        }
+
+        instanceOptions[#instanceOptions + 1] = {
+            text = L.BUILDS_DUNGEONS_ALL,
+            radiogroup = "instance",
+            arg1 = "dungeon",
+            arg2 = "all",
+            arg3 = nil,
+        }
+
+        -- TODO: this won't re-sort the order if the locale choice changes in the settings, it will stick to how it was when the frame was loaded
+        table.sort(relevantDungeons, function(a, b)
+            return a.shortNameLocale < b.shortNameLocale
+        end)
+
+        for _, dungeon in ipairs(relevantDungeons) do
+            local journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(dungeon.instance_map_ids[1])
+            local icon = journalInstanceID and select(4, EJ_GetInstanceInfo(journalInstanceID)) or nil ---@type number?
+            instanceOptions[#instanceOptions + 1] = {
+                text = function()
+                    local name = format(L.BUILDS_DUNGEONS_SPECIFIC, dungeon.shortNameLocale, dungeon.name)
+                    return icon and format("|T%s:16:32:0:0:256:128:4:190:4:92|t%s", icon, name) or name
+                end,
+                radiogroup = "instance",
+                arg1 = "dungeon",
+                arg2 = dungeon.id,
+                arg3 = nil,
+            }
+        end
+
+        self.InstanceMenu = DropDownUtil:CreateDynamicMenu(self, instanceOptions)
+        self.InstanceMenu:SetDefaultText("")
+        self.InstanceMenu:SetWidth(240)
+        self.InstanceMenu:SetPoint("LEFT", self.TopTileStreaks, "LEFT", 9, 0)
+        self.InstanceMenu:RegisterCallback(self.InstanceMenu.Event.OnUpdate, updateMenuAndDataProvider, self.InstanceMenu)
+
+        ---@return TalentBuildsMenuOptionForInstance?
+        local function getSelectedInstance()
+            return self.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
+        end
+
+        local function isSelectedInstanceRaid()
+            local selectedInstance = getSelectedInstance()
+            return selectedInstance and selectedInstance.arg1 == "raid" and true or false
+        end
+
+        local function isSelectedInstanceDungeon()
+            local selectedInstance = getSelectedInstance()
+            return selectedInstance and selectedInstance.arg1 == "dungeon" and true or false
+        end
+
+        ---@param option TalentBuildsMenuOptionForWeapon
+        local function isSelectedInstanceAndSpecID(option)
+            if not getSelectedInstance() then
+                return false
+            end
+            local weaponSpecID = option.arg2
+            return not weaponSpecID or weaponSpecID == util:GetSpecialization()
+        end
+
+        ---@type TalentBuildsMenuOptionForDifficulty[]
+        local difficultyOptions = {}
+
+        isFirstDefaultRadioSelected = false
+        for _, difficulty in ipairs(relevantEncounterDifficulties) do
+            difficultyOptions[#difficultyOptions + 1] = {
+                text = difficulty.text,
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
+                arg1 = difficulty.key,
+                arg2 = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficulty.key],
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected then
+                isFirstDefaultRadioSelected = true
+                difficultyOptions[#difficultyOptions].radioselected = true
+            end
+        end
+
+        isFirstDefaultRadioSelected = false
+        for _, bracket in ipairs(relevantDungeonBrackets) do
+            difficultyOptions[#difficultyOptions + 1] = {
+                text = bracket.text,
+                show = isSelectedInstanceDungeon,
+                radiogroup = "dungeon",
+                arg1 = bracket.key,
+                arg2 = nil,
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected and (not defaultDungeonBracketSelected or difficultyOptions[#difficultyOptions].arg1 == defaultDungeonBracketSelected.key) then
+                isFirstDefaultRadioSelected = true
+                difficultyOptions[#difficultyOptions].radioselected = true
+            end
+        end
+
+        self.DifficultyMenu = DropDownUtil:CreateDynamicMenu(self, difficultyOptions)
+        self.DifficultyMenu:SetDefaultText("")
+        self.DifficultyMenu:SetWidth(120)
+        self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 5, 0)
+        self.DifficultyMenu:RegisterCallback(self.DifficultyMenu.Event.OnUpdate, updateMenuAndDataProvider, self.DifficultyMenu)
+
+        ---@type TalentBuildsMenuOptionForWeapon[]
+        local weaponOptions = {}
+
+        isFirstDefaultRadioSelected = false
+        for _, weapon in ipairs(relevantWeapons) do
+            weaponOptions[#weaponOptions + 1] = {
+                text = weapon.text,
+                show = isSelectedInstanceAndSpecID,
+                radiogroup = "instance",
+                arg1 = weapon.key,
+                arg2 = weapon.specID,
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected and DropDownUtil:IsDynamicMenuOptionShown(weaponOptions[#weaponOptions]) then
+                isFirstDefaultRadioSelected = true
+                weaponOptions[#weaponOptions].radioselected = true
+            end
+        end
+
+        self.WeaponMenu = DropDownUtil:CreateDynamicMenu(self, weaponOptions)
+        self.WeaponMenu:SetDefaultText("")
+        self.WeaponMenu:SetWidth(120)
+        self.WeaponMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 5, 0)
+        self.WeaponMenu:RegisterCallback(self.WeaponMenu.Event.OnUpdate, updateMenuAndDataProvider, self.WeaponMenu)
+
+        ---@type TalentBuildsMenuOptionForSpeed[]
+        local speedOptions = {}
+
+        isFirstDefaultRadioSelected = false
+        for _, speed in ipairs(relevantSpeeds) do
+            speedOptions[#speedOptions + 1] = {
+                text = speed.text,
+                show = isSelectedInstanceRaid,
+                radiogroup = "raid",
+                arg1 = speed.key,
+                arg2 = nil,
+                arg3 = nil,
+            }
+            if not isFirstDefaultRadioSelected then
+                isFirstDefaultRadioSelected = true
+                speedOptions[#speedOptions].radioselected = true
+            end
+        end
+
+        self.SpeedMenu = DropDownUtil:CreateDynamicMenu(self, speedOptions)
+        self.SpeedMenu:SetDefaultText("")
+        self.SpeedMenu:SetWidth(120)
+        self.SpeedMenu:SetPoint("LEFT", self.WeaponMenu, "RIGHT", 5, 0)
+        self.SpeedMenu:RegisterCallback(self.SpeedMenu.Event.OnUpdate, updateMenuAndDataProvider, self.SpeedMenu)
+
+        local instanceMenuWidth = { [0] = 460, [1] = 305, [2] = 240 }
+        local otherMenuWidth = { [0] = 150, [1] = 150, [2] = 120 }
+
+        ---@param showWeaponMenu? boolean
+        ---@param showSpeedMenu? boolean
+        function self:SetMenuShown(showWeaponMenu, showSpeedMenu)
+            local numExtraMenu = (showWeaponMenu and 1 or 0) + (showSpeedMenu and 1 or 0)
+            local instanceWidth = instanceMenuWidth[numExtraMenu]
+            local otherWidth = otherMenuWidth[numExtraMenu]
+            self.InstanceMenu:SetWidth(instanceWidth)
+            self.DifficultyMenu:SetWidth(otherWidth)
+            self.DifficultyMenu:SetPoint("LEFT", self.InstanceMenu, "RIGHT", 5, 0)
+            if showWeaponMenu then
+                self.WeaponMenu:SetWidth(otherWidth)
+                self.WeaponMenu:SetPoint("LEFT", self.DifficultyMenu, "RIGHT", 5, 0)
+            else
+                self.WeaponMenu:ClearAllPoints()
+            end
+            if showSpeedMenu then
+                self.SpeedMenu:SetWidth(otherWidth)
+                self.SpeedMenu:SetPoint("LEFT", showWeaponMenu and self.WeaponMenu or self.DifficultyMenu, "RIGHT", 5, 0)
+            else
+                self.SpeedMenu:ClearAllPoints()
+            end
+        end
+
+        ---@param option TalentBuildsMenuOptionForWeapon|TalentBuildsMenuOptionForSpeed
+        local function selectAllOptionPredicate(option)
+            return option.arg1 == "all" and DropDownUtil:IsDynamicMenuOptionShown(option)
+        end
+
+        ---@param menu WowStyle1DropdownTemplatePolyfill
+        ---@param resetToAllOption? boolean
+        local function updateMenu(menu, resetToAllOption)
+            if resetToAllOption and menu:DynamicMenuSelectOption(selectAllOptionPredicate) == 0 then
+                return
+            end
+            menu:TriggerEvent(menu.Event.OnUpdate, menu:DynamicMenuCollectSelectionOptions())
+            local function toggle()
+                menu:CloseMenu()
+                menu:OpenMenu()
+                menu:CloseMenu()
+            end
+            toggle()
+            C_Timer.After(0, toggle)
+        end
+
+        ---@param resetWeapon? boolean Defaults as `true`. Must be `false` to skip resetting the weapon filter.
+        ---@param resetRaidSpeed? boolean Defaults as `true`. Must be `false` to skip resetting the raid speed filter.
+        function self:ResetWeaponAndRaidSpeedFilters(resetWeapon, resetRaidSpeed)
+            if resetWeapon ~= false then
+                updateMenu(self.WeaponMenu, true)
+            end
+            if resetRaidSpeed ~= false then
+                updateMenu(self.SpeedMenu, true)
+            end
+            updateMenu(self.InstanceMenu)
+        end
+
+        self.CloseButton:HookScript("OnClick", function() talentbuilds:HideFrame() end)
+
+        self.ScrollBox = CreateFrame("Frame", "$parent_ScrollBox", self, "WowScrollBoxList") ---@type WowScrollBoxListPolyfill
+        self.ScrollBox:SetPoint("TOPLEFT", self.Inset, "TOPLEFT", 6, -6)
+        self.ScrollBox:SetPoint("BOTTOMRIGHT", self.Inset, "BOTTOMRIGHT", -22, -12) -- -22, 6
+
+        self.ScrollBar = CreateFrame("EventFrame", "$parent_ScrollBar", self, "MinimalScrollBar") ---@type MinimalScrollBarPolyfill
+        self.ScrollBar:SetPoint("TOPLEFT", self.ScrollBox, "TOPRIGHT", 4, -3)
+        self.ScrollBar:SetPoint("BOTTOMLEFT", self.ScrollBox, "BOTTOMRIGHT", 4, 2)
+
+        self.Inset:Hide()
+        self.Bg:SetColorTexture(0, 0, 0, 0.8)
+
+        local view = CreateScrollBoxListLinearView()
+        view:SetElementExtent(buildsButtonHeight)
+        view:SetElementInitializer("Button", function(button, build) createBuild(button, build) end)
+
+        local pad, spacing = 2, nil
+        view:SetPadding(pad, pad, pad, pad, spacing)
+        ScrollUtil.InitScrollBoxListWithScrollBar(self.ScrollBox, self.ScrollBar, view)
+
+        self.ScrollBox:SetDataProvider(dataProvider)
+
+        ---@class TalentBuildsFrameEmptyContainer : Frame
+        ---@field public TopLeftCorner Texture
+        ---@field public BottomRightCorner Texture
+
+        ---@class TalentBuildsFrameEmptyContainer
+        self.EmptyContainer = CreateFrame("Frame", nil, self)
+        self.EmptyContainer:SetSize(400, 200)
+        NineSliceUtil.ApplyUniqueCornersLayout(self.EmptyContainer, "NewPlayerTutorial")
+        self.EmptyContainer.Image = self.EmptyContainer:CreateTexture(nil, "ARTWORK")
+        self.EmptyContainer.Image:SetPoint("RIGHT", self.EmptyContainer, "LEFT", 60, 40)
+        local imageAtlas = "shop-image-bundle-mbp1"
+        local imageAtlasExists = C_Texture.GetAtlasExists(imageAtlas)
+        if imageAtlasExists then
+            self.EmptyContainer.Image:SetSize(143, 217)
+            self.EmptyContainer.Image:SetAtlas(imageAtlas)
+        end
+        self.EmptyContainer:SetPoint("TOP", self.ScrollBox, "TOP", imageAtlasExists and 50 or 0, -100)
+        self.EmptyContainer.Text = self.EmptyContainer:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge2")
+        self.EmptyContainer.Text:SetPoint("TOPLEFT", self.EmptyContainer.TopLeftCorner, "BOTTOMRIGHT", 0, 0)
+        self.EmptyContainer.Text:SetPoint("BOTTOMRIGHT", self.EmptyContainer.BottomRightCorner, "TOPLEFT", 0, 0)
+        self.EmptyContainer.Text:SetText(L.BUILDS_PROFILE_NO_DATA)
+
+        self.ScrollBox:RegisterCallback(self.ScrollBox.Event.OnUpdate, function()
+            self.EmptyContainer:SetShown(dataProvider:IsEmpty())
+        end)
+
+        ---@type WowEvent[]
+        local forceUpdateEvents = {
+            "TRAIT_CONFIG_UPDATED",
+            "TRAIT_NODE_CHANGED",
+            "TRAIT_TREE_CHANGED",
+            "TRAIT_TREE_CURRENCY_INFO_UPDATED",
+        }
+
+        local function forceUpdate()
+            self.ScrollBox:ForEachFrame(updateBuildButton)
+        end
+
+        local onChangeHandler ---@type FunctionContainer?
+
+        local function forceUpdateDelayed()
+            if onChangeHandler then
+                onChangeHandler:Cancel()
+            end
+            onChangeHandler = C_Timer.NewTimer(0.25, forceUpdate)
+        end
+
+        self:HookScript("OnShow", function()
+            forceUpdateDelayed()
+            callback:RegisterEvent(forceUpdateDelayed, unpack(forceUpdateEvents))
+        end)
+
+        self:HookScript("OnHide", function()
+            callback:UnregisterEvent(forceUpdateDelayed, unpack(forceUpdateEvents))
+            table.wipe(isBuildAndImportStringEqualCache)
+        end)
+
+    end
+
+    ---@param frameFeedback TalentBuilsFrameFeedback
+    local function onLoadFeedback(frameFeedback)
+
+        ---@class TalentBuilsFrameFeedback : Frame
+        local self = frameFeedback
+
+        self:EnableMouse(true)
+        self:SetToplevel(true)
+        self:SetSize(226, 36)
+        self:SetFlattensRenderLayers(true)
+        self:SetFrameStrata("DIALOG")
+
+        self.Text = self:CreateFontString(nil, "OVERLAY", "GameFontHighlightLeft")
+        self.Text:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -5)
+        self.Text:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -5, 5)
+        self.Text:SetJustifyH("CENTER")
+        self.Text:SetJustifyV("MIDDLE")
+
+        function self:Close()
+            self:Hide()
+        end
+
+        self:Close()
+
+        local autoCloseHandler ---@type FunctionContainer?
+
+        local function clearAutoClose()
+            if not autoCloseHandler then
+                return
+            end
+            autoCloseHandler:Cancel()
+            autoCloseHandler = nil
+        end
+
+        local function close()
+            clearAutoClose()
+            self:Close()
+        end
+
+        self.autoCloseAfterSeconds = 5
+
+        ---@param button TalentBuildsDataProviderBuildButton
+        ---@param text string
+        function self:Open(button, text)
+            self.button = button
+            self.elementData = button.elementData
+            self:SetPoint("RIGHT", button.ActionMenuToggle, "LEFT", -5, 0)
+            self.Text:SetText(text)
+            self:Show()
+            clearAutoClose()
+            autoCloseHandler = C_Timer.NewTimer(self.autoCloseAfterSeconds, close)
+        end
+
+        self:SetScript("OnUpdate", function()
+            local button = self.button
+            if not button or not button:IsVisible() then
+                close()
+                return
+            end
+            local buttonElementData = button.elementData
+            local elementData = self.elementData
+            if buttonElementData ~= elementData then
+                close()
+            end
+        end)
+
+    end
+
+    local function getFrame()
+        if frame then
+            return frame
+        end
+        frame = CreateFrame("Frame", format("%s_TalentBuildsFrame", addonName), UIParent, "ButtonFrameTemplate") ---@type TalentBuildsFrame
+        frame:Hide()
+        onLoad(frame)
+        frameFeedback = CreateFrame("Frame", nil, frame, "GlowBoxTemplate") ---@type TalentBuilsFrameFeedback
+        frameFeedback:Hide()
+        onLoadFeedback(frameFeedback)
+        return frame
+    end
+
+    function talentbuilds:IsFrameShown()
+        return frame and frame:IsShown()
+    end
+
+    ---@param option TalentBuildsMenuOptionForInstance
+    local function defaultInstanceMenuSelection(option)
+        local instanceType = option.arg1
+        local instanceID = option.arg2
+        local encounterID = option.arg3
+        local dungeon, difficultyID, locationType, activityID = util:GetPlayerClosestActivityStatus()
+        if instanceType ~= locationType then
+            return
+        end
+        if dungeon and dungeon.id == instanceID then
+            return true
+        end
+        return instanceID == "all" or encounterID == "all"
+    end
+
+    ---@param option TalentBuildsMenuOptionForDifficulty
+    ---@type DropDownUtilDynamicMenuSelectOptionOrPredicate
+    local function defaultDifficultyMenuSelection(option)
+        local difficulty = option.arg1
+        local difficultyIDs = option.arg2
+        local dungeon, difficultyID, locationType, activityID = util:GetPlayerClosestActivityStatus()
+        if difficultyIDs then
+            if difficultyID then
+                return util:TableContains(difficultyIDs, difficultyID)
+            end
+            return
+        end
+    end
+
+    ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
+        if not frame then
+            frame = getFrame()
+        end
+        if not instanceMenuSelection and not difficultyMenuSelection then
+            instanceMenuSelection = defaultInstanceMenuSelection
+            difficultyMenuSelection = defaultDifficultyMenuSelection
+        end
+        if instanceMenuSelection then
+            frame.InstanceMenu:DynamicMenuSelectOption(instanceMenuSelection)
+        end
+        if difficultyMenuSelection then
+            frame.DifficultyMenu:DynamicMenuSelectOption(difficultyMenuSelection)
+        end
+        frame:Show()
+    end
+
+    function talentbuilds:HideFrame()
+        if frame then
+            frame:Hide()
+        end
+    end
+
+    ---@param instanceMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    ---@param difficultyMenuSelection? DropDownUtilDynamicMenuSelectOptionOrPredicate
+    function talentbuilds:ToggleFrame(instanceMenuSelection, difficultyMenuSelection)
+        if self:IsFrameShown() then
+            self:HideFrame()
+        else
+            self:ShowFrame(instanceMenuSelection, difficultyMenuSelection)
+        end
+    end
+
+    function talentbuilds:HasBuilds()
+        return compiledPlayerProfile and #compiledPlayerProfile.builds > 0
+    end
+
+    ---@param journalInstanceID? number
+    ---@param journalEncounterID? number
+    ---@param journalDifficultyID? number
+    ---@return boolean?
+    function talentbuilds:HasBuildsForEncounterJournal(journalInstanceID, journalEncounterID, journalDifficultyID)
+        if not talentbuilds:HasBuilds() then
+            return
+        end
+        for _, raid in ipairs(relevantRaids) do
+            local encounters = relevantEncounters[raid.id]
+            if encounters then
+                for _, encounterID in ipairs(encounters) do
+                    local _journalEncounterID = encounterIDToJournalEncounterID[encounterID]
+                    if _journalEncounterID then
+                        if _journalEncounterID == journalEncounterID then
+                            return true
+                        end
+                        local _, _, _, _, _, _journalInstanceID = EJ_GetEncounterInfo(_journalEncounterID)
+                        if _journalInstanceID == journalInstanceID then
+                            return true
+                        end
+                    end
+                end
+            end
+        end
+        local _, mapID ---@type _, number?
+        if journalInstanceID then
+            _, _, _, _, _, _, _, _, _, mapID = EJ_GetInstanceInfo(journalInstanceID)
+        end
+        if not mapID then
+            return false
+        end
+        for _, dungeon in ipairs(relevantDungeons) do
+            if util:TableContains(dungeon.instance_map_ids, mapID) then
+                return true
+            end
+        end
+        return false
+    end
+
+    ---@param journalInstanceID? number
+    ---@param journalEncounterID? number
+    ---@param journalDifficultyID? number
+    function talentbuilds:ToggleFrameFromEncounterJournal(journalInstanceID, journalEncounterID, journalDifficultyID)
+        local _, mapID, isRaid ---@type _, number?, boolean?
+        if journalInstanceID then
+            _, _, _, _, _, _, _, _, _, mapID, _, isRaid = EJ_GetInstanceInfo(journalInstanceID)
+        end
+        talentbuilds:ToggleFrame(
+            ---@param option TalentBuildsMenuOptionForInstance
+            function(option)
+                local instanceType = option.arg1
+                if isRaid == true and instanceType == "raid" then
+                    local instanceID = option.arg2
+                    local encounterID = option.arg3
+                    if not journalEncounterID and encounterID == "all" then
+                        if not mapID then
+                            return false
+                        end
+                        local raid = util:GetRaidByID(instanceID)
+                        if not raid then
+                            return false
+                        end
+                        if util:TableContains(raid.instance_map_ids, mapID) then
+                            return true
+                        end
+                        return false
+                    end
+                    local _journalEncounterID = encounterIDToJournalEncounterID[encounterID]
+                    if _journalEncounterID and _journalEncounterID == journalEncounterID then
+                        return true
+                    end
+                    return false
+                elseif isRaid == false and instanceType == "dungeon" then
+                    local instanceID = option.arg2
+                    if not journalEncounterID and instanceID == "all" then
+                        return true
+                    end
+                    if instanceID == "all" or not mapID then
+                        return false
+                    end
+                    local dungeon = util:GetDungeonByID(instanceID)
+                    if not dungeon then
+                        return false
+                    end
+                    if util:TableContains(dungeon.instance_map_ids, mapID) then
+                        return true
+                    end
+                    return false
+                end
+            end,
+            ---@param option TalentBuildsMenuOptionForDifficulty
+            function(option)
+                if not journalDifficultyID then
+                    return false
+                end
+                local difficultyIDs = option.arg2
+                if not difficultyIDs then
+                    return false
+                end
+                return util:TableContains(difficultyIDs, journalDifficultyID)
+            end
+        )
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    ---@param importString string
+    ---@return boolean
+    function talentbuilds:IsBuildAndImportStringEqual(build, importString)
+        local key = format("%s %s", importString, build.importString)
+        local cache = isBuildAndImportStringEqualCache[key]
+        if cache ~= nil then
+            return cache
+        end
+        cache = LibClassTalentsImportExport.AreImportStringsEqual(nil, importString, nil, build.importString)
+        isBuildAndImportStringEqualCache[key] = cache
+        return cache
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    ---@param configID? number Defaults to active config.
+    function talentbuilds:IsBuildActiveAsLoadout(build, configID)
+        configID = configID or C_ClassTalents.GetActiveConfigID()
+        if not configID then
+            return
+        end
+        if C_Traits.ConfigHasStagedChanges(configID) then
+            return
+        end
+        local activeConfigID = LibClassTalentsImportExport:GetActiveLoadoutConfigID()
+        if activeConfigID and activeConfigID ~= configID and C_Traits.ConfigHasStagedChanges(activeConfigID) then
+            return
+        end
+        local importString = LibClassTalentsImportExport.ExportLoadout(configID)
+        if not importString then
+            return
+        end
+        return talentbuilds:IsBuildAndImportStringEqual(build, importString)
+    end
+
+    ---@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts, string?>
+    local createLoadoutTranslations = {
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        -- [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorCreatingNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToChangeTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+    }
+
+    ---@param loadoutName string
+    ---@param usesSharedActionBars? boolean
+    ---@param build TalentBuildsCompiledProfileBuild
+    ---@param callback? fun(success: boolean, resultText?: string): boolean?
+    function talentbuilds:LoadBuild(loadoutName, usesSharedActionBars, build, callback)
+        ---@param success boolean
+        ---@param resultText? string
+        local function respond(success, resultText)
+            if resultText then
+                resultText = createLoadoutTranslations[resultText] or resultText
+            end
+            if callback then
+                if callback(success, resultText) then
+                    return
+                end
+            end
+            if resultText then
+                ns.PrintWithAddonPrefix(resultText)
+            end
+        end
+
+        -- Undo any unsaved alterations in the active config.
+        -- This state may block us from changing builds, and the user may end up in this state by accidentally cancelling a build swap.
+        -- The next time they re-try to change their loadout, this should unstuck them and let the code below proceed.
+        local activeConfigID = C_ClassTalents.GetActiveConfigID()
+        if activeConfigID and C_Traits.ConfigHasStagedChanges(activeConfigID) then
+            C_Traits.RollbackConfig(activeConfigID)
+        end
+
+        -- Find the real active loadout, and if it matches the desired build, ensure to swap to it in case we're in some weird state.
+        local activeLoadout = LibClassTalentsImportExport.GetActiveLoadout()
+        if activeLoadout and talentbuilds:IsBuildActiveAsLoadout(build, activeLoadout.ID) then
+            LibClassTalentsImportExport.PersistentSwitchToLoadout(activeLoadout)
+            respond(true, L.BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE)
+            return
+        end
+
+        -- Find any loadout that matches the desired build, then swap to it.
+        -- There is no reason to create additional loadouts that are identical.
+        -- This is nice because it ensures to also load their specific setup, which may use separate action bars if they configured it that way.
+        local loadouts = LibClassTalentsImportExport.GetLoadouts()
+        for _, loadout in ipairs(loadouts) do
+            if talentbuilds:IsBuildActiveAsLoadout(build, loadout.ID) then
+                LibClassTalentsImportExport.PersistentSwitchToLoadout(loadout)
+                respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT, loadout.name))
+                return
+            end
+        end
+
+        -- If the loadout exists by our name, then we ensure to clean it up and import the new desired build.
+        local existingLoadout = util:TableFind(loadouts, function(loadout) return loadout.name == loadoutName end)
+        if existingLoadout then
+
+            if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadout.ID) then
+                LibClassTalentsImportExport.PersistentSwitchToLoadout(existingLoadout)
+                respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_LOADOUT, existingLoadout.name))
+                return
+            end
+
+            -- TODO: needs additional scaffolding to edit an existing loadout without the state getting stuck in "apply changes" mode (commenting out so the regular delete+create routine completes the import)
+            -- if activeLoadout and activeLoadout.ID == existingLoadout.ID then
+            --     local accepted, errorText = LibClassTalentsImportExport.EditActiveLoadoutTalents(
+            --         build.importString,
+            --         function(success, commiting)
+            --             respond(success, success and format(L.BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT, existingLoadout.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
+            --         end
+            --     )
+            --     if not accepted then
+            --         respond(false, errorText)
+            --     end
+            --     return
+            -- end
+
+            if not LibClassTalentsImportExport.DeleteLoadout(existingLoadout) then
+                respond(false, format(L.BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT, existingLoadout.name))
+                return
+            end
+
+            -- TODO: this should work, but it doesn't, adding a comment and for now forcing the build to use the shared action bars for the re-usable loadout
+            -- if existingLoadout.usesSharedActionBars ~= nil then
+            --     usesSharedActionBars = existingLoadout.usesSharedActionBars
+            -- end
+
+        end
+
+        -- This will import a new loadout with the desired build, then switch to it.
+        local function createLoadout()
+            local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
+                build.importString,
+                loadoutName,
+                usesSharedActionBars,
+                function(info, success)
+                    LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
+                    respond(success, success and format(L.BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
+                end
+            )
+            if not accepted then
+                respond(false, errorText)
+            end
+        end
+
+        -- We can create the loadout right away, or if we have to wait for the delete event, we do so first.
+        if not existingLoadout then
+            createLoadout()
+        else
+            util:RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_DELETED", createLoadout)
+        end
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    function talentbuilds:ExportBuild(build)
+        util:ShowCopyRaiderIOPopup(L.BUILDS_PROFILE_COPY_LOADOUT_POPUP_TITLE, build.importString)
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    function talentbuilds:CopyBuildLink(build)
+        util:ShowCopyRaiderIOTalentLoadoutPopup(L.BUILDS_PROFILE_COPY_LOADOUT_LINK_POPUP_TITLE, build.importString)
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    function talentbuilds:CopyCompareLink(build)
+        local importString = LibClassTalentsImportExport.ExportLoadout()
+        if not importString then
+            return
+        end
+        util:ShowCopyRaiderIOTalentLoadoutPopup(L.BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE, importString, build.importString)
+    end
+
+    local shortcutInit = false
+    local shortcutTalentFrameButton ---@type UIPanelButtonTemplatePolyfill?
+    local shortcutEncounterJournalButton ---@type UIPanelButtonTemplatePolyfill?
+
+    local function shortcutsInitialize()
+        if not config:Get("showTalentBuildsButtonInTalentFrame") and not config:Get("showTalentBuildsButtonInJournalFrame") then
+            return
+        end
+        if shortcutInit then
+            return
+        end
+        shortcutInit = true
+        local buttonWidth, buttonHeight = 160, 25
+        local buttonIconMarkup = ns.CUSTOM_ICONS.icons.RAIDERIO_COLOR_CIRCLE("TextureMarkup", 16, 16) ---@type string
+        local buttonText = format("%s %s", buttonIconMarkup, L.BUILDS_TITLE_FULL)
+        local buttonTextPadding = 10
+        ---@param name string
+        ---@param parent Frame
+        local function createButton(name, parent)
+            local button = CreateFrame("Button", format("%s_TalentBuilds%sShortcut", addonName, name), parent, "UIPanelButtonTemplate") ---@type UIPanelButtonTemplatePolyfill
+            button:SetSize(buttonWidth, buttonHeight)
+            button:SetText(buttonText)
+            local width = max(buttonWidth, button:GetTextWidth() + buttonTextPadding * 2)
+            local height = max(buttonHeight, button:GetTextHeight() + buttonTextPadding)
+            button:SetSize(width, height)
+            button:EnableMouse(true)
+            button:RegisterForClicks("LeftButtonUp")
+            button:SetScript("OnClick", function() talentbuilds:ToggleFrame() end)
+            button.Left:SetDesaturated(true)
+            button.Middle:SetDesaturated(true)
+            button.Right:SetDesaturated(true)
+            button:GetHighlightTexture():SetDesaturated(true)
+            button:GetFontString():SetTextColor(1, 1, 1)
+            return button
+        end
+        EventUtil.ContinueOnAddOnLoaded("Blizzard_PlayerSpells", function()
+            local loadoutDropdown = PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame and PlayerSpellsFrame.TalentsFrame.LoadSystem and PlayerSpellsFrame.TalentsFrame.LoadSystem.Dropdown ---@type Button?
+            if not loadoutDropdown then
+                return
+            end
+            shortcutTalentFrameButton = createButton("TalentFrame", loadoutDropdown)
+            shortcutTalentFrameButton:SetPoint("BOTTOMLEFT", loadoutDropdown, "TOPLEFT", 0, 16)
+            shortcutTalentFrameButton:SetScale(0.9)
+        end)
+        EventUtil.ContinueOnAddOnLoaded("Blizzard_EncounterJournal", function()
+            local difficultyDropdown = EncounterJournalEncounterFrameInfoDifficulty ---@type Button?
+            if not difficultyDropdown then
+                return
+            end
+            shortcutEncounterJournalButton = createButton("EncounterJournal", difficultyDropdown)
+            shortcutEncounterJournalButton:SetPoint("BOTTOMRIGHT", difficultyDropdown, "TOPRIGHT", 0, 1)
+            shortcutEncounterJournalButton:SetScale(0.9)
+            ---@return number?, number?, number?
+            local function getJournalInfo()
+                return EncounterJournal and EncounterJournal.instanceID, EncounterJournal and EncounterJournal.encounterID, EJ_GetDifficulty()
+            end
+            shortcutEncounterJournalButton:SetScript("OnClick", function()
+                talentbuilds:ToggleFrameFromEncounterJournal(getJournalInfo())
+            end)
+            local function update()
+                if not config:Get("showTalentBuildsButtonInJournalFrame") then
+                    return
+                end
+                local hasBuilds = talentbuilds:HasBuildsForEncounterJournal(getJournalInfo())
+                shortcutEncounterJournalButton:SetShown(hasBuilds)
+            end
+            hooksecurefunc("EncounterJournal_DisplayEncounter", update)
+            hooksecurefunc("EncounterJournal_DisplayInstance", update)
+        end)
+    end
+
+    function talentbuilds:ShowShortcuts()
+        shortcutsInitialize()
+        self:UpdateShortcutsVisibility()
+    end
+
+    function talentbuilds:HideShortcuts()
+        if shortcutTalentFrameButton then
+            shortcutTalentFrameButton:Hide()
+        end
+        if shortcutEncounterJournalButton then
+            shortcutEncounterJournalButton:Hide()
+        end
+    end
+
+    function talentbuilds:UpdateShortcutsVisibility()
+        if shortcutTalentFrameButton then
+            shortcutTalentFrameButton:SetShown(config:Get("showTalentBuildsButtonInTalentFrame"))
+        end
+        if shortcutEncounterJournalButton then
+            shortcutEncounterJournalButton:SetShown(config:Get("showTalentBuildsButtonInJournalFrame"))
+        end
+    end
+
+    function talentbuilds:CanLoad()
+        return config:IsEnabled() and LibClassTalentsImportExport and LibClassTalentsImportExport.IsCompatible()
+    end
+
+    local function OnPlayerSpecializationChange()
+        if frame then
+            frame:ResetWeaponAndRaidSpeedFilters()
+        end
+        compileTalentBuilds()
+        updateDataProvider()
+    end
+
+    local onChangeHandler ---@type FunctionContainer?
+
+    local function OnPlayerSpecializationChangeDelayed()
+        if onChangeHandler then
+            onChangeHandler:Cancel()
+        end
+        onChangeHandler = C_Timer.NewTimer(0.2, OnPlayerSpecializationChange)
+    end
+
+    local SpecChangeEvents = {
+        "ACTIVE_PLAYER_SPECIALIZATION_CHANGED",
+        "ACTIVE_TALENT_GROUP_CHANGED",
+        "PLAYER_TALENT_UPDATE",
+    }
+
+    local function OnSettingsChanged()
+        if not config:IsEnabled() then
+            return
+        end
+        talentbuilds:UpdateShortcutsVisibility()
+    end
+
+    function talentbuilds:OnLoad()
+        self:Enable()
+    end
+
+    function talentbuilds:OnEnable()
+        OnPlayerSpecializationChangeDelayed()
+        callback:RegisterUnitEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED", "player")
+        callback:RegisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
+        callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
+        self:ShowShortcuts()
+    end
+
+    function talentbuilds:OnDisable()
+        callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED")
+        callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
+        callback:UnregisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
+        self:HideShortcuts()
+        self:HideFrame()
+    end
+
+end
+
 -- settings.lua
--- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog
+-- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog, talentbuilds
 do
 
     ---@class SettingsModule : Module
@@ -13841,6 +16553,7 @@ do
     local search = ns:GetModule("Search") ---@type SearchModule
     local rwf = ns:GetModule("RaceWorldFirst", true) ---@type RaceWorldFirstModule?
     local combatlog = ns:GetModule("CombatLog") ---@type CombatLogModule
+    local talentbuilds = ns:GetModule("TalentBuilds") ---@type TalentBuildsModule
 
     ---@type InternalStaticPopupDialog
     local RELOAD_POPUP = {
@@ -14624,11 +17337,11 @@ do
                     break
                 end
             end
-            ---@type WowStyle1DropdownTemplateRadioIsSelectedPolyfill
+            ---@param index number
             local function isSelected(index)
                 return currentIndex == index
             end
-            ---@type WowStyle1DropdownTemplateRadioSetSelectedPolyfill
+            ---@param index number
             local function setSelected(index)
                 local option = self.options[index]
                 currentIndex = index
@@ -15167,6 +17880,13 @@ do
                 end,
             })
 
+            if IS_RETAIL then
+                configOptions:CreatePadding()
+                configOptions:CreateHeadline(L.BUILDS_TITLE_FULL)
+                configOptions:CreateOptionToggle(L.BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON, L.BUILDS_PROFILE_SHOW_TALENTFRAME_BUTTON_DESC, "showTalentBuildsButtonInTalentFrame")
+                configOptions:CreateOptionToggle(L.BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON, L.BUILDS_PROFILE_SHOW_JOURNALFRAME_BUTTON_DESC, "showTalentBuildsButtonInJournalFrame")
+            end
+
             ---@alias RaiderIODBModuleRegion "US"|"EU"|"KR"|"CN"|"TW"
             ---@alias RaiderIODBModuleType "M"|"R"|"F"
 
@@ -15231,7 +17951,7 @@ do
             reset:SetScript("OnClick", Reset_OnClick)
 
             -- adjust frame height dynamically
-            local height = -30
+            local height = -20
             local lastWidget = configOptions.lastWidget
             repeat
                 if not lastWidget then
@@ -15309,7 +18029,7 @@ do
         panel.name = addonName
         panel:Hide()
 
-        local button = CreateFrame("Button", "$parentButton", panel, "UIPanelButtonTemplate")
+        local button = CreateFrame("Button", "$parentButton", panel, "UIPanelButtonTemplate") ---@type UIPanelButtonTemplatePolyfill
         button:SetText(L.OPEN_CONFIG)
         button:SetWidth(button:GetTextWidth() + 18)
         button:SetPoint("TOPLEFT", 16, -16)
@@ -15337,16 +18057,19 @@ do
 
             if type(text) == "string" then
 
+                -- lock
                 if text:find("^%s*[Ll][Oo][Cc][Kk]") then
                     profile:ToggleDrag()
                     return
                 end
 
+                -- debug
                 if text:find("^%s*[Dd][Ee][Bb][Uu][Gg]") then
                     util:ShowStaticPopupDialog(DEBUG_POPUP)
                     return
                 end
 
+                -- rwf
                 if rwf and text:find("^%s*[Rr][Ww][Ff]") then
                     if rwf:IsLoaded() and config:Get("rwfMode") then
                         rwf:ToggleFrame()
@@ -15356,11 +18079,13 @@ do
                     return
                 end
 
+                -- group
                 if text:find("^%s*[Gg][Rr][Oo][Uu][Pp]") then
                     json:OpenCopyDialog()
                     return
                 end
 
+                -- search
                 local searchQuery = text:match("^%s*[Ss][Ee][Aa][Rr][Cc][Hh]%s*(.-)$")
                 if searchQuery then
                     if strlenutf8(searchQuery) > 0 then
@@ -15372,9 +18097,37 @@ do
                     return
                 end
 
+                -- talent / build
+                if text:find("^%s*[Tt][Aa][Ll][Ee][Nn][Tt]") or text:find("^%s*[Bb][Uu][Ii][Ll][Dd]") then
+                    if talentbuilds:IsEnabled() then
+                        talentbuilds:ToggleFrame()
+                    end
+                    return
+                end
+
+                -- ? / help
+                if text:find("^%s*%?") or text:find("^%s*[Hh][Ee][Ll][Pp]") then
+                    local debugMode = config:Get("debugMode")
+                    ns.PrintWithAddonPrefix("Available commands:")
+                    ns.Print("  |cffFFFFFF/rio|r           Toggle Settings")
+                    ns.Print("  |cffFFFFFF/rio lock|r      Toggle Profile anchor lock")
+                    ns.Print("  |cffFFFFFF/rio talents|r   Toggle Talent Builds frame")
+                    if debugMode then
+                        ns.Print("  |cffFFFFFF/rio search [name[ realm[ region]]]|r")
+                    else
+                        ns.Print("  |cffFFFFFF/rio search [name[ realm]]|r")
+                    end
+                        ns.Print("  |cffFFFFFF/rio group|r     Export Group JSON data")
+                    if debugMode then
+                        ns.Print("  |cffFFFFFF/rio rwf|r       Toggle RWF mode")
+                        ns.Print("  |cffFFFFFF/rio debug|r     Toggle Debug mode")
+                    end
+                    return
+                end
+
             end
 
-            -- resume regular routine
+            -- fallback to toggle settings
             if not InCombatLockdown() then
                 settings:Toggle()
             end
@@ -15428,123 +18181,8 @@ do
 
 end
 
--- serverlog.lua (requires debug mode)
--- dependencies: module, callback, config, util
-do
-
-    ---@class ServerLogModule : Module
-    local serverlog = ns:NewModule("ServerLog") ---@type ServerLogModule
-    local callback = ns:GetModule("Callback") ---@type CallbackModule
-    local config = ns:GetModule("Config") ---@type ConfigModule
-    local util = ns:GetModule("Util") ---@type UtilModule
-
-    local TRACKING_EVENTS = {
-        -- "COMBAT_LOG_EVENT_UNFILTERED", -- TODO: This didn't error on beta, but started to upon 12.0 release
-        "UNIT_AURA",
-        "UNIT_FLAGS",
-        "UNIT_MODEL_CHANGED",
-        "UNIT_NAME_UPDATE",
-        "UNIT_PHASE",
-        "UNIT_SPELLCAST_CHANNEL_START",
-        "UNIT_SPELLCAST_CHANNEL_STOP",
-        "UNIT_SPELLCAST_START",
-        "UNIT_SPELLCAST_STOP",
-        "UNIT_TARGET",
-    }
-
-    local COMBATLOG_OBJECT_AFFILIATION_MINE = _G.COMBATLOG_OBJECT_AFFILIATION_MINE or 0x00000001 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = _G.COMBATLOG_OBJECT_AFFILIATION_OUTSIDER or 0x00000008 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER or 0x00000100 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_TYPE_PLAYER = _G.COMBATLOG_OBJECT_TYPE_PLAYER or 0x00000400 ---@diagnostic disable-line: undefined-field
-
-    local MINE = bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_CONTROL_PLAYER)
-    local OTHER_PLAYER = bor(COMBATLOG_OBJECT_AFFILIATION_OUTSIDER, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PLAYER)
-
-    local CHECKED = {}
-
-    ---@return boolean @`true` if the provided guid is another player (context assumes we do check the flags for this information, if flags is nil we only care that guid exists).
-    local function IsOtherPlayerGUID(guid, flags)
-        if not guid then
-            return false
-        end
-        if flags ~= nil and (band(flags, MINE) == MINE or band(flags, OTHER_PLAYER) ~= OTHER_PLAYER) then
-            return false
-        end
-        return true
-    end
-
-    ---@return nil @The provided guid is checked if it's a player, and if the serverId is unknown, if that's the case we will log it into the SV and map it to our known regionId.
-    ---@param guid? string
-    local function InspectPlayerGUID(guid)
-        if issecretvalue(guid) or not guid then
-            return
-        end
-        local guidType, serverId = strsplit("-", guid) ---@type string, string|number
-        if guidType ~= "Player" then
-            return
-        end
-        if CHECKED[serverId] then
-            return
-        end
-        CHECKED[serverId] = true
-        serverId = tonumber(serverId) or 0
-        if serverId < 1 then
-            return
-        end
-        local ltd, regionId = util:GetRegionForServerId(serverId)
-        if ltd or regionId then
-            return
-        end
-        local cache = _G.RaiderIO_MissingServers[serverId]
-        if cache ~= nil then
-            return
-        end
-        _G.RaiderIO_MissingServers[serverId] = ns.PLAYER_REGION_ID
-    end
-
-    local function OnEvent(event, ...)
-        if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-            local _, _, _, sourceGUID, _, sourceFlags, _, destGUID, _, destFlags = ...
-            if IsOtherPlayerGUID(sourceGUID, sourceFlags) then
-                InspectPlayerGUID(sourceGUID)
-            end
-            if IsOtherPlayerGUID(destGUID, destFlags) then
-                InspectPlayerGUID(destGUID)
-            end
-        else
-            local unit = ...
-            if issecretvalue(unit) or not unit or not UnitIsPlayer(unit) then
-                return
-            end
-            local isPlayer = UnitIsUnit(unit, "player")
-            if issecretvalue(isPlayer) or isPlayer then
-                return
-            end
-            InspectPlayerGUID(UnitGUID(unit))
-        end
-    end
-
-    function serverlog:CanLoad()
-        return config:IsEnabled() and config:Get("debugMode") -- TODO: do not load this module by default (it's not yet tested well enough) but we do load it if debug mode is enabled
-    end
-
-    function serverlog:OnLoad()
-        self:Enable()
-        InspectPlayerGUID(UnitGUID("player")) -- in case we are on a missing server we will ensure we log it with this call
-    end
-
-    function serverlog:OnEnable()
-        callback:RegisterEvent(OnEvent, unpack(TRACKING_EVENTS))
-    end
-
-    function serverlog:OnDisable()
-        callback:UnregisterEvent(OnEvent, unpack(TRACKING_EVENTS))
-    end
-
-end
-
 -- shortcuts.lua
--- dependencies: module, callback, config, util, profile, search, settings, LibDataBroker + LibDBIcon
+-- dependencies: module, callback, config, util, profile, search, settings, talentbuilds, LibClassTalentsImportExport + LibDataBroker + LibDBIcon
 do
 
     ---@class ShortcutsModule : Module
@@ -15555,18 +18193,55 @@ do
     local profile = ns:GetModule("Profile") ---@type ProfileModule
     local search = ns:GetModule("Search") ---@type SearchModule
     local settings = ns:GetModule("Settings") ---@type SettingsModule
+    local talentbuilds = ns:GetModule("TalentBuilds", true) ---@type TalentBuildsModule?
 
-    local LDB = LibStub("LibDataBroker-1.1", true)
-    local LDBI = LibStub("LibDBIcon-1.0", true)
-    local anchorFrame ---@type Frame
+    ---@type LibClassTalentsImportExport-1.0
+    local LibClassTalentsImportExport = LibStub and LibStub:GetLibrary("LibClassTalentsImportExport-1.0", true)
 
-    local TooltipHelpText = format(
+    ---@type LibDataBroker-1.1
+    local LibDataBroker = LibStub("LibDataBroker-1.1", true)
+
+    ---@type LibDBIcon-1.0
+    local LibDBIcon = LibStub("LibDBIcon-1.0", true)
+
+    ---@type Frame
+    local anchorFrame
+
+    local TooltipHelpTextMinimap = format(
+        "%s%s\n%s%s",
+        ns.MARKUP_ICONS.LeftButton.markupPadRight or format("|cffffff55<%s>|r ", L.MINIMAP_SHORTCUT_HELP_LEFT_CLICK),
+        L.MINIMAP_SHORTCUT_HELP_OPEN_MENU,
+        ns.MARKUP_ICONS.RightButton.markupPadRight or format("|cffffff55<%s>|r ", L.MINIMAP_SHORTCUT_HELP_RIGHT_CLICK),
+        L.MINIMAP_SHORTCUT_HELP_SETTINGS
+    )
+
+    local TooltipHelpTextCompartment = format(
         "%s%s\n%s%s",
         ns.MARKUP_ICONS.LeftButton.markupPadRight or format("|cffffff55<%s>|r ", L.MINIMAP_SHORTCUT_HELP_LEFT_CLICK),
         L.MINIMAP_SHORTCUT_HELP_SEARCH,
         ns.MARKUP_ICONS.RightButton.markupPadRight or format("|cffffff55<%s>|r ", L.MINIMAP_SHORTCUT_HELP_RIGHT_CLICK),
         L.MINIMAP_SHORTCUT_HELP_SETTINGS
     )
+
+    ---@return string?
+    local function GetCurrentSpecIcon()
+        local _, _, icon = util:GetSpecialization()
+        if not icon then
+            return
+        end
+        local padRight = util:GetTextPaddingTexture(5)
+        return format("|T%s:14:14|t%s", icon, padRight)
+    end
+
+    ---@return string?
+    local function GetCurrentSpecAndClassName()
+        local _, specName = util:GetSpecialization()
+        local className = UnitClass("player")
+        if specName and className then
+            return format("%s %s", specName, className)
+        end
+        return specName or className
+    end
 
     ---@return string? name, string? realm
     local function GetSearchInfo()
@@ -15580,6 +18255,51 @@ do
         return name, realm
     end
 
+    local function ToggleSearchFrame()
+        if search:IsShown() then
+            search:Hide()
+            return
+        end
+        search:Show()
+        if not search:SearchHasProfile() then
+            search:SearchAndShowProfile(ns.PLAYER_REGION, ns.PLAYER_REALM, ns.PLAYER_NAME)
+        end
+        local name, realm = GetSearchInfo()
+        if name and realm then
+            search:SearchAndShowProfile(ns.PLAYER_REGION, realm, name)
+        end
+    end
+
+    local function ToggleBuildsFrame()
+        if not talentbuilds or not talentbuilds:IsEnabled() then
+            return
+        end
+        talentbuilds:ToggleFrame()
+    end
+
+    local function AreBuildsAvailable()
+        return talentbuilds and talentbuilds:IsEnabled() and talentbuilds:HasBuilds() and true or false
+    end
+
+    local function ShowCopyActiveLoadout()
+        local importString = LibClassTalentsImportExport and LibClassTalentsImportExport.ExportLoadout()
+        if not importString then
+            return
+        end
+        local title = GetCurrentSpecAndClassName() or L.BUILDS_PROFILE_COPY_LOADOUT_LINK_POPUP_TITLE
+        local icon = GetCurrentSpecIcon()
+        title = icon and format("%s%s", icon, title) or title
+        util:ShowCopyRaiderIOTalentLoadoutPopup(title, importString)
+    end
+
+    ---@param frame Frame
+    ---@return boolean
+    local function IsFrameMinimapButton(frame)
+        local parent = frame:GetParent()
+        local parentName = parent and parent:GetName()
+        return parentName and parentName:find("Minimap") and true or false
+    end
+
     function shortcuts:GetMinimapIconDB()
         return config:Get("minimapIcon") ---@type MinimapIconDB
     end
@@ -15587,7 +18307,11 @@ do
     ---@param frame Frame
     function shortcuts:OnButtonEnter(frame)
         GameTooltip:SetOwner(frame, "ANCHOR_TOPRIGHT", -frame:GetWidth(), 0)
-        GameTooltip:AddLine(TooltipHelpText)
+        if IsFrameMinimapButton(frame) then
+            GameTooltip:AddLine(TooltipHelpTextMinimap)
+        else
+            GameTooltip:AddLine(TooltipHelpTextCompartment)
+        end
         GameTooltip:Show()
         if profile:IsProfileShown() then
             return
@@ -15614,29 +18338,52 @@ do
             settings:Toggle()
             return
         end
-        if search:IsShown() then
-            search:Hide()
-        else
-            search:Show()
-            if not search:SearchHasProfile() then
-                search:SearchAndShowProfile(ns.PLAYER_REGION, ns.PLAYER_REALM, ns.PLAYER_NAME)
+
+        if IsFrameMinimapButton(frame) then
+            if not self.DynamicMenu then
+                self.DynamicMenu = DropDownUtil:CreateDynamicMenu(frame, {
+                    {
+                        text = L.MINIMAP_SHORTCUT_HELP_SEARCH,
+                        func = ToggleSearchFrame,
+                    },
+                    {
+                        separator = true,
+                    },
+                    {
+                        icon = GetCurrentSpecIcon,
+                        text = GetCurrentSpecAndClassName,
+                        show = function() return util:IsTalentUIAvailable() or GetCurrentSpecAndClassName() or GetCurrentSpecIcon() end,
+                        unclickable = true,
+                    },
+                    {
+                        text = L.MINIMAP_SHORTCUT_MENU_BUILDS,
+                        show = AreBuildsAvailable,
+                        func = ToggleBuildsFrame,
+                    },
+                    {
+                        text = L.MINIMAP_SHORTCUT_MENU_COPY_BUILD,
+                        show = function() return LibClassTalentsImportExport and LibClassTalentsImportExport.IsCompatible() end,
+                        func = ShowCopyActiveLoadout,
+                    },
+                })
             end
-            local name, realm = GetSearchInfo()
-            if name and realm then
-                search:SearchAndShowProfile(ns.PLAYER_REGION, realm, name)
-            end
+            DropDownUtil:ToggleDynamicMenu(self.DynamicMenu)
+            return
         end
+
+        ToggleSearchFrame()
+
         if frame:IsVisible() then
             self:OnButtonEnter(frame)
         end
     end
 
     function shortcuts:InitializeDataBroker()
-        if not LDB or self.dataBroker then
+        if not LibDataBroker or self.dataBroker then
             return
         end
-        self.dataBroker = LDB:NewDataObject(addonName, {
-            text = "Raider.IO",
+        self.dataBroker = LibDataBroker:NewDataObject(addonName, {
+            text = L.RAIDERIO,
             type = "launcher",
             icon = "Interface\\AddOns\\RaiderIO\\icons\\logo",
             OnEnter = function(...) self:OnButtonEnter(...) end,
@@ -15646,39 +18393,41 @@ do
     end
 
     function shortcuts:InitializeDBIcon()
-        if not LDBI or self.dbIcon or not self.dataBroker then
+        if not LibDBIcon or self.dbIcon or not self.dataBroker then
             return
         end
         local db = self:GetMinimapIconDB()
         config:Set("minimapIcon", db) -- force save the initial settings in the SV file
-        LDBI:Register(addonName, self.dataBroker, db)
-        self.dbIcon = LDBI:IsRegistered(addonName)
+        LibDBIcon:Register(addonName, self.dataBroker, db)
+        self.dbIcon = LibDBIcon:IsRegistered(addonName)
     end
 
     function shortcuts:ShowIcon()
+        if not LibDBIcon or not self.dbIcon then
+            return
+        end
         local db = self:GetMinimapIconDB()
-        if self.dbIcon then
-            if db.showInCompartment then
-                LDBI:AddButtonToCompartment(addonName)
-            end
-            if not db.hide then
-                LDBI:Show(addonName)
-            end
-            if db.showInCompartment or not db.hide then
-                LDBI:Refresh(addonName, db)
-            end
+        if db.showInCompartment then
+            LibDBIcon:AddButtonToCompartment(addonName)
+        end
+        if not db.hide then
+            LibDBIcon:Show(addonName)
+        end
+        if db.showInCompartment or not db.hide then
+            LibDBIcon:Refresh(addonName, db)
         end
     end
 
     function shortcuts:HideIcon()
+        if not LibDBIcon or not self.dbIcon then
+            return
+        end
         local db = self:GetMinimapIconDB()
-        if self.dbIcon then
-            if not db.showInCompartment then
-                LDBI:RemoveButtonFromCompartment(addonName)
-            end
-            if db.hide then
-                LDBI:Hide(addonName)
-            end
+        if not db.showInCompartment then
+            LibDBIcon:RemoveButtonFromCompartment(addonName)
+        end
+        if db.hide then
+            LibDBIcon:Hide(addonName)
         end
     end
 
@@ -15707,6 +18456,7 @@ do
     end
 
     function shortcuts:OnLoad()
+        self:Enable()
         anchorFrame = CreateFrame("Frame", nil, UIParent)
         anchorFrame:SetSize(1, 1)
         self:UpdateState()
@@ -15807,7 +18557,7 @@ do
         local utf8 = ns.utf8
 
         if not utf8 then
-            ns.Print("|cffFFFFFFRaiderIO|r Unable to append excessive tests because utf8 is not available.")
+            ns.PrintWithAddonPrefix("Unable to append excessive tests because utf8 is not available.")
             return false
         end
 
@@ -15923,7 +18673,7 @@ do
             coroutine.resume(co, cq)
         end
 
-        ns.Print("|cffFFFFFFRaiderIO|r Running excessive built-in tests:")
+        ns.PrintWithAddonPrefix("Running excessive built-in tests:")
 
         co = coroutine.create(OnUpdate)
         cq = queue
@@ -15938,7 +18688,7 @@ do
 
     local function OnAppendProviderTestsCompleted()
         provider:WipeCache()
-        ns.Print("|cffFFFFFFRaiderIO|r Done!")
+        ns.PrintWithAddonPrefix("Done!")
     end
 
     local function CountProfilesInDataSet(data)
@@ -15956,9 +18706,9 @@ do
 
     local function OnAppendProviderTestsProgress(queue, args)
         if not args or type(args) ~= "table" then
-            ns.Print(format("[#%d] remaining...", #queue + 1))
+            ns.PrintWithAddonPrefix(format("[#%d] remaining...", #queue + 1))
         else
-            ns.Print(format("[#%d] Checking |cffFFFFFF%s %s|r (%d profiles)", #queue + 1, tostring(args[1]), tostring(args[2]), CountProfilesInDataSet(args[3])))
+            ns.PrintWithAddonPrefix(format("[#%d] Checking |cffFFFFFF%s %s|r (%d profiles)", #queue + 1, tostring(args[1]), tostring(args[2]), CountProfilesInDataSet(args[3])))
         end
     end
 
@@ -15973,7 +18723,7 @@ do
 
     function tests:RunTests(showOnlyFailed, noHeaderOrFooter)
         if not noHeaderOrFooter then
-            ns.Print(format("|cffFFFFFFRaiderIO|r Running %d built-in tests:", #collection))
+            ns.PrintWithAddonPrefix(format("Running %d built-in tests:", #collection))
         end
         local printed
         for id, test in ipairs(collection) do
@@ -16008,15 +18758,15 @@ do
                 end
             else
                 printed = true
-                ns.Print(format("|cffFFFFFFRaiderIO|r Test#%d is not supported, skipping.", id))
+                ns.PrintWithAddonPrefix(format("Test#%d is not supported, skipping.", id))
             end
             if status ~= nil and (not showOnlyFailed or not status) then
                 printed = true
-                ns.Print(format("|cffFFFFFFRaiderIO|r Test#%d |cff%s%s|r", id, status and "55FF55" or "FF5555", explanation or (status and "Passed!" or "Failed!")))
+                ns.PrintWithAddonPrefix(format("Test#%d |cff%s%s|r", id, status and "55FF55" or "FF5555", explanation or (status and "Passed!" or "Failed!")))
             end
         end
         if not noHeaderOrFooter then
-            ns.Print(format("|cffFFFFFFRaiderIO|r Done! %s", printed and "" or "|cff55FF55Nothing to report.|r"))
+            ns.PrintWithAddonPrefix(format("Done! %s", printed and "" or "|cff55FF55Nothing to report.|r"))
         end
     end
 
@@ -16055,7 +18805,7 @@ do
         end
         if not IsSafeCall() then
             unsafe = true
-            ns.Print("Error: Another AddOn has modified Raider.IO and is most likely forcing it to return invalid data. Please disable other addons until this message disappears.")
+            ns.PrintWithAddonPrefix("Another AddOn has modified Raider.IO and is most likely forcing it to return invalid data. Please disable other addons until this message disappears.")
             return false
         end
         return true
