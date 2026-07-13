@@ -20,5 +20,6 @@ db/db_regions.lua
 db/db_score_stats.lua
 db/db_score_tiers_prev.lua
 db/db_score_tiers.lua
+db/db_talent_builds.lua
 db/db_titles.lua
 core.xml

@@ -72,10 +72,12 @@ $clientPlaceholderFiles = @(
 	"db_score_stats"
 	"db_score_tiers"
 	"db_score_tiers_prev"
+	"db_talent_builds"
 )
 
 $clientPlaceholderFilesClientSpecific = @{
 	"db_client_recent_characters" = "mainline"
+	"db_talent_builds" = "mainline"
 }
 
 $clientPlaceholderContent = "
