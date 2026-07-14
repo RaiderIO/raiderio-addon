@@ -12681,6 +12681,7 @@ do
             Frame:EnableMouse(true)
             Frame:SetFrameStrata("DIALOG")
             Frame:SetToplevel(true)
+            table.insert(UISpecialFrames, Frame:GetName())
             Frame:SetSize(310, config:Get("debugMode") and 115 or 100)
             Frame:SetPoint("CENTER")
             if Frame.SetBackdrop then
@@ -15585,6 +15586,7 @@ if IS_RETAIL then
         self:SetToplevel(true)
         self:SetMovable(true)
         self:SetClampedToScreen(true)
+        table.insert(UISpecialFrames, self:GetName())
 
         local frameWidth, frameHeight = 640, 20 + 43 + (buildsButtonHeight * 8) + 22
         self:SetSize(frameWidth, frameHeight)
@@ -16699,6 +16701,8 @@ do
         local configParentFrame = CreateFrame("Frame", format("%s_SettingsFrame", addonName), UIParent, BackdropTemplateMixin and "BackdropTemplate")
         configParentFrame:SetSize(400, 600)
         configParentFrame:SetPoint("CENTER")
+        configParentFrame:SetToplevel(true)
+        table.insert(UISpecialFrames, configParentFrame:GetName())
 
         ---@class RaiderIOSettingsFrameHeaderFrame : Frame
         local configHeaderFrame = CreateFrame("Frame", nil, configParentFrame)
