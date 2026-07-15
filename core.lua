@@ -16457,7 +16457,7 @@ if IS_RETAIL then
                 talentbuilds:ToggleFrameFromEncounterJournal(getJournalInfo())
             end)
             function shortcutEncounterJournalButton:UpdateVisibility(forceHide)
-                if forceHide or not config:Get("showTalentBuildsButtonInJournalFrame") then
+                if forceHide or not talentbuilds:IsEnabled() or not config:Get("showTalentBuildsButtonInJournalFrame") then
                     self:Hide()
                     return
                 end
