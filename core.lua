@@ -16542,7 +16542,7 @@ if IS_RETAIL then
 end
 
 -- settings.lua
--- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog, talentbuilds
+-- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog, talentbuilds?
 do
 
     ---@class SettingsModule : Module
@@ -16555,7 +16555,7 @@ do
     local search = ns:GetModule("Search") ---@type SearchModule
     local rwf = ns:GetModule("RaceWorldFirst", true) ---@type RaceWorldFirstModule?
     local combatlog = ns:GetModule("CombatLog") ---@type CombatLogModule
-    local talentbuilds = ns:GetModule("TalentBuilds") ---@type TalentBuildsModule
+    local talentbuilds = ns:GetModule("TalentBuilds", true) ---@type TalentBuildsModule?
 
     ---@type InternalStaticPopupDialog
     local RELOAD_POPUP = {
@@ -18054,6 +18054,7 @@ do
         _G[format("SLASH_%s1", addonName)] = "/raiderio"
         _G[format("SLASH_%s2", addonName)] = "/rio"
 
+        ---@param text? string
         local function handler(text)
             if not SmartLoad() then
                 return
@@ -18103,15 +18104,16 @@ do
 
                 -- talent / build
                 if text:find("^%s*[Tt][Aa][Ll][Ee][Nn][Tt]") or text:find("^%s*[Bb][Uu][Ii][Ll][Dd]") then
-                    if talentbuilds:IsEnabled() then
+                    if talentbuilds and talentbuilds:IsEnabled() then
                         talentbuilds:ToggleFrame()
                     end
                     return
                 end
 
-                -- ? / help
-                if text:find("^%s*%?") or text:find("^%s*[Hh][Ee][Ll][Pp]") then
+                -- finally, if the string isn't empty we display the help text
+                if text:trim():len() > 0 then
                     local debugMode = config:Get("debugMode")
+                    -- TODO: localization?
                     ns.PrintWithAddonPrefix("Available commands:")
                     ns.Print("  |cffFFFFFF/rio|r           Toggle Settings")
                     ns.Print("  |cffFFFFFF/rio lock|r      Toggle Profile anchor lock")
@@ -18186,7 +18188,7 @@ do
 end
 
 -- shortcuts.lua
--- dependencies: module, callback, config, util, profile, search, settings, talentbuilds, LibClassTalentsImportExport + LibDataBroker + LibDBIcon
+-- dependencies: module, callback, config, util, profile, search, settings, talentbuilds?, LibClassTalentsImportExport + LibDataBroker + LibDBIcon
 do
 
     ---@class ShortcutsModule : Module
