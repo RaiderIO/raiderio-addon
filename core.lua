@@ -16391,9 +16391,12 @@ if IS_RETAIL then
         util:ShowCopyRaiderIOTalentLoadoutPopup(L.BUILDS_PROFILE_COPY_COMPARELINK_POPUP_TITLE, importString, build.importString)
     end
 
+    ---@class TalentBuildsShortcutButton : UIPanelButtonTemplatePolyfill
+    ---@field public UpdateVisibility fun(self: TalentBuildsShortcutButton, forceHide?: boolean)
+
     local shortcutInit = false
-    local shortcutTalentFrameButton ---@type UIPanelButtonTemplatePolyfill?
-    local shortcutEncounterJournalButton ---@type UIPanelButtonTemplatePolyfill?
+    local shortcutTalentFrameButton ---@type TalentBuildsShortcutButton?
+    local shortcutEncounterJournalButton ---@type TalentBuildsShortcutButton?
 
     local function shortcutsInitialize()
         if not config:Get("showTalentBuildsButtonInTalentFrame") and not config:Get("showTalentBuildsButtonInJournalFrame") then
@@ -16410,7 +16413,7 @@ if IS_RETAIL then
         ---@param name string
         ---@param parent Frame
         local function createButton(name, parent)
-            local button = CreateFrame("Button", format("%s_TalentBuilds%sShortcut", addonName, name), parent, "UIPanelButtonTemplate") ---@type UIPanelButtonTemplatePolyfill
+            local button = CreateFrame("Button", format("%s_TalentBuilds%sShortcut", addonName, name), parent, "UIPanelButtonTemplate") ---@class TalentBuildsShortcutButton
             button:SetSize(buttonWidth, buttonHeight)
             button:SetText(buttonText)
             local width = max(buttonWidth, button:GetTextWidth() + buttonTextPadding * 2)
@@ -16434,6 +16437,9 @@ if IS_RETAIL then
             shortcutTalentFrameButton = createButton("TalentFrame", loadoutDropdown)
             shortcutTalentFrameButton:SetPoint("BOTTOMLEFT", loadoutDropdown, "TOPLEFT", 0, 16)
             shortcutTalentFrameButton:SetScale(0.9)
+            function shortcutTalentFrameButton:UpdateVisibility(forceHide)
+                self:SetShown(not forceHide and config:Get("showTalentBuildsButtonInTalentFrame"))
+            end
         end)
         EventUtil.ContinueOnAddOnLoaded("Blizzard_EncounterJournal", function()
             local difficultyDropdown = EncounterJournalEncounterFrameInfoDifficulty ---@type Button?
@@ -16450,38 +16456,32 @@ if IS_RETAIL then
             shortcutEncounterJournalButton:SetScript("OnClick", function()
                 talentbuilds:ToggleFrameFromEncounterJournal(getJournalInfo())
             end)
-            local function update()
-                if not config:Get("showTalentBuildsButtonInJournalFrame") then
+            function shortcutEncounterJournalButton:UpdateVisibility(forceHide)
+                if forceHide or not talentbuilds:IsEnabled() or not config:Get("showTalentBuildsButtonInJournalFrame") then
+                    self:Hide()
                     return
                 end
                 local hasBuilds = talentbuilds:HasBuildsForEncounterJournal(getJournalInfo())
-                shortcutEncounterJournalButton:SetShown(hasBuilds)
+                self:SetShown(hasBuilds)
             end
-            hooksecurefunc("EncounterJournal_DisplayEncounter", update)
-            hooksecurefunc("EncounterJournal_DisplayInstance", update)
+            local function updateVisibility()
+                shortcutEncounterJournalButton:UpdateVisibility()
+            end
+            hooksecurefunc("EncounterJournal_DisplayEncounter", updateVisibility)
+            hooksecurefunc("EncounterJournal_DisplayInstance", updateVisibility)
         end)
     end
 
-    function talentbuilds:ShowShortcuts()
-        shortcutsInitialize()
-        self:UpdateShortcutsVisibility()
-    end
-
-    function talentbuilds:HideShortcuts()
+    ---@param forceHide? boolean
+    function talentbuilds:UpdateShortcutsVisibility(forceHide)
+        if not forceHide then
+            shortcutsInitialize()
+        end
         if shortcutTalentFrameButton then
-            shortcutTalentFrameButton:Hide()
+            shortcutTalentFrameButton:UpdateVisibility(forceHide)
         end
         if shortcutEncounterJournalButton then
-            shortcutEncounterJournalButton:Hide()
-        end
-    end
-
-    function talentbuilds:UpdateShortcutsVisibility()
-        if shortcutTalentFrameButton then
-            shortcutTalentFrameButton:SetShown(config:Get("showTalentBuildsButtonInTalentFrame"))
-        end
-        if shortcutEncounterJournalButton then
-            shortcutEncounterJournalButton:SetShown(config:Get("showTalentBuildsButtonInJournalFrame"))
+            shortcutEncounterJournalButton:UpdateVisibility(forceHide)
         end
     end
 
@@ -16528,14 +16528,14 @@ if IS_RETAIL then
         callback:RegisterUnitEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED", "player")
         callback:RegisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
         callback:RegisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
-        self:ShowShortcuts()
+        self:UpdateShortcutsVisibility()
     end
 
     function talentbuilds:OnDisable()
         callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, "PLAYER_SPECIALIZATION_CHANGED")
         callback:UnregisterEvent(OnPlayerSpecializationChangeDelayed, unpack(SpecChangeEvents))
         callback:UnregisterEvent(OnSettingsChanged, "RAIDERIO_CONFIG_READY", "RAIDERIO_SETTINGS_SAVED")
-        self:HideShortcuts()
+        self:UpdateShortcutsVisibility(true)
         self:HideFrame()
     end
 
