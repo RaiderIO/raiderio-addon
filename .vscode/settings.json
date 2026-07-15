@@ -132,6 +132,7 @@
         "UIDROPDOWNMENU_MAXBUTTONS",
         "UIDropDownMenuButton_OpenColorPicker",
         "UIParentRightManagedFrameContainer",
+        "UISpecialFrames",
         "UnitPopupSharedUtil",
         "WHISPER",
         "WHISPER_LEADER",
