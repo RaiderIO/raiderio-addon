@@ -16438,8 +16438,12 @@ if IS_RETAIL then
             shortcutTalentFrameButton:SetPoint("BOTTOMLEFT", loadoutDropdown, "TOPLEFT", 0, 16)
             shortcutTalentFrameButton:SetScale(0.9)
             function shortcutTalentFrameButton:UpdateVisibility(forceHide)
-                self:SetShown(not forceHide and config:Get("showTalentBuildsButtonInTalentFrame"))
+                self:SetShown(not forceHide and talentbuilds:IsEnabled() and config:Get("showTalentBuildsButtonInTalentFrame"))
             end
+            local function updateVisibility()
+                shortcutTalentFrameButton:UpdateVisibility()
+            end
+            loadoutDropdown:HookScript("OnShow", updateVisibility)
         end)
         EventUtil.ContinueOnAddOnLoaded("Blizzard_EncounterJournal", function()
             local difficultyDropdown = EncounterJournalEncounterFrameInfoDifficulty ---@type Button?
@@ -16467,6 +16471,7 @@ if IS_RETAIL then
             local function updateVisibility()
                 shortcutEncounterJournalButton:UpdateVisibility()
             end
+            difficultyDropdown:HookScript("OnShow", updateVisibility)
             hooksecurefunc("EncounterJournal_DisplayEncounter", updateVisibility)
             hooksecurefunc("EncounterJournal_DisplayInstance", updateVisibility)
         end)
