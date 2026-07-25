@@ -3097,6 +3097,28 @@ do
         return name == ns.PLAYER_NAME and realm == ns.PLAYER_REALM and (not region or region == ns.PLAYER_REGION)
     end
 
+    ---@param accountInfo? BNetGameAccountInfo
+    ---@return string? fullName `Name-Realm`
+    ---@return FactionNumber? faction
+    ---@return number? level `80`
+    function util:GetNameRealmFromAccountInfo(accountInfo)
+        if not accountInfo or issecretvalue(accountInfo) then
+            return
+        end
+        if issecretvalue(accountInfo.characterName) or issecretvalue(accountInfo.realmName) then
+            return
+        end
+        local fullName = accountInfo.characterName
+        if not fullName or (accountInfo.clientProgram and accountInfo.clientProgram ~= BNET_CLIENT_WOW) or (accountInfo.wowProjectID and accountInfo.wowProjectID ~= WOW_PROJECT_MAINLINE) then
+            return
+        end
+        if accountInfo.realmName then
+            fullName = format("%s-%s", fullName, accountInfo.realmName:gsub("%s+", ""))
+        end
+        local factionId = accountInfo.factionName and ns.FACTION_TO_ID[accountInfo.factionName]
+        return fullName, factionId, accountInfo.characterLevel
+    end
+
     ---@param bnetIDAccount number @BNet Account ID
     ---@return string? fullName `Name-Realm`
     ---@return FactionNumber? faction
@@ -3110,12 +3132,10 @@ do
         local collectionIndex = 0
         for i = 1, C_BattleNet.GetFriendNumGameAccounts(index), 1 do
             local accountInfo = C_BattleNet.GetFriendGameAccountInfo(index, i)
-            if accountInfo and not issecretvalue(accountInfo.characterName) and not issecretvalue(accountInfo.realmName) and accountInfo.characterName and accountInfo.clientProgram == BNET_CLIENT_WOW and (not accountInfo.wowProjectID or accountInfo.wowProjectID == WOW_PROJECT_MAINLINE) then
-                if accountInfo.realmName then
-                    accountInfo.characterName = format("%s-%s", accountInfo.characterName, accountInfo.realmName:gsub("%s+", ""))
-                end
+            local fullName, faction, level = util:GetNameRealmFromAccountInfo(accountInfo)
+            if fullName then
                 collectionIndex = collectionIndex + 1
-                collection[collectionIndex] = { accountInfo.characterName, ns.FACTION_TO_ID[accountInfo.factionName], tonumber(accountInfo.characterLevel) }
+                collection[collectionIndex] = { fullName, faction, level }
             end
         end
         for i = 1, collectionIndex do
@@ -7388,11 +7408,41 @@ do
     local util = ns:GetModule("Util") ---@type UtilModule
     local render = ns:GetModule("Render") ---@type RenderModule
 
+    ---@class FriendsTooltipPolyfill : Frame
+    ---@field public Show fun(self: FriendsTooltipPolyfill)
+    ---@field public Hide fun(self: FriendsTooltipPolyfill)
+    ---@field public button? FriendsTooltipButtonPolyfill
+
+    ---@class FriendsTooltipButtonPolyfill : Button
+    ---@field public buttonType number
+    ---@field public id number
+
+    ---@class SocialUIFrameFriendsListScrollBoxPolyfill : WowScrollBoxListPolyfill
+    ---@field public Event { OnUpdate: "OnUpdate" }
+
+    ---@class SocialUIFrameFriendsListScrollBoxElementButtonPolyfill : Button
+    ---@field public elementData? SocialUIFrameFriendsListScrollBoxElementDataPolyfill
+
+    ---@class SocialUIFrameFriendsListScrollBoxElementDataPolyfill
+    ---@field public friendIndex number
+    ---@field public accountInfo BNetAccountInfo
+
+    ---@type FriendsTooltipPolyfill
+    local FriendsTooltip = _G.FriendsTooltip ---@diagnostic disable-line: undefined-field
+
+    ---@type SocialUIFrameFriendsListScrollBoxPolyfill
+    local SocialUIFrameFriendsListScrollBox = _G.SocialUIFrame and _G.SocialUIFrame.FriendsList and _G.SocialUIFrame.FriendsList.ScrollBox ---@diagnostic disable-line: undefined-field
+
+    ---@param self FriendsTooltipPolyfill
     local function FriendsTooltip_Show(self)
         if not tooltip:IsEnabled() or not config:Get("enableFriendsTooltips") then
             return
         end
         local button = self.button
+        if not button then
+            GameTooltip:Hide()
+            return
+        end
         local fullName, faction, level ---@type string?, FactionNumber?, number?
         if button.buttonType == FRIENDS_BUTTON_TYPE_BNET then
             local bnetIDAccountInfo = C_BattleNet.GetFriendAccountInfo(button.id)
@@ -7407,6 +7457,7 @@ do
             end
         end
         if not fullName or not util:IsMaxLevel(level) then
+            GameTooltip:Hide()
             return
         end
         local ownerSet, ownerExisted, ownerSetSame = util:SetOwnerSafely(GameTooltip, FriendsTooltip, "ANCHOR_BOTTOMRIGHT", -FriendsTooltip:GetWidth(), -4)
@@ -7432,14 +7483,64 @@ do
         GameTooltip:Hide()
     end
 
+    ---@param self SocialUIFrameFriendsListScrollBoxElementButtonPolyfill
+    local function SocialUIFrameFriendsListScrollBoxButton_OnEnter(self)
+        if not tooltip:IsEnabled() or not config:Get("enableFriendsTooltips") then
+            return
+        end
+        local elementData = self.elementData
+        if not elementData or not elementData.accountInfo or not elementData.accountInfo.gameAccountInfo then
+            return
+        end
+        local fullName, faction, level = util:GetNameRealmFromAccountInfo(elementData.accountInfo.gameAccountInfo)
+        if not fullName or not util:IsMaxLevel(level) then
+            return
+        end
+        render:ShowProfile(GameTooltip, fullName, render.Preset.Unit())
+    end
+
+    ---@param self SocialUIFrameFriendsListScrollBoxElementButtonPolyfill
+    local function SocialUIFrameFriendsListScrollBoxButton_OnLeave(self)
+        if not tooltip:IsEnabled() or not config:Get("enableFriendsTooltips") then
+            return
+        end
+        local elementData = self.elementData
+        if not elementData or not elementData.accountInfo or not elementData.accountInfo.gameAccountInfo then
+            return
+        end
+        GameTooltip:Hide()
+    end
+
+    ---@type table<SocialUIFrameFriendsListScrollBoxElementButtonPolyfill, true?>
+    local hookedButtons = {}
+
+    ---@param self SocialUIFrameFriendsListScrollBoxElementButtonPolyfill
+    local function SocialUIFrameFriendsListScrollBox_ForEachFrame(self)
+        if hookedButtons[self] then
+            return
+        end
+        hookedButtons[self] = true
+        self:HookScript("OnEnter", SocialUIFrameFriendsListScrollBoxButton_OnEnter)
+        self:HookScript("OnLeave", SocialUIFrameFriendsListScrollBoxButton_OnLeave)
+    end
+
+    local function SocialUIFrameFriendsListScrollBox_OnUpdate()
+        SocialUIFrameFriendsListScrollBox:ForEachFrame(SocialUIFrameFriendsListScrollBox_ForEachFrame)
+    end
+
     function tooltip:CanLoad()
-        return FriendsTooltip and config:IsEnabled()
+        return (FriendsTooltip or SocialUIFrameFriendsListScrollBox) and config:IsEnabled()
     end
 
     function tooltip:OnLoad()
         self:Enable()
-        hooksecurefunc(FriendsTooltip, "Show", FriendsTooltip_Show)
-        hooksecurefunc(FriendsTooltip, "Hide", FriendsTooltip_Hide)
+        if FriendsTooltip then
+            hooksecurefunc(FriendsTooltip, "Show", FriendsTooltip_Show)
+            hooksecurefunc(FriendsTooltip, "Hide", FriendsTooltip_Hide)
+        end
+        if SocialUIFrameFriendsListScrollBox then
+            SocialUIFrameFriendsListScrollBox:RegisterCallback(SocialUIFrameFriendsListScrollBox.Event.OnUpdate, SocialUIFrameFriendsListScrollBox_OnUpdate)
+        end
     end
 
 end
