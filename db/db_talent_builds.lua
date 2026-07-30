@@ -4,7 +4,7 @@
 --
 local _, ns = ...
 ns.talentBuilds = {
-	["date"] = "2026-07-29T08:03:52Z",
+	["date"] = "2026-07-30T08:09:01Z",
 	["routes"] = {
 		["season"] = "season-mn-1",
 		["specPageSlugs"] = {
@@ -197,7 +197,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 1, 719, 16, 683, 19, 6, 33, 20 },
+							{ 40, 1, 559, 16, 530, 19, 12, 26, 18 },
 						},
 					},
 					["20-99"] = {
@@ -288,7 +288,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 1, 557, 16, 528, 19, 12, 26, 19 },
+							{ 40, 1, 440, 5, 416, 18, 12, 24, 19 },
 						},
 					},
 					["20-99"] = {
@@ -1061,7 +1061,6 @@ ns.talentBuilds = {
 				"MzwMLzMzsgZGZmxAAAwABMzMNLLLzAAsZmZsNmZmxGAAAAAsYmZmZAAwYGGzMzMz2AwMDhxYwMMA",
 				"MzwMLzMzsgZGZmZGAAAGIgZmpZZZZGAgNzMjtxMzM2AAAAAgFzMzMAAwYGzYmZmZ2AwMDZMGDmhB",
 				"MzwMLzMzsgZGZmxAAAwABMzMNLLLzAAsZmZsNmZmxGAAAAAsYmZmZAAwYGzYmZmZWAwMDhxYwMMA",
-				"MzwMLzMzsgZGZmxAAAwABMzMNLLbzAAsZmZsNmZmxCAAAAAsZmZmZAAwYGGzMzMz2AwMDhxYwMMA",
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMAAAAAALmZmZGAAMmhxMzMzsNAMzQGjxgZYA",
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMAAAAAALmZmZGAAMmxMmZmZmlBgZGyYMGYYA",
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMAAAAAALmZmZGAAMmxMmZmZmNAMzQGjxgZYA",
@@ -1069,6 +1068,7 @@ ns.talentBuilds = {
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMWAAAAAgFzMzMDAAGzYGzMzMzyAwMDhxYghB",
 				"YmNjlZmZWYmZkZmZAAAYgAmZmmtllZAA2MzM2GzMzAAAAAAsYmZmBAAGzYGzMzMzGAmZImxYwMMA",
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMAAAAAALmZmZGAAMmxMmZmZmtBgZGyYMGYYA",
+				"MzwMLzMzsgZGZmxAAAwABMzMNLLbzAAsZmZsNmZmxCAAAAAsZmZmZAAwYGGzMzMz2AwMDhxYwMMA",
 				"YGGLzMzswMDZmZGAAAGIgZmpZZZZGAgNzMjtxMzMAAAAAALmZmZGAAMmxMmZmZmFAMzQGjxgZYA",
 				"YGGLzMzswMzIzMzAAAwABMzMNbLLzAAsZmZsNmZmxGAAAAAsYmZmBAAGzYGzMzMzGAmZImxYwMMA",
 				"YmNjlZmZWYmZkZmZAAAYgAmZmmlllZAA2MzM2GzMzAAAAAAsYmZmBAAGzYGzMzMzCAmZImxYwMMA",
@@ -1102,7 +1102,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 39, 1, 43, nil, nil, nil, 5, 11, 21, 24, 25, 18 },
+							{ 39, 1, 23, nil, nil, nil, 9, 4, 21, 1, 19, 16 },
 						},
 					},
 				},
@@ -1139,7 +1139,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 39, 1, 9, nil, nil, nil, 11, 3, 21 },
+							{ 39, 1, 5, nil, nil, nil, 1, 5, 17 },
 						},
 					},
 				},
@@ -1177,7 +1177,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 39, 1, 34, nil, nil, nil, 9, 3, 20, 5, 18, 18, 1, 13, 17 },
+							{ 39, 1, 19, nil, nil, nil, 5, 10, 18 },
 						},
 					},
 				},
@@ -1272,7 +1272,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 432, 3, 323, 392121, 25, 46, 390264, 26, 15, 415873 },
+									{ 39, 1, 432, 3, 323, 392121, 24, 46, 390264, 25, 15, 415873 },
 								},
 							},
 							["fast"] = {
@@ -1289,25 +1289,25 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9037, 169, nil, nil, nil, 27, 84, 353409, 25, 46, 341681, 1, 22, 354392 },
-									{ 41, 0.0963, 18, nil, nil, nil, 28, 18, 365884 },
+									{ 39, 0.9037, 169, nil, nil, nil, 26, 84, 353409, 24, 46, 341681, 1, 22, 354392 },
+									{ 41, 0.0963, 18, nil, nil, nil, 27, 18, 365884 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 15, nil, nil, nil, 27, 6, 311636 },
+									{ 39, 1, 15, nil, nil, nil, 26, 6, 311636 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 23, nil, nil, nil, 27, 13, 384371 },
+									{ 39, 1, 23, nil, nil, nil, 26, 13, 384371 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.8955, 60, nil, nil, nil, 27, 30, 202443, 1, 13, 192870, 25, 17, 233181 },
+									{ 39, 0.8955, 60, nil, nil, nil, 26, 30, 202443, 1, 13, 192870, 24, 17, 233181 },
 									{ 41, 0.1045, 7, nil, nil, nil, 4, 7, 230838 },
 								},
 							},
@@ -1328,7 +1328,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 432, 3, 323, 392121, 25, 46, 390264, 26, 15, 415873 },
+									{ 39, 1, 432, 3, 323, 392121, 24, 46, 390264, 25, 15, 415873 },
 								},
 							},
 							["fast"] = {
@@ -1345,25 +1345,25 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9037, 169, nil, nil, nil, 27, 84, 353409, 25, 46, 341681, 1, 22, 354392 },
-									{ 41, 0.0963, 18, nil, nil, nil, 28, 18, 365884 },
+									{ 39, 0.9037, 169, nil, nil, nil, 26, 84, 353409, 24, 46, 341681, 1, 22, 354392 },
+									{ 41, 0.0963, 18, nil, nil, nil, 27, 18, 365884 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 15, nil, nil, nil, 27, 6, 311636 },
+									{ 39, 1, 15, nil, nil, nil, 26, 6, 311636 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 23, nil, nil, nil, 27, 13, 384371 },
+									{ 39, 1, 23, nil, nil, nil, 26, 13, 384371 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.8955, 60, nil, nil, nil, 27, 30, 202443, 1, 13, 192870, 25, 17, 233181 },
+									{ 39, 0.8955, 60, nil, nil, nil, 26, 30, 202443, 1, 13, 192870, 24, 17, 233181 },
 									{ 41, 0.1045, 7, nil, nil, nil, 4, 7, 230838 },
 								},
 							},
@@ -1386,12 +1386,12 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 176, nil, nil, nil, 3, 87, 187771, 29, 69, 193163 },
+									{ 39, 1, 176, nil, nil, nil, 3, 87, 187771, 28, 69, 193163 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 40, nil, nil, nil, 32, 22, 178109, 29, 18, 181527 },
+									{ 39, 1, 40, nil, nil, nil, 32, 22, 178109, 28, 18, 181527 },
 								},
 							},
 							["median"] = {
@@ -1403,35 +1403,35 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9403, 126, nil, nil, nil, 27, 67, 137842, 25, 28, 163514, 1, 12, 162348 },
-									{ 41, 0.0597, 8, nil, nil, nil, 28, 8, 155904 },
+									{ 39, 0.9403, 126, nil, nil, nil, 26, 67, 137842, 24, 28, 163514, 1, 12, 162348 },
+									{ 41, 0.0597, 8, nil, nil, nil, 27, 8, 155904 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 11, nil, nil, nil, 27, 11, 113271 },
+									{ 39, 1, 11, nil, nil, nil, 26, 11, 113271 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 20, nil, nil, nil, 27, 14, 175334 },
+									{ 39, 1, 20, nil, nil, nil, 26, 14, 175334 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 44, nil, nil, nil, 27, 29, 165592 },
+									{ 39, 1, 44, nil, nil, nil, 26, 29, 165592 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 7, nil, nil, nil, 27, 7, 102184 },
+									{ 39, 1, 7, nil, nil, nil, 26, 7, 102184 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 3, nil, nil, nil, 27, 3, 209528 },
+									{ 39, 1, 3, nil, nil, nil, 26, 3, 209528 },
 								},
 							},
 						},
@@ -1440,12 +1440,12 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 180, nil, nil, nil, 3, 75, 201613, 29, 73, 202796 },
+									{ 39, 1, 180, nil, nil, nil, 3, 75, 201613, 28, 73, 202796 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 36, nil, nil, nil, 3, 19, 179709, 29, 17, 198607 },
+									{ 39, 1, 36, nil, nil, nil, 3, 19, 179709, 28, 17, 198607 },
 								},
 							},
 							["median"] = {
@@ -1457,30 +1457,30 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.8843, 107, nil, nil, nil, 27, 54, 201042, 25, 20, 238195, 29, 19, 208901 },
-									{ 41, 0.1157, 14, nil, nil, nil, 28, 14, 232890 },
+									{ 39, 0.8843, 107, nil, nil, nil, 26, 54, 201042, 24, 20, 238195, 28, 19, 208901 },
+									{ 41, 0.1157, 14, nil, nil, nil, 27, 14, 232890 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 27, 9, 173709 },
+									{ 39, 1, 9, nil, nil, nil, 26, 9, 173709 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 12, nil, nil, nil, 27, 4, 226793 },
+									{ 39, 1, 12, nil, nil, nil, 26, 4, 226793 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 40, nil, nil, nil, 27, 24, 230522, 25, 13, 223108 },
+									{ 39, 1, 40, nil, nil, nil, 26, 24, 230522, 24, 13, 223108 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 27, 5, 197291 },
+									{ 39, 1, 9, nil, nil, nil, 26, 5, 197291 },
 								},
 							},
 							["median"] = {
@@ -1511,30 +1511,30 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9462, 88, nil, nil, nil, 27, 64, 327691 },
-									{ 41, 0.0538, 5, nil, nil, nil, 28, 5, 364288 },
+									{ 39, 0.9462, 88, nil, nil, nil, 26, 64, 327691 },
+									{ 41, 0.0538, 5, nil, nil, nil, 27, 5, 364288 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 27, 9, 343669 },
+									{ 39, 1, 9, nil, nil, nil, 26, 9, 343669 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 36, nil, nil, nil, 27, 22, 232766 },
+									{ 39, 1, 36, nil, nil, nil, 26, 22, 232766 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 3, nil, nil, nil, 25, 3, 161147 },
+									{ 39, 1, 3, nil, nil, nil, 24, 3, 161147 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 6, nil, nil, nil, 25, 3, 289926 },
+									{ 39, 1, 6, nil, nil, nil, 24, 3, 289926 },
 								},
 							},
 						},
@@ -1560,35 +1560,35 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.8837, 114, nil, nil, nil, 27, 72, 207510, 25, 13, 243470, 1, 12, 216418 },
-									{ 41, 0.1163, 15, nil, nil, nil, 28, 15, 228979 },
+									{ 39, 0.8837, 114, nil, nil, nil, 26, 72, 207510, 24, 13, 243470, 1, 12, 216418 },
+									{ 41, 0.1163, 15, nil, nil, nil, 27, 15, 228979 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 7, nil, nil, nil, 27, 7, 188867 },
+									{ 39, 1, 7, nil, nil, nil, 26, 7, 188867 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 27, 9, 238736 },
+									{ 39, 1, 9, nil, nil, nil, 26, 9, 238736 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 41, nil, nil, nil, 27, 25, 200877, 25, 13, 185133 },
+									{ 39, 1, 41, nil, nil, nil, 26, 25, 200877, 24, 13, 185133 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 7, nil, nil, nil, 27, 4, 129837 },
+									{ 39, 1, 7, nil, nil, nil, 26, 4, 129837 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 25, 3, 199980 },
+									{ 39, 1, 9, nil, nil, nil, 24, 3, 199980 },
 								},
 							},
 						},
@@ -1597,12 +1597,12 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 48, nil, nil, nil, 29, 31, 328099, 32, 17, 352551 },
+									{ 39, 1, 48, nil, nil, nil, 28, 31, 328099, 32, 17, 352551 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 5, nil, nil, nil, 29, 5, 289758 },
+									{ 39, 1, 5, nil, nil, nil, 28, 5, 289758 },
 								},
 							},
 							["median"] = {
@@ -1614,15 +1614,15 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9057, 48, nil, nil, nil, 27, 31, 217969 },
-									{ 41, 0.0943, 5, nil, nil, nil, 28, 5, 253984 },
+									{ 39, 0.9057, 48, nil, nil, nil, 26, 31, 217969 },
+									{ 41, 0.0943, 5, nil, nil, nil, 27, 5, 253984 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 26, nil, nil, nil, 27, 12, 185056 },
+									{ 39, 1, 26, nil, nil, nil, 26, 12, 185056 },
 								},
 							},
 						},
@@ -1641,15 +1641,15 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 7, nil, nil, nil, 27, 7, 464962 },
+									{ 39, 1, 7, nil, nil, nil, 26, 7, 464962 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.88, 22, nil, nil, nil, 27, 18, 469419 },
-									{ 41, 0.12, 3, nil, nil, nil, 28, 3, 497496 },
+									{ 39, 0.88, 22, nil, nil, nil, 26, 18, 469419 },
+									{ 41, 0.12, 3, nil, nil, nil, 27, 3, 497496 },
 								},
 							},
 							["median"] = {
@@ -1661,18 +1661,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.875, 21, nil, nil, nil, 27, 12, 288421 },
+									{ 39, 0.875, 21, nil, nil, nil, 26, 12, 288421 },
 									{ 41, 0.125, 3, nil, nil, nil, 4, 3, 342108 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 3, nil, nil, nil, 25, 3, 260186 },
+									{ 39, 1, 3, nil, nil, nil, 24, 3, 260186 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 4, nil, nil, nil, 25, 4, 312545 },
+									{ 39, 1, 4, nil, nil, nil, 24, 4, 312545 },
 								},
 							},
 						},
@@ -1698,35 +1698,35 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9189, 34, nil, nil, nil, 27, 17, 96414 },
+									{ 39, 0.9189, 34, nil, nil, nil, 26, 17, 96414 },
 									{ 41, 0.0811, 3, nil, nil, nil, 7, 3, 105239 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 9, nil, nil, nil, 27, 9, 93465 },
+									{ 39, 1, 9, nil, nil, nil, 26, 9, 93465 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 3, nil, nil, nil, 27, 3, 117484 },
+									{ 39, 1, 3, nil, nil, nil, 26, 3, 117484 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 18, nil, nil, nil, 27, 9, 110969 },
+									{ 39, 1, 18, nil, nil, nil, 26, 9, 110969 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 3, nil, nil, nil, 27, 3, 88815 },
+									{ 39, 1, 3, nil, nil, nil, 26, 3, 88815 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 4, nil, nil, nil, 27, 4, 138504 },
+									{ 39, 1, 4, nil, nil, nil, 26, 4, 138504 },
 								},
 							},
 						},
@@ -1757,19 +1757,19 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 4, nil, nil, nil, 25, 4, 370384 },
+									{ 39, 1, 4, nil, nil, nil, 24, 4, 370384 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 17, nil, nil, nil, 25, 9, 441977 },
+									{ 39, 1, 17, nil, nil, nil, 24, 9, 441977 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 4, nil, nil, nil, 27, 4, 300241 },
+									{ 39, 1, 4, nil, nil, nil, 26, 4, 300241 },
 								},
 							},
 						},
@@ -1788,37 +1788,37 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 24, nil, nil, nil, 27, 24, 147328 },
+									{ 39, 1, 24, nil, nil, nil, 26, 24, 147328 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9213, 117, nil, nil, nil, 3, 69, 296324, 25, 27, 266248, 1, 15, 270592 },
-									{ 41, 0.0787, 10, nil, nil, nil, 28, 10, 299610 },
+									{ 39, 0.9213, 117, nil, nil, nil, 3, 69, 296324, 24, 27, 266248, 1, 15, 270592 },
+									{ 41, 0.0787, 10, nil, nil, nil, 27, 10, 299610 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 23, nil, nil, nil, 27, 15, 246210 },
+									{ 39, 1, 23, nil, nil, nil, 26, 15, 246210 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 21, nil, nil, nil, 27, 14, 318146 },
+									{ 39, 1, 21, nil, nil, nil, 26, 14, 318146 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 27, nil, nil, nil, 27, 17, 276756 },
+									{ 39, 1, 27, nil, nil, nil, 26, 17, 276756 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 4, nil, nil, nil, 25, 4, 307694 },
+									{ 39, 1, 4, nil, nil, nil, 24, 4, 307694 },
 								},
 							},
 						},
@@ -1827,55 +1827,55 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 1, 1447, 3, 887, 197055, 29, 251, 197810, 25, 49, 215725 },
+									{ 39, 1, 1447, 3, 887, 197055, 28, 251, 197810, 24, 49, 215725 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 286, nil, nil, nil, 3, 200, 138390, 29, 62, 183295, 30, 15, 159607 },
+									{ 39, 1, 286, nil, nil, nil, 3, 200, 138390, 28, 62, 183295, 29, 15, 159607 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 231, nil, nil, nil, 3, 160, 224742, 26, 42, 219771, 30, 15, 258692 },
+									{ 39, 1, 231, nil, nil, nil, 3, 160, 224742, 25, 42, 219771, 29, 15, 258692 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9167, 946, 27, 484, 157766, 25, 148, 167126, 31, 132, 138901 },
-									{ 41, 0.0833, 86, nil, nil, nil, 28, 86, 227207 },
+									{ 39, 0.9167, 946, 26, 484, 157766, 24, 148, 167126, 30, 132, 138901 },
+									{ 41, 0.0833, 86, nil, nil, nil, 27, 86, 227207 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 1, 104, nil, nil, nil, 27, 70, 99259, 24, 12, 123451 },
+									{ 39, 1, 104, nil, nil, nil, 26, 70, 99259, 31, 12, 123451 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 0.9625, 154, nil, nil, nil, 27, 92, 181150, 25, 28, 196609, 29, 21, 219885 },
-									{ 41, 0.0375, 6, nil, nil, nil, 28, 6, 231550 },
+									{ 39, 0.9625, 154, nil, nil, nil, 26, 92, 181150, 24, 28, 196609, 28, 21, 219885 },
+									{ 41, 0.0375, 6, nil, nil, nil, 27, 6, 231550 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 39, 0.9422, 310, nil, nil, nil, 27, 168, 130053, 25, 101, 141981, 1, 27, 216369 },
+									{ 39, 0.9422, 310, nil, nil, nil, 26, 168, 130053, 24, 101, 141981, 1, 27, 216369 },
 									{ 41, 0.0578, 19, nil, nil, nil, 4, 19, 228094 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 39, 0.95, 57, nil, nil, nil, 27, 41, 106955, 25, 16, 140139 },
-									{ 41, 0.05, 3, nil, nil, nil, 28, 3, 210247 },
+									{ 39, 0.95, 57, nil, nil, nil, 26, 41, 106955, 24, 16, 140139 },
+									{ 41, 0.05, 3, nil, nil, nil, 27, 3, 210247 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 39, 1, 47, nil, nil, nil, 25, 20, 193890, 27, 21, 209074 },
+									{ 39, 1, 47, nil, nil, nil, 24, 20, 193890, 26, 21, 209074 },
 								},
 							},
 						},
@@ -1904,21 +1904,21 @@ ns.talentBuilds = {
 				"MzwMLzMzsMMzEzMzYmZmZWMzMMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZGLAAAMzGwMhBMDGA",
 				"MzwYZmZmlxMzEzMGzMzMzmZmhZMDEAAYmZmllZm2AAgNAAAgFA22GzMzgZbYMzYBAAgZ2AmJMgZwA",
 				"MzwMLzMzsMMzEzMmZmZmZWMzMjZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMDLAAAMzGwMhBMDGA",
-				"MzwYZmZmlhZmYmZGzMzMzmZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMzYDAAgZ2AmJjBMDGA",
 				"MzwMLzMzsMMzEzMmZmZmZWMzMMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZGLAAAMzGwMhBMDGA",
 				"MzwYZmZmlxMzEzMGzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsBw2yYmZGMbDjZYBAAgZ2AmJMgZwA",
 				"MzwYZmZmlxMzEzYGzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsAw22YmZGMbDjZYDAAgZ2AmJMgZwA",
 				"MzwYZmZmlhZmYmZGzMzMziZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMzYDAAgZ2AmJjBMDGA",
-				"MzwYZmZmlxDMzEzMmZmZmZWMzMjZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMDLAAAMzGwMhBMDGA",
+				"MzwMLzMzsMMzEzMGzMzMzmZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMzYDAAgZ2AmJjBMDGA",
 				"MzwYZmZmFmZmYGmZmZmZWMzMjZMDEAAYmZmllZm2AAgFAAAgFA22GzMzgZbYMDbAAAMzGwMZMgZwA",
 				"MzwMLzMzsMMzEzMzYmZmZWMzMMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZGbAAAMzGwMhBMDGA",
 				"YGGLzMzsMMjYmZGzMzMziZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzMMbDjZGLAAAMzGwMZMgZwA",
-				"MzwMLzMzsMMzEzMGzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZYBAAgZ2AmJjBMDGA",
+				"MzwYZmZmlhZmYmZGzMzMzmZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMzYDAAgZ2AmJjBMDGA",
+				"MzwYZmZmlhZmYmxYmZmZWMzMjZMDEAAYmZmllZm2AAgNAAAgFA2WGzMz8AMbDjZYDAAgZ2AmJjBMDGA",
 				"MzwYZmZmlhZmYmZGzMzMziZmhZMDEAAYmZmllZm2AAgNAAAgFA2WGzMzgZbYMzYBAAgZ2AmJjBMDGA",
+				"MzwMLzMzsMMzEzMGzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZYBAAgZ2AmJjBMDGA",
 				"MzYZsMjZWGmRMzYMzMzMLmZGmxMQAAgZmZWWmZaDAA2AAAAWAYbZMzMzwsNMmZsAAAwMbAzkxAmBD",
 				"YGGLzMzsMmZmYmZmZmZmZWMzMjZMDEAAYmZmllZm2AAAAAAAbAstNmZmBz2wYGWAAAYmNgZCDYGMA",
 				"MzwYZmZmlhZmYmxMzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsAw22YmZGMbDjZYBAAgZ2AmJjBMDGA",
-				"MzwYZmZmFmZmYGmZmZmZ2MzMMjZgAAAzMzssMz0GAAsAAAAsAw22YmZGMbDjZGbAAAMzGwMZMgZwA",
 				"YGGLzMzsMmZmYmZGzMzMziZmZMjZgAAAzMzssMz0GAAsBAAAsAw2yYmZGMbDjZYBAAgZ2AmJMgZwA",
 				"YGGLzMzsMbPwMTMzMzMzMzMLmZmxMmBCAAMzMzyyMTbAAAAAAgFA2WGzYGMbDjZYBAAgZ2AmJjBMDGA",
 				"YGGLzMzsMMjYmZmZmZmZWMzMMjZgAAAzMzssMz0GAAsBAAAsAw22YmZmhZbYMzYBAAgZ2AmJMgZwA",
@@ -1950,7 +1950,7 @@ ns.talentBuilds = {
 				["4813"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 40, 0.9598, 334, 1, 259, 9, 22, 53, 9, 31, 18, 9 },
+							{ 40, 0.9598, 334, 1, 259, 9, 21, 53, 9, 32, 18, 9 },
 							{ 41, 0.0402, 14, nil, nil, nil, 4, 14, 9 },
 						},
 					},
@@ -1962,8 +1962,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 0.9944, 1067, 14, 995, 17, 32, 51, 20, 33, 14, 17 },
-							{ 41, 0.0056, 6, nil, nil, nil, 9, 6, 17 },
+							{ 40, 1, 708, 1, 662, 17, 33, 35, 20 },
 						},
 					},
 					["20-99"] = {
@@ -1987,33 +1986,33 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 0.986, 636, 14, 591, 17, 28, 33, 21 },
+							{ 40, 0.986, 636, 14, 591, 17, 30, 33, 21 },
 							{ 41, 0.014, 9, nil, nil, nil, 4, 9, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 40, 1, 34, nil, nil, nil, 30, 34, 22 },
+							{ 40, 1, 34, nil, nil, nil, 31, 34, 22 },
 						},
 					},
 				},
 				["8910"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 40, 0.9682, 365, 1, 301, 8, 22, 42, 9, 3, 15, 9 },
+							{ 40, 0.9682, 365, 1, 301, 8, 21, 42, 9, 3, 15, 9 },
 							{ 41, 0.0318, 12, nil, nil, nil, 4, 12, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 40, 0.9814, 4972, 27, 4209, 16, 2, 411, 12, 3, 167, 12 },
+							{ 40, 0.9814, 4972, 26, 4209, 16, 2, 411, 12, 3, 167, 12 },
 							{ 41, 0.0186, 94, nil, nil, nil, 13, 89, 16 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 0.9953, 852, 14, 779, 17, 28, 52, 21, 19, 18, 20 },
-							{ 41, 0.0047, 4, nil, nil, nil, 13, 4, 17 },
+							{ 40, 0.9931, 575, 14, 532, 17, 27, 17, 20, 28, 26, 19 },
+							{ 41, 0.0069, 4, nil, nil, nil, 13, 4, 17 },
 						},
 					},
 					["20-99"] = {
@@ -2025,7 +2024,7 @@ ns.talentBuilds = {
 				["14032"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 40, 0.9481, 365, 1, 286, 9, 22, 51, 9, 12, 19, 9 },
+							{ 40, 0.9481, 365, 1, 286, 9, 21, 51, 9, 12, 19, 9 },
 							{ 41, 0.0519, 20, nil, nil, nil, 4, 17, 9 },
 						},
 					},
@@ -2037,13 +2036,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 0.9939, 485, 1, 455, 16, 25, 22, 17 },
+							{ 40, 0.9939, 485, 1, 455, 16, 24, 22, 17 },
 							{ 41, 0.0061, 3, nil, nil, nil, 4, 3, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 40, 1, 9, nil, nil, nil, 26, 9, 21 },
+							{ 40, 1, 9, nil, nil, nil, 25, 9, 21 },
 						},
 					},
 				},
@@ -2062,7 +2061,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 1, 976, 1, 893, 17, 24, 59, 20, 12, 16, 16 },
+							{ 40, 1, 642, 11, 587, 18, 23, 13, 20, 24, 35, 17 },
 						},
 					},
 					["20-99"] = {
@@ -2080,18 +2079,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 40, 0.9823, 3494, 11, 2965, 15, 2, 316, 12, 21, 116, 17 },
+							{ 40, 0.9823, 3494, 11, 2965, 15, 2, 316, 12, 20, 116, 17 },
 							{ 41, 0.0177, 63, nil, nil, nil, 13, 63, 14 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 1, 611, 14, 568, 18, 22, 28, 21 },
+							{ 40, 1, 611, 14, 568, 18, 21, 28, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 40, 1, 32, nil, nil, nil, 23, 32, 22 },
+							{ 40, 1, 32, nil, nil, nil, 22, 32, 22 },
 						},
 					},
 				},
@@ -2110,12 +2109,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 40, 1, 958, 14, 890, 17, 18, 39, 21, 19, 22, 20 },
+							{ 40, 1, 624, 14, 586, 17, 18, 26, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 40, 1, 36, nil, nil, nil, 20, 36, 22 },
+							{ 40, 1, 36, nil, nil, nil, 19, 36, 22 },
 						},
 					},
 				},
@@ -2176,8 +2175,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 40, 0.9994, 15248, 12, 9991, 420193, 1, 3181, 430730, 34, 1687, 422740 },
-									{ 41, 0.0006, 9, nil, nil, nil, 4, 9, 493633 },
+									{ 40, 0.9991, 10541, 12, 7099, 422493, 1, 2048, 429871, 34, 1147, 421411 },
+									{ 41, 0.0009, 9, nil, nil, nil, 4, 9, 449280 },
 								},
 							},
 							["fast"] = {
@@ -3853,7 +3852,7 @@ ns.talentBuilds = {
 									{ 50, 1, 667, 3, 375, 147964, 30, 141, 146956, 33, 50, 147542 },
 								},
 								["all"] = {
-									{ 50, 1, 1062, 3, 568, 235154, 30, 222, 148537, 33, 75, 147861 },
+									{ 50, 1, 680, 3, 382, 147964, 30, 142, 146977, 33, 51, 147542 },
 								},
 							},
 							["fast"] = {
@@ -5103,8 +5102,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 48, 0.9891, 4705, 7, 1988, 21, 12, 1294, 21, 15, 355, 21 },
-							{ 50, 0.0109, 52, nil, nil, nil, 8, 27, 21, 4, 25, 20 },
+							{ 48, 0.9892, 3118, 7, 1342, 21, 12, 852, 21, 15, 231, 21 },
+							{ 50, 0.0108, 34, nil, nil, nil, 14, 19, 23, 4, 15, 21 },
 						},
 					},
 					["20-99"] = {
@@ -5326,8 +5325,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 48, 0.9864, 22125, 34, 9031, 429586, 35, 1654, 430024, 1, 1356, 429561 },
-									{ 50, 0.0136, 306, nil, nil, nil, 36, 123, 381701, 9, 49, 430268, 37, 69, 428408 },
+									{ 48, 0.9831, 12817, 34, 5047, 432441, 35, 1019, 428654, 1, 785, 431314 },
+									{ 50, 0.0169, 220, nil, nil, nil, 36, 123, 382050, 37, 44, 433915, 9, 21, 427947 },
 								},
 							},
 							["fast"] = {
@@ -5923,8 +5922,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 48, 0.832, 4095, 35, 2435, 144848, 1, 312, 150103, 34, 438, 148156 },
-									{ 50, 0.168, 827, 37, 598, 143298, 67, 101, 143010, 36, 50, 143941 },
+									{ 48, 0.8091, 2501, 35, 1553, 144452, 1, 160, 148399, 34, 257, 146303 },
+									{ 50, 0.1909, 590, 37, 435, 142572, 67, 66, 141373, 36, 35, 143409 },
 								},
 							},
 							["fast"] = {
@@ -7423,8 +7422,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 61, 0.8824, 12002, 35, 7080, 422412, 36, 838, 415746, 14, 216, 427152 },
-									{ 60, 0.1176, 1599, 4, 445, 431470, 11, 790, 409218, 5, 174, 409195 },
+									{ 61, 0.8783, 6918, 35, 4325, 424461, 14, 113, 431873, 36, 478, 417594 },
+									{ 60, 0.1217, 959, 4, 279, 433527, 11, 456, 408683, 5, 118, 414601 },
 								},
 							},
 							["fast"] = {
@@ -9166,13 +9165,13 @@ ns.talentBuilds = {
 				"WoMbNMmZgxsYmZmZhBMLzsMziZmxGLzsMmZMWwwAM22mZwYWGBmAAAAsYm5BmZwmxMGDAAzMwA",
 				"WoMbNjxMDwsYmZmBDGzyMLzsYmZsxyMLjZGjFMMAjltZGMmtRgJAAAALmZmZGsZMjxAAwMDMA",
 				"WoMbNjxMDMmlZmZmBYGjZWGbzYGbsMzyYmZMLYYAGgltxGmmZWGBAAAYjZmZGsZgxMAmZAgB",
-				"WoMbNjxMDwsYmZmZhBMLzsMziZmxGLzsMmZMWwwAMW2mZwY2GBmAAAAsYmZmZwmxMGDAAzMwA",
 				"WoMbNjxMDMmFzMzMLMgxMLzsYmZmlxyMLjZGshhBYssNzgxsNCMBAAAYhZmZGsZMMGAAmZgB",
 				"WoMbNjxMDwsMzMzMLMYMLzsMziZmxGLzsMmZMWwwAM22mZwY2GBmAAAAswMzMD2MMGDAAzMwA",
 				"WoMbNjxMDwswMzMLMMMLzsMziZmxGLzsMmZMWwwAMW2mZwY2GBmAAAAsYmZmZwmxMGDAAzMwA",
 				"WoMbNMmZgxsYmZmZhBMLzsMWmZmZ2YZmlxMD2wwAMALbjNMNzsMCAAAwmZmZmBbGGjBgZGAYA",
 				"WoMbNMmZgxsMzMzMLMgZZmlx2MmxGLzYmZGmFMAYAW2GbYamZbEAAAgNmZmZwmxMGzAYmBAGA",
 				"WoMbNjxMDwsYmZmZhBMLzsMziZmxGLzsMmZMWwwAM22mZwYWGBmAAAAsYmZmZwmxMGDAAzMwA",
+				"WoMbNjxMDwsYmZmZhBMLzsMziZmxGLzsMmZMWwwAMW2mZwY2GBmAAAAsYmZmZwmxMGDAAzMwA",
 				"WoMbNjxMDMmFzMzMAzY2mZZsNjZsxyMGzMjZBDDwAssN2w0MzyIAAAAbMzMzgNDjxMAmZAgB",
 				"WoMbNjxMDMmFzMzMAGz2MLjthZmtxyMGzMDbYYAGgltxGmmZWGBAAAYjZmZGstNMGzAYmBAGA",
 				"WoMbNjxMDMmFzMzMAzY2mZZsNMzsNWmxYmZYDDDwAssN2w0MzyIAAAAbMzMzgNDjxMAmZAgB",
@@ -9248,7 +9247,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 517, 1, 354, 17, 2, 48, 16, 23, 16, 22 },
+							{ 24, 1, 410, 1, 292, 17, 22, 13, 22, 23, 44, 20 },
 						},
 					},
 					["20-99"] = {
@@ -9290,13 +9289,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9536, 2324, 19, 1335, 14, 15, 260, 14, 9, 97, 13 },
-							{ 23, 0.0464, 113, nil, nil, nil, 22, 3, 16 },
+							{ 24, 0.9536, 2324, 18, 1335, 14, 15, 260, 14, 9, 97, 13 },
+							{ 23, 0.0464, 113, nil, nil, nil, 21, 3, 16 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 362, 1, 243, 17, 12, 41, 20 },
+							{ 24, 1, 270, 1, 176, 18, 12, 38, 21, 2, 31, 16 },
 						},
 					},
 					["20-99"] = {
@@ -9314,37 +9313,37 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9586, 2452, 19, 1413, 14, 15, 282, 14, 9, 85, 13 },
-							{ 23, 0.0414, 106, nil, nil, nil, 21, 3, 17, 4, 41, 12 },
+							{ 24, 0.9586, 2452, 18, 1413, 14, 15, 282, 14, 9, 85, 13 },
+							{ 23, 0.0414, 106, nil, nil, nil, 20, 3, 17, 4, 41, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 393, 1, 278, 17, 15, 40, 20, 2, 38, 16 },
+							{ 24, 1, 291, 1, 202, 17, 15, 32, 20, 2, 28, 16 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 17, nil, nil, nil, 15, 3, 23, 1, 14, 21 },
+							{ 24, 1, 14, nil, nil, nil, 15, 3, 23 },
 						},
 					},
 				},
 				["15808"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 24, 0.9264, 214, 1, 107, 8, 2, 55, 8, 18, 15, 9 },
+							{ 24, 0.9264, 214, 1, 107, 8, 2, 55, 8, 17, 15, 9 },
 							{ 23, 0.0736, 17, nil, nil, nil, 5, 4, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9595, 3128, 19, 1890, 14, 3, 151, 13, 9, 94, 13 },
+							{ 24, 0.9595, 3128, 18, 1890, 14, 3, 151, 13, 9, 94, 13 },
 							{ 23, 0.0405, 132, 4, 57, 12, 6, 19, 12, 5, 18, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 422, 1, 299, 17, 20, 45, 21, 9, 12, 17 },
+							{ 24, 1, 320, 1, 235, 18, 19, 35, 21, 2, 24, 16 },
 						},
 					},
 					["20-99"] = {
@@ -9392,7 +9391,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 417, 1, 295, 18, 17, 48, 21, 3, 13, 17 },
+							{ 24, 1, 343, 1, 245, 17, 12, 37, 21 },
 						},
 					},
 					["20-99"] = {
@@ -9416,7 +9415,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 341, 1, 248, 18, 12, 39, 20, 2, 27, 17 },
+							{ 24, 1, 298, 1, 213, 17, 12, 33, 20, 2, 25, 17 },
 						},
 					},
 					["20-99"] = {
@@ -9583,8 +9582,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 23, 0.9349, 1191, 29, 472, 198125, 16, 208, 212694, 6, 64, 213061 },
-									{ 24, 0.0651, 83, nil, nil, nil, 1, 42, 218250, 2, 12, 230728 },
+									{ 23, 0.9365, 1225, 29, 510, 194582, 16, 219, 206969, 6, 59, 211883 },
+									{ 24, 0.0635, 83, nil, nil, nil, 1, 49, 217069 },
 								},
 							},
 							["fast"] = {
@@ -10264,8 +10263,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 0.9926, 937, 1, 459, 21, 5, 295, 21, 17, 21, 23 },
-							{ 22, 0.0074, 7, nil, nil, nil, 8, 4, 22 },
+							{ 21, 0.9954, 643, 5, 220, 22, 1, 297, 21, 17, 16, 23 },
+							{ 22, 0.0046, 3, nil, nil, nil, 8, 3, 23 },
 						},
 					},
 					["20-99"] = {
@@ -10295,8 +10294,8 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 21, 0.8915, 263, 7, 72, 22, 1, 97, 21, 6, 46, 23 },
-							{ 22, 0.1085, 32, nil, nil, nil, 9, 19, 22, 11, 13, 22 },
+							{ 21, 0.9327, 194, 1, 70, 21, 6, 32, 23, 7, 52, 22 },
+							{ 22, 0.0673, 14, nil, nil, nil, 9, 14, 22 },
 						},
 					},
 				},
@@ -10314,8 +10313,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 0.9882, 587, 5, 166, 21, 1, 276, 20, 15, 26, 21 },
-							{ 22, 0.0118, 7, nil, nil, nil, 9, 3, 21 },
+							{ 21, 1, 396, 5, 123, 21, 1, 182, 20, 15, 21, 21 },
 						},
 					},
 					["20-99"] = {
@@ -10338,8 +10336,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 0.9765, 624, 5, 174, 21, 1, 310, 20, 15, 26, 21 },
-							{ 22, 0.0235, 15, nil, nil, nil, 10, 8, 22 },
+							{ 21, 0.9792, 424, 5, 135, 21, 1, 205, 20, 15, 16, 21 },
+							{ 22, 0.0208, 9, nil, nil, nil, 8, 5, 23 },
 						},
 					},
 					["20-99"] = {
@@ -10362,7 +10360,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 1, 748, 1, 392, 21, 5, 199, 21, 15, 25, 22 },
+							{ 21, 1, 513, 1, 269, 21, 5, 143, 21, 15, 17, 22 },
 						},
 					},
 					["20-99"] = {
@@ -10391,8 +10389,8 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 21, 0.9826, 396, 5, 134, 23, 1, 200, 22, 15, 17, 21 },
-							{ 22, 0.0174, 7, nil, nil, nil, 8, 7, 22 },
+							{ 21, 0.9861, 283, 5, 104, 23, 1, 135, 22 },
+							{ 22, 0.0139, 4, nil, nil, nil, 8, 4, 23 },
 						},
 					},
 				},
@@ -10410,8 +10408,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 0.9869, 756, 1, 372, 21, 5, 238, 21, 12, 17, 23 },
-							{ 22, 0.0131, 10, nil, nil, nil, 8, 5, 23 },
+							{ 21, 0.9875, 551, 1, 269, 21, 5, 197, 21, 7, 17, 21 },
+							{ 22, 0.0125, 7, nil, nil, nil, 8, 3, 23 },
 						},
 					},
 					["20-99"] = {
@@ -10435,8 +10433,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 21, 0.9955, 663, 5, 198, 22, 1, 330, 21, 12, 23, 22 },
-							{ 22, 0.0045, 3, nil, nil, nil, 9, 3, 21 },
+							{ 21, 0.9936, 465, 5, 160, 22, 1, 227, 21, 15, 16, 22 },
+							{ 22, 0.0064, 3, nil, nil, nil, 9, 3, 21 },
 						},
 					},
 					["20-99"] = {
@@ -11191,16 +11189,13 @@ ns.talentBuilds = {
 				"ZmFzMjZWmZxMmZZZgZbGGNRmZWmZmZmlxMAAAAAwAjNzALbzMYMLDgpAAAAbYmBYxADMLW2AMzAA",
 				"ZmFzMjZWmZx4BmZZZgZzwoJyMzyMzMzsMmhBAAAAAYsZGYZbmBjZZAMFAAAYzYmBYxADMLW2AMzAA",
 				"xsMmZMWMLzDMPwMLLDMbGGNRzMzyMzMzsMmhBAAAAAMsMDAAAA1MLzyMzMAAWwMPAwiZwgBLbDAmZDG",
-				"ZmFzMjZWmZxMmZZZgZzwoJyMzyMzMzsMmZAAAAAAYsZGYZbmBjZZAMFAAAYDzMALGYgZxyGgZGAA",
-				"ZmFzMjZWmZxMPwMLLDMbGGNRmZWmZmZmlxMmBAAAAAYsYGYZbmBjZZAMFAAAYDzMALGYgZxCAzMAA",
+				"ZmFzMjZWMLm5BmZZZgZzwoJyMziZmZmlxMjBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGYgZxyGgZGAA",
 				"ZmFzMjZWmZxMPwMLLDMbGGNRmZWmZmZmlxMMAAAAAAjFzALbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
-				"ZmFzMjZWmZx4BmZZZgZzwoJyMzyMzMzsMmhBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGDDMLW2AMzAA",
 				"ZmFzMjZWmZxMPwMLLDMbGGNRmZWmZmZmlxMMAAAAAAjNzAbbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
 				"ZmFzMjZWmZxMPwMLLDMbGGNRmZWmZmZmlxMGAAAAAAjNzALbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
-				"ZmFzMjZWMLm5BmZZZgZzwoJyMziZmZmlxMjBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGYgZxyGgZGAA",
-				"ZmFzMjZWmZxMPwMLLDMbzwoJyMziZmZmlxMAAAAAwAjNzALbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
-				"ZmFzMjZWmZxMmZZZgZzwoJyMziZmZmlxMmBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGDDMLW2AMzAA",
+				"ZmFzMjZWmZx4BmZZZgZzwoJyMzyMzMzsMmhBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGDDMLW2AMzAA",
 				"ZmFzMjZWmZxMPwMLLDMbzwoJyMzyMzMzsMMAAAAAwAjNzALbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
+				"ZmFzMjZWmZxMmZZZgZzwoJyMziZmZmlxMmBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGDDMLW2AMzAA",
 				"ZmFzMjZWmZxMmZZZgZzMGNRmZWmZmZmlxMMAAAAAAjNzALbzMYMLDgpAAAAbYmBYxADMLW2AMzAA",
 				"ZmFzMjZWmZxMPwMLLDMbGGNRmZWmZmZmlxMPAAAAAAAjFzALbzMYMLDgpAAAAbYmBYxYYgZxCAzMAA",
 				"ZmFzMjZWMLm5BmZZZgZzwoJyMzyMzMzsMmhBAAAAAYsZGYZbmBjZZAMFAAAYDzMALGDDMLW2AMzAA",
@@ -11252,18 +11247,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9984, 13048, 12, 9027, 22, 6, 865, 22, 20, 407, 20 },
+							{ 24, 0.9984, 13048, 12, 9027, 22, 6, 865, 22, 21, 407, 20 },
 							{ 21, 0.0016, 21, nil, nil, nil, 4, 17, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 10676, 13, 8411, 23, 6, 518, 23, 15, 233, 20 },
+							{ 24, 1, 7285, 13, 5663, 23, 6, 525, 23, 2, 130, 18 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 4267, 6, 331, 23, 1, 3504, 22, 29, 29, 24 },
+							{ 24, 1, 4267, 6, 331, 23, 1, 3504, 22, 26, 29, 24 },
 						},
 					},
 				},
@@ -11276,7 +11271,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9981, 11054, 13, 7664, 22, 6, 709, 22, 20, 351, 20 },
+							{ 24, 0.9981, 11054, 13, 7664, 22, 6, 709, 22, 21, 351, 20 },
 							{ 21, 0.0019, 21, nil, nil, nil, 16, 21, 12 },
 						},
 					},
@@ -11287,7 +11282,7 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 2975, 26, 2484, 23, 27, 259, 24, 28, 78, 23 },
+							{ 24, 1, 2975, 22, 2484, 23, 24, 259, 24, 25, 78, 23 },
 						},
 					},
 				},
@@ -11300,18 +11295,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9991, 10998, 12, 7723, 21, 6, 739, 21, 19, 362, 19 },
+							{ 24, 0.9991, 10998, 12, 7723, 21, 6, 739, 21, 18, 362, 19 },
 							{ 21, 0.0009, 10, nil, nil, nil, 16, 10, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 7302, 13, 5775, 23, 6, 371, 22, 2, 143, 17 },
+							{ 24, 1, 5032, 20, 3931, 22, 6, 345, 22, 2, 101, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 2385, 1, 1978, 22, 25, 207, 24, 23, 26, 24 },
+							{ 24, 1, 2385, 1, 1978, 22, 23, 207, 24, 17, 26, 24 },
 						},
 					},
 				},
@@ -11330,12 +11325,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 7888, 24, 6236, 22, 3, 403, 22, 2, 152, 17 },
+							{ 24, 1, 5273, 22, 4116, 22, 6, 403, 22, 2, 106, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 3639, 1, 3085, 22, 11, 231, 24, 23, 20, 24 },
+							{ 24, 1, 2463, 1, 2043, 22, 17, 15, 24, 6, 221, 23 },
 						},
 					},
 				},
@@ -11348,18 +11343,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9983, 12204, 22, 8262, 22, 6, 821, 22, 20, 390, 18 },
+							{ 24, 0.9983, 12204, 20, 8262, 22, 6, 821, 22, 21, 390, 18 },
 							{ 21, 0.0017, 21, nil, nil, nil, 8, 3, 18, 16, 18, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 8438, 6, 445, 23, 12, 6569, 22, 2, 168, 18 },
+							{ 24, 1, 5783, 6, 449, 23, 12, 4445, 22, 2, 119, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 3209, 22, 2615, 23, 6, 275, 23, 23, 40, 24 },
+							{ 24, 1, 3209, 20, 2615, 23, 6, 275, 23, 17, 40, 24 },
 						},
 					},
 				},
@@ -11372,7 +11367,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.9986, 11262, 12, 7968, 22, 6, 684, 22, 19, 444, 21 },
+							{ 24, 0.9986, 11262, 12, 7968, 22, 6, 684, 22, 18, 444, 21 },
 							{ 21, 0.0014, 16, nil, nil, nil, 16, 16, 12 },
 						},
 					},
@@ -11383,7 +11378,7 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 3923, 22, 3242, 23, 6, 315, 23, 23, 30, 24 },
+							{ 24, 1, 3923, 20, 3242, 23, 6, 315, 23, 17, 30, 24 },
 						},
 					},
 				},
@@ -11396,18 +11391,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 24, 0.999, 10973, 12, 7705, 22, 6, 759, 22, 19, 409, 21 },
+							{ 24, 0.999, 10973, 12, 7705, 22, 6, 759, 22, 18, 409, 21 },
 							{ 21, 0.001, 11, nil, nil, nil, 4, 11, 10 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 9696, 13, 7673, 23, 6, 510, 23, 20, 210, 21 },
+							{ 24, 1, 6426, 13, 5026, 23, 6, 480, 23, 2, 117, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 3717, 6, 329, 23, 1, 3055, 22, 21, 20, 25 },
+							{ 24, 1, 3717, 6, 329, 23, 1, 3055, 22, 19, 20, 25 },
 						},
 					},
 				},
@@ -11426,12 +11421,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 24, 1, 8353, 13, 6639, 23, 6, 369, 23, 2, 145, 17 },
+							{ 24, 1, 5681, 13, 4517, 23, 6, 359, 23, 2, 94, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 24, 1, 4534, 13, 3831, 23, 17, 244, 24, 18, 163, 24 },
+							{ 24, 1, 3195, 1, 2685, 22, 17, 22, 24, 6, 236, 23 },
 						},
 					},
 				},
@@ -11466,47 +11461,47 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9929, 4906, 1, 2524, 430519, 2, 162, 429393, 30, 90, 449865 },
-									{ 21, 0.0071, 35, nil, nil, nil, 31, 23, 451543, 32, 12, 473733 },
+									{ 24, 0.9929, 4906, 1, 2524, 430519, 2, 162, 429393, 27, 90, 449865 },
+									{ 21, 0.0071, 35, nil, nil, nil, 28, 23, 451543, 29, 12, 473733 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 592, 1, 241, 390284, 33, 229, 375308, 34, 42, 359188 },
+									{ 24, 1, 592, 1, 241, 390284, 30, 229, 375308, 31, 42, 359188 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9921, 758, 1, 493, 446921, 33, 84, 444767, 2, 35, 446446 },
-									{ 21, 0.0079, 6, nil, nil, nil, 35, 6, 446968 },
+									{ 24, 0.9921, 758, 1, 493, 446921, 30, 84, 444767, 2, 35, 446446 },
+									{ 21, 0.0079, 6, nil, nil, nil, 32, 6, 446968 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9404, 1200, 1, 670, 355789, 2, 179, 364721, 30, 86, 367083 },
-									{ 21, 0.0596, 76, nil, nil, nil, 31, 36, 344885 },
+									{ 24, 0.9404, 1200, 1, 670, 355789, 2, 179, 364721, 27, 86, 367083 },
+									{ 21, 0.0596, 76, nil, nil, nil, 28, 36, 344885 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.9478, 127, 1, 81, 306292, 33, 17, 262042, 2, 18, 314792 },
-									{ 21, 0.0522, 7, nil, nil, nil, 31, 7, 331600 },
+									{ 24, 0.9478, 127, 1, 81, 306292, 30, 17, 262042, 2, 18, 314792 },
+									{ 21, 0.0522, 7, nil, nil, nil, 28, 7, 331600 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9471, 197, 1, 124, 380302, 2, 42, 385593, 30, 22, 386365 },
-									{ 21, 0.0529, 11, nil, nil, nil, 31, 8, 373719 },
+									{ 24, 0.9471, 197, 1, 124, 380302, 2, 42, 385593, 27, 22, 386365 },
+									{ 21, 0.0529, 11, nil, nil, nil, 28, 8, 373719 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9371, 298, 1, 157, 198488, 2, 61, 228408, 30, 37, 237526 },
-									{ 21, 0.0629, 20, nil, nil, nil, 31, 8, 183232 },
+									{ 24, 0.9371, 298, 1, 157, 198488, 2, 61, 228408, 27, 37, 237526 },
+									{ 21, 0.0629, 20, nil, nil, nil, 28, 8, 183232 },
 								},
 							},
 							["fast"] = {
@@ -11525,47 +11520,47 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9929, 4906, 1, 2524, 430519, 2, 162, 429393, 30, 90, 449865 },
-									{ 21, 0.0071, 35, nil, nil, nil, 31, 23, 451543, 32, 12, 473733 },
+									{ 24, 0.9929, 4906, 1, 2524, 430519, 2, 162, 429393, 27, 90, 449865 },
+									{ 21, 0.0071, 35, nil, nil, nil, 28, 23, 451543, 29, 12, 473733 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 592, 1, 241, 390284, 33, 229, 375308, 34, 42, 359188 },
+									{ 24, 1, 592, 1, 241, 390284, 30, 229, 375308, 31, 42, 359188 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9921, 758, 1, 493, 446921, 33, 84, 444767, 2, 35, 446446 },
-									{ 21, 0.0079, 6, nil, nil, nil, 35, 6, 446968 },
+									{ 24, 0.9921, 758, 1, 493, 446921, 30, 84, 444767, 2, 35, 446446 },
+									{ 21, 0.0079, 6, nil, nil, nil, 32, 6, 446968 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9404, 1200, 1, 670, 355789, 2, 179, 364721, 30, 86, 367083 },
-									{ 21, 0.0596, 76, nil, nil, nil, 31, 36, 344885 },
+									{ 24, 0.9404, 1200, 1, 670, 355789, 2, 179, 364721, 27, 86, 367083 },
+									{ 21, 0.0596, 76, nil, nil, nil, 28, 36, 344885 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.9478, 127, 1, 81, 306292, 33, 17, 262042, 2, 18, 314792 },
-									{ 21, 0.0522, 7, nil, nil, nil, 31, 7, 331600 },
+									{ 24, 0.9478, 127, 1, 81, 306292, 30, 17, 262042, 2, 18, 314792 },
+									{ 21, 0.0522, 7, nil, nil, nil, 28, 7, 331600 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9471, 197, 1, 124, 380302, 2, 42, 385593, 30, 22, 386365 },
-									{ 21, 0.0529, 11, nil, nil, nil, 31, 8, 373719 },
+									{ 24, 0.9471, 197, 1, 124, 380302, 2, 42, 385593, 27, 22, 386365 },
+									{ 21, 0.0529, 11, nil, nil, nil, 28, 8, 373719 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9371, 298, 1, 157, 198488, 2, 61, 228408, 30, 37, 237526 },
-									{ 21, 0.0629, 20, nil, nil, nil, 31, 8, 183232 },
+									{ 24, 0.9371, 298, 1, 157, 198488, 2, 61, 228408, 27, 37, 237526 },
+									{ 21, 0.0629, 20, nil, nil, nil, 28, 8, 183232 },
 								},
 							},
 							["fast"] = {
@@ -11586,26 +11581,26 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.98, 636, 1, 314, 229924, 38, 68, 198746, 30, 27, 215338 },
-									{ 21, 0.02, 13, nil, nil, nil, 31, 10, 253230 },
+									{ 24, 0.98, 636, 1, 314, 229924, 35, 68, 198746, 27, 27, 215338 },
+									{ 21, 0.02, 13, nil, nil, nil, 28, 10, 253230 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 68, nil, nil, nil, 1, 12, 186397, 38, 19, 175708, 33, 30, 173925 },
+									{ 24, 1, 68, nil, nil, nil, 1, 12, 186397, 35, 19, 175708, 30, 30, 173925 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 90, nil, nil, nil, 1, 50, 221760, 38, 14, 223604 },
+									{ 24, 1, 90, nil, nil, nil, 1, 50, 221760, 35, 14, 223604 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9156, 434, 1, 233, 158559, 30, 55, 161972, 2, 52, 183334 },
-									{ 21, 0.0844, 40, nil, nil, nil, 31, 19, 151627 },
+									{ 24, 0.9156, 434, 1, 233, 158559, 27, 55, 161972, 2, 52, 183334 },
+									{ 21, 0.0844, 40, nil, nil, nil, 28, 19, 151627 },
 								},
 							},
 							["fast"] = {
@@ -11615,16 +11610,16 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9324, 69, nil, nil, nil, 1, 44, 165733, 30, 14, 168336 },
-									{ 21, 0.0676, 5, nil, nil, nil, 31, 5, 174033 },
+									{ 24, 0.9324, 69, nil, nil, nil, 1, 44, 165733, 27, 14, 168336 },
+									{ 21, 0.0676, 5, nil, nil, nil, 28, 5, 174033 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9532, 163, 1, 89, 162050, 30, 31, 168394, 2, 28, 167960 },
-									{ 21, 0.0468, 8, nil, nil, nil, 31, 8, 185469 },
+									{ 24, 0.9532, 163, 1, 89, 162050, 27, 31, 168394, 2, 28, 167960 },
+									{ 21, 0.0468, 8, nil, nil, nil, 28, 8, 185469 },
 								},
 							},
 							["fast"] = {
@@ -11643,27 +11638,27 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9703, 523, 1, 223, 250061, 30, 29, 252454, 38, 52, 202193 },
-									{ 21, 0.0297, 16, nil, nil, nil, 31, 9, 256133 },
+									{ 24, 0.9703, 523, 1, 223, 250061, 27, 29, 252454, 35, 52, 202193 },
+									{ 21, 0.0297, 16, nil, nil, nil, 28, 9, 256133 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 62, nil, nil, nil, 1, 13, 194220, 38, 12, 189902, 40, 30, 193152 },
+									{ 24, 1, 62, nil, nil, nil, 1, 13, 194220, 35, 12, 189902, 37, 30, 193152 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 24, 0.9508, 58, nil, nil, nil, 1, 25, 247655 },
-									{ 21, 0.0492, 3, nil, nil, nil, 31, 3, 254952 },
+									{ 21, 0.0492, 3, nil, nil, nil, 28, 3, 254952 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9233, 397, 1, 198, 204296, 30, 58, 211371, 2, 51, 228955 },
-									{ 21, 0.0767, 33, nil, nil, nil, 31, 18, 234081 },
+									{ 24, 0.9233, 397, 1, 198, 204296, 27, 58, 211371, 2, 51, 228955 },
+									{ 21, 0.0767, 33, nil, nil, nil, 28, 18, 234081 },
 								},
 							},
 							["fast"] = {
@@ -11674,20 +11669,20 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 24, 0.9067, 68, nil, nil, nil, 1, 45, 223936 },
-									{ 21, 0.0933, 7, nil, nil, nil, 31, 4, 233453 },
+									{ 21, 0.0933, 7, nil, nil, nil, 28, 4, 233453 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9304, 147, 1, 84, 258045, 30, 30, 221490, 2, 26, 234041 },
-									{ 21, 0.0696, 11, nil, nil, nil, 31, 8, 224503 },
+									{ 24, 0.9304, 147, 1, 84, 258045, 27, 30, 221490, 2, 26, 234041 },
+									{ 21, 0.0696, 11, nil, nil, nil, 28, 8, 224503 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 21, nil, nil, nil, 30, 9, 171079 },
+									{ 24, 1, 21, nil, nil, nil, 27, 9, 171079 },
 								},
 							},
 							["median"] = {
@@ -11701,8 +11696,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9742, 151, nil, nil, nil, 1, 55, 339460, 42, 28, 283293 },
-									{ 21, 0.0258, 4, nil, nil, nil, 37, 4, 330763 },
+									{ 24, 0.9742, 151, nil, nil, nil, 1, 55, 339460, 39, 28, 283293 },
+									{ 21, 0.0258, 4, nil, nil, nil, 34, 4, 330763 },
 								},
 							},
 							["fast"] = {
@@ -11719,28 +11714,28 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9149, 301, 1, 159, 322254, 30, 41, 328513, 2, 34, 335383 },
-									{ 21, 0.0851, 28, nil, nil, nil, 31, 16, 320217 },
+									{ 24, 0.9149, 301, 1, 159, 322254, 27, 41, 328513, 2, 34, 335383 },
+									{ 21, 0.0851, 28, nil, nil, nil, 28, 16, 320217 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.9143, 32, nil, nil, nil, 33, 10, 229464, 1, 12, 252310 },
-									{ 21, 0.0857, 3, nil, nil, nil, 31, 3, 287672 },
+									{ 24, 0.9143, 32, nil, nil, nil, 30, 10, 229464, 1, 12, 252310 },
+									{ 21, 0.0857, 3, nil, nil, nil, 28, 3, 287672 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 24, 0.9259, 50, nil, nil, nil, 1, 32, 333528 },
-									{ 21, 0.0741, 4, nil, nil, nil, 31, 4, 328282 },
+									{ 21, 0.0741, 4, nil, nil, nil, 28, 4, 328282 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9197, 126, 1, 68, 206190, 30, 23, 244527, 2, 20, 241568 },
-									{ 21, 0.0803, 11, nil, nil, nil, 31, 7, 311726 },
+									{ 24, 0.9197, 126, 1, 68, 206190, 27, 23, 244527, 2, 20, 241568 },
+									{ 21, 0.0803, 11, nil, nil, nil, 28, 7, 311726 },
 								},
 							},
 							["fast"] = {
@@ -11750,7 +11745,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 13, nil, nil, nil, 30, 7, 244527 },
+									{ 24, 1, 13, nil, nil, nil, 27, 7, 244527 },
 								},
 							},
 						},
@@ -11759,13 +11754,13 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9739, 298, 1, 77, 232921, 33, 94, 196831, 38, 36, 188905 },
-									{ 21, 0.0261, 8, nil, nil, nil, 37, 4, 221823 },
+									{ 24, 0.9739, 298, 1, 77, 232921, 30, 94, 196831, 35, 36, 188905 },
+									{ 21, 0.0261, 8, nil, nil, nil, 34, 4, 221823 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 44, nil, nil, nil, 38, 14, 185714, 41, 18, 161760 },
+									{ 24, 1, 44, nil, nil, nil, 35, 14, 185714, 38, 18, 161760 },
 								},
 							},
 							["median"] = {
@@ -11777,8 +11772,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9222, 391, 1, 195, 226430, 30, 54, 236207, 2, 46, 240523 },
-									{ 21, 0.0778, 33, nil, nil, nil, 31, 18, 218656 },
+									{ 24, 0.9222, 391, 1, 195, 226430, 27, 54, 236207, 2, 46, 240523 },
+									{ 21, 0.0778, 33, nil, nil, nil, 28, 18, 218656 },
 								},
 							},
 							["fast"] = {
@@ -11788,16 +11783,16 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9153, 54, nil, nil, nil, 1, 35, 236701, 30, 15, 238568 },
-									{ 21, 0.0847, 5, nil, nil, nil, 31, 5, 244339 },
+									{ 24, 0.9153, 54, nil, nil, nil, 1, 35, 236701, 27, 15, 238568 },
+									{ 21, 0.0847, 5, nil, nil, nil, 28, 5, 244339 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9241, 134, 1, 71, 193741, 30, 31, 195960, 2, 23, 213702 },
-									{ 21, 0.0759, 11, nil, nil, nil, 31, 7, 203460 },
+									{ 24, 0.9241, 134, 1, 71, 193741, 27, 31, 195960, 2, 23, 213702 },
+									{ 21, 0.0759, 11, nil, nil, nil, 28, 7, 203460 },
 								},
 							},
 							["fast"] = {
@@ -11816,12 +11811,12 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 1, 125, nil, nil, nil, 1, 35, 343711, 43, 33, 302706, 36, 13, 338121 },
+									{ 24, 1, 125, nil, nil, nil, 1, 35, 343711, 40, 33, 302706, 33, 13, 338121 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 16, nil, nil, nil, 43, 7, 296573 },
+									{ 24, 1, 16, nil, nil, nil, 40, 7, 296573 },
 								},
 							},
 							["median"] = {
@@ -11833,8 +11828,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9206, 313, 1, 196, 212262, 30, 25, 221064, 2, 22, 231430 },
-									{ 21, 0.0794, 27, nil, nil, nil, 31, 16, 224735 },
+									{ 24, 0.9206, 313, 1, 196, 212262, 27, 25, 221064, 2, 22, 231430 },
+									{ 21, 0.0794, 27, nil, nil, nil, 28, 16, 224735 },
 								},
 							},
 							["fast"] = {
@@ -11845,15 +11840,15 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 24, 0.8913, 41, nil, nil, nil, 1, 28, 244001 },
-									{ 21, 0.1087, 5, nil, nil, nil, 31, 5, 244745 },
+									{ 21, 0.1087, 5, nil, nil, nil, 28, 5, 244745 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.916, 120, 1, 68, 179699, 30, 22, 186322, 2, 21, 179366 },
-									{ 21, 0.084, 11, nil, nil, nil, 31, 8, 183439 },
+									{ 24, 0.916, 120, 1, 68, 179699, 27, 22, 186322, 2, 21, 179366 },
+									{ 21, 0.084, 11, nil, nil, nil, 28, 8, 183439 },
 								},
 							},
 							["fast"] = {
@@ -11872,25 +11867,25 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 1, 90, nil, nil, nil, 36, 36, 452973, 1, 16, 466000 },
+									{ 24, 1, 90, nil, nil, nil, 33, 36, 452973, 1, 16, 466000 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 12, nil, nil, nil, 44, 5, 416035 },
+									{ 24, 1, 12, nil, nil, nil, 41, 5, 416035 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 3, nil, nil, nil, 36, 3, 471106 },
+									{ 24, 1, 3, nil, nil, nil, 33, 3, 471106 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.8947, 119, 1, 71, 421946, 33, 26, 347075 },
-									{ 21, 0.1053, 14, nil, nil, nil, 31, 8, 411908 },
+									{ 24, 0.8947, 119, 1, 71, 421946, 30, 26, 347075 },
+									{ 21, 0.1053, 14, nil, nil, nil, 28, 8, 411908 },
 								},
 							},
 							["fast"] = {
@@ -11907,8 +11902,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9048, 95, nil, nil, nil, 1, 52, 279244, 30, 19, 318393, 2, 14, 308267 },
-									{ 21, 0.0952, 10, nil, nil, nil, 31, 6, 312256 },
+									{ 24, 0.9048, 95, nil, nil, nil, 1, 52, 279244, 27, 19, 318393, 2, 14, 308267 },
+									{ 21, 0.0952, 10, nil, nil, nil, 28, 6, 312256 },
 								},
 							},
 							["fast"] = {
@@ -11918,7 +11913,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 9, nil, nil, nil, 30, 6, 315230 },
+									{ 24, 1, 9, nil, nil, nil, 27, 6, 315230 },
 								},
 							},
 						},
@@ -11927,25 +11922,25 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 1, 192, nil, nil, nil, 46, 97, 285657, 47, 19, 282639, 48, 19, 242053 },
+									{ 24, 1, 192, nil, nil, nil, 43, 97, 285657, 44, 19, 282639, 45, 19, 242053 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 16, nil, nil, nil, 36, 10, 253762 },
+									{ 24, 1, 16, nil, nil, nil, 33, 10, 253762 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 20, nil, nil, nil, 49, 7, 308347 },
+									{ 24, 1, 20, nil, nil, nil, 46, 7, 308347 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9356, 189, 1, 103, 106147, 33, 30, 95952, 30, 20, 97136 },
-									{ 21, 0.0644, 13, nil, nil, nil, 31, 10, 138278 },
+									{ 24, 0.9356, 189, 1, 103, 106147, 30, 30, 95952, 27, 20, 97136 },
+									{ 21, 0.0644, 13, nil, nil, nil, 28, 10, 138278 },
 								},
 							},
 							["fast"] = {
@@ -11962,8 +11957,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9231, 96, nil, nil, nil, 1, 52, 123692, 30, 14, 121963, 2, 17, 136328 },
-									{ 21, 0.0769, 8, nil, nil, nil, 32, 4, 128237 },
+									{ 24, 0.9231, 96, nil, nil, nil, 1, 52, 123692, 27, 14, 121963, 2, 17, 136328 },
+									{ 21, 0.0769, 8, nil, nil, nil, 29, 4, 128237 },
 								},
 							},
 							["fast"] = {
@@ -11982,25 +11977,25 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 1, 142, nil, nil, nil, 50, 88, 497629, 49, 16, 559528, 51, 20, 507960 },
+									{ 24, 1, 142, nil, nil, nil, 47, 88, 497629, 46, 16, 559528, 48, 20, 507960 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 21, nil, nil, nil, 50, 18, 492013 },
+									{ 24, 1, 21, nil, nil, nil, 47, 18, 492013 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 21, nil, nil, nil, 50, 9, 509648 },
+									{ 24, 1, 21, nil, nil, nil, 47, 9, 509648 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9496, 113, nil, nil, nil, 1, 45, 337209, 33, 30, 314737, 52, 14, 312121 },
-									{ 21, 0.0504, 6, nil, nil, nil, 31, 6, 339617 },
+									{ 24, 0.9496, 113, nil, nil, nil, 1, 45, 337209, 30, 30, 314737, 49, 14, 312121 },
+									{ 21, 0.0504, 6, nil, nil, nil, 28, 6, 339617 },
 								},
 							},
 							["fast"] = {
@@ -12017,8 +12012,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.8816, 67, nil, nil, nil, 1, 38, 408517, 30, 12, 373686, 2, 14, 345011 },
-									{ 21, 0.1184, 9, nil, nil, nil, 31, 5, 415864 },
+									{ 24, 0.8816, 67, nil, nil, nil, 1, 38, 408517, 27, 12, 373686, 2, 14, 345011 },
+									{ 21, 0.1184, 9, nil, nil, nil, 28, 5, 415864 },
 								},
 							},
 							["fast"] = {
@@ -12037,46 +12032,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9913, 1027, 1, 599, 145508, 45, 86, 142472, 30, 30, 144618 },
-									{ 21, 0.0087, 9, nil, nil, nil, 31, 9, 146698 },
+									{ 24, 0.9913, 1027, 1, 599, 145508, 42, 86, 142472, 27, 30, 144618 },
+									{ 21, 0.0087, 9, nil, nil, nil, 28, 9, 146698 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 127, nil, nil, nil, 1, 62, 139344, 45, 18, 139942, 36, 20, 138953 },
+									{ 24, 1, 127, nil, nil, nil, 1, 62, 139344, 42, 18, 139942, 33, 20, 138953 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 1, 214, 1, 146, 148009, 45, 19, 147796 },
+									{ 24, 1, 214, 1, 146, 148009, 42, 19, 147796 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9525, 903, 1, 529, 298041, 2, 125, 313303, 30, 64, 312233 },
-									{ 21, 0.0475, 45, nil, nil, nil, 31, 21, 261783 },
+									{ 24, 0.9525, 903, 1, 529, 298041, 2, 125, 313303, 27, 64, 312233 },
+									{ 21, 0.0475, 45, nil, nil, nil, 28, 21, 261783 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.907, 78, 1, 51, 242616, 33, 15, 124201 },
-									{ 21, 0.093, 8, nil, nil, nil, 31, 8, 259543 },
+									{ 24, 0.907, 78, 1, 51, 242616, 30, 15, 124201 },
+									{ 21, 0.093, 8, nil, nil, nil, 28, 8, 259543 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9837, 181, 1, 129, 314336, 2, 27, 316160, 30, 19, 320218 },
-									{ 21, 0.0163, 3, nil, nil, nil, 31, 3, 310469 },
+									{ 24, 0.9837, 181, 1, 129, 314336, 2, 27, 316160, 27, 19, 320218 },
+									{ 21, 0.0163, 3, nil, nil, nil, 28, 3, 310469 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9587, 116, 1, 57, 270449, 2, 33, 287694, 30, 16, 298467 },
-									{ 21, 0.0413, 5, nil, nil, nil, 31, 5, 281298 },
+									{ 24, 0.9587, 116, 1, 57, 270449, 2, 33, 287694, 27, 16, 298467 },
+									{ 21, 0.0413, 5, nil, nil, nil, 28, 5, 281298 },
 								},
 							},
 							["fast"] = {
@@ -12095,59 +12090,59 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.981, 4027, 1, 1474, 146785, 30, 115, 146421, 36, 930, 186091 },
-									{ 21, 0.019, 78, nil, nil, nil, 31, 43, 147259, 37, 26, 205533 },
+									{ 24, 0.981, 4027, 1, 1474, 146785, 27, 115, 146421, 33, 930, 186091 },
+									{ 21, 0.019, 78, nil, nil, nil, 28, 43, 147259, 34, 26, 205533 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 1, 623, 1, 126, 140506, 38, 78, 173037, 36, 256, 141098 },
+									{ 24, 1, 623, 1, 126, 140506, 35, 78, 173037, 33, 256, 141098 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9921, 1007, 1, 423, 149115, 38, 78, 226266, 30, 34, 149308 },
-									{ 21, 0.0079, 8, nil, nil, nil, 31, 8, 244247 },
+									{ 24, 0.9921, 1007, 1, 423, 149115, 35, 78, 226266, 27, 34, 149308 },
+									{ 21, 0.0079, 8, nil, nil, nil, 28, 8, 244247 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9272, 3808, 1, 1930, 189870, 30, 350, 167115, 2, 389, 206110 },
-									{ 21, 0.0728, 299, nil, nil, nil, 31, 132, 171422, 39, 64, 120405, 32, 35, 133649 },
+									{ 24, 0.9272, 3808, 1, 1930, 189870, 27, 350, 167115, 2, 389, 206110 },
+									{ 21, 0.0728, 299, nil, nil, nil, 28, 132, 171422, 36, 64, 120405, 29, 35, 133649 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.9589, 490, 1, 234, 139370, 33, 96, 89993, 30, 43, 94347 },
-									{ 21, 0.0411, 21, nil, nil, nil, 31, 21, 176287 },
+									{ 24, 0.9589, 490, 1, 234, 139370, 30, 96, 89993, 27, 43, 94347 },
+									{ 21, 0.0411, 21, nil, nil, nil, 28, 21, 176287 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9409, 748, 1, 415, 226916, 30, 82, 181945, 2, 72, 219124 },
-									{ 21, 0.0591, 47, nil, nil, nil, 31, 29, 180008 },
+									{ 24, 0.9409, 748, 1, 415, 226916, 27, 82, 181945, 2, 72, 219124 },
+									{ 21, 0.0591, 47, nil, nil, nil, 28, 29, 180008 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 24, 0.9316, 1267, 1, 635, 134539, 30, 198, 157498, 2, 196, 154728 },
-									{ 21, 0.0684, 93, nil, nil, nil, 31, 58, 155728, 32, 30, 139357 },
+									{ 24, 0.9316, 1267, 1, 635, 134539, 27, 198, 157498, 2, 196, 154728 },
+									{ 21, 0.0684, 93, nil, nil, nil, 28, 58, 155728, 29, 30, 139357 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 24, 0.9403, 189, 1, 97, 116844, 30, 29, 138548, 2, 25, 136992 },
-									{ 21, 0.0597, 12, nil, nil, nil, 31, 6, 164485 },
+									{ 24, 0.9403, 189, 1, 97, 116844, 27, 29, 138548, 2, 25, 136992 },
+									{ 21, 0.0597, 12, nil, nil, nil, 28, 6, 164485 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 24, 0.9263, 201, 1, 103, 195993, 30, 40, 206142, 2, 33, 199853 },
-									{ 21, 0.0737, 16, nil, nil, nil, 32, 9, 168451 },
+									{ 24, 0.9263, 201, 1, 103, 195993, 27, 40, 206142, 2, 33, 199853 },
+									{ 21, 0.0737, 16, nil, nil, nil, 29, 9, 168451 },
 								},
 							},
 						},
@@ -12160,17 +12155,17 @@ ns.talentBuilds = {
 			["builds"] = {
 				"MmZZMjZmxsN8AMzsNjFbzAAAAAAAAAAgFDNbzw0MAmFzMzMLmMAAAAAYAAmBAgAAAmtZ2a2mZxGzMzMYmNQzAAMzAwA",
 				"jxMbz2MmZGz2wDwMzmxCzAAAAAAAAAAgtBNbMmmZM8AmlZmZmhJzAAAAAAAAAAIAAgZbmlmtZ2sxYmZYmBGNDAwMDAD",
-				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZM8AmFzMzwMZMAAAAAGAgZAAIAAgZbmtmlZWsxMzAzMLgmBAYmBgB",
+				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZzw0MjhxsYmZGmJPwMAAAAAAAYAAIAAgZbmtmlZWsxMzMYmZB0MAAzMAMA",
 				"MmZZMjZmxsN8AMzsNjFbzAAAAAAAAAAgFDNbzw0MAmFzMzMLmMAAAAAYAAmBstNWw0MzyAAAEwCzMzMYmNQzAgZGAwA",
 				"MmZZMjZmxsNzgxsxsYbGAAAAAAAAAAsYoZbmx0MDwsYmZmhJzMAAAAAGAgZAbbjFMNzsMAAABswYGDzMbgmBAzMAgB",
 				"MmZZMjZmxsN8AMzsMjFbzAAAAAAAAAAglBNbw0MMjxsYmZmZZm8AzAAAAAAAgBAgAAAmtZ2aWmZxGjZGYmFQzAAMzAwA",
+				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZM8AmFzMzwMZMAAAAAGAgZAAIAAgZbmtmlZWsxMzAzMLgmBAYmBgB",
 				"MmZZMjZmxsNzgZmNsYbGAAAAAAAAAAsYoZzMmmZgxsYmZmZxkBAAAAADYAMgttxCmmZWGAAgAWYMjhZmNQzAgZGAwA",
 				"MmZZMjZmxsNzgxsxsYbGAAAAAAAAAAsYoZbmx0MDwsYmZmZxEGAAAAADYAmBstNWw0MzyAAAEwCjZMMzsZQzAgZGAwA",
 				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZM8AmFzMzYxkHwAAAAAYAAmBAgAAAmtZ2aWmZxGzMzDgZmFQzAAMzAwA",
 				"jxMbz2MmZGz2wDwMzmxCzAAAAAAAAAAgFDNbmx0MDwsMzMzMMZGAAAAAGAAAAIAAgZbmlmtZ2sxMzMDzMANDAwMDAD",
 				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZMMmFzMzgJzMAAAAAGAgZAAIAAgZbmtmlZWsxYGYmZB0MAAzMAMA",
 				"jxMbz2MmZGz2wDwMzmxCzAAAAAAAAAAgFDNbmx0MDwsMmZmZxkZAAAAAYAAAAgAAAmtZWa2mZzGzMzMMzA0MAAzMAMA",
-				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZMMmFzMzYxkHwAAAAAYAAmBAgAAAmtZ2aWmZxGzMDMzsAaGAgZGAGA",
 				"MmZZMjZmxsN8AMzsMjNbzAAAAAAAAAAgtBNbw0MMjxsYmZmZZm8AzAAAAAAAgBAgAAAmtZ2aWmZxGjZGYmFQzAAMzAwA",
 				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZzw0MjxMmFzMzgJjBAAAAAAADAABAAMbzs1sMziNmZmBzMLgmBAYmBgB",
 				"MmZZMjZmxsNzgxsZsYbGAAAAAAAAAAsYoZbmx0MDwsYmZmhJjBAAAAwAGADYbbsgpZmlBAAIgFGz8ADzMbgmBAzMAgB",
@@ -12184,12 +12179,10 @@ ns.talentBuilds = {
 				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZbGmmZM8AmFzMzYZm8AGAAAAADAwMAAEAAwsNzWzyML2YmZgZmFQzAAMzAwA",
 				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZzw0MjZMmFzMzMLzkHwAAAAAAAgBAgAAAmtZ2aWmZxGzMDMzsAaGAgZGAGA",
 				"jxMLz2MmZGz2wDwMzmxCzAAAAAAAAAAglBNbmx0MjhxsMzMzMMZGAAAAAAAAAABAAMbzs0sNzmNGzMYmBoZAAmZAYA",
-				"MmZZMjZmxsN8AMzsNjFbzAAAAAAAAAAgNDNbzw0MAmFzMzMLmMAAAAAYAAmBAgAAAmtZ2a2mZxGzMzMYmNQzAAMzAwA",
 				"jxMbz2MmZGz2wDwMzmxCzAAAAAAAAAAglBNbMmmZM8AmlZmZmhJzAAAAAAAAAAIAAgZbmlmtZ2sxYmZYmBGNDAwMDAD",
 				"MmZZMjZmxsNzgxsxsYbGAAAAAAAAAAsYoZbmx0MDwsYmZmhJjBAAAAwAAMDYbbsgpZmlBAAIgFmZGDzMbgmBAzMAgB",
 				"MmZZMjZmxsNzgxsxsYbGAAAAAAAAAAsYoZbmx0MDwsYmZmhJjBAAAAwAGgZAbbjFMNzsMAAABswYGDzMbgmBAzMAgB",
 				"MmZZMjZmxsNzgxsZsYbGAAAAAAAAAAsYoZbmx0MDwsYmZMMZMAAAAAGwAMDYbbsgpZmlBAAIgFGz8ADzMbgmBAzMAgB",
-				"MmZZMjZmxsN8AMzswsYbGAAAAAAAAAAsMoZzw0MjxMmFzMzMmJjBAAAAAAADAABAAMbzs1sMziNmZGYmZB0MAAzMAMA",
 				"jxMLz2MmZGz2wDwMzmxCzAAAAAAAAAAgNDNbmx0MDwsMzMzMMZGAAAAAGAAAAIAAgZbmlmtZ2sxYmZYmBGNDAwMDAD",
 				"jxMLz2MmZGz2wDYmZYswMAAAAAAAAAAYDa2MjpZGYMLjZmZYyMAAAAAAMAAAQAAAz2MLNbzsZjxMzwMDMaGAgZGAGA",
 				"jxMLz2MmZGz2MDmZ2wCzAAAAAAAAAAgNDNbjx0MAmFzMzMMxMAAAAAGwAMAbbjFMNzsMAAABswYmZYmZzgmBAzMAgB",
@@ -12232,28 +12225,27 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9362, 968, 1, 484, 12, 3, 222, 12, 22, 20, 17 },
-							{ 23, 0.0638, 66, nil, nil, nil, 30, 7, 15, 4, 38, 12, 31, 12, 12 },
+							{ 22, 0.9362, 968, 1, 484, 12, 7, 222, 12, 22, 20, 17 },
+							{ 23, 0.0638, 66, nil, nil, nil, 29, 7, 15, 4, 38, 12, 30, 12, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 0.9649, 110, 1, 63, 17, 32, 17, 19 },
-							{ 23, 0.0351, 4, nil, nil, nil, 4, 4, 17 },
+							{ 22, 1, 78, 1, 53, 16 },
 						},
 					},
 				},
 				["6988"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 22, 0.9043, 104, 1, 67, 9, 3, 20, 9 },
+							{ 22, 0.9043, 104, 1, 67, 9, 7, 20, 9 },
 							{ 23, 0.0957, 11, nil, nil, nil, 4, 11, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9237, 957, 1, 441, 12, 3, 253, 12, 28, 79, 15 },
-							{ 23, 0.0763, 79, nil, nil, nil, 29, 11, 15, 4, 39, 12 },
+							{ 22, 0.9237, 957, 1, 441, 12, 7, 253, 12, 27, 79, 15 },
+							{ 23, 0.0763, 79, nil, nil, nil, 28, 11, 15, 4, 39, 12 },
 						},
 					},
 					["15-99"] = {
@@ -12265,20 +12257,19 @@ ns.talentBuilds = {
 				["8910"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 22, 0.8644, 102, 1, 53, 8, 24, 20, 9, 10, 14, 9 },
+							{ 22, 0.8644, 102, 1, 53, 8, 24, 20, 9, 11, 14, 9 },
 							{ 23, 0.1356, 16, nil, nil, nil, 4, 16, 8 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
 							{ 22, 0.9367, 695, 1, 356, 12, 25, 168, 17, 26, 26, 13 },
-							{ 23, 0.0633, 47, nil, nil, nil, 7, 10, 16, 4, 23, 11 },
+							{ 23, 0.0633, 47, nil, nil, nil, 8, 10, 16, 4, 23, 11 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 0.9571, 67, nil, nil, nil, 26, 3, 19, 24, 16, 18, 27, 40, 17 },
-							{ 23, 0.0429, 3, nil, nil, nil, 4, 3, 17 },
+							{ 22, 1, 53, nil, nil, nil, 24, 13, 18, 1, 34, 16 },
 						},
 					},
 				},
@@ -12291,33 +12282,32 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9278, 1144, 1, 581, 12, 3, 285, 12, 23, 33, 14 },
+							{ 22, 0.9278, 1144, 1, 581, 12, 7, 285, 12, 23, 33, 14 },
 							{ 23, 0.0722, 89, 4, 58, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 0.9405, 79, nil, nil, nil, 3, 28, 17, 1, 39, 16 },
-							{ 23, 0.0595, 5, nil, nil, nil, 4, 5, 16 },
+							{ 22, 1, 49, nil, nil, nil, 7, 15, 18, 1, 31, 16 },
 						},
 					},
 				},
 				["15808"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 22, 0.9134, 116, 1, 87, 9, 10, 14, 9, 3, 12, 9 },
+							{ 22, 0.9134, 116, 1, 87, 9, 11, 14, 9, 7, 12, 9 },
 							{ 23, 0.0866, 11, nil, nil, nil, 4, 11, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9246, 1201, 1, 612, 12, 3, 292, 12, 22, 17, 16 },
+							{ 22, 0.9246, 1201, 1, 612, 12, 7, 292, 12, 22, 17, 16 },
 							{ 23, 0.0754, 98, nil, nil, nil, 5, 13, 13, 4, 52, 12, 19, 14, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 1, 76, nil, nil, nil, 9, 14, 19, 1, 50, 16 },
+							{ 22, 1, 57, nil, nil, nil, 7, 5, 17, 1, 44, 16 },
 						},
 					},
 				},
@@ -12356,46 +12346,45 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 1, 59, nil, nil, nil, 11, 14, 17, 1, 37, 16 },
+							{ 22, 1, 49, nil, nil, nil, 1, 31, 17, 12, 13, 17 },
 						},
 					},
 				},
 				["16573"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 22, 0.9524, 120, 1, 85, 9, 11, 15, 9, 2, 12, 9 },
+							{ 22, 0.9524, 120, 1, 85, 9, 12, 15, 9, 2, 12, 9 },
 							{ 23, 0.0476, 6, nil, nil, nil, 4, 6, 7 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9396, 1197, 1, 624, 12, 3, 278, 12, 12, 101, 18 },
+							{ 22, 0.9396, 1197, 1, 624, 12, 7, 278, 12, 13, 101, 18 },
 							{ 23, 0.0604, 77, nil, nil, nil, 5, 10, 15, 4, 50, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 0.9577, 68, nil, nil, nil, 13, 13, 19, 1, 45, 16 },
-							{ 23, 0.0423, 3, nil, nil, nil, 4, 3, 17 },
+							{ 22, 1, 51, nil, nil, nil, 1, 39, 16 },
 						},
 					},
 				},
 				["all"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 22, 0.8952, 1443, 1, 899, 9, 2, 142, 9, 3, 219, 8 },
-							{ 23, 0.1048, 169, 4, 123, 9, 5, 12, 8 },
+							{ 22, 0.89, 1003, 1, 632, 9, 2, 100, 9, 3, 134, 9 },
+							{ 23, 0.11, 124, 4, 83, 8, 5, 13, 8 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 22, 0.9047, 9393, 6, 158, 13, 1, 4208, 12, 3, 2272, 12 },
-							{ 23, 0.0953, 989, 4, 368, 12, 7, 107, 16, 8, 197, 15 },
+							{ 22, 0.9047, 9393, 6, 158, 13, 1, 4208, 12, 7, 2272, 12 },
+							{ 23, 0.0953, 989, 4, 368, 12, 8, 107, 16, 9, 197, 15 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 22, 0.9492, 616, 1, 324, 16, 9, 167, 19, 10, 21, 17 },
+							{ 22, 0.9492, 616, 1, 324, 16, 10, 167, 19, 11, 21, 17 },
 							{ 23, 0.0508, 33, nil, nil, nil, 5, 7, 21, 4, 18, 17 },
 						},
 					},
@@ -12407,52 +12396,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9897, 2986, 2, 1203, 435511, 33, 1074, 432996, 37, 349, 387421 },
-									{ 23, 0.0103, 31, nil, nil, nil, 35, 11, 453497 },
+									{ 22, 0.9897, 2986, 2, 1203, 435511, 31, 1074, 432996, 35, 349, 387421 },
+									{ 23, 0.0103, 31, nil, nil, nil, 33, 11, 453497 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 426, 2, 117, 372786, 33, 182, 380344, 37, 72, 370952 },
+									{ 22, 1, 426, 2, 117, 372786, 31, 182, 380344, 35, 72, 370952 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 408, 2, 164, 446196, 33, 158, 450477, 38, 18, 450167 },
+									{ 22, 1, 408, 2, 164, 446196, 31, 158, 450477, 36, 18, 450167 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9132, 1409, 2, 936, 360737, 33, 227, 355079, 1, 66, 367121 },
-									{ 23, 0.0868, 134, nil, nil, nil, 36, 47, 362147, 39, 18, 347941, 4, 13, 351226 },
+									{ 22, 0.9132, 1409, 2, 936, 360737, 31, 227, 355079, 1, 66, 367121 },
+									{ 23, 0.0868, 134, nil, nil, nil, 34, 47, 362147, 37, 18, 347941, 4, 13, 351226 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9387, 199, 2, 122, 311527, 33, 36, 310409, 40, 12, 271320 },
-									{ 23, 0.0613, 13, nil, nil, nil, 36, 7, 293521 },
+									{ 22, 0.9387, 199, 2, 122, 311527, 31, 36, 310409, 38, 12, 271320 },
+									{ 23, 0.0613, 13, nil, nil, nil, 34, 7, 293521 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.8731, 234, 2, 177, 381675, 33, 27, 385435, 1, 17, 383416 },
-									{ 23, 0.1269, 34, nil, nil, nil, 36, 14, 382858 },
+									{ 22, 0.8731, 234, 2, 177, 381675, 31, 27, 385435, 1, 17, 383416 },
+									{ 23, 0.1269, 34, nil, nil, nil, 34, 14, 382858 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9034, 430, 2, 304, 217779, 1, 46, 224301, 33, 40, 218721 },
-									{ 23, 0.0966, 46, nil, nil, nil, 36, 20, 203521 },
+									{ 22, 0.9034, 430, 2, 304, 217779, 1, 46, 224301, 31, 40, 218721 },
+									{ 23, 0.0966, 46, nil, nil, nil, 34, 20, 203521 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 22, 0.9024, 37, nil, nil, nil, 2, 33, 173881 },
-									{ 23, 0.0976, 4, nil, nil, nil, 36, 4, 151920 },
+									{ 23, 0.0976, 4, nil, nil, nil, 34, 4, 151920 },
 								},
 							},
 							["median"] = {
@@ -12467,52 +12456,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9899, 5891, 2, 2197, 434616, 33, 1993, 428552, 34, 709, 435731 },
-									{ 23, 0.0101, 60, nil, nil, nil, 35, 17, 445993, 36, 13, 406337 },
+									{ 22, 0.9899, 5891, 2, 2197, 434616, 31, 1993, 428552, 32, 709, 435731 },
+									{ 23, 0.0101, 60, nil, nil, nil, 33, 17, 445993, 34, 13, 406337 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 426, 2, 117, 372786, 33, 182, 380344, 37, 72, 370952 },
+									{ 22, 1, 426, 2, 117, 372786, 31, 182, 380344, 35, 72, 370952 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 408, 2, 164, 446196, 33, 158, 450477, 38, 18, 450167 },
+									{ 22, 1, 408, 2, 164, 446196, 31, 158, 450477, 36, 18, 450167 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9132, 1409, 2, 936, 360737, 33, 227, 355079, 1, 66, 367121 },
-									{ 23, 0.0868, 134, nil, nil, nil, 36, 47, 362147, 39, 18, 347941, 4, 13, 351226 },
+									{ 22, 0.9132, 1409, 2, 936, 360737, 31, 227, 355079, 1, 66, 367121 },
+									{ 23, 0.0868, 134, nil, nil, nil, 34, 47, 362147, 37, 18, 347941, 4, 13, 351226 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9387, 199, 2, 122, 311527, 33, 36, 310409, 40, 12, 271320 },
-									{ 23, 0.0613, 13, nil, nil, nil, 36, 7, 293521 },
+									{ 22, 0.9387, 199, 2, 122, 311527, 31, 36, 310409, 38, 12, 271320 },
+									{ 23, 0.0613, 13, nil, nil, nil, 34, 7, 293521 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.8731, 234, 2, 177, 381675, 33, 27, 385435, 1, 17, 383416 },
-									{ 23, 0.1269, 34, nil, nil, nil, 36, 14, 382858 },
+									{ 22, 0.8731, 234, 2, 177, 381675, 31, 27, 385435, 1, 17, 383416 },
+									{ 23, 0.1269, 34, nil, nil, nil, 34, 14, 382858 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9034, 430, 2, 304, 217779, 1, 46, 224301, 33, 40, 218721 },
-									{ 23, 0.0966, 46, nil, nil, nil, 36, 20, 203521 },
+									{ 22, 0.9034, 430, 2, 304, 217779, 1, 46, 224301, 31, 40, 218721 },
+									{ 23, 0.0966, 46, nil, nil, nil, 34, 20, 203521 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 22, 0.9024, 37, nil, nil, nil, 2, 33, 173881 },
-									{ 23, 0.0976, 4, nil, nil, nil, 36, 4, 151920 },
+									{ 23, 0.0976, 4, nil, nil, nil, 34, 4, 151920 },
 								},
 							},
 							["median"] = {
@@ -12529,45 +12518,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 738, 2, 301, 223490, 33, 240, 213233, 37, 108, 209002 },
+									{ 22, 1, 738, 2, 301, 223490, 31, 240, 213233, 35, 108, 209002 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 56, nil, nil, nil, 33, 20, 188764, 2, 18, 186533 },
+									{ 22, 1, 56, nil, nil, nil, 31, 20, 188764, 2, 18, 186533 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 128, 2, 61, 223574, 33, 42, 220436, 37, 21, 223449 },
+									{ 22, 1, 128, 2, 61, 223574, 31, 42, 220436, 35, 21, 223449 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9192, 637, 2, 417, 163781, 33, 111, 158403, 1, 31, 157081 },
-									{ 23, 0.0808, 56, nil, nil, nil, 36, 16, 158512, 39, 14, 174398 },
+									{ 22, 0.9192, 637, 2, 417, 163781, 31, 111, 158403, 1, 31, 157081 },
+									{ 23, 0.0808, 56, nil, nil, nil, 34, 16, 158512, 37, 14, 174398 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9647, 82, nil, nil, nil, 2, 34, 128575, 37, 16, 118513, 33, 20, 107306 },
-									{ 23, 0.0353, 3, nil, nil, nil, 36, 3, 119195 },
+									{ 22, 0.9647, 82, nil, nil, nil, 2, 34, 128575, 35, 16, 118513, 31, 20, 107306 },
+									{ 23, 0.0353, 3, nil, nil, nil, 34, 3, 119195 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.938, 121, 2, 90, 170000, 33, 18, 171385 },
-									{ 23, 0.062, 8, nil, nil, nil, 39, 4, 172438 },
+									{ 22, 0.938, 121, 2, 90, 170000, 31, 18, 171385 },
+									{ 23, 0.062, 8, nil, nil, nil, 37, 4, 172438 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9079, 207, 2, 158, 159550, 33, 30, 137565 },
-									{ 23, 0.0921, 21, nil, nil, nil, 39, 6, 149711 },
+									{ 22, 0.9079, 207, 2, 158, 159550, 31, 30, 137565 },
+									{ 23, 0.0921, 21, nil, nil, nil, 37, 6, 149711 },
 								},
 							},
 							["fast"] = {
@@ -12586,51 +12575,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 646, 2, 257, 248555, 33, 214, 220771, 37, 106, 226080 },
+									{ 22, 1, 646, 2, 257, 248555, 31, 214, 220771, 35, 106, 226080 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 53, nil, nil, nil, 33, 22, 190915, 2, 19, 188870 },
+									{ 22, 1, 53, nil, nil, nil, 31, 22, 190915, 2, 19, 188870 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 77, nil, nil, nil, 2, 26, 247165, 33, 32, 247474, 37, 16, 250193 },
+									{ 22, 1, 77, nil, nil, nil, 2, 26, 247165, 31, 32, 247474, 35, 16, 250193 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9269, 583, 2, 383, 226559, 33, 101, 208482, 1, 29, 227907 },
-									{ 23, 0.0731, 46, nil, nil, nil, 36, 16, 212301, 39, 12, 220949 },
+									{ 22, 0.9269, 583, 2, 383, 226559, 31, 101, 208482, 1, 29, 227907 },
+									{ 23, 0.0731, 46, nil, nil, nil, 34, 16, 212301, 37, 12, 220949 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9481, 73, nil, nil, nil, 2, 34, 171994, 43, 18, 163163 },
-									{ 23, 0.0519, 4, nil, nil, nil, 36, 4, 151141 },
+									{ 22, 0.9481, 73, nil, nil, nil, 2, 34, 171994, 41, 18, 163163 },
+									{ 23, 0.0519, 4, nil, nil, nil, 34, 4, 151141 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.969, 125, 2, 98, 235479, 33, 16, 233630 },
-									{ 23, 0.031, 4, nil, nil, nil, 36, 4, 236051 },
+									{ 22, 0.969, 125, 2, 98, 235479, 31, 16, 233630 },
+									{ 23, 0.031, 4, nil, nil, nil, 34, 4, 236051 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9309, 202, 2, 154, 221858, 33, 26, 199389 },
-									{ 23, 0.0691, 15, nil, nil, nil, 36, 5, 187595 },
+									{ 22, 0.9309, 202, 2, 154, 221858, 31, 26, 199389 },
+									{ 23, 0.0691, 15, nil, nil, nil, 34, 5, 187595 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 22, 0.9362, 44, nil, nil, nil, 2, 35, 169207 },
-									{ 23, 0.0638, 3, nil, nil, nil, 36, 3, 183032 },
+									{ 23, 0.0638, 3, nil, nil, nil, 34, 3, 183032 },
 								},
 							},
 							["median"] = {
@@ -12644,30 +12633,30 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 440, 33, 163, 290897, 2, 125, 296828, 37, 97, 284714 },
+									{ 22, 1, 440, 31, 163, 290897, 2, 125, 296828, 35, 97, 284714 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 27, nil, nil, nil, 33, 9, 264993 },
+									{ 22, 1, 27, nil, nil, nil, 31, 9, 264993 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 61, nil, nil, nil, 33, 30, 349814, 2, 22, 349227 },
+									{ 22, 1, 61, nil, nil, nil, 31, 30, 349814, 2, 22, 349227 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9327, 471, 2, 308, 325707, 33, 86, 317684, 1, 14, 313069 },
-									{ 23, 0.0673, 34, nil, nil, nil, 36, 10, 315551 },
+									{ 22, 0.9327, 471, 2, 308, 325707, 31, 86, 317684, 1, 14, 313069 },
+									{ 23, 0.0673, 34, nil, nil, nil, 34, 10, 315551 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 66, nil, nil, nil, 2, 28, 284480, 43, 15, 273597 },
+									{ 22, 1, 66, nil, nil, nil, 2, 28, 284480, 41, 15, 273597 },
 								},
 							},
 							["median"] = {
@@ -12679,8 +12668,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9305, 174, 2, 135, 240634, 33, 24, 185687 },
-									{ 23, 0.0695, 13, nil, nil, nil, 36, 5, 267910 },
+									{ 22, 0.9305, 174, 2, 135, 240634, 31, 24, 185687 },
+									{ 23, 0.0695, 13, nil, nil, nil, 34, 5, 267910 },
 								},
 							},
 							["fast"] = {
@@ -12699,43 +12688,43 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 486, 2, 162, 238276, 33, 163, 212082, 37, 105, 231030 },
+									{ 22, 1, 486, 2, 162, 238276, 31, 163, 212082, 35, 105, 231030 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 42, nil, nil, nil, 33, 12, 185566, 37, 12, 178690 },
+									{ 22, 1, 42, nil, nil, nil, 31, 12, 185566, 35, 12, 178690 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 67, nil, nil, nil, 2, 31, 236577, 33, 26, 225636 },
+									{ 22, 1, 67, nil, nil, nil, 2, 31, 236577, 31, 26, 225636 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.923, 575, 2, 377, 238714, 33, 104, 237371, 1, 24, 231512 },
-									{ 23, 0.077, 48, nil, nil, nil, 36, 14, 201299 },
+									{ 22, 0.923, 575, 2, 377, 238714, 31, 104, 237371, 1, 24, 231512 },
+									{ 23, 0.077, 48, nil, nil, nil, 34, 14, 201299 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9342, 71, nil, nil, nil, 2, 28, 187856, 33, 19, 167504, 37, 12, 186212 },
-									{ 23, 0.0658, 5, nil, nil, nil, 36, 5, 172453 },
+									{ 22, 0.9342, 71, nil, nil, nil, 2, 28, 187856, 31, 19, 167504, 35, 12, 186212 },
+									{ 23, 0.0658, 5, nil, nil, nil, 34, 5, 172453 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 108, 2, 80, 238775, 33, 19, 240765 },
+									{ 22, 1, 108, 2, 80, 238775, 31, 19, 240765 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9289, 183, 2, 137, 201590, 33, 26, 174362 },
+									{ 22, 0.9289, 183, 2, 137, 201590, 31, 26, 174362 },
 									{ 23, 0.0711, 14, nil, nil, nil, 4, 6, 212603 },
 								},
 							},
@@ -12755,33 +12744,33 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9915, 469, 33, 188, 345196, 2, 141, 351042, 44, 43, 336767 },
-									{ 23, 0.0085, 4, nil, nil, nil, 41, 4, 318515 },
+									{ 22, 0.9915, 469, 31, 188, 345196, 2, 141, 351042, 42, 43, 336767 },
+									{ 23, 0.0085, 4, nil, nil, nil, 39, 4, 318515 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9474, 54, nil, nil, nil, 33, 14, 292630, 45, 13, 289424, 2, 20, 313135 },
-									{ 23, 0.0526, 3, nil, nil, nil, 41, 3, 307806 },
+									{ 22, 0.9474, 54, nil, nil, nil, 31, 14, 292630, 43, 13, 289424, 2, 20, 313135 },
+									{ 23, 0.0526, 3, nil, nil, nil, 39, 3, 307806 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 53, nil, nil, nil, 33, 26, 352735, 46, 23, 356174 },
+									{ 22, 1, 53, nil, nil, nil, 31, 26, 352735, 44, 23, 356174 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9395, 388, 2, 251, 226796, 33, 71, 209533, 37, 21, 194681 },
-									{ 23, 0.0605, 25, nil, nil, nil, 36, 11, 194231 },
+									{ 22, 0.9395, 388, 2, 251, 226796, 31, 71, 209533, 35, 21, 194681 },
+									{ 23, 0.0605, 25, nil, nil, nil, 34, 11, 194231 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9231, 72, nil, nil, nil, 2, 28, 193576, 33, 16, 177248 },
-									{ 23, 0.0769, 6, nil, nil, nil, 36, 6, 188618 },
+									{ 22, 0.9231, 72, nil, nil, nil, 2, 28, 193576, 31, 16, 177248 },
+									{ 23, 0.0769, 6, nil, nil, nil, 34, 6, 188618 },
 								},
 							},
 							["median"] = {
@@ -12793,8 +12782,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9309, 175, 2, 130, 184216, 33, 27, 178269 },
-									{ 23, 0.0691, 13, nil, nil, nil, 36, 5, 201901 },
+									{ 22, 0.9309, 175, 2, 130, 184216, 31, 27, 178269 },
+									{ 23, 0.0691, 13, nil, nil, nil, 34, 5, 201901 },
 								},
 							},
 							["fast"] = {
@@ -12813,7 +12802,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 346, 23, 161, 445571, 45, 63, 447778, 47, 95, 441546 },
+									{ 22, 1, 346, 23, 161, 445571, 43, 63, 447778, 45, 95, 441546 },
 								},
 							},
 							["fast"] = {
@@ -12830,13 +12819,13 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9317, 300, 2, 168, 434119, 33, 74, 422772, 37, 14, 400454 },
-									{ 23, 0.0683, 22, nil, nil, nil, 36, 10, 430381 },
+									{ 22, 0.9317, 300, 2, 168, 434119, 31, 74, 422772, 35, 14, 400454 },
+									{ 23, 0.0683, 22, nil, nil, nil, 34, 10, 430381 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 34, nil, nil, nil, 2, 21, 364442, 33, 13, 373764 },
+									{ 22, 1, 34, nil, nil, nil, 2, 21, 364442, 31, 13, 373764 },
 								},
 							},
 							["median"] = {
@@ -12848,8 +12837,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.966, 142, 2, 112, 314258, 33, 18, 263043 },
-									{ 23, 0.034, 5, nil, nil, nil, 36, 5, 323828 },
+									{ 22, 0.966, 142, 2, 112, 314258, 31, 18, 263043 },
+									{ 23, 0.034, 5, nil, nil, nil, 34, 5, 323828 },
 								},
 							},
 							["fast"] = {
@@ -12868,25 +12857,25 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 435, 33, 192, 282637, 48, 74, 310813, 46, 103, 277747 },
+									{ 22, 1, 435, 31, 192, 282637, 46, 74, 310813, 44, 103, 277747 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 35, nil, nil, nil, 33, 16, 233159 },
+									{ 22, 1, 35, nil, nil, nil, 31, 16, 233159 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 34, nil, nil, nil, 33, 15, 291089 },
+									{ 22, 1, 34, nil, nil, nil, 31, 15, 291089 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9734, 293, 2, 170, 112056, 33, 69, 105705, 37, 21, 114071 },
-									{ 23, 0.0266, 8, nil, nil, nil, 36, 5, 106177 },
+									{ 22, 0.9734, 293, 2, 170, 112056, 31, 69, 105705, 35, 21, 114071 },
+									{ 23, 0.0266, 8, nil, nil, nil, 34, 5, 106177 },
 								},
 							},
 							["fast"] = {
@@ -12903,8 +12892,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9107, 102, 2, 78, 131649, 33, 19, 114928 },
-									{ 23, 0.0893, 10, nil, nil, nil, 36, 5, 146160 },
+									{ 22, 0.9107, 102, 2, 78, 131649, 31, 19, 114928 },
+									{ 23, 0.0893, 10, nil, nil, nil, 34, 5, 146160 },
 								},
 							},
 							["fast"] = {
@@ -12923,25 +12912,25 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 734, 33, 424, 504827, 46, 229, 507360, 49, 20, 495761 },
+									{ 22, 1, 734, 31, 424, 504827, 44, 229, 507360, 47, 20, 495761 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 69, nil, nil, nil, 33, 41, 495537, 46, 25, 499868 },
+									{ 22, 1, 69, nil, nil, nil, 31, 41, 495537, 44, 25, 499868 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 87, nil, nil, nil, 33, 50, 511639, 46, 30, 510255 },
+									{ 22, 1, 87, nil, nil, nil, 31, 50, 511639, 44, 30, 510255 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9535, 287, 2, 172, 347339, 33, 68, 341368, 37, 19, 346119 },
-									{ 23, 0.0465, 14, nil, nil, nil, 36, 8, 346084 },
+									{ 22, 0.9535, 287, 2, 172, 347339, 31, 68, 341368, 35, 19, 346119 },
+									{ 23, 0.0465, 14, nil, nil, nil, 34, 8, 346084 },
 								},
 							},
 							["fast"] = {
@@ -12958,8 +12947,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9083, 99, 2, 77, 332170, 33, 18, 413121 },
-									{ 23, 0.0917, 10, nil, nil, nil, 36, 6, 420503 },
+									{ 22, 0.9083, 99, 2, 77, 332170, 31, 18, 413121 },
+									{ 23, 0.0917, 10, nil, nil, nil, 34, 6, 420503 },
 								},
 							},
 							["fast"] = {
@@ -12978,45 +12967,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 1, 590, 2, 212, 147449, 33, 204, 147074, 37, 91, 147309 },
+									{ 22, 1, 590, 2, 212, 147449, 31, 204, 147074, 35, 91, 147309 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 1, 42, nil, nil, nil, 2, 16, 139663, 33, 14, 135577 },
+									{ 22, 1, 42, nil, nil, nil, 2, 16, 139663, 31, 14, 135577 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 50, nil, nil, nil, 33, 20, 148065, 2, 19, 148216 },
+									{ 22, 1, 50, nil, nil, nil, 31, 20, 148065, 2, 19, 148216 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9261, 978, 2, 617, 302624, 33, 190, 289597, 1, 52, 300469 },
-									{ 23, 0.0739, 78, nil, nil, nil, 36, 23, 300942, 39, 14, 306546, 4, 14, 322707 },
+									{ 22, 0.9261, 978, 2, 617, 302624, 31, 190, 289597, 1, 52, 300469 },
+									{ 23, 0.0739, 78, nil, nil, nil, 34, 23, 300942, 37, 14, 306546, 4, 14, 322707 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.96, 120, 2, 63, 241797, 33, 24, 150489, 37, 15, 248836 },
-									{ 23, 0.04, 5, nil, nil, nil, 36, 5, 238450 },
+									{ 22, 0.96, 120, 2, 63, 241797, 31, 24, 150489, 35, 15, 248836 },
+									{ 23, 0.04, 5, nil, nil, nil, 34, 5, 238450 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.9486, 166, 2, 131, 318352, 33, 27, 316771 },
-									{ 23, 0.0514, 9, nil, nil, nil, 36, 6, 310148 },
+									{ 22, 0.9486, 166, 2, 131, 318352, 31, 27, 316771 },
+									{ 23, 0.0514, 9, nil, nil, nil, 34, 6, 310148 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9305, 174, 2, 134, 275840, 33, 20, 252618, 1, 13, 292768 },
-									{ 23, 0.0695, 13, nil, nil, nil, 39, 8, 285736 },
+									{ 22, 0.9305, 174, 2, 134, 275840, 31, 20, 252618, 1, 13, 292768 },
+									{ 23, 0.0695, 13, nil, nil, nil, 37, 8, 285736 },
 								},
 							},
 							["fast"] = {
@@ -13035,59 +13024,59 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9986, 6270, 33, 2348, 226414, 2, 1966, 217551, 37, 1015, 220932 },
-									{ 23, 0.0014, 9, nil, nil, nil, 41, 5, 311402 },
+									{ 22, 0.9986, 6270, 31, 2348, 226414, 2, 1966, 217551, 35, 1015, 220932 },
+									{ 23, 0.0014, 9, nil, nil, nil, 39, 5, 311402 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9943, 697, 33, 258, 187297, 2, 199, 141863, 37, 116, 177068 },
-									{ 23, 0.0057, 4, nil, nil, nil, 41, 4, 293580 },
+									{ 22, 0.9943, 697, 31, 258, 187297, 2, 199, 141863, 35, 116, 177068 },
+									{ 23, 0.0057, 4, nil, nil, nil, 39, 4, 293580 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 1, 1010, 33, 418, 225726, 2, 348, 223574, 37, 141, 231647 },
+									{ 22, 1, 1010, 31, 418, 225726, 2, 348, 223574, 35, 141, 231647 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9266, 5049, 2, 3023, 185420, 33, 1026, 188874, 1, 201, 203887 },
-									{ 23, 0.0734, 400, nil, nil, nil, 36, 113, 178120, 39, 80, 183073, 4, 57, 232738 },
+									{ 22, 0.9266, 5049, 2, 3023, 185420, 31, 1026, 188874, 1, 201, 203887 },
+									{ 23, 0.0734, 400, nil, nil, nil, 34, 113, 178120, 37, 80, 183073, 4, 57, 232738 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.9535, 779, 2, 337, 137147, 40, 70, 91933, 33, 189, 128048 },
-									{ 23, 0.0465, 38, nil, nil, nil, 36, 30, 121442 },
+									{ 22, 0.9535, 779, 2, 337, 137147, 38, 70, 91933, 31, 189, 128048 },
+									{ 23, 0.0465, 38, nil, nil, nil, 34, 30, 121442 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.9385, 916, 2, 641, 184238, 33, 151, 192860, 1, 45, 192482 },
-									{ 23, 0.0615, 60, nil, nil, nil, 36, 20, 224503, 39, 12, 200205, 42, 12, 187684 },
+									{ 22, 0.9385, 916, 2, 641, 184238, 31, 151, 192860, 1, 45, 192482 },
+									{ 23, 0.0615, 60, nil, nil, nil, 34, 20, 224503, 37, 12, 200205, 40, 12, 187684 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 22, 0.9121, 1588, 2, 1170, 152232, 33, 208, 121768, 1, 74, 180584 },
-									{ 23, 0.0879, 153, nil, nil, nil, 36, 47, 201901, 39, 39, 162908, 4, 32, 161677 },
+									{ 22, 0.9121, 1588, 2, 1170, 152232, 31, 208, 121768, 1, 74, 180584 },
+									{ 23, 0.0879, 153, nil, nil, nil, 34, 47, 201901, 37, 39, 162908, 4, 32, 161677 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 22, 0.946, 263, 2, 187, 133862, 33, 53, 103631 },
-									{ 23, 0.054, 15, nil, nil, nil, 39, 8, 120228 },
+									{ 22, 0.946, 263, 2, 187, 133862, 31, 53, 103631 },
+									{ 23, 0.054, 15, nil, nil, nil, 37, 8, 120228 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 22, 0.95, 285, 2, 220, 195423, 33, 40, 205829, 1, 14, 265687 },
-									{ 23, 0.05, 15, nil, nil, nil, 39, 8, 195813 },
+									{ 22, 0.95, 285, 2, 220, 195423, 31, 40, 205829, 1, 14, 265687 },
+									{ 23, 0.05, 15, nil, nil, nil, 37, 8, 195813 },
 								},
 							},
 						},
@@ -13115,12 +13104,10 @@ ns.talentBuilds = {
 				"wMzyMzMmxMzMMLzMz0MLGjxMGAAAAwMmZmZmZYGjBAjZmZGAAgxsNwAWCWGmADLAmhZAAMzAYYA",
 				"wMzyMzwMmxYMLzMz0MLzMjZmBAAAAwgZmZmZMzMjBAzMzMzAAAMmtBGwSwywEYYBwMGAAMzAwYA",
 				"wMzyMzwMmZmZMbzMz0MLmZMzMAAAAAGMzMzMjZmZMAYmZmZGAAADMwMW0YZDklBsBYGDAAwMDgB",
-				"wMzyMzMmxMzMMbzMz0MLGjxMGAAAAwMmZmZmZYGjBAjZmZGAAgxsNwAWC2GmADLAmxMAAMzAYYA",
 				"wMzyMzwMmZmhZbmZmmZxMjZmxAAAAAGMzMzMjZmZMAYmZmZGAAgxsNwAWC2GmADLAmxAAgZGAYA",
 				"wMzyMzMmxMGMbzMz0MLzMjZmBAAAAwgZmZmZMzMjBAzMzMzAAAMmtBGwSwywEYYBwMGAAMzAwYA",
 				"wMzyMzwMmZmhZZmZmmZxMzMzMAAAAAGMzMzMjZmZMAYmZmZGAAgxsNwAWCWGmADLAmxAAgZGAYA",
 				"wMz2MzMmxMGMbzMz0MLzMjZmBAAAAwgZmZmZMzMjBAzMzMzAAAMmtBGwSwywEYYBwMGAAMzAwYA",
-				"wMz2MzwMmZmhZZmZmmZxMjZmxAAAAAGMzMzMjZmZMAYmZmZGAAgxsNwAWCWGmADLAmxAAgZGAYA",
 				"wYWGzMmxMjhZbmZmmZxMjxMGAAAAYmZmZmZmZYGjBAjZmZGAAADMwMW0YZDktBsBYGGAAwMDmhB",
 				"wYMmhZMzYY2mZmpZWmZGjZMDAAAAmZmZmxMzwMmZAwYmZmBAAwADMjNNW2AZZAbAmxMAAgZGYYA",
 				"wYWGzMMzMjhZbmZmmZxMjZmxMAAAAYmZmZGzMDzYMAYMzMzAAAMmtBGwSw2wEYYBwMmBAgZGAYA",
@@ -13191,8 +13178,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 33, 0.9934, 449, 1, 372, 17, 23, 17, 19, 3, 28, 17 },
-							{ 31, 0.0066, 3, nil, nil, nil, 9, 3, 17 },
+							{ 33, 0.9911, 335, 1, 295, 18, 3, 18, 17 },
+							{ 31, 0.0089, 3, nil, nil, nil, 17, 3, 18 },
 						},
 					},
 					["20-99"] = {
@@ -13216,7 +13203,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 33, 1, 369, 1, 311, 18, 22, 12, 21, 10, 14, 20 },
+							{ 33, 1, 369, 1, 311, 18, 21, 12, 21, 10, 14, 20 },
 						},
 					},
 					["20-99"] = {
@@ -13234,7 +13221,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 33, 0.9396, 2068, 20, 1503, 14, 3, 122, 12, 2, 110, 12 },
+							{ 33, 0.9396, 2068, 19, 1503, 14, 3, 122, 12, 2, 110, 12 },
 							{ 31, 0.0604, 133, nil, nil, nil, 11, 5, 18, 4, 44, 12 },
 						},
 					},
@@ -13245,7 +13232,7 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 33, 1, 3, nil, nil, nil, 21, 3, 20 },
+							{ 33, 1, 3, nil, nil, nil, 20, 3, 20 },
 						},
 					},
 				},
@@ -13264,7 +13251,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 33, 1, 279, 1, 244, 17, 19, 13, 16, 3, 12, 16 },
+							{ 33, 1, 279, 1, 244, 17, 18, 13, 16, 3, 12, 16 },
 						},
 					},
 					["20-99"] = {
@@ -13288,8 +13275,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 33, 0.9791, 375, 1, 309, 18, 18, 32, 17 },
-							{ 31, 0.0209, 8, nil, nil, nil, 9, 8, 16 },
+							{ 33, 0.9865, 292, 1, 257, 18, 3, 15, 17 },
+							{ 31, 0.0135, 4, nil, nil, nil, 9, 4, 15 },
 						},
 					},
 					["20-99"] = {
@@ -13403,20 +13390,20 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6795, 2067, 6, 473, 430198, 24, 199, 395143, 25, 584, 425287 },
-									{ 33, 0.3205, 975, 1, 223, 419114, 26, 508, 381630, 3, 50, 428099 },
+									{ 31, 0.6795, 2067, 6, 473, 430198, 22, 199, 395143, 23, 584, 425287 },
+									{ 33, 0.3205, 975, 1, 223, 419114, 24, 508, 381630, 3, 50, 428099 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.9108, 531, nil, nil, nil, 25, 244, 372093, 27, 66, 376178, 28, 34, 369318 },
+									{ 31, 0.9108, 531, nil, nil, nil, 23, 244, 372093, 25, 66, 376178, 26, 34, 369318 },
 									{ 33, 0.0892, 52, nil, nil, nil, 1, 26, 383397 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.7309, 277, nil, nil, nil, 25, 90, 438572, 28, 77, 440143, 27, 60, 450916 },
-									{ 33, 0.2691, 102, nil, nil, nil, 29, 29, 439020, 1, 42, 450750 },
+									{ 31, 0.7309, 277, nil, nil, nil, 23, 90, 438572, 26, 77, 440143, 25, 60, 450916 },
+									{ 33, 0.2691, 102, nil, nil, nil, 27, 29, 439020, 1, 42, 450750 },
 								},
 							},
 						},
@@ -13424,19 +13411,19 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 33, 0.548, 508, 1, 260, 364486, 2, 49, 350572, 3, 49, 353907 },
-									{ 31, 0.452, 419, 6, 140, 341866, 30, 77, 376125, 31, 25, 379909 },
+									{ 31, 0.452, 419, 6, 140, 341866, 28, 77, 376125, 29, 25, 379909 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.6374, 109, nil, nil, nil, 32, 23, 272718, 13, 29, 313477, 33, 16, 254725 },
+									{ 33, 0.6374, 109, nil, nil, nil, 30, 23, 272718, 13, 29, 313477, 31, 16, 254725 },
 									{ 31, 0.3626, 62, nil, nil, nil, 6, 33, 288979 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 33, 0.5564, 74, nil, nil, nil, 13, 45, 384043 },
-									{ 31, 0.4436, 59, nil, nil, nil, 6, 26, 377333, 30, 14, 384709 },
+									{ 31, 0.4436, 59, nil, nil, nil, 6, 26, 377333, 28, 14, 384709 },
 								},
 							},
 						},
@@ -13444,7 +13431,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 33, 0.5021, 117, nil, nil, nil, 1, 53, 213659, 2, 21, 232118, 3, 14, 206281 },
-									{ 31, 0.4979, 116, nil, nil, nil, 30, 37, 221052, 6, 29, 200370, 4, 12, 233331 },
+									{ 31, 0.4979, 116, nil, nil, nil, 28, 37, 221052, 6, 29, 200370, 4, 12, 233331 },
 								},
 							},
 							["fast"] = {
@@ -13455,7 +13442,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.5278, 19, nil, nil, nil, 30, 7, 244061 },
+									{ 31, 0.5278, 19, nil, nil, nil, 28, 7, 244061 },
 									{ 33, 0.4722, 17, nil, nil, nil, 2, 6, 238883 },
 								},
 							},
@@ -13465,20 +13452,20 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6795, 2067, 6, 473, 430198, 24, 199, 395143, 25, 584, 425287 },
-									{ 33, 0.3205, 975, 1, 223, 419114, 26, 508, 381630, 3, 50, 428099 },
+									{ 31, 0.6795, 2067, 6, 473, 430198, 22, 199, 395143, 23, 584, 425287 },
+									{ 33, 0.3205, 975, 1, 223, 419114, 24, 508, 381630, 3, 50, 428099 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.9108, 531, nil, nil, nil, 25, 244, 372093, 27, 66, 376178, 28, 34, 369318 },
+									{ 31, 0.9108, 531, nil, nil, nil, 23, 244, 372093, 25, 66, 376178, 26, 34, 369318 },
 									{ 33, 0.0892, 52, nil, nil, nil, 1, 26, 383397 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.7309, 277, nil, nil, nil, 25, 90, 438572, 28, 77, 440143, 27, 60, 450916 },
-									{ 33, 0.2691, 102, nil, nil, nil, 29, 29, 439020, 1, 42, 450750 },
+									{ 31, 0.7309, 277, nil, nil, nil, 23, 90, 438572, 26, 77, 440143, 25, 60, 450916 },
+									{ 33, 0.2691, 102, nil, nil, nil, 27, 29, 439020, 1, 42, 450750 },
 								},
 							},
 						},
@@ -13486,19 +13473,19 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 33, 0.548, 508, 1, 260, 364486, 2, 49, 350572, 3, 49, 353907 },
-									{ 31, 0.452, 419, 6, 140, 341866, 30, 77, 376125, 31, 25, 379909 },
+									{ 31, 0.452, 419, 6, 140, 341866, 28, 77, 376125, 29, 25, 379909 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.6374, 109, nil, nil, nil, 32, 23, 272718, 13, 29, 313477, 33, 16, 254725 },
+									{ 33, 0.6374, 109, nil, nil, nil, 30, 23, 272718, 13, 29, 313477, 31, 16, 254725 },
 									{ 31, 0.3626, 62, nil, nil, nil, 6, 33, 288979 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 33, 0.5564, 74, nil, nil, nil, 13, 45, 384043 },
-									{ 31, 0.4436, 59, nil, nil, nil, 6, 26, 377333, 30, 14, 384709 },
+									{ 31, 0.4436, 59, nil, nil, nil, 6, 26, 377333, 28, 14, 384709 },
 								},
 							},
 						},
@@ -13506,7 +13493,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 33, 0.5021, 117, nil, nil, nil, 1, 53, 213659, 2, 21, 232118, 3, 14, 206281 },
-									{ 31, 0.4979, 116, nil, nil, nil, 30, 37, 221052, 6, 29, 200370, 4, 12, 233331 },
+									{ 31, 0.4979, 116, nil, nil, nil, 28, 37, 221052, 6, 29, 200370, 4, 12, 233331 },
 								},
 							},
 							["fast"] = {
@@ -13517,7 +13504,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.5278, 19, nil, nil, nil, 30, 7, 244061 },
+									{ 31, 0.5278, 19, nil, nil, nil, 28, 7, 244061 },
 									{ 33, 0.4722, 17, nil, nil, nil, 2, 6, 238883 },
 								},
 							},
@@ -13529,19 +13516,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.7888, 493, 6, 187, 216517, 24, 113, 185842, 30, 19, 247619 },
+									{ 31, 0.7888, 493, 6, 187, 216517, 22, 113, 185842, 28, 19, 247619 },
 									{ 33, 0.2112, 132, nil, nil, nil, 1, 54, 197947, 3, 14, 228062 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.8548, 53, nil, nil, nil, 24, 25, 177896, 6, 22, 190474 },
+									{ 31, 0.8548, 53, nil, nil, nil, 22, 25, 177896, 6, 22, 190474 },
 									{ 33, 0.1452, 9, nil, nil, nil, 1, 6, 185630 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.6951, 57, nil, nil, nil, 6, 34, 215861, 24, 17, 219510 },
+									{ 31, 0.6951, 57, nil, nil, nil, 6, 34, 215861, 22, 17, 219510 },
 									{ 33, 0.3049, 25, nil, nil, nil, 1, 18, 227718 },
 								},
 							},
@@ -13549,27 +13536,27 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6304, 382, 6, 170, 163087, 30, 71, 163534, 31, 16, 161749 },
-									{ 33, 0.3696, 224, nil, nil, nil, 1, 97, 160279, 32, 27, 105868, 3, 16, 148801 },
+									{ 31, 0.6304, 382, 6, 170, 163087, 28, 71, 163534, 29, 16, 161749 },
+									{ 33, 0.3696, 224, nil, nil, nil, 1, 97, 160279, 30, 27, 105868, 3, 16, 148801 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.5135, 57, nil, nil, nil, 32, 23, 105868 },
+									{ 33, 0.5135, 57, nil, nil, nil, 30, 23, 105868 },
 									{ 31, 0.4865, 54, nil, nil, nil, 6, 29, 129764 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.7647, 65, nil, nil, nil, 6, 41, 167214, 30, 17, 166489 },
-									{ 33, 0.2353, 20, nil, nil, nil, 42, 11, 167392 },
+									{ 31, 0.7647, 65, nil, nil, nil, 6, 41, 167214, 28, 17, 166489 },
+									{ 33, 0.2353, 20, nil, nil, nil, 40, 11, 167392 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5786, 92, nil, nil, nil, 6, 36, 142355, 30, 28, 172928 },
+									{ 31, 0.5786, 92, nil, nil, nil, 6, 36, 142355, 28, 28, 172928 },
 									{ 33, 0.4214, 67, nil, nil, nil, 3, 11, 223210, 16, 29, 161117 },
 								},
 							},
@@ -13590,33 +13577,33 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8085, 439, 6, 151, 244408, 24, 120, 200284, 30, 22, 273884 },
+									{ 31, 0.8085, 439, 6, 151, 244408, 22, 120, 200284, 28, 22, 273884 },
 									{ 33, 0.1915, 104, nil, nil, nil, 1, 32, 214677, 3, 12, 240364 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.9333, 56, nil, nil, nil, 43, 32, 178733, 6, 17, 197076 },
+									{ 31, 0.9333, 56, nil, nil, nil, 41, 32, 178733, 6, 17, 197076 },
 									{ 33, 0.0667, 4, nil, nil, nil, 1, 4, 192956 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 31, 0.7091, 39, nil, nil, nil, 6, 26, 246455 },
-									{ 33, 0.2909, 16, nil, nil, nil, 44, 6, 245513 },
+									{ 33, 0.2909, 16, nil, nil, nil, 42, 6, 245513 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6101, 338, 6, 157, 208741, 30, 64, 216777, 31, 14, 224054 },
-									{ 33, 0.3899, 216, nil, nil, nil, 32, 26, 159627, 1, 88, 231679, 2, 16, 233899 },
+									{ 31, 0.6101, 338, 6, 157, 208741, 28, 64, 216777, 29, 14, 224054 },
+									{ 33, 0.3899, 216, nil, nil, nil, 30, 26, 159627, 1, 88, 231679, 2, 16, 233899 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.6145, 51, nil, nil, nil, 32, 20, 159627 },
+									{ 33, 0.6145, 51, nil, nil, nil, 30, 20, 159627 },
 									{ 31, 0.3855, 32, nil, nil, nil, 6, 14, 170621 },
 								},
 							},
@@ -13630,7 +13617,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5696, 90, nil, nil, nil, 6, 34, 182272, 30, 32, 227387 },
+									{ 31, 0.5696, 90, nil, nil, nil, 6, 34, 182272, 28, 32, 227387 },
 									{ 33, 0.4304, 68, nil, nil, nil, 3, 11, 298855, 16, 27, 217450 },
 								},
 							},
@@ -13642,7 +13629,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 1, 17, nil, nil, nil, 30, 7, 284334 },
+									{ 31, 1, 17, nil, nil, nil, 28, 7, 284334 },
 								},
 							},
 						},
@@ -13651,19 +13638,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8396, 649, 6, 197, 357066, 34, 66, 294277, 24, 109, 287969 },
-									{ 33, 0.1604, 124, nil, nil, nil, 1, 38, 336463, 3, 16, 274993, 47, 13, 337837 },
+									{ 31, 0.8396, 649, 6, 197, 357066, 32, 66, 294277, 22, 109, 287969 },
+									{ 33, 0.1604, 124, nil, nil, nil, 1, 38, 336463, 3, 16, 274993, 45, 13, 337837 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.9259, 50, nil, nil, nil, 34, 11, 247155, 24, 16, 260736 },
+									{ 31, 0.9259, 50, nil, nil, nil, 32, 11, 247155, 22, 16, 260736 },
 									{ 33, 0.0741, 4, nil, nil, nil, 3, 4, 254372 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.907, 78, nil, nil, nil, 6, 25, 349458, 34, 13, 344663, 45, 18, 342358 },
+									{ 31, 0.907, 78, nil, nil, nil, 6, 25, 349458, 32, 13, 344663, 43, 18, 342358 },
 									{ 33, 0.093, 8, nil, nil, nil, 1, 4, 338361 },
 								},
 							},
@@ -13671,13 +13658,13 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6139, 248, 6, 124, 321861, 30, 40, 326884, 24, 16, 354300 },
-									{ 33, 0.3861, 156, nil, nil, nil, 32, 25, 238954, 1, 51, 310565, 2, 15, 333325 },
+									{ 31, 0.6139, 248, 6, 124, 321861, 28, 40, 326884, 22, 16, 354300 },
+									{ 33, 0.3861, 156, nil, nil, nil, 30, 25, 238954, 1, 51, 310565, 2, 15, 333325 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.5897, 46, nil, nil, nil, 32, 22, 238434 },
+									{ 33, 0.5897, 46, nil, nil, nil, 30, 22, 238434 },
 									{ 31, 0.4103, 32, nil, nil, nil, 6, 12, 280205 },
 								},
 							},
@@ -13691,7 +13678,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5985, 82, nil, nil, nil, 6, 34, 247006, 30, 30, 283197 },
+									{ 31, 0.5985, 82, nil, nil, nil, 6, 34, 247006, 28, 30, 283197 },
 									{ 33, 0.4015, 55, nil, nil, nil, 3, 12, 187852, 16, 19, 209975 },
 								},
 							},
@@ -13703,7 +13690,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.6364, 14, nil, nil, nil, 30, 8, 235807 },
+									{ 31, 0.6364, 14, nil, nil, nil, 28, 8, 235807 },
 									{ 33, 0.3636, 8, nil, nil, nil, 2, 4, 254235 },
 								},
 							},
@@ -13713,38 +13700,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8665, 305, 6, 92, 237165, 24, 89, 189021 },
+									{ 31, 0.8665, 305, 6, 92, 237165, 22, 89, 189021 },
 									{ 33, 0.1335, 47, nil, nil, nil, 1, 10, 185444 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 1, 12, nil, nil, nil, 24, 9, 182296 },
+									{ 31, 1, 12, nil, nil, nil, 22, 9, 182296 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.8148, 44, nil, nil, nil, 6, 17, 230806, 45, 14, 222414 },
-									{ 33, 0.1852, 10, nil, nil, nil, 46, 7, 225272 },
+									{ 31, 0.8148, 44, nil, nil, nil, 6, 17, 230806, 43, 14, 222414 },
+									{ 33, 0.1852, 10, nil, nil, nil, 44, 7, 225272 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6262, 330, 6, 162, 225865, 30, 54, 236036, 31, 14, 227764 },
-									{ 33, 0.3738, 197, nil, nil, nil, 32, 26, 169307, 1, 76, 230054, 2, 17, 224265 },
+									{ 31, 0.6262, 330, 6, 162, 225865, 28, 54, 236036, 29, 14, 227764 },
+									{ 33, 0.3738, 197, nil, nil, nil, 30, 26, 169307, 1, 76, 230054, 2, 17, 224265 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 31, 0.5376, 50, nil, nil, nil, 6, 20, 185103 },
-									{ 33, 0.4624, 43, nil, nil, nil, 32, 22, 169307 },
+									{ 33, 0.4624, 43, nil, nil, nil, 30, 22, 169307 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.6905, 58, nil, nil, nil, 6, 32, 236614, 30, 12, 247053 },
+									{ 31, 0.6905, 58, nil, nil, nil, 6, 32, 236614, 28, 12, 247053 },
 									{ 33, 0.3095, 26, nil, nil, nil, 2, 7, 233941 },
 								},
 							},
@@ -13752,7 +13739,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5621, 86, nil, nil, nil, 6, 36, 168234, 30, 28, 187596 },
+									{ 31, 0.5621, 86, nil, nil, nil, 6, 36, 168234, 28, 28, 187596 },
 									{ 33, 0.4379, 67, nil, nil, nil, 3, 12, 158563, 16, 28, 226466 },
 								},
 							},
@@ -13774,45 +13761,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8373, 211, nil, nil, nil, 6, 63, 338514, 24, 68, 335351, 48, 18, 345470 },
-									{ 33, 0.1627, 41, nil, nil, nil, 49, 14, 397263 },
+									{ 31, 0.8373, 211, nil, nil, nil, 6, 63, 338514, 22, 68, 335351, 46, 18, 345470 },
+									{ 33, 0.1627, 41, nil, nil, nil, 47, 14, 397263 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 1, 19, nil, nil, nil, 24, 5, 300807 },
+									{ 31, 1, 19, nil, nil, nil, 22, 5, 300807 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 1, 13, nil, nil, nil, 45, 7, 357251 },
+									{ 31, 1, 13, nil, nil, nil, 43, 7, 357251 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6023, 212, 6, 106, 213030, 30, 32, 212903, 24, 16, 247962 },
-									{ 33, 0.3977, 140, nil, nil, nil, 32, 24, 172396, 38, 15, 222730, 1, 51, 208673 },
+									{ 31, 0.6023, 212, 6, 106, 213030, 28, 32, 212903, 22, 16, 247962 },
+									{ 33, 0.3977, 140, nil, nil, nil, 30, 24, 172396, 36, 15, 222730, 1, 51, 208673 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.5417, 39, nil, nil, nil, 32, 19, 168538 },
+									{ 33, 0.5417, 39, nil, nil, nil, 30, 19, 168538 },
 									{ 31, 0.4583, 33, nil, nil, nil, 6, 16, 189510 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 31, 0.7778, 35, nil, nil, nil, 6, 30, 244605 },
-									{ 33, 0.2222, 10, nil, nil, nil, 38, 6, 239352 },
+									{ 33, 0.2222, 10, nil, nil, nil, 36, 6, 239352 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5806, 72, nil, nil, nil, 6, 30, 184270, 30, 25, 184901 },
+									{ 31, 0.5806, 72, nil, nil, nil, 6, 30, 184270, 28, 25, 184901 },
 									{ 33, 0.4194, 52, nil, nil, nil, 3, 12, 178752, 16, 18, 182251 },
 								},
 							},
@@ -13823,7 +13810,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 1, 11, nil, nil, nil, 30, 7, 185749 },
+									{ 31, 1, 11, nil, nil, nil, 28, 7, 185749 },
 								},
 							},
 						},
@@ -13832,46 +13819,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8585, 182, nil, nil, nil, 45, 59, 470562, 6, 50, 448958 },
-									{ 33, 0.1415, 30, nil, nil, nil, 50, 8, 470825 },
+									{ 31, 0.8585, 182, nil, nil, nil, 43, 59, 470562, 6, 50, 448958 },
+									{ 33, 0.1415, 30, nil, nil, nil, 48, 8, 470825 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 1, 15, nil, nil, nil, 24, 5, 432857 },
+									{ 31, 1, 15, nil, nil, nil, 22, 5, 432857 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.75, 15, nil, nil, nil, 45, 6, 469778 },
-									{ 33, 0.25, 5, nil, nil, nil, 50, 5, 470643 },
+									{ 31, 0.75, 15, nil, nil, nil, 43, 6, 469778 },
+									{ 33, 0.25, 5, nil, nil, nil, 48, 5, 470643 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6089, 165, nil, nil, nil, 6, 82, 424997, 30, 20, 444582, 24, 14, 465501 },
-									{ 33, 0.3911, 106, nil, nil, nil, 32, 24, 399450, 38, 15, 464271, 13, 24, 434532 },
+									{ 31, 0.6089, 165, nil, nil, nil, 6, 82, 424997, 28, 20, 444582, 22, 14, 465501 },
+									{ 33, 0.3911, 106, nil, nil, nil, 30, 24, 399450, 36, 15, 464271, 13, 24, 434532 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 31, 0.5, 7, nil, nil, nil, 6, 7, 385198 },
-									{ 33, 0.5, 7, nil, nil, nil, 39, 4, 340125 },
+									{ 33, 0.5, 7, nil, nil, nil, 37, 4, 340125 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 31, 0.697, 23, nil, nil, nil, 6, 10, 448786 },
-									{ 33, 0.303, 10, nil, nil, nil, 32, 6, 433881 },
+									{ 33, 0.303, 10, nil, nil, nil, 30, 6, 433881 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6535, 66, nil, nil, nil, 6, 24, 282011, 30, 24, 323630 },
+									{ 31, 0.6535, 66, nil, nil, nil, 6, 24, 282011, 28, 24, 323630 },
 									{ 33, 0.3465, 35, nil, nil, nil, 3, 8, 275849, 16, 12, 286368 },
 								},
 							},
@@ -13882,8 +13869,8 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.5882, 10, nil, nil, nil, 30, 6, 314414 },
-									{ 33, 0.4118, 7, nil, nil, nil, 41, 4, 308203 },
+									{ 31, 0.5882, 10, nil, nil, nil, 28, 6, 314414 },
+									{ 33, 0.4118, 7, nil, nil, nil, 39, 4, 308203 },
 								},
 							},
 						},
@@ -13892,45 +13879,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.9347, 372, nil, nil, nil, 53, 147, 280544, 54, 27, 283240, 55, 16, 281912 },
-									{ 33, 0.0653, 26, nil, nil, nil, 56, 10, 308646 },
+									{ 31, 0.9347, 372, nil, nil, nil, 51, 147, 280544, 52, 27, 283240, 53, 16, 281912 },
+									{ 33, 0.0653, 26, nil, nil, nil, 54, 10, 308646 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 1, 23, nil, nil, nil, 57, 12, 230255 },
+									{ 31, 1, 23, nil, nil, nil, 55, 12, 230255 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 1, 38, nil, nil, nil, 53, 20, 291210, 58, 12, 291790 },
+									{ 31, 1, 38, nil, nil, nil, 51, 20, 291210, 56, 12, 291790 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5564, 148, 6, 82, 107872, 30, 17, 132440 },
-									{ 33, 0.4436, 118, nil, nil, nil, 32, 24, 88403, 38, 15, 111558, 13, 33, 105054 },
+									{ 31, 0.5564, 148, 6, 82, 107872, 28, 17, 132440 },
+									{ 33, 0.4436, 118, nil, nil, nil, 30, 24, 88403, 36, 15, 111558, 13, 33, 105054 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.7097, 22, nil, nil, nil, 32, 18, 88163 },
+									{ 33, 0.7097, 22, nil, nil, nil, 30, 18, 88163 },
 									{ 31, 0.2903, 9, nil, nil, nil, 6, 9, 89680 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 31, 0.6563, 21, nil, nil, nil, 6, 13, 125563 },
-									{ 33, 0.3438, 11, nil, nil, nil, 38, 4, 114762 },
+									{ 33, 0.3438, 11, nil, nil, nil, 36, 4, 114762 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5897, 46, nil, nil, nil, 30, 16, 116466, 6, 18, 96399 },
+									{ 31, 0.5897, 46, nil, nil, nil, 28, 16, 116466, 6, 18, 96399 },
 									{ 33, 0.4103, 32, nil, nil, nil, 3, 9, 126659, 16, 12, 126973 },
 								},
 							},
@@ -13950,27 +13937,27 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.9241, 560, 24, 192, 505488, 59, 63, 545535, 60, 40, 502645 },
-									{ 33, 0.0759, 46, nil, nil, nil, 61, 8, 507377 },
+									{ 31, 0.9241, 560, 22, 192, 505488, 57, 63, 545535, 58, 40, 502645 },
+									{ 33, 0.0759, 46, nil, nil, nil, 59, 8, 507377 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 1, 50, nil, nil, nil, 24, 22, 491474 },
+									{ 31, 1, 50, nil, nil, nil, 22, 22, 491474 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.9667, 87, nil, nil, nil, 24, 40, 510605, 62, 13, 515178, 27, 13, 509938 },
-									{ 33, 0.0333, 3, nil, nil, nil, 61, 3, 512535 },
+									{ 31, 0.9667, 87, nil, nil, nil, 22, 40, 510605, 60, 13, 515178, 25, 13, 509938 },
+									{ 33, 0.0333, 3, nil, nil, nil, 59, 3, 512535 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5638, 137, nil, nil, nil, 6, 72, 337469, 30, 13, 337451, 24, 14, 324504 },
-									{ 33, 0.4362, 106, nil, nil, nil, 32, 24, 370471, 38, 15, 408720, 13, 21, 344946 },
+									{ 31, 0.5638, 137, nil, nil, nil, 6, 72, 337469, 28, 13, 337451, 22, 14, 324504 },
+									{ 33, 0.4362, 106, nil, nil, nil, 30, 24, 370471, 36, 15, 408720, 13, 21, 344946 },
 								},
 							},
 							["fast"] = {
@@ -13987,7 +13974,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.6282, 49, nil, nil, nil, 6, 20, 264744, 30, 14, 358530 },
+									{ 31, 0.6282, 49, nil, nil, nil, 6, 20, 264744, 28, 14, 358530 },
 									{ 33, 0.3718, 29, nil, nil, nil, 3, 8, 421032 },
 								},
 							},
@@ -14008,14 +13995,14 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.7359, 365, 6, 124, 143899, 24, 78, 140782, 51, 17, 140903 },
-									{ 33, 0.2641, 131, nil, nil, nil, 1, 52, 147854, 44, 22, 273652 },
+									{ 31, 0.7359, 365, 6, 124, 143899, 22, 78, 140782, 49, 17, 140903 },
+									{ 33, 0.2641, 131, nil, nil, nil, 1, 52, 147854, 42, 22, 273652 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.7458, 44, nil, nil, nil, 6, 14, 136809, 24, 16, 138738 },
-									{ 33, 0.2542, 15, nil, nil, nil, 52, 5, 137631 },
+									{ 31, 0.7458, 44, nil, nil, nil, 6, 14, 136809, 22, 16, 138738 },
+									{ 33, 0.2542, 15, nil, nil, nil, 50, 5, 137631 },
 								},
 							},
 							["median"] = {
@@ -14028,19 +14015,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 33, 0.511, 396, 1, 210, 300030, 2, 27, 305351, 32, 30, 143514 },
-									{ 31, 0.489, 379, 6, 142, 288923, 30, 77, 308063, 24, 44, 281843 },
+									{ 33, 0.511, 396, 1, 210, 300030, 2, 27, 305351, 30, 30, 143514 },
+									{ 31, 0.489, 379, 6, 142, 288923, 28, 77, 308063, 22, 44, 281843 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.5878, 77, nil, nil, nil, 32, 21, 138435, 44, 23, 131356, 13, 16, 243593 },
+									{ 33, 0.5878, 77, nil, nil, nil, 30, 21, 138435, 42, 23, 131356, 13, 16, 243593 },
 									{ 31, 0.4122, 54, nil, nil, nil, 6, 24, 152690 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.55, 55, nil, nil, nil, 6, 21, 310372, 30, 17, 330434 },
+									{ 31, 0.55, 55, nil, nil, nil, 6, 21, 310372, 28, 17, 330434 },
 									{ 33, 0.45, 45, nil, nil, nil, 1, 34, 317017 },
 								},
 							},
@@ -14048,7 +14035,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5159, 65, nil, nil, nil, 6, 26, 266106, 30, 22, 309458 },
+									{ 31, 0.5159, 65, nil, nil, nil, 6, 26, 266106, 28, 22, 309458 },
 									{ 33, 0.4841, 61, nil, nil, nil, 13, 27, 293186 },
 								},
 							},
@@ -14060,7 +14047,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 33, 0.5263, 10, nil, nil, nil, 13, 7, 300227 },
-									{ 31, 0.4737, 9, nil, nil, nil, 30, 5, 309222 },
+									{ 31, 0.4737, 9, nil, nil, nil, 28, 5, 309222 },
 								},
 							},
 						},
@@ -14069,60 +14056,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.8256, 4763, 6, 1180, 213622, 24, 1148, 192681, 34, 126, 282762 },
-									{ 33, 0.1744, 1006, nil, nil, nil, 1, 241, 178593, 35, 55, 203346, 3, 67, 146844 },
+									{ 31, 0.8256, 4763, 6, 1180, 213622, 22, 1148, 192681, 32, 126, 282762 },
+									{ 33, 0.1744, 1006, nil, nil, nil, 1, 241, 178593, 33, 55, 203346, 3, 67, 146844 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.9355, 638, nil, nil, nil, 24, 221, 166115, 6, 173, 140777, 36, 26, 182007 },
+									{ 31, 0.9355, 638, nil, nil, nil, 22, 221, 166115, 6, 173, 140777, 34, 26, 182007 },
 									{ 33, 0.0645, 44, nil, nil, nil, 1, 17, 142573 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.8232, 680, 6, 203, 215908, 24, 198, 288441, 34, 22, 268089 },
-									{ 33, 0.1768, 146, nil, nil, nil, 1, 56, 148437, 37, 12, 223096, 3, 17, 229582 },
+									{ 31, 0.8232, 680, 6, 203, 215908, 22, 198, 288441, 32, 22, 268089 },
+									{ 33, 0.1768, 146, nil, nil, nil, 1, 56, 148437, 35, 12, 223096, 3, 17, 229582 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.58, 2668, 6, 1222, 163946, 30, 396, 177729, 31, 92, 163356 },
-									{ 33, 0.42, 1932, 1, 733, 230322, 32, 241, 92870, 38, 149, 111558 },
+									{ 31, 0.58, 2668, 6, 1222, 163946, 28, 396, 177729, 29, 92, 163356 },
+									{ 33, 0.42, 1932, 1, 733, 230322, 30, 241, 92870, 36, 149, 111558 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 0.5308, 465, nil, nil, nil, 32, 153, 89892, 39, 52, 94959, 33, 63, 95954 },
-									{ 31, 0.4692, 411, nil, nil, nil, 6, 164, 118472, 30, 48, 164516, 40, 33, 101905 },
+									{ 33, 0.5308, 465, nil, nil, nil, 30, 153, 89892, 37, 52, 94959, 31, 63, 95954 },
+									{ 31, 0.4692, 411, nil, nil, nil, 6, 164, 118472, 28, 48, 164516, 38, 33, 101905 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.6479, 484, 6, 242, 173163, 30, 86, 174991, 31, 30, 164608 },
-									{ 33, 0.3521, 263, nil, nil, nil, 1, 130, 194766, 2, 32, 178901, 38, 30, 116841 },
+									{ 31, 0.6479, 484, 6, 242, 173163, 28, 86, 174991, 29, 30, 164608 },
+									{ 33, 0.3521, 263, nil, nil, nil, 1, 130, 194766, 2, 32, 178901, 36, 30, 116841 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 31, 0.5922, 764, 6, 288, 133871, 30, 226, 143307, 24, 50, 137231 },
+									{ 31, 0.5922, 764, 6, 288, 133871, 28, 226, 143307, 22, 50, 137231 },
 									{ 33, 0.4078, 526, nil, nil, nil, 3, 106, 138754, 16, 209, 128284, 2, 65, 143138 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 31, 0.625, 125, nil, nil, nil, 6, 77, 98689, 30, 31, 119890 },
+									{ 31, 0.625, 125, nil, nil, nil, 6, 77, 98689, 28, 31, 119890 },
 									{ 33, 0.375, 75, nil, nil, nil, 3, 16, 142019, 16, 22, 119016, 2, 16, 85153 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 31, 0.559, 128, nil, nil, nil, 30, 54, 193696, 6, 41, 189998 },
-									{ 33, 0.441, 101, nil, nil, nil, 41, 18, 200809, 2, 16, 193269, 3, 14, 218841 },
+									{ 31, 0.559, 128, nil, nil, nil, 28, 54, 193696, 6, 41, 189998 },
+									{ 33, 0.441, 101, nil, nil, nil, 39, 18, 200809, 2, 16, 193269, 3, 14, 218841 },
 								},
 							},
 						},
@@ -14155,7 +14142,6 @@ ns.talentBuilds = {
 				"MAzMMjZmZYWmZmZmxMGNzYMzMzMwYmhZmZGzAAAAAAAAAwY2GYALglhJkxCmZYmBmBwwMDADG",
 				"MAzMjZMGDz2MzMzMLmZ0MjxMzMzAjZGmZmZMDAAAAAAAAAjZbgBsAWGmQGLYmhZGYGADzMAGYA",
 				"MDwMjZMDY2mZmZmZZmZkZMGDzwgZmZmZmZmZAAAAAAAAAYMbDMgFwywEyYBzMmZGYAYYmBYmBD",
-				"MAzMjZMGDz2MzMzMbzMjMjxMzMzAjZGmZmZMDAAAAAAAAAjZbgBsAWGmQGLYmhZGYGADzMAMYA",
 				"MAzMjZMzYY2mZmZmZxMjMjxMzMzAjZGmZmZMDAAAAAAAAAjZbgBsAWGmQGLYmhZGYGADzMADYA",
 				"MDYmZMjxYY2mZmZmZzMjmZMGDzwgZmZmZmZmZAAAAAAAAAYMbDMgFwywEyYBzMmZGYAYYmBYAD",
 				"MAzMMjxMDz2MzMzMbmZ0MjxMzMzAjZGmZmZMDAAAAAAAAAjZbgBsAWGmQGLYmhZGYGADzMAGYA",
@@ -14230,7 +14216,7 @@ ns.talentBuilds = {
 							{ 32, 0.0031, 3, nil, nil, nil, 8, 3, 12 },
 						},
 						["all"] = {
-							{ 33, 0.9958, 1918, 1, 1557, 14, 2, 115, 12, 33, 102, 17 },
+							{ 33, 0.9958, 1918, 1, 1557, 14, 2, 115, 12, 32, 102, 17 },
 							{ 32, 0.0042, 8, nil, nil, nil, 4, 4, 17 },
 						},
 					},
@@ -14257,7 +14243,7 @@ ns.talentBuilds = {
 							{ 33, 1, 72, nil, nil, nil, 1, 63, 9 },
 						},
 						["3"] = {
-							{ 33, 1, 77, nil, nil, nil, 32, 53, 9, 2, 14, 9 },
+							{ 33, 1, 77, nil, nil, nil, 31, 53, 9, 2, 14, 9 },
 						},
 						["all"] = {
 							{ 33, 1, 162, 5, 128, 8, 2, 20, 9 },
@@ -14268,11 +14254,11 @@ ns.talentBuilds = {
 							{ 33, 1, 696, 5, 637, 12, 2, 36, 12, 7, 16, 12 },
 						},
 						["3"] = {
-							{ 33, 0.9965, 861, 5, 585, 12, 2, 70, 12, 33, 130, 16 },
-							{ 32, 0.0035, 3, nil, nil, nil, 34, 3, 12 },
+							{ 33, 0.9965, 861, 5, 585, 12, 2, 70, 12, 32, 130, 16 },
+							{ 32, 0.0035, 3, nil, nil, nil, 33, 3, 12 },
 						},
 						["all"] = {
-							{ 33, 0.9959, 1700, 17, 1322, 13, 2, 108, 12, 33, 141, 16 },
+							{ 33, 0.9959, 1700, 17, 1322, 13, 2, 108, 12, 32, 141, 16 },
 							{ 32, 0.0041, 7, nil, nil, nil, 4, 4, 16 },
 						},
 					},
@@ -14281,7 +14267,7 @@ ns.talentBuilds = {
 							{ 33, 1, 51, nil, nil, nil, 20, 51, 21 },
 						},
 						["3"] = {
-							{ 33, 1, 24, nil, nil, nil, 29, 21, 17 },
+							{ 33, 1, 24, nil, nil, nil, 28, 21, 17 },
 						},
 						["all"] = {
 							{ 33, 1, 83, nil, nil, nil, 20, 80, 21 },
@@ -14319,7 +14305,7 @@ ns.talentBuilds = {
 							{ 33, 1, 16, nil, nil, nil, 5, 11, 16 },
 						},
 						["all"] = {
-							{ 33, 1, 104, nil, nil, nil, 9, 91, 20 },
+							{ 33, 1, 67, nil, nil, nil, 9, 62, 20 },
 						},
 					},
 					["20-99"] = {
@@ -14331,7 +14317,7 @@ ns.talentBuilds = {
 				["14032"] = {
 					["6-9"] = {
 						["1"] = {
-							{ 33, 1, 56, nil, nil, nil, 24, 51, 9 },
+							{ 33, 1, 56, nil, nil, nil, 23, 51, 9 },
 						},
 						["3"] = {
 							{ 33, 1, 64, nil, nil, nil, 5, 47, 8, 2, 13, 8 },
@@ -14353,13 +14339,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["1"] = {
-							{ 33, 1, 47, nil, nil, nil, 31, 47, 21 },
+							{ 33, 1, 47, nil, nil, nil, 30, 47, 21 },
 						},
 						["3"] = {
-							{ 33, 1, 19, nil, nil, nil, 29, 19, 21 },
+							{ 33, 1, 19, nil, nil, nil, 28, 19, 21 },
 						},
 						["all"] = {
-							{ 33, 1, 92, nil, nil, nil, 30, 89, 21 },
+							{ 33, 1, 92, nil, nil, nil, 29, 89, 21 },
 						},
 					},
 				},
@@ -14380,10 +14366,10 @@ ns.talentBuilds = {
 							{ 33, 1, 527, 5, 475, 13, 2, 29, 12 },
 						},
 						["3"] = {
-							{ 33, 1, 632, 5, 458, 12, 2, 52, 12, 28, 78, 15 },
+							{ 33, 1, 632, 5, 458, 12, 2, 52, 12, 27, 78, 15 },
 						},
 						["all"] = {
-							{ 33, 1, 1253, 17, 1005, 14, 2, 83, 12, 27, 86, 16 },
+							{ 33, 1, 1253, 17, 1005, 14, 2, 83, 12, 26, 86, 16 },
 						},
 					},
 					["15-99"] = {
@@ -14391,10 +14377,10 @@ ns.talentBuilds = {
 							{ 33, 1, 59, nil, nil, nil, 9, 59, 21 },
 						},
 						["3"] = {
-							{ 33, 1, 20, nil, nil, nil, 29, 13, 21 },
+							{ 33, 1, 20, nil, nil, nil, 28, 13, 21 },
 						},
 						["all"] = {
-							{ 33, 1, 95, nil, nil, nil, 29, 85, 21 },
+							{ 33, 1, 95, nil, nil, nil, 28, 85, 21 },
 						},
 					},
 				},
@@ -14407,7 +14393,7 @@ ns.talentBuilds = {
 							{ 33, 1, 56, nil, nil, nil, 5, 34, 9 },
 						},
 						["all"] = {
-							{ 33, 1, 97, nil, nil, nil, 24, 70, 9, 2, 13, 8 },
+							{ 33, 1, 97, nil, nil, nil, 23, 70, 9, 2, 13, 8 },
 						},
 					},
 					["10-99"] = {
@@ -14419,19 +14405,19 @@ ns.talentBuilds = {
 							{ 33, 1, 745, 5, 524, 12, 2, 67, 12, 13, 95, 17 },
 						},
 						["all"] = {
-							{ 33, 0.9979, 1449, 9, 1160, 14, 2, 91, 12, 25, 104, 20 },
+							{ 33, 0.9979, 1449, 9, 1160, 14, 2, 91, 12, 24, 104, 20 },
 							{ 32, 0.0021, 3, nil, nil, nil, 4, 3, 17 },
 						},
 					},
 					["15-99"] = {
 						["1"] = {
-							{ 33, 1, 87, nil, nil, nil, 26, 87, 21 },
+							{ 33, 1, 87, nil, nil, nil, 25, 87, 21 },
 						},
 						["3"] = {
 							{ 33, 1, 30, nil, nil, nil, 13, 8, 20, 20, 17, 19 },
 						},
 						["all"] = {
-							{ 33, 1, 127, nil, nil, nil, 26, 113, 21 },
+							{ 33, 1, 127, nil, nil, nil, 25, 113, 21 },
 						},
 					},
 					["20-99"] = {
@@ -14471,7 +14457,7 @@ ns.talentBuilds = {
 							{ 33, 1, 34, nil, nil, nil, 9, 27, 18 },
 						},
 						["all"] = {
-							{ 33, 1, 145, nil, nil, nil, 23, 137, 20 },
+							{ 33, 1, 108, nil, nil, nil, 9, 101, 21 },
 						},
 					},
 					["20-99"] = {
@@ -14573,13 +14559,13 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 252, nil, nil, nil, 5, 126, 428331, 7, 45, 433345, 35, 75, 445028 },
+									{ 33, 1, 252, nil, nil, nil, 5, 126, 428331, 7, 45, 433345, 34, 75, 445028 },
 								},
 								["3"] = {
-									{ 33, 1, 1724, 35, 1077, 423483, 5, 86, 422805, 7, 516, 414724 },
+									{ 33, 1, 1724, 34, 1077, 423483, 5, 86, 422805, 7, 516, 414724 },
 								},
 								["all"] = {
-									{ 33, 1, 2132, 35, 1192, 423781, 5, 289, 421140, 7, 597, 417637 },
+									{ 33, 1, 2132, 34, 1192, 423781, 5, 289, 421140, 7, 597, 417637 },
 								},
 							},
 							["fast"] = {
@@ -14587,10 +14573,10 @@ ns.talentBuilds = {
 									{ 33, 1, 9, nil, nil, nil, 7, 5, 399743 },
 								},
 								["3"] = {
-									{ 33, 1, 340, nil, nil, nil, 36, 233, 330739, 7, 95, 362008, 5, 12, 374408 },
+									{ 33, 1, 340, nil, nil, nil, 35, 233, 330739, 7, 95, 362008, 5, 12, 374408 },
 								},
 								["all"] = {
-									{ 33, 1, 396, nil, nil, nil, 7, 119, 367079, 36, 244, 330739, 5, 33, 375726 },
+									{ 33, 1, 396, nil, nil, nil, 7, 119, 367079, 35, 244, 330739, 5, 33, 375726 },
 								},
 							},
 							["median"] = {
@@ -14598,25 +14584,25 @@ ns.talentBuilds = {
 									{ 33, 1, 36, nil, nil, nil, 12, 16, 454847, 5, 20, 450178 },
 								},
 								["3"] = {
-									{ 33, 1, 211, 35, 135, 446662, 7, 54, 442109, 5, 16, 450227 },
+									{ 33, 1, 211, 34, 135, 446662, 7, 54, 442109, 5, 16, 450227 },
 								},
 								["all"] = {
-									{ 33, 1, 280, 35, 160, 446393, 7, 63, 442109, 5, 49, 450870 },
+									{ 33, 1, 280, 34, 160, 446393, 7, 63, 442109, 5, 49, 450870 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 242, 5, 120, 361323, 7, 79, 345539, 35, 25, 338768 },
+									{ 33, 1, 242, 5, 120, 361323, 7, 79, 345539, 34, 25, 338768 },
 								},
 								["3"] = {
-									{ 33, 0.9936, 932, 7, 455, 348952, 5, 164, 356130, 35, 246, 335269 },
-									{ 32, 0.0064, 6, nil, nil, nil, 37, 6, 344795 },
+									{ 33, 0.9936, 932, 7, 455, 348952, 5, 164, 356130, 34, 246, 335269 },
+									{ 32, 0.0064, 6, nil, nil, nil, 36, 6, 344795 },
 								},
 								["all"] = {
-									{ 33, 0.9952, 1232, 7, 545, 348693, 5, 298, 360563, 35, 283, 337431 },
-									{ 32, 0.0048, 6, nil, nil, nil, 37, 6, 344795 },
+									{ 33, 0.9952, 1232, 7, 545, 348693, 5, 298, 360563, 34, 283, 337431 },
+									{ 32, 0.0048, 6, nil, nil, nil, 36, 6, 344795 },
 								},
 							},
 							["fast"] = {
@@ -14627,7 +14613,7 @@ ns.talentBuilds = {
 									{ 33, 1, 177, nil, nil, nil, 7, 101, 285844, 22, 59, 297783, 5, 13, 298142 },
 								},
 								["all"] = {
-									{ 33, 1, 204, nil, nil, nil, 7, 113, 288888, 5, 20, 291326, 35, 66, 283983 },
+									{ 33, 1, 204, nil, nil, nil, 7, 113, 288888, 5, 20, 291326, 34, 66, 283983 },
 								},
 							},
 							["median"] = {
@@ -14635,7 +14621,7 @@ ns.talentBuilds = {
 									{ 33, 1, 35, nil, nil, nil, 5, 14, 378417 },
 								},
 								["3"] = {
-									{ 33, 1, 126, nil, nil, nil, 7, 61, 383660, 5, 30, 384317, 35, 25, 352426 },
+									{ 33, 1, 126, nil, nil, nil, 7, 61, 383660, 5, 30, 384317, 34, 25, 352426 },
 								},
 								["all"] = {
 									{ 33, 1, 175, 7, 76, 382362, 5, 49, 383456, 2, 12, 380795 },
@@ -14682,13 +14668,13 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 252, nil, nil, nil, 5, 126, 428331, 7, 45, 433345, 35, 75, 445028 },
+									{ 33, 1, 252, nil, nil, nil, 5, 126, 428331, 7, 45, 433345, 34, 75, 445028 },
 								},
 								["3"] = {
-									{ 33, 1, 1724, 35, 1077, 423483, 5, 86, 422805, 7, 516, 414724 },
+									{ 33, 1, 1724, 34, 1077, 423483, 5, 86, 422805, 7, 516, 414724 },
 								},
 								["all"] = {
-									{ 33, 1, 2132, 35, 1192, 423781, 5, 289, 421140, 7, 597, 417637 },
+									{ 33, 1, 2132, 34, 1192, 423781, 5, 289, 421140, 7, 597, 417637 },
 								},
 							},
 							["fast"] = {
@@ -14696,10 +14682,10 @@ ns.talentBuilds = {
 									{ 33, 1, 9, nil, nil, nil, 7, 5, 399743 },
 								},
 								["3"] = {
-									{ 33, 1, 340, nil, nil, nil, 36, 233, 330739, 7, 95, 362008, 5, 12, 374408 },
+									{ 33, 1, 340, nil, nil, nil, 35, 233, 330739, 7, 95, 362008, 5, 12, 374408 },
 								},
 								["all"] = {
-									{ 33, 1, 396, nil, nil, nil, 7, 119, 367079, 36, 244, 330739, 5, 33, 375726 },
+									{ 33, 1, 396, nil, nil, nil, 7, 119, 367079, 35, 244, 330739, 5, 33, 375726 },
 								},
 							},
 							["median"] = {
@@ -14707,25 +14693,25 @@ ns.talentBuilds = {
 									{ 33, 1, 36, nil, nil, nil, 12, 16, 454847, 5, 20, 450178 },
 								},
 								["3"] = {
-									{ 33, 1, 211, 35, 135, 446662, 7, 54, 442109, 5, 16, 450227 },
+									{ 33, 1, 211, 34, 135, 446662, 7, 54, 442109, 5, 16, 450227 },
 								},
 								["all"] = {
-									{ 33, 1, 280, 35, 160, 446393, 7, 63, 442109, 5, 49, 450870 },
+									{ 33, 1, 280, 34, 160, 446393, 7, 63, 442109, 5, 49, 450870 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 242, 5, 120, 361323, 7, 79, 345539, 35, 25, 338768 },
+									{ 33, 1, 242, 5, 120, 361323, 7, 79, 345539, 34, 25, 338768 },
 								},
 								["3"] = {
-									{ 33, 0.9936, 932, 7, 455, 348952, 5, 164, 356130, 35, 246, 335269 },
-									{ 32, 0.0064, 6, nil, nil, nil, 37, 6, 344795 },
+									{ 33, 0.9936, 932, 7, 455, 348952, 5, 164, 356130, 34, 246, 335269 },
+									{ 32, 0.0064, 6, nil, nil, nil, 36, 6, 344795 },
 								},
 								["all"] = {
-									{ 33, 0.9952, 1232, 7, 545, 348693, 5, 298, 360563, 35, 283, 337431 },
-									{ 32, 0.0048, 6, nil, nil, nil, 37, 6, 344795 },
+									{ 33, 0.9952, 1232, 7, 545, 348693, 5, 298, 360563, 34, 283, 337431 },
+									{ 32, 0.0048, 6, nil, nil, nil, 36, 6, 344795 },
 								},
 							},
 							["fast"] = {
@@ -14736,7 +14722,7 @@ ns.talentBuilds = {
 									{ 33, 1, 177, nil, nil, nil, 7, 101, 285844, 22, 59, 297783, 5, 13, 298142 },
 								},
 								["all"] = {
-									{ 33, 1, 204, nil, nil, nil, 7, 113, 288888, 5, 20, 291326, 35, 66, 283983 },
+									{ 33, 1, 204, nil, nil, nil, 7, 113, 288888, 5, 20, 291326, 34, 66, 283983 },
 								},
 							},
 							["median"] = {
@@ -14744,7 +14730,7 @@ ns.talentBuilds = {
 									{ 33, 1, 35, nil, nil, nil, 5, 14, 378417 },
 								},
 								["3"] = {
-									{ 33, 1, 126, nil, nil, nil, 7, 61, 383660, 5, 30, 384317, 35, 25, 352426 },
+									{ 33, 1, 126, nil, nil, nil, 7, 61, 383660, 5, 30, 384317, 34, 25, 352426 },
 								},
 								["all"] = {
 									{ 33, 1, 175, 7, 76, 382362, 5, 49, 383456, 2, 12, 380795 },
@@ -14793,44 +14779,44 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 68, nil, nil, nil, 35, 31, 242273, 7, 24, 247759, 5, 13, 224975 },
+									{ 33, 1, 68, nil, nil, nil, 34, 31, 242273, 7, 24, 247759, 5, 13, 224975 },
 								},
 								["3"] = {
-									{ 33, 1, 699, 35, 452, 210629, 7, 226, 218821, 5, 17, 231957 },
+									{ 33, 1, 699, 34, 452, 210629, 7, 226, 218821, 5, 17, 231957 },
 								},
 								["all"] = {
-									{ 33, 1, 1264, 35, 734, 213072, 7, 437, 222016, 5, 73, 229498 },
+									{ 33, 1, 1264, 34, 734, 213072, 7, 437, 222016, 5, 73, 229498 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 97, nil, nil, nil, 35, 69, 184320, 7, 28, 167355 },
+									{ 33, 1, 97, nil, nil, nil, 34, 69, 184320, 7, 28, 167355 },
 								},
 							},
 							["median"] = {
 								["1"] = {
-									{ 33, 1, 4, nil, nil, nil, 35, 4, 219860 },
+									{ 33, 1, 4, nil, nil, nil, 34, 4, 219860 },
 								},
 								["3"] = {
-									{ 33, 1, 108, 35, 82, 218730, 7, 23, 222489 },
+									{ 33, 1, 108, 34, 82, 218730, 7, 23, 222489 },
 								},
 								["all"] = {
-									{ 33, 1, 119, 35, 90, 218730, 7, 23, 222489 },
+									{ 33, 1, 119, 34, 90, 218730, 7, 23, 222489 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 164, 7, 91, 151060, 5, 56, 158774, 35, 12, 134545 },
+									{ 33, 1, 164, 7, 91, 151060, 5, 56, 158774, 34, 12, 134545 },
 								},
 								["3"] = {
-									{ 33, 0.9932, 730, 7, 475, 149761, 5, 79, 153982, 35, 153, 150411 },
-									{ 32, 0.0068, 5, nil, nil, nil, 37, 5, 132289 },
+									{ 33, 0.9932, 730, 7, 475, 149761, 5, 79, 153982, 34, 153, 150411 },
+									{ 32, 0.0068, 5, nil, nil, nil, 36, 5, 132289 },
 								},
 								["all"] = {
-									{ 33, 0.9948, 955, 7, 578, 149792, 5, 162, 157198, 35, 179, 146889 },
-									{ 32, 0.0052, 5, nil, nil, nil, 37, 5, 132289 },
+									{ 33, 0.9948, 955, 7, 578, 149792, 5, 162, 157198, 34, 179, 146889 },
+									{ 32, 0.0052, 5, nil, nil, nil, 36, 5, 132289 },
 								},
 							},
 							["fast"] = {
@@ -14838,10 +14824,10 @@ ns.talentBuilds = {
 									{ 33, 1, 20, nil, nil, nil, 7, 12, 116201 },
 								},
 								["3"] = {
-									{ 33, 1, 188, nil, nil, nil, 7, 139, 114507, 35, 35, 100560 },
+									{ 33, 1, 188, nil, nil, nil, 7, 139, 114507, 34, 35, 100560 },
 								},
 								["all"] = {
-									{ 33, 1, 219, nil, nil, nil, 7, 156, 113258, 5, 21, 114037, 35, 38, 111427 },
+									{ 33, 1, 219, nil, nil, nil, 7, 156, 113258, 5, 21, 114037, 34, 38, 111427 },
 								},
 							},
 							["median"] = {
@@ -14849,10 +14835,10 @@ ns.talentBuilds = {
 									{ 33, 1, 23, nil, nil, nil, 7, 14, 175164 },
 								},
 								["3"] = {
-									{ 33, 1, 86, nil, nil, nil, 7, 52, 169787, 35, 19, 166524 },
+									{ 33, 1, 86, nil, nil, nil, 7, 52, 169787, 34, 19, 166524 },
 								},
 								["all"] = {
-									{ 33, 1, 122, 7, 71, 170762, 35, 23, 166542, 5, 16, 165575 },
+									{ 33, 1, 122, 7, 71, 170762, 34, 23, 166542, 5, 16, 165575 },
 								},
 							},
 						},
@@ -14865,7 +14851,7 @@ ns.talentBuilds = {
 									{ 33, 1, 89, 7, 68, 157528, 5, 17, 173823 },
 								},
 								["all"] = {
-									{ 33, 1, 172, 7, 113, 157734, 5, 34, 169297, 35, 14, 189587 },
+									{ 33, 1, 172, 7, 113, 157734, 5, 34, 169297, 34, 14, 189587 },
 								},
 							},
 							["fast"] = {
@@ -14899,10 +14885,10 @@ ns.talentBuilds = {
 									{ 33, 1, 49, nil, nil, nil, 7, 35, 263558 },
 								},
 								["3"] = {
-									{ 33, 1, 621, 7, 500, 219876, 35, 110, 222818 },
+									{ 33, 1, 621, 7, 500, 219876, 34, 110, 222818 },
 								},
 								["all"] = {
-									{ 33, 1, 716, 7, 559, 228632, 35, 126, 226005, 5, 25, 261120 },
+									{ 33, 1, 716, 7, 559, 228632, 34, 126, 226005, 5, 25, 261120 },
 								},
 							},
 							["fast"] = {
@@ -14928,12 +14914,12 @@ ns.talentBuilds = {
 									{ 33, 1, 135, 7, 86, 195262, 5, 39, 216264 },
 								},
 								["3"] = {
-									{ 33, 0.9944, 713, 7, 556, 193923, 5, 65, 214378, 35, 69, 203097 },
-									{ 32, 0.0056, 4, nil, nil, nil, 37, 4, 173868 },
+									{ 33, 0.9944, 713, 7, 556, 193923, 5, 65, 214378, 34, 69, 203097 },
+									{ 32, 0.0056, 4, nil, nil, nil, 36, 4, 173868 },
 								},
 								["all"] = {
-									{ 33, 0.9944, 894, 7, 655, 193923, 5, 121, 215336, 35, 84, 209532 },
-									{ 32, 0.0056, 5, nil, nil, nil, 37, 5, 174178 },
+									{ 33, 0.9944, 894, 7, 655, 193923, 5, 121, 215336, 34, 84, 209532 },
+									{ 32, 0.0056, 5, nil, nil, nil, 36, 5, 174178 },
 								},
 							},
 							["fast"] = {
@@ -14941,10 +14927,10 @@ ns.talentBuilds = {
 									{ 33, 1, 14, nil, nil, nil, 7, 14, 171895 },
 								},
 								["3"] = {
-									{ 33, 1, 121, nil, nil, nil, 7, 98, 166753, 39, 16, 162137 },
+									{ 33, 1, 121, nil, nil, nil, 7, 98, 166753, 38, 16, 162137 },
 								},
 								["all"] = {
-									{ 33, 1, 164, 7, 136, 166985, 39, 16, 162137, 5, 12, 161999 },
+									{ 33, 1, 164, 7, 136, 166985, 38, 16, 162137, 5, 12, 161999 },
 								},
 							},
 							["median"] = {
@@ -15002,20 +14988,20 @@ ns.talentBuilds = {
 									{ 33, 1, 4, nil, nil, nil, 7, 4, 345432 },
 								},
 								["3"] = {
-									{ 33, 1, 167, nil, nil, nil, 35, 124, 286683, 7, 40, 285339 },
+									{ 33, 1, 167, nil, nil, nil, 34, 124, 286683, 7, 40, 285339 },
 								},
 								["all"] = {
-									{ 33, 1, 186, nil, nil, nil, 35, 131, 287538, 7, 49, 285339 },
+									{ 33, 1, 186, nil, nil, nil, 34, 131, 287538, 7, 49, 285339 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 24, nil, nil, nil, 35, 20, 276400 },
+									{ 33, 1, 24, nil, nil, nil, 34, 20, 276400 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 33, 1, 17, nil, nil, nil, 35, 17, 349946 },
+									{ 33, 1, 17, nil, nil, nil, 34, 17, 349946 },
 								},
 							},
 						},
@@ -15025,12 +15011,12 @@ ns.talentBuilds = {
 									{ 33, 1, 72, 7, 53, 306292, 5, 16, 348394 },
 								},
 								["3"] = {
-									{ 33, 0.9935, 457, nil, nil, nil, 7, 335, 304783, 5, 34, 305343, 40, 67, 339808 },
-									{ 32, 0.0065, 3, nil, nil, nil, 37, 3, 387547 },
+									{ 33, 0.9935, 457, nil, nil, nil, 7, 335, 304783, 5, 34, 305343, 39, 67, 339808 },
+									{ 32, 0.0065, 3, nil, nil, nil, 36, 3, 387547 },
 								},
 								["all"] = {
-									{ 33, 0.9938, 637, 7, 464, 304970, 5, 69, 310717, 40, 80, 335707 },
-									{ 32, 0.0062, 4, nil, nil, nil, 37, 4, 314312 },
+									{ 33, 0.9938, 637, 7, 464, 304970, 5, 69, 310717, 39, 80, 335707 },
+									{ 32, 0.0062, 4, nil, nil, nil, 36, 4, 314312 },
 								},
 							},
 							["fast"] = {
@@ -15052,7 +15038,7 @@ ns.talentBuilds = {
 									{ 33, 1, 61, nil, nil, nil, 7, 44, 331156 },
 								},
 								["all"] = {
-									{ 33, 1, 77, nil, nil, nil, 7, 53, 330330, 5, 12, 335163, 40, 12, 330432 },
+									{ 33, 1, 77, nil, nil, nil, 7, 53, 330330, 5, 12, 335163, 39, 12, 330432 },
 								},
 							},
 						},
@@ -15093,10 +15079,10 @@ ns.talentBuilds = {
 									{ 33, 1, 19, nil, nil, nil, 7, 11, 244129 },
 								},
 								["3"] = {
-									{ 33, 1, 366, 7, 273, 208823, 35, 93, 210256 },
+									{ 33, 1, 366, 7, 273, 208823, 34, 93, 210256 },
 								},
 								["all"] = {
-									{ 33, 1, 398, 7, 289, 213402, 35, 100, 215373 },
+									{ 33, 1, 398, 7, 289, 213402, 34, 100, 215373 },
 								},
 							},
 							["fast"] = {
@@ -15109,10 +15095,10 @@ ns.talentBuilds = {
 									{ 33, 1, 4, nil, nil, nil, 7, 4, 238334 },
 								},
 								["3"] = {
-									{ 33, 1, 46, nil, nil, nil, 7, 34, 230085, 35, 12, 230069 },
+									{ 33, 1, 46, nil, nil, nil, 7, 34, 230085, 34, 12, 230069 },
 								},
 								["all"] = {
-									{ 33, 1, 50, nil, nil, nil, 7, 38, 230085, 35, 12, 230069 },
+									{ 33, 1, 50, nil, nil, nil, 7, 38, 230085, 34, 12, 230069 },
 								},
 							},
 						},
@@ -15122,12 +15108,12 @@ ns.talentBuilds = {
 									{ 33, 1, 132, 7, 87, 218844, 5, 38, 210732 },
 								},
 								["3"] = {
-									{ 33, 0.994, 668, 7, 532, 214582, 5, 59, 220022, 35, 58, 210657 },
-									{ 32, 0.006, 4, nil, nil, nil, 37, 4, 199483 },
+									{ 33, 0.994, 668, 7, 532, 214582, 5, 59, 220022, 34, 58, 210657 },
+									{ 32, 0.006, 4, nil, nil, nil, 36, 4, 199483 },
 								},
 								["all"] = {
-									{ 33, 0.9952, 836, 7, 628, 215662, 5, 109, 218059, 35, 71, 209678 },
-									{ 32, 0.0048, 4, nil, nil, nil, 37, 4, 199483 },
+									{ 33, 0.9952, 836, 7, 628, 215662, 5, 109, 218059, 34, 71, 209678 },
+									{ 32, 0.0048, 4, nil, nil, nil, 36, 4, 199483 },
 								},
 							},
 							["fast"] = {
@@ -15135,10 +15121,10 @@ ns.talentBuilds = {
 									{ 33, 1, 17, nil, nil, nil, 7, 12, 181278 },
 								},
 								["3"] = {
-									{ 33, 1, 114, nil, nil, nil, 7, 92, 176557, 39, 15, 169707 },
+									{ 33, 1, 114, nil, nil, nil, 7, 92, 176557, 38, 15, 169707 },
 								},
 								["all"] = {
-									{ 33, 1, 137, nil, nil, nil, 7, 107, 180803, 5, 12, 178494, 39, 18, 169707 },
+									{ 33, 1, 137, nil, nil, nil, 7, 107, 180803, 5, 12, 178494, 38, 18, 169707 },
 								},
 							},
 							["median"] = {
@@ -15187,23 +15173,23 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 3, nil, nil, nil, 35, 3, 393978 },
+									{ 33, 1, 3, nil, nil, nil, 34, 3, 393978 },
 								},
 								["3"] = {
-									{ 33, 1, 115, nil, nil, nil, 35, 102, 351190 },
+									{ 33, 1, 115, nil, nil, nil, 34, 102, 351190 },
 								},
 								["all"] = {
-									{ 33, 1, 123, nil, nil, nil, 35, 105, 351455 },
+									{ 33, 1, 123, nil, nil, nil, 34, 105, 351455 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 3, nil, nil, nil, 41, 3, 289284 },
+									{ 33, 1, 3, nil, nil, nil, 40, 3, 289284 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 33, 1, 10, nil, nil, nil, 35, 10, 352162 },
+									{ 33, 1, 10, nil, nil, nil, 34, 10, 352162 },
 								},
 							},
 						},
@@ -15213,11 +15199,11 @@ ns.talentBuilds = {
 									{ 33, 1, 58, nil, nil, nil, 7, 37, 208956, 5, 21, 219134 },
 								},
 								["3"] = {
-									{ 33, 1, 358, nil, nil, nil, 7, 190, 207536, 5, 52, 212237, 35, 83, 192936 },
+									{ 33, 1, 358, nil, nil, nil, 7, 190, 207536, 5, 52, 212237, 34, 83, 192936 },
 								},
 								["all"] = {
 									{ 33, 0.9933, 448, 5, 82, 215168, 7, 230, 208035, 22, 98, 210960 },
-									{ 32, 0.0067, 3, nil, nil, nil, 37, 3, 221354 },
+									{ 32, 0.0067, 3, nil, nil, nil, 36, 3, 221354 },
 								},
 							},
 							["fast"] = {
@@ -15252,7 +15238,7 @@ ns.talentBuilds = {
 									{ 33, 1, 64, nil, nil, nil, 7, 41, 182193 },
 								},
 								["all"] = {
-									{ 33, 1, 107, 7, 60, 183874, 5, 29, 198710, 35, 13, 170202 },
+									{ 33, 1, 107, 7, 60, 183874, 5, 29, 198710, 34, 13, 170202 },
 								},
 							},
 							["fast"] = {
@@ -15271,18 +15257,18 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 33, 0.9709, 100, nil, nil, nil, 35, 45, 447657, 42, 52, 458520 },
-									{ 32, 0.0291, 3, nil, nil, nil, 38, 3, 479138 },
+									{ 33, 0.9709, 100, nil, nil, nil, 34, 45, 447657, 41, 52, 458520 },
+									{ 32, 0.0291, 3, nil, nil, nil, 37, 3, 479138 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 8, nil, nil, nil, 41, 5, 430021 },
+									{ 33, 1, 8, nil, nil, nil, 40, 5, 430021 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 33, 1, 7, nil, nil, nil, 35, 7, 456097 },
+									{ 33, 1, 7, nil, nil, nil, 34, 7, 456097 },
 								},
 							},
 						},
@@ -15292,10 +15278,10 @@ ns.talentBuilds = {
 									{ 33, 1, 24, nil, nil, nil, 7, 15, 429621 },
 								},
 								["3"] = {
-									{ 33, 1, 385, nil, nil, nil, 7, 315, 403559, 5, 25, 436333, 35, 38, 371788 },
+									{ 33, 1, 385, nil, nil, nil, 7, 315, 403559, 5, 25, 436333, 34, 38, 371788 },
 								},
 								["all"] = {
-									{ 33, 1, 424, nil, nil, nil, 7, 336, 403954, 5, 39, 438332, 35, 38, 371788 },
+									{ 33, 1, 424, nil, nil, nil, 7, 336, 403954, 5, 39, 438332, 34, 38, 371788 },
 								},
 							},
 							["fast"] = {
@@ -15343,17 +15329,17 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 33, 1, 392, nil, nil, nil, 7, 186, 270084, 40, 201, 286205 },
+									{ 33, 1, 392, nil, nil, nil, 7, 186, 270084, 39, 201, 286205 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 57, nil, nil, nil, 7, 31, 246244, 44, 26, 242547 },
+									{ 33, 1, 57, nil, nil, nil, 7, 31, 246244, 43, 26, 242547 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 33, 1, 33, nil, nil, nil, 45, 25, 308992 },
+									{ 33, 1, 33, nil, nil, nil, 44, 25, 308992 },
 								},
 							},
 						},
@@ -15363,11 +15349,11 @@ ns.talentBuilds = {
 									{ 33, 1, 23, nil, nil, nil, 7, 14, 130626 },
 								},
 								["3"] = {
-									{ 33, 1, 420, nil, nil, nil, 7, 365, 102113, 5, 18, 104282, 39, 28, 94245 },
+									{ 33, 1, 420, nil, nil, nil, 7, 365, 102113, 5, 18, 104282, 38, 28, 94245 },
 								},
 								["all"] = {
-									{ 33, 0.9939, 491, nil, nil, nil, 7, 391, 104069, 5, 37, 103985, 46, 50, 104189 },
-									{ 32, 0.0061, 3, nil, nil, nil, 37, 3, 176356 },
+									{ 33, 0.9939, 491, nil, nil, nil, 7, 391, 104069, 5, 37, 103985, 45, 50, 104189 },
+									{ 32, 0.0061, 3, nil, nil, nil, 36, 3, 176356 },
 								},
 							},
 							["fast"] = {
@@ -15427,17 +15413,17 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 33, 1, 511, 47, 417, 500846, 48, 94, 506574 },
+									{ 33, 1, 511, 46, 417, 500846, 47, 94, 506574 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 33, 1, 58, nil, nil, nil, 47, 49, 491002 },
+									{ 33, 1, 58, nil, nil, nil, 46, 49, 491002 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 33, 1, 81, nil, nil, nil, 47, 64, 510289, 48, 17, 511994 },
+									{ 33, 1, 81, nil, nil, nil, 46, 64, 510289, 47, 17, 511994 },
 								},
 							},
 						},
@@ -15447,11 +15433,11 @@ ns.talentBuilds = {
 									{ 33, 1, 15, nil, nil, nil, 7, 9, 323977 },
 								},
 								["3"] = {
-									{ 33, 1, 387, nil, nil, nil, 7, 338, 343533, 5, 15, 394040, 39, 28, 344931 },
+									{ 33, 1, 387, nil, nil, nil, 7, 338, 343533, 5, 15, 394040, 38, 28, 344931 },
 								},
 								["all"] = {
-									{ 33, 0.9929, 418, nil, nil, nil, 7, 359, 342328, 5, 25, 384100, 39, 28, 344931 },
-									{ 32, 0.0071, 3, nil, nil, nil, 37, 3, 410973 },
+									{ 33, 0.9929, 418, nil, nil, nil, 7, 359, 342328, 5, 25, 384100, 38, 28, 344931 },
+									{ 32, 0.0071, 3, nil, nil, nil, 36, 3, 410973 },
 								},
 							},
 							["fast"] = {
@@ -15508,10 +15494,10 @@ ns.talentBuilds = {
 									{ 33, 1, 51, nil, nil, nil, 7, 39, 146785 },
 								},
 								["3"] = {
-									{ 33, 1, 601, 7, 405, 144389, 43, 175, 143164 },
+									{ 33, 1, 601, 7, 405, 144389, 42, 175, 143164 },
 								},
 								["all"] = {
-									{ 33, 1, 686, 7, 462, 145178, 43, 195, 143505, 5, 19, 148919 },
+									{ 33, 1, 686, 7, 462, 145178, 42, 195, 143505, 5, 19, 148919 },
 								},
 							},
 							["fast"] = {
@@ -15524,25 +15510,25 @@ ns.talentBuilds = {
 									{ 33, 1, 10, nil, nil, nil, 7, 10, 147657 },
 								},
 								["3"] = {
-									{ 33, 1, 74, nil, nil, nil, 7, 56, 147733, 35, 15, 148089 },
+									{ 33, 1, 74, nil, nil, nil, 7, 56, 147733, 34, 15, 148089 },
 								},
 								["all"] = {
-									{ 33, 1, 92, nil, nil, nil, 7, 74, 147687, 35, 15, 148089 },
+									{ 33, 1, 92, nil, nil, nil, 7, 74, 147687, 34, 15, 148089 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 237, 7, 107, 297268, 5, 106, 300100, 35, 13, 245316 },
+									{ 33, 1, 237, 7, 107, 297268, 5, 106, 300100, 34, 13, 245316 },
 								},
 								["3"] = {
-									{ 33, 0.9951, 819, 7, 552, 273690, 5, 122, 285061, 35, 103, 243249 },
-									{ 32, 0.0049, 4, nil, nil, nil, 37, 4, 249599 },
+									{ 33, 0.9951, 819, 7, 552, 273690, 5, 122, 285061, 34, 103, 243249 },
+									{ 32, 0.0049, 4, nil, nil, nil, 36, 4, 249599 },
 								},
 								["all"] = {
-									{ 33, 0.9964, 1111, 7, 674, 277546, 5, 251, 289562, 35, 125, 242163 },
-									{ 32, 0.0036, 4, nil, nil, nil, 37, 4, 249599 },
+									{ 33, 0.9964, 1111, 7, 674, 277546, 5, 251, 289562, 34, 125, 242163 },
+									{ 32, 0.0036, 4, nil, nil, nil, 36, 4, 249599 },
 								},
 							},
 							["fast"] = {
@@ -15550,10 +15536,10 @@ ns.talentBuilds = {
 									{ 33, 1, 21, nil, nil, nil, 7, 11, 142982 },
 								},
 								["3"] = {
-									{ 33, 1, 197, nil, nil, nil, 7, 168, 147791, 43, 18, 255339 },
+									{ 33, 1, 197, nil, nil, nil, 7, 168, 147791, 42, 18, 255339 },
 								},
 								["all"] = {
-									{ 33, 1, 228, nil, nil, nil, 7, 185, 144501, 5, 21, 151003, 43, 22, 176324 },
+									{ 33, 1, 228, nil, nil, nil, 7, 185, 144501, 5, 21, 151003, 42, 22, 176324 },
 								},
 							},
 							["median"] = {
@@ -15602,14 +15588,14 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 263, 7, 150, 148676, 35, 72, 233032, 5, 41, 187445 },
+									{ 33, 1, 263, 7, 150, 148676, 34, 72, 233032, 5, 41, 187445 },
 								},
 								["3"] = {
-									{ 33, 1, 4445, 7, 2516, 162501, 35, 1813, 210629, 5, 52, 234098 },
+									{ 33, 1, 4445, 7, 2516, 162501, 34, 1813, 210629, 5, 52, 234098 },
 								},
 								["all"] = {
-									{ 33, 0.9994, 4876, 7, 2725, 149334, 35, 1923, 211573, 5, 163, 231347 },
-									{ 32, 0.0006, 3, nil, nil, nil, 38, 3, 479138 },
+									{ 33, 0.9994, 4876, 7, 2725, 149334, 34, 1923, 211573, 5, 163, 231347 },
+									{ 32, 0.0006, 3, nil, nil, nil, 37, 3, 479138 },
 								},
 							},
 							["fast"] = {
@@ -15617,10 +15603,10 @@ ns.talentBuilds = {
 									{ 33, 1, 4, nil, nil, nil, 7, 4, 159362 },
 								},
 								["3"] = {
-									{ 33, 1, 729, 7, 463, 142442, 35, 262, 184848 },
+									{ 33, 1, 729, 7, 463, 142442, 34, 262, 184848 },
 								},
 								["all"] = {
-									{ 33, 1, 756, 7, 480, 142079, 35, 272, 185377 },
+									{ 33, 1, 756, 7, 480, 142079, 34, 272, 185377 },
 								},
 							},
 							["median"] = {
@@ -15628,25 +15614,25 @@ ns.talentBuilds = {
 									{ 33, 1, 34, nil, nil, nil, 7, 20, 148263 },
 								},
 								["3"] = {
-									{ 33, 1, 709, 7, 392, 149427, 35, 310, 220210 },
+									{ 33, 1, 709, 7, 392, 149427, 34, 310, 220210 },
 								},
 								["all"] = {
-									{ 33, 1, 777, 7, 424, 148804, 35, 329, 220220, 5, 24, 149499 },
+									{ 33, 1, 777, 7, 424, 148804, 34, 329, 220220, 5, 24, 149499 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["1"] = {
-									{ 33, 1, 1031, 7, 547, 171016, 5, 369, 178471, 35, 63, 144388 },
+									{ 33, 1, 1031, 7, 547, 171016, 5, 369, 178471, 34, 63, 144388 },
 								},
 								["3"] = {
-									{ 33, 0.9952, 5550, 7, 4001, 161277, 5, 581, 194850, 35, 755, 159850 },
-									{ 32, 0.0048, 27, nil, nil, nil, 37, 27, 128182 },
+									{ 33, 0.9952, 5550, 7, 4001, 161277, 5, 581, 194850, 34, 755, 159850 },
+									{ 32, 0.0048, 27, nil, nil, nil, 36, 27, 128182 },
 								},
 								["all"] = {
-									{ 33, 0.9943, 6818, 7, 4591, 161844, 5, 1030, 180386, 35, 899, 149343 },
-									{ 32, 0.0057, 39, nil, nil, nil, 37, 33, 128182 },
+									{ 33, 0.9943, 6818, 7, 4591, 161844, 5, 1030, 180386, 34, 899, 149343 },
+									{ 32, 0.0057, 39, nil, nil, nil, 36, 33, 128182 },
 								},
 							},
 							["fast"] = {
@@ -15654,12 +15640,12 @@ ns.talentBuilds = {
 									{ 33, 1, 133, nil, nil, nil, 7, 76, 136448, 5, 47, 123773 },
 								},
 								["3"] = {
-									{ 33, 0.992, 1114, nil, nil, nil, 7, 850, 113667, 39, 188, 94245, 5, 54, 120943 },
-									{ 32, 0.008, 9, nil, nil, nil, 37, 9, 125209 },
+									{ 33, 0.992, 1114, nil, nil, nil, 7, 850, 113667, 38, 188, 94245, 5, 54, 120943 },
+									{ 32, 0.008, 9, nil, nil, nil, 36, 9, 125209 },
 								},
 								["all"] = {
-									{ 33, 0.993, 1284, nil, nil, nil, 7, 942, 124816, 5, 112, 119452, 39, 203, 94245 },
-									{ 32, 0.007, 9, nil, nil, nil, 37, 9, 125209 },
+									{ 33, 0.993, 1284, nil, nil, nil, 7, 942, 124816, 5, 112, 119452, 38, 203, 94245 },
+									{ 32, 0.007, 9, nil, nil, nil, 36, 9, 125209 },
 								},
 							},
 							["median"] = {
@@ -15667,12 +15653,12 @@ ns.talentBuilds = {
 									{ 33, 1, 168, 7, 106, 203552, 5, 47, 177692 },
 								},
 								["3"] = {
-									{ 33, 0.9943, 868, 7, 639, 179914, 5, 68, 208366, 35, 109, 171728 },
-									{ 32, 0.0057, 5, nil, nil, nil, 37, 5, 259625 },
+									{ 33, 0.9943, 868, 7, 639, 179914, 5, 68, 208366, 34, 109, 171728 },
+									{ 32, 0.0057, 5, nil, nil, nil, 36, 5, 259625 },
 								},
 								["all"] = {
-									{ 33, 0.9946, 1107, 7, 760, 182739, 5, 147, 180542, 35, 130, 172627 },
-									{ 32, 0.0054, 6, nil, nil, nil, 37, 6, 233389 },
+									{ 33, 0.9946, 1107, 7, 760, 182739, 5, 147, 180542, 34, 130, 172627 },
+									{ 32, 0.0054, 6, nil, nil, nil, 36, 6, 233389 },
 								},
 							},
 						},
@@ -15682,12 +15668,12 @@ ns.talentBuilds = {
 									{ 33, 1, 368, 7, 219, 161088, 5, 103, 143784, 22, 30, 174858 },
 								},
 								["3"] = {
-									{ 33, 0.9945, 729, 7, 501, 137191, 5, 117, 165388, 35, 72, 156315 },
-									{ 32, 0.0055, 4, nil, nil, nil, 34, 4, 186312 },
+									{ 33, 0.9945, 729, 7, 501, 137191, 5, 117, 165388, 34, 72, 156315 },
+									{ 32, 0.0055, 4, nil, nil, nil, 33, 4, 186312 },
 								},
 								["all"] = {
 									{ 33, 0.9966, 1170, 7, 749, 137861, 5, 241, 160898, 2, 33, 173570 },
-									{ 32, 0.0034, 4, nil, nil, nil, 34, 4, 186312 },
+									{ 32, 0.0034, 4, nil, nil, nil, 33, 4, 186312 },
 								},
 							},
 							["fast"] = {
@@ -15698,7 +15684,7 @@ ns.talentBuilds = {
 									{ 33, 1, 126, nil, nil, nil, 7, 104, 111056 },
 								},
 								["all"] = {
-									{ 33, 1, 180, 7, 131, 110552, 5, 20, 112934, 35, 18, 134817 },
+									{ 33, 1, 180, 7, 131, 110552, 5, 20, 112934, 34, 18, 134817 },
 								},
 							},
 							["median"] = {
@@ -15709,7 +15695,7 @@ ns.talentBuilds = {
 									{ 33, 1, 110, nil, nil, nil, 7, 87, 197217, 5, 18, 207391 },
 								},
 								["all"] = {
-									{ 33, 1, 168, 7, 123, 199406, 5, 29, 200904, 35, 12, 178802 },
+									{ 33, 1, 168, 7, 123, 199406, 5, 29, 200904, 34, 12, 178802 },
 								},
 							},
 						},
@@ -15743,12 +15729,12 @@ ns.talentBuilds = {
 				"YmhZMjBzyMzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzAWMbGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"wMjZMGDz2MzMTjZmZGzYGAAAAAAAAzDMYGAsMYmlZmxMzYgBmxiGbbA2mYDDYGAzMzMDDmZwwYA",
 				"YmZMjZMYWGzMTjZmxMzYAAAAAAAAYmxMGAsMjZmNzMGzA2MbGGyAzGDNWwAmBgxMzYGgZmxMG",
-				"YmhZMjBzyMzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MbGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmhZMmZYWGzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MLGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmhZMmZY2mZmZaYmxMzYAAAAAAAAYmxwAglZMzsZmxMzAWMbGGyAzGDNWwAmBgxMzYGgZmZMG",
 				"YmhZMmZYWGzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzAWMbGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmhZMmZYWGzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MbGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmZMjxMDzyYmZaMjxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MLGGyAzGDNWwAmBgxMzYGgZmxMG",
+				"YmhZMjBzyMzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MbGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmZMjZMYWGzMTjZmxMzYAAAAAAAAYmxwAglZMzsZmxMzA2MLGGyAzGDNWwAmBgxMzYGgZmxMG",
 				"YmZMjxYY2mZmZaYmxMzYAAAAAAAAYmxwAglZMzsZmxMzAWMLGGyAzGDNWwAmBgxMzYGgZmZMG",
 				"YmZMjxYY2mZmZaYmxMzYAAAAAAAAYmxwAglZMzsZmxMzAWMbGGyAzGDNWwAmBgxMzYGgZmZMG",
@@ -15815,7 +15801,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 32, 1, 8913, 24, 5696, 22, 14, 2184, 22, 11, 281, 19 },
+							{ 32, 1, 6044, 27, 3979, 22, 14, 1464, 22, 2, 272, 18 },
 						},
 					},
 					["20-99"] = {
@@ -15832,7 +15818,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 32, 0.9996, 10401, 24, 6260, 21, 14, 1940, 21, 11, 407, 17 },
+							{ 32, 0.9996, 10401, 29, 6260, 21, 14, 1940, 21, 11, 407, 17 },
 							{ 31, 0.0004, 4, nil, nil, nil, 4, 4, 12 },
 						},
 					},
@@ -15865,14 +15851,14 @@ ns.talentBuilds = {
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 32, 1, 1937, 28, 1277, 22, 14, 589, 22, 29, 27, 23 },
+							{ 32, 1, 1937, 27, 1277, 22, 14, 589, 22, 28, 27, 23 },
 						},
 					},
 				},
 				["14032"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 32, 1, 369, 1, 201, 9, 2, 116, 9, 26, 16, 9 },
+							{ 32, 1, 369, 1, 201, 9, 2, 116, 9, 25, 16, 9 },
 						},
 					},
 					["10-99"] = {
@@ -15883,12 +15869,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 32, 1, 4562, 27, 1149, 22, 1, 2872, 21, 2, 256, 17 },
+							{ 32, 1, 4562, 26, 1149, 22, 1, 2872, 21, 2, 256, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 32, 1, 2246, 1, 1494, 22, 14, 654, 22, 25, 33, 23 },
+							{ 32, 1, 2246, 1, 1494, 22, 14, 654, 22, 24, 33, 23 },
 						},
 					},
 				},
@@ -15906,12 +15892,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 32, 1, 7509, 24, 4860, 22, 18, 1754, 22, 2, 390, 18 },
+							{ 32, 1, 4902, 10, 3262, 22, 18, 1129, 22, 2, 235, 18 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 32, 1, 2680, 1, 1896, 22, 14, 695, 22, 25, 19, 23 },
+							{ 32, 1, 2680, 1, 1896, 22, 14, 695, 22, 24, 19, 23 },
 						},
 					},
 				},
@@ -16013,8 +15999,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 32, 0.8634, 18501, 3, 4143, 427857, 32, 2828, 435000, 35, 4280, 423643 },
-									{ 31, 0.1366, 2926, 33, 1163, 415475, 22, 1077, 421842, 34, 209, 360775 },
+									{ 32, 0.7872, 9587, 3, 2600, 429017, 32, 1371, 438517, 1, 2214, 429605 },
+									{ 31, 0.2128, 2592, 33, 1005, 412015, 22, 1113, 423401, 34, 209, 360775 },
 								},
 							},
 							["fast"] = {
@@ -16763,8 +16749,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 0.8975, 2269, 13, 1664, 19, 8, 213, 18, 2, 213, 17 },
-							{ 44, 0.1025, 259, 9, 259, 18 },
+							{ 43, 0.9124, 1636, 13, 1210, 19, 8, 157, 18, 2, 165, 17 },
+							{ 44, 0.0876, 157, 4, 157, 17 },
 						},
 					},
 					["20-99"] = {
@@ -16864,8 +16850,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 0.8985, 1876, 21, 1339, 20, 8, 191, 18, 2, 185, 17 },
-							{ 44, 0.1015, 212, 4, 212, 17 },
+							{ 43, 0.9122, 1340, 21, 952, 19, 8, 134, 18, 2, 145, 16 },
+							{ 44, 0.0878, 129, 4, 129, 18 },
 						},
 					},
 					["20-99"] = {
@@ -17736,7 +17722,6 @@ ns.talentBuilds = {
 				"YzsNwAmgZYJwsAAAAAAAAAMjZmZsZMzMmhlx0MGMLbmZGLzMjZmZhZWGMDAAwMGzMzMgJgBYjZGD",
 				"YzsNwAmgZYJwsAAAAAAAAAMjZMjNjZmxMsMmmxgZZzMzwMzYmZWYmlhZGAAgZMmZmZATgZA2YmxA",
 				"YzsNwAmgZYJwsAAAAAAAAAMjZmZsZMzMmBjpZMYW2MzMMzMmZmFmZZYmBAAMzYMzMzAmgFDAmZM",
-				"YzsMwAmgZYJwsAAAAAAAAAMjZmZsZMzMmBjpZMYW2MzMMzMmZmFmZZYmBAAYGjZmZGwEYGgNmZM",
 				"YzsNwAmgZYJwsAAAAAAAAAMjZMjtZMzMmBjpZMY22YmZWmZGzMzCzsMYGAAwYmxMzMDYCWMAbMzYA",
 				"YzsNwAmgZYJwsAAAAAAAAAMjZmZsZMzMmBjpZMY22MzMMzMmZmFmZZYmBAAMzYGzMzAmAGgNmZM",
 				"wCMwMGNWGQmBbAAAAAAAAAzYmZGbzYmZMDbjpZMY222mZGmZmZmZWYmlhZGAAAzMGAmZaDMAbMzYA",
@@ -17803,13 +17788,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 44, 0.9769, 381, 1, 305, 18, 2, 62, 20 },
-							{ 42, 0.0231, 9, nil, nil, nil, 5, 9, 17 },
+							{ 44, 0.9696, 287, 1, 231, 18, 6, 47, 20 },
+							{ 42, 0.0304, 9, nil, nil, nil, 5, 9, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 44, 1, 39, nil, nil, nil, 28, 36, 22 },
+							{ 44, 1, 22, nil, nil, nil, 6, 3, 22, 1, 19, 21 },
 						},
 					},
 				},
@@ -17903,12 +17888,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 44, 1, 258, 1, 210, 18, 15, 39, 21 },
+							{ 44, 1, 190, 1, 159, 18, 6, 27, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 44, 1, 38, nil, nil, nil, 6, 15, 22, 1, 23, 21 },
+							{ 44, 1, 25, nil, nil, nil, 6, 10, 22, 1, 15, 21 },
 						},
 					},
 				},
@@ -18018,33 +18003,33 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.8427, 1039, 29, 218, 405324, 1, 153, 419519, 30, 109, 399249 },
-									{ 42, 0.1573, 194, nil, nil, nil, 31, 56, 415950, 14, 87, 405854, 32, 21, 407896 },
+									{ 44, 0.8427, 1039, 28, 218, 405324, 1, 153, 419519, 29, 109, 399249 },
+									{ 42, 0.1573, 194, nil, nil, nil, 30, 56, 415950, 14, 87, 405854, 31, 21, 407896 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.8745, 216, nil, nil, nil, 29, 68, 381917, 33, 54, 364253, 30, 23, 354458 },
+									{ 44, 0.8745, 216, nil, nil, nil, 28, 68, 381917, 32, 54, 364253, 29, 23, 354458 },
 									{ 42, 0.1255, 31, nil, nil, nil, 14, 18, 374552 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.8204, 169, nil, nil, nil, 33, 64, 443827, 29, 35, 443406, 1, 25, 441456 },
-									{ 42, 0.1796, 37, nil, nil, nil, 31, 23, 458337 },
+									{ 44, 0.8204, 169, nil, nil, nil, 32, 64, 443827, 28, 35, 443406, 1, 25, 441456 },
+									{ 42, 0.1796, 37, nil, nil, nil, 30, 23, 458337 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7759, 412, 1, 205, 360413, 34, 48, 336732, 35, 41, 349225 },
+									{ 44, 0.7759, 412, 1, 205, 360413, 33, 48, 336732, 34, 41, 349225 },
 									{ 42, 0.2241, 119, nil, nil, nil, 14, 44, 338437, 23, 33, 350050 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.8824, 60, nil, nil, nil, 1, 18, 305379, 34, 15, 283701 },
+									{ 44, 0.8824, 60, nil, nil, nil, 1, 18, 305379, 33, 15, 283701 },
 									{ 42, 0.1176, 8, nil, nil, nil, 23, 4, 292963 },
 								},
 							},
@@ -18058,8 +18043,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7879, 156, 1, 86, 215824, 35, 38, 225604, 34, 18, 208779 },
-									{ 42, 0.2121, 42, nil, nil, nil, 36, 14, 235361 },
+									{ 44, 0.7879, 156, 1, 86, 215824, 34, 38, 225604, 33, 18, 208779 },
+									{ 42, 0.2121, 42, nil, nil, nil, 35, 14, 235361 },
 								},
 							},
 							["fast"] = {
@@ -18070,7 +18055,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 44, 0.8421, 32, nil, nil, nil, 1, 18, 241739 },
-									{ 42, 0.1579, 6, nil, nil, nil, 36, 3, 239583 },
+									{ 42, 0.1579, 6, nil, nil, nil, 35, 3, 239583 },
 								},
 							},
 						},
@@ -18079,33 +18064,33 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.8427, 1039, 29, 218, 405324, 1, 153, 419519, 30, 109, 399249 },
-									{ 42, 0.1573, 194, nil, nil, nil, 31, 56, 415950, 14, 87, 405854, 32, 21, 407896 },
+									{ 44, 0.8427, 1039, 28, 218, 405324, 1, 153, 419519, 29, 109, 399249 },
+									{ 42, 0.1573, 194, nil, nil, nil, 30, 56, 415950, 14, 87, 405854, 31, 21, 407896 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.8745, 216, nil, nil, nil, 29, 68, 381917, 33, 54, 364253, 30, 23, 354458 },
+									{ 44, 0.8745, 216, nil, nil, nil, 28, 68, 381917, 32, 54, 364253, 29, 23, 354458 },
 									{ 42, 0.1255, 31, nil, nil, nil, 14, 18, 374552 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.8204, 169, nil, nil, nil, 33, 64, 443827, 29, 35, 443406, 1, 25, 441456 },
-									{ 42, 0.1796, 37, nil, nil, nil, 31, 23, 458337 },
+									{ 44, 0.8204, 169, nil, nil, nil, 32, 64, 443827, 28, 35, 443406, 1, 25, 441456 },
+									{ 42, 0.1796, 37, nil, nil, nil, 30, 23, 458337 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7759, 412, 1, 205, 360413, 34, 48, 336732, 35, 41, 349225 },
+									{ 44, 0.7759, 412, 1, 205, 360413, 33, 48, 336732, 34, 41, 349225 },
 									{ 42, 0.2241, 119, nil, nil, nil, 14, 44, 338437, 23, 33, 350050 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.8824, 60, nil, nil, nil, 1, 18, 305379, 34, 15, 283701 },
+									{ 44, 0.8824, 60, nil, nil, nil, 1, 18, 305379, 33, 15, 283701 },
 									{ 42, 0.1176, 8, nil, nil, nil, 23, 4, 292963 },
 								},
 							},
@@ -18119,8 +18104,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7879, 156, 1, 86, 215824, 35, 38, 225604, 34, 18, 208779 },
-									{ 42, 0.2121, 42, nil, nil, nil, 36, 14, 235361 },
+									{ 44, 0.7879, 156, 1, 86, 215824, 34, 38, 225604, 33, 18, 208779 },
+									{ 42, 0.2121, 42, nil, nil, nil, 35, 14, 235361 },
 								},
 							},
 							["fast"] = {
@@ -18131,7 +18116,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 44, 0.8421, 32, nil, nil, nil, 1, 18, 241739 },
-									{ 42, 0.1579, 6, nil, nil, nil, 36, 3, 239583 },
+									{ 42, 0.1579, 6, nil, nil, nil, 35, 3, 239583 },
 								},
 							},
 						},
@@ -18142,57 +18127,57 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.842, 373, 34, 112, 201354, 39, 102, 199168, 43, 28, 205764 },
-									{ 42, 0.158, 70, nil, nil, nil, 44, 56, 211069 },
+									{ 44, 0.842, 373, 33, 112, 201354, 38, 102, 199168, 42, 28, 205764 },
+									{ 42, 0.158, 70, nil, nil, nil, 43, 56, 211069 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.8961, 69, nil, nil, nil, 39, 25, 177933, 34, 20, 182225 },
-									{ 42, 0.1039, 8, nil, nil, nil, 44, 5, 190826 },
+									{ 44, 0.8961, 69, nil, nil, nil, 38, 25, 177933, 33, 20, 182225 },
+									{ 42, 0.1039, 8, nil, nil, nil, 43, 5, 190826 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.9063, 58, nil, nil, nil, 34, 25, 221927, 39, 16, 218005 },
-									{ 42, 0.0938, 6, nil, nil, nil, 44, 6, 221730 },
+									{ 44, 0.9063, 58, nil, nil, nil, 33, 25, 221927, 38, 16, 218005 },
+									{ 42, 0.0938, 6, nil, nil, nil, 43, 6, 221730 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.832, 302, 34, 97, 154669, 35, 69, 160329, 1, 69, 162714 },
+									{ 44, 0.832, 302, 33, 97, 154669, 34, 69, 160329, 1, 69, 162714 },
 									{ 42, 0.168, 61, nil, nil, nil, 14, 31, 157878, 23, 12, 159469 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 48, nil, nil, nil, 34, 24, 125419 },
+									{ 44, 1, 48, nil, nil, nil, 33, 24, 125419 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 48, nil, nil, nil, 34, 15, 165114, 35, 15, 168280, 1, 14, 164297 },
+									{ 44, 1, 48, nil, nil, nil, 33, 15, 165114, 34, 15, 168280, 1, 14, 164297 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6752, 79, nil, nil, nil, 35, 31, 143671, 1, 27, 158583, 34, 17, 193402 },
-									{ 42, 0.3248, 38, nil, nil, nil, 36, 14, 123597, 14, 13, 163548 },
+									{ 44, 0.6752, 79, nil, nil, nil, 34, 31, 143671, 1, 27, 158583, 33, 17, 193402 },
+									{ 42, 0.3248, 38, nil, nil, nil, 35, 14, 123597, 14, 13, 163548 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.6667, 18, nil, nil, nil, 35, 11, 130361 },
-									{ 42, 0.3333, 9, nil, nil, nil, 36, 6, 121455 },
+									{ 44, 0.6667, 18, nil, nil, nil, 34, 11, 130361 },
+									{ 42, 0.3333, 9, nil, nil, nil, 35, 6, 121455 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 11, nil, nil, nil, 34, 4, 206528 },
+									{ 44, 1, 11, nil, nil, nil, 33, 4, 206528 },
 								},
 							},
 						},
@@ -18201,52 +18186,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.9288, 339, 35, 70, 227503, 45, 98, 220566, 39, 35, 203340 },
+									{ 44, 0.9288, 339, 34, 70, 227503, 44, 98, 220566, 38, 35, 203340 },
 									{ 42, 0.0712, 26, nil, nil, nil, 14, 13, 227639 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 74, nil, nil, nil, 40, 8, 176636, 45, 21, 189982 },
+									{ 44, 1, 74, nil, nil, nil, 39, 8, 176636, 44, 21, 189982 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.9375, 45, nil, nil, nil, 35, 18, 244468, 45, 14, 247427 },
-									{ 42, 0.0625, 3, nil, nil, nil, 44, 3, 254877 },
+									{ 44, 0.9375, 45, nil, nil, nil, 34, 18, 244468, 44, 14, 247427 },
+									{ 42, 0.0625, 3, nil, nil, nil, 43, 3, 254877 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.8473, 283, 35, 102, 217597, 1, 59, 226622, 34, 61, 204228 },
+									{ 44, 0.8473, 283, 34, 102, 217597, 1, 59, 226622, 33, 61, 204228 },
 									{ 42, 0.1527, 51, nil, nil, nil, 14, 24, 203440 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.9231, 36, nil, nil, nil, 35, 10, 160685, 34, 14, 175399 },
-									{ 42, 0.0769, 3, nil, nil, nil, 36, 3, 167471 },
+									{ 44, 0.9231, 36, nil, nil, nil, 34, 10, 160685, 33, 14, 175399 },
+									{ 42, 0.0769, 3, nil, nil, nil, 35, 3, 167471 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 44, nil, nil, nil, 35, 18, 228636, 1, 15, 231641 },
+									{ 44, 1, 44, nil, nil, nil, 34, 18, 228636, 1, 15, 231641 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7143, 80, nil, nil, nil, 35, 38, 194603, 1, 21, 200453, 34, 15, 257552 },
-									{ 42, 0.2857, 32, nil, nil, nil, 36, 10, 227534, 14, 14, 237279 },
+									{ 44, 0.7143, 80, nil, nil, nil, 34, 38, 194603, 1, 21, 200453, 33, 15, 257552 },
+									{ 42, 0.2857, 32, nil, nil, nil, 35, 10, 227534, 14, 14, 237279 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.697, 23, nil, nil, nil, 35, 13, 154252 },
-									{ 42, 0.303, 10, nil, nil, nil, 36, 4, 204408 },
+									{ 44, 0.697, 23, nil, nil, nil, 34, 13, 154252 },
+									{ 42, 0.303, 10, nil, nil, nil, 35, 4, 204408 },
 								},
 							},
 							["median"] = {
@@ -18260,56 +18245,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 1, 618, 37, 180, 284376, 42, 340, 296286, 38, 37, 300236 },
+									{ 42, 1, 618, 36, 180, 284376, 41, 340, 296286, 37, 37, 300236 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 1, 156, nil, nil, nil, 37, 43, 260070, 14, 94, 251899 },
+									{ 42, 1, 156, nil, nil, nil, 36, 43, 260070, 14, 94, 251899 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 1, 74, nil, nil, nil, 37, 27, 350541, 47, 33, 344084 },
+									{ 42, 1, 74, nil, nil, nil, 36, 27, 350541, 46, 33, 344084 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6261, 144, 35, 50, 320803, 1, 34, 324858, 34, 33, 288016 },
-									{ 42, 0.3739, 86, nil, nil, nil, 41, 28, 295625, 42, 36, 314034 },
+									{ 44, 0.6261, 144, 34, 50, 320803, 1, 34, 324858, 33, 33, 288016 },
+									{ 42, 0.3739, 86, nil, nil, nil, 40, 28, 295625, 41, 36, 314034 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.9118, 31, nil, nil, nil, 34, 19, 277843 },
-									{ 42, 0.0882, 3, nil, nil, nil, 41, 3, 290529 },
+									{ 44, 0.9118, 31, nil, nil, nil, 33, 19, 277843 },
+									{ 42, 0.0882, 3, nil, nil, nil, 40, 3, 290529 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.5135, 19, nil, nil, nil, 35, 9, 338698 },
-									{ 42, 0.4865, 18, nil, nil, nil, 41, 10, 329230 },
+									{ 44, 0.5135, 19, nil, nil, nil, 34, 9, 338698 },
+									{ 42, 0.4865, 18, nil, nil, nil, 40, 10, 329230 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.5882, 50, nil, nil, nil, 35, 28, 264252, 1, 12, 291417 },
-									{ 42, 0.4118, 35, nil, nil, nil, 42, 16, 212040 },
+									{ 44, 0.5882, 50, nil, nil, nil, 34, 28, 264252, 1, 12, 291417 },
+									{ 42, 0.4118, 35, nil, nil, nil, 41, 16, 212040 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.5, 3, nil, nil, nil, 35, 3, 132650 },
-									{ 42, 0.5, 3, nil, nil, nil, 48, 3, 147168 },
+									{ 44, 0.5, 3, nil, nil, nil, 34, 3, 132650 },
+									{ 42, 0.5, 3, nil, nil, nil, 47, 3, 147168 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 7, nil, nil, nil, 35, 7, 250139 },
+									{ 44, 1, 7, nil, nil, nil, 34, 7, 250139 },
 								},
 							},
 						},
@@ -18318,39 +18303,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.8158, 248, nil, nil, nil, 46, 71, 193409, 34, 48, 203548, 43, 24, 230620 },
-									{ 42, 0.1842, 56, nil, nil, nil, 44, 56, 228658 },
+									{ 44, 0.8158, 248, nil, nil, nil, 45, 71, 193409, 33, 48, 203548, 42, 24, 230620 },
+									{ 42, 0.1842, 56, nil, nil, nil, 43, 56, 228658 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.9, 36, nil, nil, nil, 46, 21, 177814 },
-									{ 42, 0.1, 4, nil, nil, nil, 44, 4, 177127 },
+									{ 44, 0.9, 36, nil, nil, nil, 45, 21, 177814 },
+									{ 42, 0.1, 4, nil, nil, nil, 43, 4, 177127 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.6857, 24, nil, nil, nil, 34, 8, 225674 },
-									{ 42, 0.3143, 11, nil, nil, nil, 44, 11, 231516 },
+									{ 44, 0.6857, 24, nil, nil, nil, 33, 8, 225674 },
+									{ 42, 0.3143, 11, nil, nil, nil, 43, 11, 231516 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.8571, 288, 35, 103, 227436, 34, 57, 203910, 1, 56, 240789 },
+									{ 44, 0.8571, 288, 34, 103, 227436, 33, 57, 203910, 1, 56, 240789 },
 									{ 42, 0.1429, 48, nil, nil, nil, 14, 28, 226941 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.9388, 46, nil, nil, nil, 34, 19, 187981, 35, 14, 152785 },
-									{ 42, 0.0612, 3, nil, nil, nil, 36, 3, 173615 },
+									{ 44, 0.9388, 46, nil, nil, nil, 33, 19, 187981, 34, 14, 152785 },
+									{ 42, 0.0612, 3, nil, nil, nil, 35, 3, 173615 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.875, 49, nil, nil, nil, 35, 22, 242105 },
+									{ 44, 0.875, 49, nil, nil, nil, 34, 22, 242105 },
 									{ 42, 0.125, 7, nil, nil, nil, 14, 7, 231613 },
 								},
 							},
@@ -18358,19 +18343,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7353, 75, nil, nil, nil, 35, 38, 185210, 1, 20, 186897, 34, 17, 158070 },
-									{ 42, 0.2647, 27, nil, nil, nil, 36, 10, 230497, 14, 17, 230937 },
+									{ 44, 0.7353, 75, nil, nil, nil, 34, 38, 185210, 1, 20, 186897, 33, 17, 158070 },
+									{ 42, 0.2647, 27, nil, nil, nil, 35, 10, 230497, 14, 17, 230937 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 10, nil, nil, nil, 34, 4, 130427 },
+									{ 44, 1, 10, nil, nil, nil, 33, 4, 130427 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.8333, 15, nil, nil, nil, 35, 10, 219329 },
-									{ 42, 0.1667, 3, nil, nil, nil, 36, 3, 229678 },
+									{ 44, 0.8333, 15, nil, nil, nil, 34, 10, 219329 },
+									{ 42, 0.1667, 3, nil, nil, nil, 35, 3, 229678 },
 								},
 							},
 						},
@@ -18379,37 +18364,37 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.9971, 1026, 42, 743, 341995, 37, 198, 337758, 38, 42, 347086 },
-									{ 44, 0.0029, 3, nil, nil, nil, 34, 3, 379203 },
+									{ 42, 0.9971, 1026, 41, 743, 341995, 36, 198, 337758, 37, 42, 347086 },
+									{ 44, 0.0029, 3, nil, nil, nil, 33, 3, 379203 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 1, 184, nil, nil, nil, 14, 128, 294531, 37, 39, 284862, 23, 13, 305615 },
+									{ 42, 1, 184, nil, nil, nil, 14, 128, 294531, 36, 39, 284862, 23, 13, 305615 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 1, 175, nil, nil, nil, 37, 35, 350166, 42, 131, 359865 },
+									{ 42, 1, 175, nil, nil, nil, 36, 35, 350166, 41, 131, 359865 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.7748, 313, 42, 189, 197060, 41, 78, 197820, 38, 23, 203287 },
-									{ 44, 0.2252, 91, nil, nil, nil, 1, 39, 234636, 35, 26, 212730 },
+									{ 42, 0.7748, 313, 41, 189, 197060, 40, 78, 197820, 37, 23, 203287 },
+									{ 44, 0.2252, 91, nil, nil, nil, 1, 39, 234636, 34, 26, 212730 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 0.9739, 112, nil, nil, nil, 42, 75, 179166, 37, 30, 181383 },
-									{ 44, 0.0261, 3, nil, nil, nil, 49, 3, 181745 },
+									{ 42, 0.9739, 112, nil, nil, nil, 41, 75, 179166, 36, 30, 181383 },
+									{ 44, 0.0261, 3, nil, nil, nil, 48, 3, 181745 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 0.75, 33, nil, nil, nil, 41, 15, 231657, 42, 14, 244524 },
+									{ 42, 0.75, 33, nil, nil, nil, 40, 15, 231657, 41, 14, 244524 },
 									{ 44, 0.25, 11, nil, nil, nil, 1, 8, 247721 },
 								},
 							},
@@ -18417,8 +18402,8 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.5287, 46, nil, nil, nil, 42, 20, 178752, 38, 14, 176223 },
-									{ 44, 0.4713, 41, nil, nil, nil, 1, 19, 181026, 35, 16, 179888 },
+									{ 42, 0.5287, 46, nil, nil, nil, 41, 20, 178752, 37, 14, 176223 },
+									{ 44, 0.4713, 41, nil, nil, nil, 1, 19, 181026, 34, 16, 179888 },
 								},
 							},
 							["fast"] = {
@@ -18429,7 +18414,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 44, 0.5714, 4, nil, nil, nil, 1, 4, 186121 },
-									{ 42, 0.4286, 3, nil, nil, nil, 42, 3, 184243 },
+									{ 42, 0.4286, 3, nil, nil, nil, 41, 3, 184243 },
 								},
 							},
 						},
@@ -18438,52 +18423,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.9198, 344, 47, 237, 437255, 50, 38, 462328, 51, 36, 460405 },
-									{ 44, 0.0802, 30, nil, nil, nil, 52, 12, 447143 },
+									{ 42, 0.9198, 344, 46, 237, 437255, 49, 38, 462328, 50, 36, 460405 },
+									{ 44, 0.0802, 30, nil, nil, nil, 51, 12, 447143 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 0.9388, 46, nil, nil, nil, 47, 37, 419206 },
-									{ 44, 0.0612, 3, nil, nil, nil, 40, 3, 421295 },
+									{ 42, 0.9388, 46, nil, nil, nil, 46, 37, 419206 },
+									{ 44, 0.0612, 3, nil, nil, nil, 39, 3, 421295 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 1, 60, nil, nil, nil, 47, 38, 469955 },
+									{ 42, 1, 60, nil, nil, nil, 46, 38, 469955 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6667, 84, nil, nil, nil, 35, 31, 454153, 1, 18, 424166, 53, 21, 371817 },
+									{ 44, 0.6667, 84, nil, nil, nil, 34, 31, 454153, 1, 18, 424166, 52, 21, 371817 },
 									{ 42, 0.3333, 42, nil, nil, nil, 14, 19, 448458 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 11, nil, nil, nil, 54, 5, 370167 },
+									{ 44, 1, 11, nil, nil, nil, 53, 5, 370167 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.6923, 9, nil, nil, nil, 35, 6, 444256 },
-									{ 42, 0.3077, 4, nil, nil, nil, 38, 4, 444207 },
+									{ 44, 0.6923, 9, nil, nil, nil, 34, 6, 444256 },
+									{ 42, 0.3077, 4, nil, nil, nil, 37, 4, 444207 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6765, 46, nil, nil, nil, 35, 24, 324760, 1, 16, 315714 },
+									{ 44, 0.6765, 46, nil, nil, nil, 34, 24, 324760, 1, 16, 315714 },
 									{ 42, 0.3235, 22, nil, nil, nil, 14, 8, 377232 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.5, 3, nil, nil, nil, 35, 3, 256091 },
-									{ 42, 0.5, 3, nil, nil, nil, 37, 3, 249069 },
+									{ 44, 0.5, 3, nil, nil, nil, 34, 3, 256091 },
+									{ 42, 0.5, 3, nil, nil, nil, 36, 3, 249069 },
 								},
 							},
 							["median"] = {
@@ -18497,52 +18482,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.9301, 399, 14, 308, 292323, 56, 29, 299239, 57, 33, 311985 },
-									{ 44, 0.0699, 30, nil, nil, nil, 58, 19, 288220 },
+									{ 42, 0.9301, 399, 14, 308, 292323, 55, 29, 299239, 56, 33, 311985 },
+									{ 44, 0.0699, 30, nil, nil, nil, 57, 19, 288220 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 42, 0.6667, 16, nil, nil, nil, 14, 11, 267368 },
-									{ 44, 0.3333, 8, nil, nil, nil, 58, 5, 244247 },
+									{ 44, 0.3333, 8, nil, nil, nil, 57, 5, 244247 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 1, 66, nil, nil, nil, 14, 50, 293427, 59, 13, 309497 },
+									{ 42, 1, 66, nil, nil, nil, 14, 50, 293427, 58, 13, 309497 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.5131, 98, 35, 51, 108697, 1, 15, 99475, 34, 14, 107462 },
-									{ 42, 0.4869, 93, nil, nil, nil, 60, 35, 108523, 14, 23, 98486 },
+									{ 44, 0.5131, 98, 34, 51, 108697, 1, 15, 99475, 33, 14, 107462 },
+									{ 42, 0.4869, 93, nil, nil, nil, 59, 35, 108523, 14, 23, 98486 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 44, 0.5185, 14, nil, nil, nil, 1, 5, 96791 },
-									{ 42, 0.4815, 13, nil, nil, nil, 61, 6, 92754 },
+									{ 42, 0.4815, 13, nil, nil, nil, 60, 6, 92754 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.7333, 11, nil, nil, nil, 35, 11, 120804 },
-									{ 42, 0.2667, 4, nil, nil, nil, 60, 4, 112152 },
+									{ 44, 0.7333, 11, nil, nil, nil, 34, 11, 120804 },
+									{ 42, 0.2667, 4, nil, nil, nil, 59, 4, 112152 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.84, 42, nil, nil, nil, 35, 21, 129085, 1, 12, 129326 },
+									{ 44, 0.84, 42, nil, nil, nil, 34, 21, 129085, 1, 12, 129326 },
 									{ 42, 0.16, 8, nil, nil, nil, 14, 5, 119552 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 6, nil, nil, nil, 34, 3, 98051 },
+									{ 44, 1, 6, nil, nil, nil, 33, 3, 98051 },
 								},
 							},
 							["median"] = {
@@ -18556,52 +18541,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 1, 116, nil, nil, nil, 29, 71, 508870, 62, 20, 517635, 63, 17, 509325 },
+									{ 44, 1, 116, nil, nil, nil, 28, 71, 508870, 61, 20, 517635, 62, 17, 509325 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 10, nil, nil, nil, 29, 7, 495150 },
+									{ 44, 1, 10, nil, nil, nil, 28, 7, 495150 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 11, nil, nil, nil, 29, 6, 510136 },
+									{ 44, 1, 11, nil, nil, nil, 28, 6, 510136 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.9239, 85, nil, nil, nil, 35, 31, 318744, 34, 15, 339009 },
+									{ 44, 0.9239, 85, nil, nil, nil, 34, 31, 318744, 33, 15, 339009 },
 									{ 42, 0.0761, 7, nil, nil, nil, 14, 7, 355896 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 15, nil, nil, nil, 35, 12, 292268 },
+									{ 44, 1, 15, nil, nil, nil, 34, 12, 292268 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 4, nil, nil, nil, 35, 4, 368754 },
+									{ 44, 1, 4, nil, nil, nil, 34, 4, 368754 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 1, 40, nil, nil, nil, 35, 19, 322443 },
+									{ 44, 1, 40, nil, nil, nil, 34, 19, 322443 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 12, nil, nil, nil, 35, 6, 281705 },
+									{ 44, 1, 12, nil, nil, nil, 34, 6, 281705 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 4, nil, nil, nil, 35, 4, 430705 },
+									{ 44, 1, 4, nil, nil, nil, 34, 4, 430705 },
 								},
 							},
 						},
@@ -18610,37 +18595,37 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.9311, 554, 45, 122, 142113, 55, 81, 140445, 34, 104, 146137 },
-									{ 42, 0.0689, 41, nil, nil, nil, 44, 31, 149230 },
+									{ 44, 0.9311, 554, 44, 122, 142113, 54, 81, 140445, 33, 104, 146137 },
+									{ 42, 0.0689, 41, nil, nil, nil, 43, 31, 149230 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 1, 79, nil, nil, nil, 55, 16, 135464, 45, 19, 136759, 29, 13, 138231 },
+									{ 44, 1, 79, nil, nil, nil, 54, 16, 135464, 44, 19, 136759, 28, 13, 138231 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 35, nil, nil, nil, 45, 8, 148179 },
+									{ 44, 1, 35, nil, nil, nil, 44, 8, 148179 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7951, 322, 1, 89, 292156, 35, 76, 277284, 34, 65, 280824 },
+									{ 44, 0.7951, 322, 1, 89, 292156, 34, 76, 277284, 33, 65, 280824 },
 									{ 42, 0.2049, 83, nil, nil, nil, 14, 46, 278339, 23, 15, 332727 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.863, 63, nil, nil, nil, 35, 15, 261335, 53, 23, 234707 },
+									{ 44, 0.863, 63, nil, nil, nil, 34, 15, 261335, 52, 23, 234707 },
 									{ 42, 0.137, 10, nil, nil, nil, 14, 7, 249619 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.7857, 44, nil, nil, nil, 1, 20, 315368, 34, 12, 317478, 35, 12, 320800 },
+									{ 44, 0.7857, 44, nil, nil, nil, 1, 20, 315368, 33, 12, 317478, 34, 12, 320800 },
 									{ 42, 0.2143, 12, nil, nil, nil, 14, 5, 306041 },
 								},
 							},
@@ -18648,18 +18633,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.7571, 53, nil, nil, nil, 1, 20, 278659, 35, 14, 255187, 34, 13, 274665 },
-									{ 42, 0.2429, 17, nil, nil, nil, 42, 9, 158686 },
+									{ 44, 0.7571, 53, nil, nil, nil, 1, 20, 278659, 34, 14, 255187, 33, 13, 274665 },
+									{ 42, 0.2429, 17, nil, nil, nil, 41, 9, 158686 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 1, 3, nil, nil, nil, 42, 3, 152795 },
+									{ 42, 1, 3, nil, nil, nil, 41, 3, 152795 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 1, 6, nil, nil, nil, 34, 6, 296987 },
+									{ 44, 1, 6, nil, nil, nil, 33, 6, 296987 },
 								},
 							},
 						},
@@ -18668,60 +18653,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 42, 0.6214, 2927, 14, 2022, 288523, 37, 484, 287216, 38, 132, 283252 },
-									{ 44, 0.3786, 1783, 34, 277, 189599, 39, 307, 179766, 29, 205, 147907 },
+									{ 42, 0.6214, 2927, 14, 2022, 288523, 36, 484, 287216, 37, 132, 283252 },
+									{ 44, 0.3786, 1783, 33, 277, 189599, 38, 307, 179766, 28, 205, 147907 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 42, 0.5915, 540, nil, nil, nil, 14, 370, 268443, 37, 98, 262190, 23, 36, 225306 },
-									{ 44, 0.4085, 373, nil, nil, nil, 39, 90, 164742, 40, 42, 136271, 34, 54, 182284 },
+									{ 42, 0.5915, 540, nil, nil, nil, 14, 370, 268443, 36, 98, 262190, 23, 36, 225306 },
+									{ 44, 0.4085, 373, nil, nil, nil, 38, 90, 164742, 39, 42, 136271, 33, 54, 182284 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 42, 0.6286, 523, 14, 358, 294491, 37, 89, 348514, 38, 22, 271653 },
-									{ 44, 0.3714, 309, nil, nil, nil, 34, 56, 214594, 35, 32, 187997, 39, 47, 179919 },
+									{ 42, 0.6286, 523, 14, 358, 294491, 36, 89, 348514, 37, 22, 271653 },
+									{ 44, 0.3714, 309, nil, nil, nil, 33, 56, 214594, 34, 32, 187997, 38, 47, 179919 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6892, 1978, 35, 557, 178218, 1, 436, 185121, 34, 406, 163339 },
-									{ 42, 0.3108, 892, 14, 458, 190863, 41, 118, 197820, 36, 60, 165045 },
+									{ 44, 0.6892, 1978, 34, 557, 178218, 1, 436, 185121, 33, 406, 163339 },
+									{ 42, 0.3108, 892, 14, 458, 190863, 40, 118, 197820, 35, 60, 165045 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.6416, 367, nil, nil, nil, 34, 130, 126997, 35, 90, 137031, 1, 41, 102914 },
-									{ 42, 0.3584, 205, nil, nil, nil, 42, 124, 173399, 36, 17, 118022, 41, 35, 192404 },
+									{ 44, 0.6416, 367, nil, nil, nil, 33, 130, 126997, 34, 90, 137031, 1, 41, 102914 },
+									{ 42, 0.3584, 205, nil, nil, nil, 41, 124, 173399, 35, 17, 118022, 40, 35, 192404 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.7137, 339, 35, 107, 174906, 1, 84, 176582, 34, 60, 174985 },
-									{ 42, 0.2863, 136, nil, nil, nil, 14, 60, 210352, 41, 29, 234020, 38, 20, 245394 },
+									{ 44, 0.7137, 339, 34, 107, 174906, 1, 84, 176582, 33, 60, 174985 },
+									{ 42, 0.2863, 136, nil, nil, nil, 14, 60, 210352, 40, 29, 234020, 37, 20, 245394 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 44, 0.6626, 646, 35, 229, 155823, 1, 185, 155588, 34, 100, 157198 },
-									{ 42, 0.3374, 329, nil, nil, nil, 36, 64, 124080, 14, 139, 154366, 23, 54, 153939 },
+									{ 44, 0.6626, 646, 34, 229, 155823, 1, 185, 155588, 33, 100, 157198 },
+									{ 42, 0.3374, 329, nil, nil, nil, 35, 64, 124080, 14, 139, 154366, 23, 54, 153939 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 44, 0.5723, 99, nil, nil, nil, 35, 43, 130361, 1, 30, 123114, 34, 22, 110969 },
-									{ 42, 0.4277, 74, nil, nil, nil, 36, 13, 121224, 14, 37, 118101 },
+									{ 44, 0.5723, 99, nil, nil, nil, 34, 43, 130361, 1, 30, 123114, 33, 22, 110969 },
+									{ 42, 0.4277, 74, nil, nil, nil, 35, 13, 121224, 14, 37, 118101 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 44, 0.75, 90, nil, nil, nil, 35, 32, 213969, 1, 27, 187095, 34, 19, 194003 },
-									{ 42, 0.25, 30, nil, nil, nil, 42, 17, 191978 },
+									{ 44, 0.75, 90, nil, nil, nil, 34, 32, 213969, 1, 27, 187095, 33, 19, 194003 },
+									{ 42, 0.25, 30, nil, nil, nil, 41, 17, 191978 },
 								},
 							},
 						},
@@ -18734,7 +18719,7 @@ ns.talentBuilds = {
 			["builds"] = {
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjlZMmxMYMNDAAAADAMWWmZmFzMzYMmZAzsBAjxMzmBA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AwMGzMbGA",
-				"gxMGWIbwMM0gFjZmZmxyAAAAAAgZMzMDz4BMjZwYaGAAAAAAjllZmZxMzMzYmxAmZDwsMjxM2MA",
+				"gxMGWIbwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AwMGzMbGA",
 				"WgBmxoxyAYmgNzMzMm5BWGAAAAAAMjZmZsMjxMmBjpZAAAAYAgxy2MzDsYmZGjxMDAzwGYMmZ2MA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmBjpZAAAAYAgxyyMzsYmZGmxYAzsBYYMmZ2MA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AMMGzMbGA",
@@ -18743,22 +18728,22 @@ ns.talentBuilds = {
 				"WgBmxoxyAYmgNzMzMm5BWGAAAAAAMjZmZsNjxMmBjpZAAAAYAgxy2MzDsYmZGjxMDAzwGYMmZ2MA",
 				"WgBmxoxyAYmgNzMzMmxyAAAAAAgZMzMDzYYMDGTzAAAAwAAssNzMLmZmZmZMzAwMsBGjZmFDA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmhlx0MAAAAMAwYZZmZWMzMDzYMgZ2AgxYmZzAA",
-				"gxMGWIbwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AwMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMYMNDAAAADAMWWmZmFzMzwMGDYmNAYMmZ2MA",
 				"gxMGWIbwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AMMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMYMNDAAAADAMWWmZmFzMzYMmZAzsBAjxMzmBA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZmZmZWMjxMmBjpZAAAAYAAWWmZmFzMzMMGDYmNADjxMzmBA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmBjpZAAAAYAgxyyMzsYmZGjxMDYmNwGMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMYMNDAAAADAMWWmZmFzMzwDMGDYmNADjxMzmBA",
+				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmhlx0MAAAAMAwYZZmZWMzMDPwYMgZ2AMMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMDzYYMDLjpZAAAAYAgxyyMzsYmZGmxYAzsBYYMmZ2MA",
 				"WgBmxoxyAYmgNzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMAMDbwMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AMMGzMLGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AwMGzMbGA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AMMGzMLGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmBjpZAAAAYAgxyyMzsYmZGmZGDYmNAYMmZ2MA",
-				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmBjpZAAAAYAgxyyMzsYmZGmxYAzsBYYMmZ2MA",
-				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjxMmhlx0MAAAAMAwYZZmZWMzMDPwYMgZ2AMMGzMbGA",
+				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZYGjZMDLjpZAAAAYAgxyyMzsYmZGmxYAzsBYYMmZ2MA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMsMmmBAAAgBAGLLzMziZmZwYMgZ2AMMGzMbGA",
+				"gxMGWIbwMM0gFjZmZmxyAAAAAAgZMzMDz4BMjZwYaGAAAAAAjllZmZxMzMzYmxAmZDwsMjxM2MA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZmZmZYGjZMDGTzAAAAAAYssMzMLmZmxYmBwMbAmFjxMzmBA",
 				"WgBmxoxyAYmgNjZmxMPwyAAAAAAgZMzMDz4BMjZwYaGAAAAAAjltZmZxMzMzYmxAwMsxsMjxM2MA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMzMjtZMmxMYMNDAAAADAMWWmZmFzMzYMmZAzsBAjxMzmBA",
@@ -18774,7 +18759,6 @@ ns.talentBuilds = {
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMzMjtZMMmZYMNDAAAADAMWWmZmFzMzYMmZAzsBAjxMziBA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZsNjhxM4BMNDAAAADAMWWmZmFzMzYmxMDYmNAWMGzMbGA",
 				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZYGjZMDGTzAAAAwAAjllZmZxMzMGzMGwMbAmFjxMzmBA",
-				"gxMG2ILwMM0gFzMzMzwyAAAAAAgZMjZYGjZMDLjpZAAAAYAgxyyMzsYmZGmxYAzsBYYMmZ2MA",
 				"gxMGWILwMM0gFzMzMzwyAAAAAAgZMjZwYMjZwYaGAAAAGAYssMzMLmZmxMzMAmZDwsYMmZ2MA",
 				"gxMGWILwMM0gFzMzMzMWGAAAAAAMjZMDzYMjZwYaGAAAAGAYssMzMLmZmxYmxAmZDwsYMmxmBA",
 				"gxMGWILwMM0gFjZmZmxyAAAAAAgZMjZYGjZMDGTzAAAAAAYssMzMLmZmxMzMAmZDwsYMmZ2MA",
@@ -18804,18 +18788,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9974, 1899, 11, 1639, 20, 2, 164, 16, 14, 52, 17 },
+							{ 43, 0.9974, 1899, 11, 1639, 20, 2, 164, 16, 13, 52, 17 },
 							{ 42, 0.0026, 5, nil, nil, nil, 4, 5, 11 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 931, 13, 815, 20, 25, 86, 22, 14, 19, 18 },
+							{ 43, 1, 629, 12, 562, 20, 6, 49, 21, 13, 14, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 205, nil, nil, nil, 26, 187, 22, 6, 18, 21 },
+							{ 43, 1, 205, nil, nil, nil, 18, 187, 22, 6, 18, 21 },
 						},
 					},
 				},
@@ -18827,18 +18811,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9922, 2165, 11, 1870, 20, 2, 197, 15, 12, 64, 23 },
+							{ 43, 0.9922, 2165, 11, 1870, 20, 2, 197, 15, 3, 64, 23 },
 							{ 42, 0.0078, 17, nil, nil, nil, 10, 3, 14, 4, 14, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 497, 11, 434, 21, 2, 49, 19, 14, 14, 19 },
+							{ 43, 1, 497, 11, 434, 21, 2, 49, 19, 13, 14, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 191, nil, nil, nil, 11, 179, 21 },
+							{ 43, 1, 121, nil, nil, nil, 25, 113, 22 },
 						},
 					},
 				},
@@ -18850,13 +18834,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9933, 1632, 13, 1401, 16, 2, 143, 15, 14, 49, 16 },
+							{ 43, 0.9933, 1632, 12, 1401, 16, 2, 143, 15, 13, 49, 16 },
 							{ 42, 0.0067, 11, nil, nil, nil, 20, 4, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 448, 13, 397, 19, 23, 38, 21, 14, 13, 17 },
+							{ 43, 1, 448, 12, 397, 19, 23, 38, 21, 13, 13, 17 },
 						},
 					},
 					["20-99"] = {
@@ -18868,42 +18852,42 @@ ns.talentBuilds = {
 				["14032"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 43, 1, 105, nil, nil, nil, 13, 92, 9, 2, 13, 8 },
+							{ 43, 1, 105, nil, nil, nil, 12, 92, 9, 2, 13, 8 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9969, 1921, 11, 1695, 17, 2, 132, 15, 14, 56, 18 },
+							{ 43, 0.9969, 1921, 11, 1695, 17, 2, 132, 15, 13, 56, 18 },
 							{ 42, 0.0031, 6, nil, nil, nil, 4, 6, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 415, 13, 367, 19, 2, 29, 20, 14, 15, 19 },
+							{ 43, 1, 415, 12, 367, 19, 2, 29, 20, 13, 15, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 78, nil, nil, nil, 13, 63, 21, 2, 12, 20 },
+							{ 43, 1, 78, nil, nil, nil, 12, 63, 21, 2, 12, 20 },
 						},
 					},
 				},
 				["15808"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 43, 0.9605, 73, nil, nil, nil, 13, 68, 9 },
+							{ 43, 0.9605, 73, nil, nil, nil, 12, 68, 9 },
 							{ 42, 0.0395, 3, nil, nil, nil, 4, 3, 7 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9934, 1796, 19, 1550, 19, 2, 168, 16, 14, 33, 17 },
+							{ 43, 0.9934, 1796, 19, 1550, 19, 2, 168, 16, 13, 33, 17 },
 							{ 42, 0.0066, 12, nil, nil, nil, 20, 4, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 812, 13, 697, 20, 12, 27, 22, 2, 81, 20 },
+							{ 43, 1, 550, 12, 487, 20, 2, 48, 21, 13, 12, 20 },
 						},
 					},
 					["20-99"] = {
@@ -18920,18 +18904,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9959, 1716, 11, 1494, 21, 2, 145, 15, 12, 45, 23 },
+							{ 43, 0.9959, 1716, 11, 1494, 21, 2, 145, 15, 3, 45, 23 },
 							{ 42, 0.0041, 7, nil, nil, nil, 4, 7, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 625, 11, 568, 21, 6, 37, 20, 14, 13, 20 },
+							{ 43, 1, 625, 11, 568, 21, 6, 37, 20, 13, 13, 20 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 257, nil, nil, nil, 11, 234, 22, 6, 14, 21 },
+							{ 43, 1, 200, nil, nil, nil, 18, 188, 22 },
 						},
 					},
 				},
@@ -18943,36 +18927,36 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9941, 1509, 15, 1297, 18, 2, 145, 15, 14, 38, 17 },
+							{ 43, 0.9941, 1509, 14, 1297, 18, 2, 145, 15, 13, 38, 17 },
 							{ 42, 0.0059, 9, nil, nil, nil, 4, 5, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 547, 13, 502, 20, 6, 32, 21, 14, 13, 19 },
+							{ 43, 1, 547, 12, 502, 20, 6, 32, 21, 13, 13, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 176, nil, nil, nil, 18, 164, 22 },
+							{ 43, 1, 176, nil, nil, nil, 17, 164, 22 },
 						},
 					},
 				},
 				["16573"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 43, 1, 72, nil, nil, nil, 13, 69, 9 },
+							{ 43, 1, 72, nil, nil, nil, 12, 69, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 43, 0.9982, 1687, 15, 1431, 17, 2, 167, 15, 16, 21, 17 },
+							{ 43, 0.9982, 1687, 14, 1431, 17, 2, 167, 15, 15, 21, 17 },
 							{ 42, 0.0018, 3, nil, nil, nil, 4, 3, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 1, 462, 13, 404, 18, 17, 47, 22 },
+							{ 43, 1, 462, 12, 404, 18, 16, 47, 22 },
 						},
 					},
 					["20-99"] = {
@@ -18984,8 +18968,8 @@ ns.talentBuilds = {
 				["all"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 43, 0.9894, 1216, 1, 1101, 9, 2, 77, 9, 3, 12, 9 },
-							{ 42, 0.0106, 13, nil, nil, nil, 4, 13, 9 },
+							{ 43, 0.9887, 790, 1, 711, 9, 2, 54, 9, 3, 12, 9 },
+							{ 42, 0.0113, 9, nil, nil, nil, 4, 9, 7 },
 						},
 					},
 					["10-99"] = {
@@ -18996,13 +18980,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 43, 0.9994, 5149, 11, 4493, 21, 6, 474, 20, 12, 133, 23 },
+							{ 43, 0.9994, 5149, 11, 4493, 21, 6, 474, 20, 3, 133, 23 },
 							{ 42, 0.0006, 3, nil, nil, nil, 4, 3, 15 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 43, 1, 1601, 13, 1431, 21, 6, 124, 21, 14, 43, 21 },
+							{ 43, 1, 1601, 12, 1431, 21, 6, 124, 21, 13, 43, 21 },
 						},
 					},
 				},
@@ -19013,42 +18997,42 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 3938, 27, 2746, 429056, 2, 786, 399120, 3, 136, 421333 },
+									{ 43, 1, 3938, 26, 2746, 429056, 2, 786, 399120, 27, 136, 421333 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 575, 27, 361, 385699, 28, 149, 356489, 14, 25, 366486 },
+									{ 43, 1, 575, 26, 361, 385699, 28, 149, 356489, 13, 25, 366486 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 702, 27, 492, 447268, 28, 158, 438894, 3, 29, 446227 },
+									{ 43, 1, 702, 26, 492, 447268, 28, 158, 438894, 27, 29, 446227 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 0.9905, 938, 27, 623, 329716, 3, 157, 354375, 2, 115, 326462 },
+									{ 43, 0.9905, 938, 26, 623, 329716, 27, 157, 354375, 2, 115, 326462 },
 									{ 42, 0.0095, 9, nil, nil, nil, 29, 6, 355376 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 203, nil, nil, nil, 27, 108, 288817, 30, 48, 260927, 3, 41, 298581 },
+									{ 43, 1, 203, nil, nil, nil, 26, 108, 288817, 30, 48, 260927, 27, 41, 298581 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 175, 27, 120, 376221, 3, 34, 384403, 2, 16, 387304 },
+									{ 43, 1, 175, 26, 120, 376221, 27, 34, 384403, 2, 16, 387304 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 191, nil, nil, nil, 1, 129, 205170, 3, 38, 187881, 2, 18, 216567 },
+									{ 43, 1, 191, nil, nil, nil, 1, 129, 205170, 27, 38, 187881, 2, 18, 216567 },
 								},
 							},
 							["fast"] = {
@@ -19058,7 +19042,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 40, nil, nil, nil, 27, 32, 237868 },
+									{ 43, 1, 40, nil, nil, nil, 26, 32, 237868 },
 								},
 							},
 						},
@@ -19067,42 +19051,42 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 3938, 27, 2746, 429056, 2, 786, 399120, 3, 136, 421333 },
+									{ 43, 1, 3938, 26, 2746, 429056, 2, 786, 399120, 27, 136, 421333 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 575, 27, 361, 385699, 28, 149, 356489, 14, 25, 366486 },
+									{ 43, 1, 575, 26, 361, 385699, 28, 149, 356489, 13, 25, 366486 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 702, 27, 492, 447268, 28, 158, 438894, 3, 29, 446227 },
+									{ 43, 1, 702, 26, 492, 447268, 28, 158, 438894, 27, 29, 446227 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 0.9905, 938, 27, 623, 329716, 3, 157, 354375, 2, 115, 326462 },
+									{ 43, 0.9905, 938, 26, 623, 329716, 27, 157, 354375, 2, 115, 326462 },
 									{ 42, 0.0095, 9, nil, nil, nil, 29, 6, 355376 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 203, nil, nil, nil, 27, 108, 288817, 30, 48, 260927, 3, 41, 298581 },
+									{ 43, 1, 203, nil, nil, nil, 26, 108, 288817, 30, 48, 260927, 27, 41, 298581 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 175, 27, 120, 376221, 3, 34, 384403, 2, 16, 387304 },
+									{ 43, 1, 175, 26, 120, 376221, 27, 34, 384403, 2, 16, 387304 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 191, nil, nil, nil, 1, 129, 205170, 3, 38, 187881, 2, 18, 216567 },
+									{ 43, 1, 191, nil, nil, nil, 1, 129, 205170, 27, 38, 187881, 2, 18, 216567 },
 								},
 							},
 							["fast"] = {
@@ -19112,7 +19096,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 40, nil, nil, nil, 27, 32, 237868 },
+									{ 43, 1, 40, nil, nil, nil, 26, 32, 237868 },
 								},
 							},
 						},
@@ -19123,7 +19107,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 723, 27, 499, 217069, 3, 74, 221976, 2, 66, 196314 },
+									{ 43, 1, 723, 26, 499, 217069, 27, 74, 221976, 2, 66, 196314 },
 								},
 							},
 							["fast"] = {
@@ -19133,41 +19117,41 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 102, nil, nil, nil, 27, 72, 220183, 36, 13, 231938 },
+									{ 43, 1, 102, nil, nil, nil, 26, 72, 220183, 36, 13, 231938 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 436, 27, 245, 141023, 3, 111, 156281, 30, 57, 110847 },
+									{ 43, 1, 436, 26, 245, 141023, 27, 111, 156281, 30, 57, 110847 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 109, nil, nil, nil, 30, 34, 107491, 27, 49, 121647, 33, 22, 105341 },
+									{ 43, 1, 109, nil, nil, nil, 30, 34, 107491, 26, 49, 121647, 33, 22, 105341 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 72, nil, nil, nil, 27, 45, 165347, 3, 20, 165169 },
+									{ 43, 1, 72, nil, nil, nil, 26, 45, 165347, 27, 20, 165169 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 129, nil, nil, nil, 3, 36, 165306, 27, 72, 158424, 2, 13, 203968 },
+									{ 43, 1, 129, nil, nil, nil, 27, 36, 165306, 26, 72, 158424, 2, 13, 203968 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 24, nil, nil, nil, 27, 15, 103932 },
+									{ 43, 1, 24, nil, nil, nil, 26, 15, 103932 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 15, nil, nil, nil, 27, 12, 206613 },
+									{ 43, 1, 15, nil, nil, nil, 26, 12, 206613 },
 								},
 							},
 						},
@@ -19176,51 +19160,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 559, 27, 195, 246885, 3, 149, 234142, 31, 58, 201447 },
+									{ 43, 1, 559, 26, 195, 246885, 27, 149, 234142, 31, 58, 201447 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 71, nil, nil, nil, 31, 18, 181216, 3, 30, 194567, 37, 13, 185360 },
+									{ 43, 1, 71, nil, nil, nil, 31, 18, 181216, 27, 30, 194567, 37, 13, 185360 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 86, nil, nil, nil, 3, 31, 249696, 27, 32, 247107 },
+									{ 43, 1, 86, nil, nil, nil, 27, 31, 249696, 26, 32, 247107 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 412, 27, 196, 184843, 3, 135, 196160, 30, 48, 167791 },
+									{ 43, 1, 412, 26, 196, 184843, 27, 135, 196160, 30, 48, 167791 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 97, nil, nil, nil, 27, 32, 164207, 30, 18, 160711, 3, 37, 162261 },
+									{ 43, 1, 97, nil, nil, nil, 26, 32, 164207, 30, 18, 160711, 27, 37, 162261 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 67, nil, nil, nil, 27, 39, 234793, 3, 28, 236691 },
+									{ 43, 1, 67, nil, nil, nil, 26, 39, 234793, 27, 28, 236691 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 115, nil, nil, nil, 27, 65, 234131, 3, 31, 237618 },
+									{ 43, 1, 115, nil, nil, nil, 26, 65, 234131, 27, 31, 237618 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 15, nil, nil, nil, 27, 8, 188230 },
+									{ 43, 1, 15, nil, nil, nil, 26, 8, 188230 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 5, nil, nil, nil, 27, 5, 286680 },
+									{ 43, 1, 5, nil, nil, nil, 26, 5, 286680 },
 								},
 							},
 						},
@@ -19229,7 +19213,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 243, nil, nil, nil, 39, 183, 299641, 40, 33, 358297, 3, 13, 410477 },
+									{ 43, 1, 243, nil, nil, nil, 39, 183, 299641, 40, 33, 358297, 27, 13, 410477 },
 								},
 							},
 							["fast"] = {
@@ -19246,24 +19230,24 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 290, 27, 168, 296774, 3, 69, 313519, 30, 48, 251635 },
+									{ 43, 1, 290, 26, 168, 296774, 27, 69, 313519, 30, 48, 251635 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 87, nil, nil, nil, 30, 31, 238954, 27, 35, 278056, 33, 21, 217762 },
+									{ 43, 1, 87, nil, nil, nil, 30, 31, 238954, 26, 35, 278056, 33, 21, 217762 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 43, nil, nil, nil, 27, 31, 325703, 3, 12, 331182 },
+									{ 43, 1, 43, nil, nil, nil, 26, 31, 325703, 27, 12, 331182 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 96, nil, nil, nil, 3, 30, 254886, 27, 53, 185557 },
+									{ 43, 1, 96, nil, nil, nil, 27, 30, 254886, 26, 53, 185557 },
 								},
 							},
 							["fast"] = {
@@ -19273,7 +19257,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 9, nil, nil, nil, 3, 3, 254886 },
+									{ 43, 1, 9, nil, nil, nil, 27, 3, 254886 },
 								},
 							},
 						},
@@ -19282,7 +19266,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 388, 27, 265, 224081, 3, 44, 236031, 37, 20, 195890 },
+									{ 43, 1, 388, 26, 265, 224081, 27, 44, 236031, 37, 20, 195890 },
 								},
 							},
 							["fast"] = {
@@ -19292,41 +19276,41 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 49, nil, nil, nil, 27, 36, 226140 },
+									{ 43, 1, 49, nil, nil, nil, 26, 36, 226140 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 407, 27, 196, 198463, 3, 160, 221469, 2, 21, 226846 },
+									{ 43, 1, 407, 26, 196, 198463, 27, 160, 221469, 2, 21, 226846 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 95, nil, nil, nil, 38, 55, 171042, 27, 37, 184032 },
+									{ 43, 1, 95, nil, nil, nil, 38, 55, 171042, 26, 37, 184032 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 64, nil, nil, nil, 27, 34, 230179, 3, 27, 243746 },
+									{ 43, 1, 64, nil, nil, nil, 26, 34, 230179, 27, 27, 243746 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 115, nil, nil, nil, 3, 35, 228552, 27, 64, 183604 },
+									{ 43, 1, 115, nil, nil, nil, 27, 35, 228552, 26, 64, 183604 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 10, nil, nil, nil, 27, 7, 101624 },
+									{ 43, 1, 10, nil, nil, nil, 26, 7, 101624 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 24, nil, nil, nil, 27, 17, 207742 },
+									{ 43, 1, 24, nil, nil, nil, 26, 17, 207742 },
 								},
 							},
 						},
@@ -19352,34 +19336,34 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 278, 27, 182, 198337, 3, 44, 216139, 30, 47, 183249 },
+									{ 43, 1, 278, 26, 182, 198337, 27, 44, 216139, 30, 47, 183249 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 69, nil, nil, nil, 30, 25, 183249, 27, 36, 180359 },
+									{ 43, 1, 69, nil, nil, nil, 30, 25, 183249, 26, 36, 180359 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 43, nil, nil, nil, 27, 36, 243908 },
+									{ 43, 1, 43, nil, nil, nil, 26, 36, 243908 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 85, nil, nil, nil, 3, 21, 185663, 27, 53, 174376 },
+									{ 43, 1, 85, nil, nil, nil, 27, 21, 185663, 26, 53, 174376 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 27, 3, 154019 },
+									{ 43, 1, 3, nil, nil, nil, 26, 3, 154019 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 27, 3, 185406 },
+									{ 43, 1, 3, nil, nil, nil, 26, 3, 185406 },
 								},
 							},
 						},
@@ -19405,34 +19389,34 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 161, 27, 93, 427187, 3, 47, 428347, 2, 16, 407642 },
+									{ 43, 1, 161, 26, 93, 427187, 27, 47, 428347, 2, 16, 407642 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 11, nil, nil, nil, 27, 6, 368650 },
+									{ 43, 1, 11, nil, nil, nil, 26, 6, 368650 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 24, nil, nil, nil, 27, 20, 437995 },
+									{ 43, 1, 24, nil, nil, nil, 26, 20, 437995 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 77, nil, nil, nil, 27, 52, 290407, 3, 18, 320530 },
+									{ 43, 1, 77, nil, nil, nil, 26, 52, 290407, 27, 18, 320530 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 43, 3, 258928 },
+									{ 43, 1, 3, nil, nil, nil, 25, 3, 258928 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 27, 3, 308511 },
+									{ 43, 1, 3, nil, nil, nil, 26, 3, 308511 },
 								},
 							},
 						},
@@ -19441,7 +19425,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 348, 32, 244, 285580, 44, 67, 294052, 14, 15, 258006 },
+									{ 43, 1, 348, 32, 244, 285580, 43, 67, 294052, 13, 15, 258006 },
 								},
 							},
 							["fast"] = {
@@ -19458,34 +19442,34 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 279, 27, 128, 102671, 3, 104, 103188, 2, 22, 100935 },
+									{ 43, 1, 279, 26, 128, 102671, 27, 104, 103188, 2, 22, 100935 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 74, nil, nil, nil, 38, 41, 86630, 27, 22, 94736 },
+									{ 43, 1, 74, nil, nil, nil, 38, 41, 86630, 26, 22, 94736 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 34, nil, nil, nil, 27, 26, 120538 },
+									{ 43, 1, 34, nil, nil, nil, 26, 26, 120538 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 64, nil, nil, nil, 3, 17, 103051, 27, 39, 144440 },
+									{ 43, 1, 64, nil, nil, nil, 27, 17, 103051, 26, 39, 144440 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 8, nil, nil, nil, 3, 5, 100864 },
+									{ 43, 1, 8, nil, nil, nil, 27, 5, 100864 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 4, nil, nil, nil, 27, 4, 140931 },
+									{ 43, 1, 4, nil, nil, nil, 26, 4, 140931 },
 								},
 							},
 						},
@@ -19494,51 +19478,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 83, nil, nil, nil, 45, 29, 505876, 46, 33, 509735 },
+									{ 43, 1, 83, nil, nil, nil, 44, 29, 505876, 45, 33, 509735 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 47, 3, 488766 },
+									{ 43, 1, 3, nil, nil, nil, 46, 3, 488766 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 5, nil, nil, nil, 46, 5, 512722 },
+									{ 43, 1, 5, nil, nil, nil, 45, 5, 512722 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 215, 27, 90, 336314, 3, 63, 340440, 30, 41, 396402 },
+									{ 43, 1, 215, 26, 90, 336314, 27, 63, 340440, 30, 41, 396402 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 26, nil, nil, nil, 27, 10, 306539, 33, 16, 297926 },
+									{ 43, 1, 26, nil, nil, nil, 26, 10, 306539, 33, 16, 297926 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 20, nil, nil, nil, 27, 14, 363845 },
+									{ 43, 1, 20, nil, nil, nil, 26, 14, 363845 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 43, nil, nil, nil, 3, 11, 304787, 13, 28, 331183 },
+									{ 43, 1, 43, nil, nil, nil, 27, 11, 304787, 12, 28, 331183 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 4, nil, nil, nil, 3, 4, 284475 },
+									{ 43, 1, 4, nil, nil, nil, 27, 4, 284475 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 3, nil, nil, nil, 27, 3, 429247 },
+									{ 43, 1, 3, nil, nil, nil, 26, 3, 429247 },
 								},
 							},
 						},
@@ -19547,42 +19531,42 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 696, 27, 385, 146030, 3, 139, 143405, 31, 50, 141708 },
+									{ 43, 1, 696, 26, 385, 146030, 27, 139, 143405, 31, 50, 141708 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 93, nil, nil, nil, 31, 15, 137716, 3, 28, 140089, 27, 38, 137020 },
+									{ 43, 1, 93, nil, nil, nil, 31, 15, 137716, 27, 28, 140089, 26, 38, 137020 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 132, nil, nil, nil, 27, 66, 148277, 3, 36, 148013 },
+									{ 43, 1, 132, nil, nil, nil, 26, 66, 148277, 27, 36, 148013 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 0.9902, 707, 27, 405, 266617, 3, 188, 271222, 2, 77, 285706 },
+									{ 43, 0.9902, 707, 26, 405, 266617, 27, 188, 271222, 2, 77, 285706 },
 									{ 42, 0.0098, 7, nil, nil, nil, 29, 7, 308093 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 154, nil, nil, nil, 27, 66, 231870, 30, 35, 133199, 3, 50, 137251 },
+									{ 43, 1, 154, nil, nil, nil, 26, 66, 231870, 30, 35, 133199, 27, 50, 137251 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 140, nil, nil, nil, 3, 41, 316021, 27, 81, 316801 },
+									{ 43, 1, 140, nil, nil, nil, 27, 41, 316021, 26, 81, 316801 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 100, nil, nil, nil, 27, 57, 278827, 3, 33, 277704 },
+									{ 43, 1, 100, nil, nil, nil, 26, 57, 278827, 27, 33, 277704 },
 								},
 							},
 							["fast"] = {
@@ -19601,53 +19585,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 1, 4307, 27, 2531, 148341, 3, 468, 146909, 31, 154, 145161 },
+									{ 43, 1, 4307, 26, 2531, 148341, 27, 468, 146909, 31, 154, 145161 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 568, nil, nil, nil, 32, 302, 153147, 31, 41, 140587, 3, 85, 140792 },
+									{ 43, 1, 568, nil, nil, nil, 32, 302, 153147, 31, 41, 140587, 27, 85, 140792 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 713, 27, 455, 149027, 3, 97, 148943, 31, 22, 149055 },
+									{ 43, 1, 713, 26, 455, 149027, 27, 97, 148943, 31, 22, 149055 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 0.9917, 3814, 27, 2050, 149204, 3, 1001, 161874, 2, 406, 164526 },
+									{ 43, 0.9917, 3814, 26, 2050, 149204, 27, 1001, 161874, 2, 406, 164526 },
 									{ 42, 0.0083, 32, nil, nil, nil, 29, 14, 237965 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 940, 27, 398, 123733, 30, 190, 100327, 33, 283, 100841 },
+									{ 43, 1, 940, 26, 398, 123733, 30, 190, 100327, 33, 283, 100841 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 647, 27, 409, 174140, 3, 165, 179180, 2, 52, 176970 },
+									{ 43, 1, 647, 26, 409, 174140, 27, 165, 179180, 2, 52, 176970 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 43, 0.9936, 925, nil, nil, nil, 3, 243, 165039, 27, 540, 144011, 2, 78, 138510 },
+									{ 43, 0.9936, 925, nil, nil, nil, 27, 243, 165039, 26, 540, 144011, 2, 78, 138510 },
 									{ 42, 0.0064, 6, nil, nil, nil, 34, 6, 194712 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 43, 1, 202, nil, nil, nil, 27, 114, 125715, 3, 58, 104960 },
+									{ 43, 1, 202, nil, nil, nil, 26, 114, 125715, 27, 58, 104960 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 43, 1, 165, nil, nil, nil, 27, 108, 189373, 3, 32, 191767, 2, 15, 226025 },
+									{ 43, 1, 165, nil, nil, nil, 26, 108, 189373, 27, 32, 191767, 2, 15, 226025 },
 								},
 							},
 						},
@@ -19750,7 +19734,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 20, 1, 880, 28, 203, 19, 2, 130, 17, 41, 56, 24 },
+							{ 20, 1, 630, 28, 157, 19, 2, 84, 17, 41, 47, 24 },
 						},
 					},
 					["20-99"] = {
@@ -19843,7 +19827,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 20, 1, 863, 11, 258, 18, 10, 197, 18, 2, 103, 17 },
+							{ 20, 1, 562, 11, 166, 19, 10, 134, 18, 2, 64, 17 },
 						},
 					},
 					["20-99"] = {
@@ -20657,7 +20641,7 @@ ns.talentBuilds = {
 				"AbGzYWGmxMjhZYsNzMzAAAAYMzyMYmZmxMmZwGmpAYmFMEGzyAMGYxMzsAoZMGjBzAMzMgPA",
 				"AbGzY2GzwMjhZYsNzMzAAAAYYWmhZmZGmxMDgZKAmZBDhxsMAjBWMzMA0MmZMGMDwMzMwA",
 				"AbGzYWGmxMjhZYsMzMzAAAAYMzyMYmZGmxMjBMTBwMLYIMmlBYMwiZmZBQzYmxYwMAzMD4DA",
-				"AbGzYWGzwMjhZYsNzMzAAAAYMzyMMzMzwMMjBMTBwMLYIMmlBYMwiZmBgmxMPgxwMDwMzAG",
+				"AbGzYWGzwMjhZYsMzMzAAAAYMzyMYmZGmhZMgZKAmZBDhxsMAjBWMzMA0MmZMGMDwMzMwA",
 				"AgZmlxYMzMDzMzYZGmBAAAwMmlZwMzMMDzAYmaAgZWMTmFDAMGsZmZWA0MGjxwMz2yAMDMA",
 				"gZBGzygxMzMjZmZsMzYGAAAADzyMMzMzgZMDgZqBAmZxMZWMAwYwmxMLAaGmxYYmZbZAmBG",
 				"AgZmlBjZmZYmZmZZGmBAAAwwsMzYmZmhZGzAYmaAgZ2MTmNDAMGsZmZWAkx4BMGmZ22GgZgB",
@@ -20704,8 +20688,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 19, 0.7059, 72, nil, nil, nil, 21, 20, 18, 2, 44, 16 },
-							{ 20, 0.2941, 30, nil, nil, nil, 35, 4, 22, 17, 21, 19 },
+							{ 19, 0.6714, 47, nil, nil, nil, 21, 20, 18, 2, 27, 16 },
+							{ 20, 0.3286, 23, nil, nil, nil, 35, 16, 21 },
 						},
 					},
 				},
@@ -20784,8 +20768,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 19, 0.7037, 57, nil, nil, nil, 9, 16, 17, 2, 31, 16 },
-							{ 20, 0.2963, 24, nil, nil, nil, 17, 24, 20 },
+							{ 19, 0.6, 30, nil, nil, nil, 9, 11, 17, 2, 15, 16 },
+							{ 20, 0.4, 20, nil, nil, nil, 17, 20, 20 },
 						},
 					},
 				},
@@ -21581,7 +21565,7 @@ ns.talentBuilds = {
 				"MjZGAAAAAAAAAAAghZxMGLzMmZWmZYM2mZGzMzYDZYZbmGgZmZAgAMbz2WwsxAADGzMzY2GzgZGMDGA",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDDz2MzYmZmBygNTjBmZmBACwsNbbBzGDAMYmZmZMbjZwMDmBD",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDzw2MzYmZmZDZYhpBYmZGAIAz2stFMbMAwgxMzMmtZmBzMYGMA",
-				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDDz2MzYmZmBygtZaMwMzMAQAmtZbLY2YAgBjZmZMbjZwMDmBD",
+				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDDz2MzYmZGQmhtZaMwMzMAQAmtZbLY2YAgBjZmZMbjZwMDmBD",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDzw2MzYmZmZDZYhpBYmZGAIAz2stFMbMAwgxMzMmtZmBzMYGMA",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDDz2MzYmZGbID2MNGYmZGAIAz2stFMbMAwgZmZmxsNmBzMYGMA",
 				"MjZGAAAAAAAAAAAghZxMGLzMmZWmZYmx2MGzMzYDZG2mpBYmZGAIAz2stEMbMAwgxMzMmtxMYmBzgB",
@@ -21592,11 +21576,8 @@ ns.talentBuilds = {
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDjx2MzYmZmZDZYZz0AMzMDAEgZb22CmNGAYwYmZGz2YGMzgZwA",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDzM2mxYmZmZDZYZz0AMzMDAEgZb22CmNGAYwYmZGz2YGMzgZwA",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDjx2MzYmZGbIzYxMNAzMzAABY2mttgZjBAGMmZmxsNmBzMYGMA",
-				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDDz2MzYmZGQmhtZaMwMzMAQAmtZbLY2YAgBjZmZMbjZwMDmBD",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDDz2MzYmZGQmhtZaAmZmBACwsNbbBzGDAMYmZmZMbjZwMDmBD",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDDz2MzYmZGbIzYxMNAzMzAABY2mttgZjBAGMmZmxsNmBzMYGMA",
-				"jZMGAAAAAAAAAAAAjZZmxYZmxMzyMDjx2MzYmZGbIzgZaMwMzMAQAmtZbLY2YAgBjZmZMbjZwMDmBD",
-				"MjZGAAAAAAAAAAAghZxMGLzMmZWmZYM2mZGzMzMQmhtZaAmZmBACwsNbbBzGDAMYMzMjZbMDmZwMYA",
 				"jZMGAAAAAAAAAAAAjZZmxYZmxMz2MDjx2MzYmZmBTGsNTDwMzMAQAmtZbLY2YAgBjZmZMbjZwMDmBD",
 				"MjZGAAAAAAAAAAAgxMMjxyMDzsMzwMjNzMmZmxGTGYmGDMDwMbmRzmBgMGLAYGgxMzMmtxMbLDwMYA",
 				"MjZGAAAAAAAAAAAgxYxMGLzMMz2MDzw2MzYmZGbIzYxMNAzAMzmZ0sZAIjxCAmBYMzMjZbMz2yAMDGA",
@@ -21636,7 +21617,7 @@ ns.talentBuilds = {
 				["4813"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 18, 0.6204, 134, 1, 51, 8, 44, 56, 9, 47, 21, 9 },
+							{ 18, 0.6204, 134, 1, 51, 8, 44, 56, 9, 46, 21, 9 },
 							{ 19, 0.3796, 82, 4, 68, 8 },
 						},
 					},
@@ -21648,13 +21629,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 18, 0.8938, 875, 44, 469, 20, 48, 306, 21, 49, 22, 21 },
-							{ 19, 0.1062, 104, 4, 73, 17, 15, 21, 23 },
+							{ 18, 0.8891, 593, 44, 346, 20, 34, 193, 21, 40, 39, 20 },
+							{ 19, 0.1109, 74, 4, 59, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 18, 1, 179, nil, nil, nil, 50, 145, 23, 22, 34, 23 },
+							{ 18, 1, 179, nil, nil, nil, 47, 145, 23, 22, 34, 23 },
 						},
 					},
 				},
@@ -21673,13 +21654,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 18, 0.8665, 409, 2, 253, 20, 45, 120, 21, 1, 23, 16 },
+							{ 18, 0.8665, 409, 2, 253, 20, 34, 120, 21, 1, 23, 16 },
 							{ 19, 0.1335, 63, nil, nil, nil, 41, 54, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 18, 1, 70, nil, nil, nil, 46, 60, 22 },
+							{ 18, 1, 70, nil, nil, nil, 45, 60, 22 },
 						},
 					},
 				},
@@ -21749,8 +21730,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 18, 0.8975, 648, 2, 352, 21, 34, 236, 22, 18, 13, 21 },
-							{ 19, 0.1025, 74, 4, 55, 17 },
+							{ 18, 0.8983, 424, 2, 248, 21, 34, 142, 21, 25, 25, 20 },
+							{ 19, 0.1017, 48, nil, nil, nil, 6, 3, 20, 4, 40, 17 },
 						},
 					},
 					["20-99"] = {
@@ -21869,19 +21850,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9212, 4702, 51, 2966, 419263, 5, 822, 400857, 4, 187, 417033 },
+									{ 19, 0.9212, 4702, 48, 2966, 419263, 5, 822, 400857, 4, 187, 417033 },
 									{ 18, 0.0788, 402, 1, 83, 423870, 2, 170, 406913, 3, 92, 431753 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9693, 1010, 51, 532, 378189, 5, 264, 348497, 52, 77, 359554 },
+									{ 19, 0.9693, 1010, 48, 532, 378189, 5, 264, 348497, 49, 77, 359554 },
 									{ 18, 0.0307, 32, nil, nil, nil, 1, 12, 397183, 2, 12, 378907 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9352, 822, 51, 578, 446053, 5, 140, 447254, 4, 33, 450232 },
+									{ 19, 0.9352, 822, 48, 578, 446053, 5, 140, 447254, 4, 33, 450232 },
 									{ 18, 0.0648, 57, nil, nil, nil, 1, 20, 446131, 2, 33, 443370 },
 								},
 							},
@@ -21889,19 +21870,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7816, 1557, 5, 560, 344676, 4, 255, 352984, 51, 419, 349913 },
-									{ 18, 0.2184, 435, 1, 144, 357704, 2, 107, 344273, 53, 14, 361708 },
+									{ 19, 0.7816, 1557, 5, 560, 344676, 4, 255, 352984, 48, 419, 349913 },
+									{ 18, 0.2184, 435, 1, 144, 357704, 2, 107, 344273, 50, 14, 361708 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8842, 359, 5, 166, 297448, 4, 40, 302325, 51, 86, 286741 },
+									{ 19, 0.8842, 359, 5, 166, 297448, 4, 40, 302325, 48, 86, 286741 },
 									{ 18, 0.1158, 47, nil, nil, nil, 1, 26, 300314, 2, 16, 316010 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.855, 283, 5, 112, 385079, 4, 45, 386533, 51, 69, 384552 },
+									{ 19, 0.855, 283, 5, 112, 385079, 4, 45, 386533, 48, 69, 384552 },
 									{ 18, 0.145, 48, nil, nil, nil, 1, 27, 377367, 2, 12, 378372 },
 								},
 							},
@@ -21909,7 +21890,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7833, 394, 5, 147, 225863, 4, 95, 217632, 51, 77, 204516 },
+									{ 19, 0.7833, 394, 5, 147, 225863, 4, 95, 217632, 48, 77, 204516 },
 									{ 18, 0.2167, 109, 1, 68, 209275, 21, 20, 233882 },
 								},
 							},
@@ -21921,7 +21902,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.8621, 75, nil, nil, nil, 5, 33, 236621, 4, 19, 234638, 51, 16, 232351 },
+									{ 19, 0.8621, 75, nil, nil, nil, 5, 33, 236621, 4, 19, 234638, 48, 16, 232351 },
 									{ 18, 0.1379, 12, nil, nil, nil, 1, 12, 232732 },
 								},
 							},
@@ -21931,19 +21912,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9212, 4702, 51, 2966, 419263, 5, 822, 400857, 4, 187, 417033 },
+									{ 19, 0.9212, 4702, 48, 2966, 419263, 5, 822, 400857, 4, 187, 417033 },
 									{ 18, 0.0788, 402, 1, 83, 423870, 2, 170, 406913, 3, 92, 431753 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9693, 1010, 51, 532, 378189, 5, 264, 348497, 52, 77, 359554 },
+									{ 19, 0.9693, 1010, 48, 532, 378189, 5, 264, 348497, 49, 77, 359554 },
 									{ 18, 0.0307, 32, nil, nil, nil, 1, 12, 397183, 2, 12, 378907 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9352, 822, 51, 578, 446053, 5, 140, 447254, 4, 33, 450232 },
+									{ 19, 0.9352, 822, 48, 578, 446053, 5, 140, 447254, 4, 33, 450232 },
 									{ 18, 0.0648, 57, nil, nil, nil, 1, 20, 446131, 2, 33, 443370 },
 								},
 							},
@@ -21951,19 +21932,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7816, 1557, 5, 560, 344676, 4, 255, 352984, 51, 419, 349913 },
-									{ 18, 0.2184, 435, 1, 144, 357704, 2, 107, 344273, 53, 14, 361708 },
+									{ 19, 0.7816, 1557, 5, 560, 344676, 4, 255, 352984, 48, 419, 349913 },
+									{ 18, 0.2184, 435, 1, 144, 357704, 2, 107, 344273, 50, 14, 361708 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8842, 359, 5, 166, 297448, 4, 40, 302325, 51, 86, 286741 },
+									{ 19, 0.8842, 359, 5, 166, 297448, 4, 40, 302325, 48, 86, 286741 },
 									{ 18, 0.1158, 47, nil, nil, nil, 1, 26, 300314, 2, 16, 316010 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.855, 283, 5, 112, 385079, 4, 45, 386533, 51, 69, 384552 },
+									{ 19, 0.855, 283, 5, 112, 385079, 4, 45, 386533, 48, 69, 384552 },
 									{ 18, 0.145, 48, nil, nil, nil, 1, 27, 377367, 2, 12, 378372 },
 								},
 							},
@@ -21971,7 +21952,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7833, 394, 5, 147, 225863, 4, 95, 217632, 51, 77, 204516 },
+									{ 19, 0.7833, 394, 5, 147, 225863, 4, 95, 217632, 48, 77, 204516 },
 									{ 18, 0.2167, 109, 1, 68, 209275, 21, 20, 233882 },
 								},
 							},
@@ -21983,7 +21964,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.8621, 75, nil, nil, nil, 5, 33, 236621, 4, 19, 234638, 51, 16, 232351 },
+									{ 19, 0.8621, 75, nil, nil, nil, 5, 33, 236621, 4, 19, 234638, 48, 16, 232351 },
 									{ 18, 0.1379, 12, nil, nil, nil, 1, 12, 232732 },
 								},
 							},
@@ -21995,38 +21976,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.954, 1618, 5, 1120, 194681, 52, 221, 196825, 11, 122, 220779 },
-									{ 18, 0.046, 78, nil, nil, nil, 60, 37, 217403, 54, 17, 200804 },
+									{ 19, 0.954, 1618, 5, 1120, 194681, 49, 221, 196825, 11, 122, 220779 },
+									{ 18, 0.046, 78, nil, nil, nil, 57, 37, 217403, 51, 17, 200804 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 1, 436, 5, 348, 174709, 52, 59, 171983, 11, 13, 179998 },
+									{ 19, 1, 436, 5, 348, 174709, 49, 59, 171983, 11, 13, 179998 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9711, 235, 5, 162, 219343, 52, 31, 219033, 11, 24, 226620 },
-									{ 18, 0.0289, 7, nil, nil, nil, 60, 7, 230877 },
+									{ 19, 0.9711, 235, 5, 162, 219343, 49, 31, 219033, 11, 24, 226620 },
+									{ 18, 0.0289, 7, nil, nil, nil, 57, 7, 230877 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8571, 1158, 5, 699, 146159, 4, 108, 140879, 59, 75, 159307 },
+									{ 19, 0.8571, 1158, 5, 699, 146159, 4, 108, 140879, 56, 75, 159307 },
 									{ 18, 0.1429, 193, 1, 61, 143023, 2, 59, 140038 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8916, 288, 5, 188, 114607, 52, 27, 114359, 4, 25, 122601 },
-									{ 18, 0.1084, 35, nil, nil, nil, 1, 13, 108574, 60, 12, 130644 },
+									{ 19, 0.8916, 288, 5, 188, 114607, 49, 27, 114359, 4, 25, 122601 },
+									{ 18, 0.1084, 35, nil, nil, nil, 1, 13, 108574, 57, 12, 130644 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.8685, 185, 5, 113, 168253, 4, 21, 170216, 59, 19, 173400 },
+									{ 19, 0.8685, 185, 5, 113, 168253, 4, 21, 170216, 56, 19, 173400 },
 									{ 18, 0.1315, 28, nil, nil, nil, 1, 10, 163725 },
 								},
 							},
@@ -22034,7 +22015,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8311, 246, 5, 118, 162254, 4, 43, 170922, 59, 25, 167774 },
+									{ 19, 0.8311, 246, 5, 118, 162254, 4, 43, 170922, 56, 25, 167774 },
 									{ 18, 0.1689, 50, nil, nil, nil, 1, 23, 165139 },
 								},
 							},
@@ -22055,38 +22036,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9598, 1503, 5, 1060, 203601, 52, 215, 207371, 11, 79, 244041 },
-									{ 18, 0.0402, 63, nil, nil, nil, 60, 36, 243449, 54, 14, 180268 },
+									{ 19, 0.9598, 1503, 5, 1060, 203601, 49, 215, 207371, 11, 79, 244041 },
+									{ 18, 0.0402, 63, nil, nil, nil, 57, 36, 243449, 51, 14, 180268 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 1, 388, 5, 311, 185276, 52, 55, 189230 },
+									{ 19, 1, 388, 5, 311, 185276, 49, 55, 189230 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9144, 235, 5, 177, 246594, 52, 33, 247090, 51, 14, 248781 },
-									{ 18, 0.0856, 22, nil, nil, nil, 60, 17, 250688 },
+									{ 19, 0.9144, 235, 5, 177, 246594, 49, 33, 247090, 48, 14, 248781 },
+									{ 18, 0.0856, 22, nil, nil, nil, 57, 17, 250688 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8605, 1141, 5, 687, 197059, 59, 104, 199453, 4, 93, 203250 },
-									{ 18, 0.1395, 185, 1, 55, 196727, 2, 64, 199898, 53, 13, 241859 },
+									{ 19, 0.8605, 1141, 5, 687, 197059, 56, 104, 199453, 4, 93, 203250 },
+									{ 18, 0.1395, 185, 1, 55, 196727, 2, 64, 199898, 50, 13, 241859 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9151, 248, 5, 159, 158975, 59, 19, 170295, 52, 30, 171219 },
+									{ 19, 0.9151, 248, 5, 159, 158975, 56, 19, 170295, 49, 30, 171219 },
 									{ 18, 0.0849, 23, nil, nil, nil, 1, 10, 156364 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9298, 212, 5, 141, 228880, 59, 29, 232452, 4, 15, 223898 },
+									{ 19, 0.9298, 212, 5, 141, 228880, 56, 29, 232452, 4, 15, 223898 },
 									{ 18, 0.0702, 16, nil, nil, nil, 1, 10, 229475 },
 								},
 							},
@@ -22094,7 +22075,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8276, 240, 5, 118, 221355, 4, 43, 246667, 59, 27, 234327 },
+									{ 19, 0.8276, 240, 5, 118, 221355, 4, 43, 246667, 56, 27, 234327 },
 									{ 18, 0.1724, 50, nil, nil, nil, 1, 27, 221797 },
 								},
 							},
@@ -22116,38 +22097,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.958, 936, 5, 616, 280029, 52, 123, 283930, 61, 93, 288825 },
-									{ 18, 0.042, 41, nil, nil, nil, 60, 32, 286320 },
+									{ 19, 0.958, 936, 5, 616, 280029, 49, 123, 283930, 58, 93, 288825 },
+									{ 18, 0.042, 41, nil, nil, nil, 57, 32, 286320 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 1, 177, 5, 132, 256836, 52, 20, 262950, 61, 15, 251209 },
+									{ 19, 1, 177, 5, 132, 256836, 49, 20, 262950, 58, 15, 251209 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9825, 168, 5, 121, 345906, 52, 18, 346176, 62, 17, 350357 },
-									{ 18, 0.0175, 3, nil, nil, nil, 60, 3, 358519 },
+									{ 19, 0.9825, 168, 5, 121, 345906, 49, 18, 346176, 59, 17, 350357 },
+									{ 18, 0.0175, 3, nil, nil, nil, 57, 3, 358519 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8828, 1017, 5, 652, 304689, 59, 64, 308213, 4, 64, 308108 },
+									{ 19, 0.8828, 1017, 5, 652, 304689, 56, 64, 308213, 4, 64, 308108 },
 									{ 18, 0.1172, 135, nil, nil, nil, 1, 38, 312094, 2, 55, 307578 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9453, 259, 5, 174, 272611, 52, 26, 251321, 59, 15, 274330 },
+									{ 19, 0.9453, 259, 5, 174, 272611, 49, 26, 251321, 56, 15, 274330 },
 									{ 18, 0.0547, 15, nil, nil, nil, 1, 7, 274126 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9267, 177, 5, 123, 332288, 59, 14, 335160, 52, 14, 323994 },
+									{ 19, 0.9267, 177, 5, 123, 332288, 56, 14, 335160, 49, 14, 323994 },
 									{ 18, 0.0733, 14, nil, nil, nil, 2, 7, 330552 },
 								},
 							},
@@ -22155,7 +22136,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8388, 229, 5, 115, 244121, 4, 28, 262937, 52, 29, 162605 },
+									{ 19, 0.8388, 229, 5, 115, 244121, 4, 28, 262937, 49, 29, 162605 },
 									{ 18, 0.1612, 44, nil, nil, nil, 1, 19, 197263 },
 								},
 							},
@@ -22176,38 +22157,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9648, 1179, 5, 831, 197307, 52, 162, 198025, 11, 58, 236480 },
-									{ 18, 0.0352, 43, nil, nil, nil, 60, 35, 222414 },
+									{ 19, 0.9648, 1179, 5, 831, 197307, 49, 162, 198025, 11, 58, 236480 },
+									{ 18, 0.0352, 43, nil, nil, nil, 57, 35, 222414 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 1, 246, 5, 198, 171093, 52, 37, 172976 },
+									{ 19, 1, 246, 5, 198, 171093, 49, 37, 172976 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9787, 184, 5, 153, 229426, 52, 20, 227875 },
-									{ 18, 0.0213, 4, nil, nil, nil, 60, 4, 222261 },
+									{ 19, 0.9787, 184, 5, 153, 229426, 49, 20, 227875 },
+									{ 18, 0.0213, 4, nil, nil, nil, 57, 4, 222261 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.867, 1154, 5, 734, 215951, 59, 99, 221149, 4, 82, 209525 },
-									{ 18, 0.133, 177, 1, 47, 210480, 2, 64, 213178, 54, 12, 179729 },
+									{ 19, 0.867, 1154, 5, 734, 215951, 56, 99, 221149, 4, 82, 209525 },
+									{ 18, 0.133, 177, 1, 47, 210480, 2, 64, 213178, 51, 12, 179729 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8897, 250, 5, 173, 175429, 59, 16, 182205, 52, 27, 189866 },
+									{ 19, 0.8897, 250, 5, 173, 175429, 56, 16, 182205, 49, 27, 189866 },
 									{ 18, 0.1103, 31, nil, nil, nil, 1, 12, 176167 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9414, 209, 5, 150, 235104, 59, 24, 237010, 4, 16, 236763 },
+									{ 19, 0.9414, 209, 5, 150, 235104, 56, 24, 237010, 4, 16, 236763 },
 									{ 18, 0.0586, 13, nil, nil, nil, 1, 9, 236213 },
 								},
 							},
@@ -22215,7 +22196,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8339, 251, 5, 127, 171554, 4, 40, 187702, 59, 29, 203193 },
+									{ 19, 0.8339, 251, 5, 127, 171554, 4, 40, 187702, 56, 29, 203193 },
 									{ 18, 0.1661, 50, nil, nil, nil, 1, 25, 169073 },
 								},
 							},
@@ -22237,19 +22218,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 18, 0.8848, 645, 54, 373, 337109, 55, 191, 342261, 63, 28, 313387 },
+									{ 18, 0.8848, 645, 51, 373, 337109, 52, 191, 342261, 60, 28, 313387 },
 									{ 19, 0.1152, 84, nil, nil, nil, 5, 55, 335019 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 18, 0.9262, 138, nil, nil, nil, 54, 93, 296721, 55, 29, 288244 },
+									{ 18, 0.9262, 138, nil, nil, nil, 51, 93, 296721, 52, 29, 288244 },
 									{ 19, 0.0738, 11, nil, nil, nil, 5, 11, 295952 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 18, 0.959, 117, nil, nil, nil, 54, 69, 357627, 55, 39, 352191 },
+									{ 18, 0.959, 117, nil, nil, nil, 51, 69, 357627, 52, 39, 352191 },
 									{ 19, 0.041, 5, nil, nil, nil, 5, 5, 358422 },
 								},
 							},
@@ -22257,20 +22238,20 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 18, 0.521, 571, 64, 173, 209306, 1, 55, 208377, 54, 270, 197846 },
+									{ 18, 0.521, 571, 61, 173, 209306, 1, 55, 208377, 51, 270, 197846 },
 									{ 19, 0.479, 525, 5, 249, 211246, 4, 85, 202840, 11, 56, 209977 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 18, 0.625, 145, nil, nil, nil, 54, 85, 185243, 1, 12, 192106, 64, 44, 193967 },
-									{ 19, 0.375, 87, nil, nil, nil, 5, 32, 184821, 4, 21, 187739, 52, 12, 188836 },
+									{ 18, 0.625, 145, nil, nil, nil, 51, 85, 185243, 1, 12, 192106, 61, 44, 193967 },
+									{ 19, 0.375, 87, nil, nil, nil, 5, 32, 184821, 4, 21, 187739, 49, 12, 188836 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 19, 0.5027, 94, 5, 50, 245578, 4, 23, 246290 },
-									{ 18, 0.4973, 93, nil, nil, nil, 54, 51, 241165, 64, 21, 245879, 1, 14, 247817 },
+									{ 18, 0.4973, 93, nil, nil, nil, 51, 51, 241165, 61, 21, 245879, 1, 14, 247817 },
 								},
 							},
 						},
@@ -22278,19 +22259,19 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 19, 0.6875, 187, 5, 80, 187182, 4, 38, 189273, 11, 24, 177351 },
-									{ 18, 0.3125, 85, nil, nil, nil, 54, 29, 173613, 1, 20, 181840, 64, 18, 172099 },
+									{ 18, 0.3125, 85, nil, nil, nil, 51, 29, 173613, 1, 20, 181840, 61, 18, 172099 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 19, 0.6286, 22, nil, nil, nil, 5, 11, 165136 },
-									{ 18, 0.3714, 13, nil, nil, nil, 54, 7, 154525 },
+									{ 18, 0.3714, 13, nil, nil, nil, 51, 7, 154525 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 19, 0.675, 27, nil, nil, nil, 5, 14, 187984 },
-									{ 18, 0.325, 13, nil, nil, nil, 54, 9, 187414 },
+									{ 18, 0.325, 13, nil, nil, nil, 51, 9, 187414 },
 								},
 							},
 						},
@@ -22299,27 +22280,27 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9488, 574, 5, 436, 443145, 52, 105, 438507 },
-									{ 18, 0.0512, 31, nil, nil, nil, 60, 24, 475717 },
+									{ 19, 0.9488, 574, 5, 436, 443145, 49, 105, 438507 },
+									{ 18, 0.0512, 31, nil, nil, nil, 57, 24, 475717 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 1, 109, nil, nil, nil, 5, 85, 403063, 52, 24, 407446 },
+									{ 19, 1, 109, nil, nil, nil, 5, 85, 403063, 49, 24, 407446 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9663, 86, nil, nil, nil, 5, 70, 465604, 52, 16, 468802 },
-									{ 18, 0.0337, 3, nil, nil, nil, 60, 3, 474521 },
+									{ 19, 0.9663, 86, nil, nil, nil, 5, 70, 465604, 49, 16, 468802 },
+									{ 18, 0.0337, 3, nil, nil, nil, 57, 3, 474521 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8219, 480, 5, 300, 416463, 4, 45, 444140, 52, 45, 422677 },
-									{ 18, 0.1781, 104, nil, nil, nil, 1, 33, 416858, 2, 36, 439488, 54, 19, 466977 },
+									{ 19, 0.8219, 480, 5, 300, 416463, 4, 45, 444140, 49, 45, 422677 },
+									{ 18, 0.1781, 104, nil, nil, nil, 1, 33, 416858, 2, 36, 439488, 51, 19, 466977 },
 								},
 							},
 							["fast"] = {
@@ -22351,7 +22332,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 19, 0.9063, 29, nil, nil, nil, 5, 13, 313179 },
-									{ 18, 0.0938, 3, nil, nil, nil, 54, 3, 313541 },
+									{ 18, 0.0938, 3, nil, nil, nil, 51, 3, 313541 },
 								},
 							},
 						},
@@ -22360,32 +22341,32 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9726, 711, 5, 555, 274500, 52, 104, 280786, 65, 16, 278482 },
-									{ 18, 0.0274, 20, nil, nil, nil, 66, 13, 256986 },
+									{ 19, 0.9726, 711, 5, 555, 274500, 49, 104, 280786, 62, 16, 278482 },
+									{ 18, 0.0274, 20, nil, nil, nil, 63, 13, 256986 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9748, 116, nil, nil, nil, 5, 102, 233208, 52, 14, 243132 },
-									{ 18, 0.0252, 3, nil, nil, nil, 66, 3, 245496 },
+									{ 19, 0.9748, 116, nil, nil, nil, 5, 102, 233208, 49, 14, 243132 },
+									{ 18, 0.0252, 3, nil, nil, nil, 63, 3, 245496 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 1, 115, nil, nil, nil, 5, 99, 291622, 52, 16, 290977 },
+									{ 19, 1, 115, nil, nil, nil, 5, 99, 291622, 49, 16, 290977 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8852, 632, 5, 399, 102102, 59, 53, 103688, 4, 45, 108849 },
+									{ 19, 0.8852, 632, 5, 399, 102102, 56, 53, 103688, 4, 45, 108849 },
 									{ 18, 0.1148, 82, nil, nil, nil, 1, 32, 100865, 2, 27, 107013 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9217, 153, 5, 105, 91927, 59, 12, 91634, 52, 16, 93942 },
+									{ 19, 0.9217, 153, 5, 105, 91927, 56, 12, 91634, 49, 16, 93942 },
 									{ 18, 0.0783, 13, nil, nil, nil, 1, 10, 95865 },
 								},
 							},
@@ -22399,7 +22380,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8061, 133, 5, 69, 120591, 4, 17, 119066, 59, 15, 123419 },
+									{ 19, 0.8061, 133, 5, 69, 120591, 4, 17, 119066, 56, 15, 123419 },
 									{ 18, 0.1939, 32, nil, nil, nil, 1, 20, 113987 },
 								},
 							},
@@ -22412,7 +22393,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 19, 0.8095, 17, nil, nil, nil, 5, 9, 140132 },
-									{ 18, 0.1905, 4, nil, nil, nil, 54, 4, 134943 },
+									{ 18, 0.1905, 4, nil, nil, nil, 51, 4, 134943 },
 								},
 							},
 						},
@@ -22421,27 +22402,27 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9792, 706, 67, 547, 498851, 65, 42, 507258, 52, 96, 501906 },
-									{ 18, 0.0208, 15, nil, nil, nil, 68, 10, 502463 },
+									{ 19, 0.9792, 706, 64, 547, 498851, 62, 42, 507258, 49, 96, 501906 },
+									{ 18, 0.0208, 15, nil, nil, nil, 65, 10, 502463 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9744, 114, nil, nil, nil, 67, 97, 492362, 69, 14, 495235 },
-									{ 18, 0.0256, 3, nil, nil, nil, 68, 3, 494996 },
+									{ 19, 0.9744, 114, nil, nil, nil, 64, 97, 492362, 66, 14, 495235 },
+									{ 18, 0.0256, 3, nil, nil, nil, 65, 3, 494996 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9677, 90, nil, nil, nil, 67, 75, 512274 },
-									{ 18, 0.0323, 3, nil, nil, nil, 68, 3, 512059 },
+									{ 19, 0.9677, 90, nil, nil, nil, 64, 75, 512274 },
+									{ 18, 0.0323, 3, nil, nil, nil, 65, 3, 512059 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9, 513, 5, 328, 328137, 52, 49, 348063, 4, 34, 375167 },
+									{ 19, 0.9, 513, 5, 328, 328137, 49, 49, 348063, 4, 34, 375167 },
 									{ 18, 0.1, 57, nil, nil, nil, 1, 24, 388488, 2, 18, 401485 },
 								},
 							},
@@ -22460,7 +22441,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8102, 111, 5, 52, 322242, 52, 16, 377838, 59, 15, 324920 },
+									{ 19, 0.8102, 111, 5, 52, 322242, 49, 16, 377838, 56, 15, 324920 },
 									{ 18, 0.1898, 26, nil, nil, nil, 1, 15, 321687 },
 								},
 							},
@@ -22482,39 +22463,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.9082, 1613, 5, 1119, 143313, 52, 200, 141447, 59, 48, 143245 },
-									{ 18, 0.0918, 163, nil, nil, nil, 55, 121, 144023, 54, 23, 144490 },
+									{ 19, 0.9082, 1613, 5, 1119, 143313, 49, 200, 141447, 56, 48, 143245 },
+									{ 18, 0.0918, 163, nil, nil, nil, 52, 121, 144023, 51, 23, 144490 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.9519, 376, 5, 293, 136339, 52, 52, 135981, 11, 18, 138501 },
-									{ 18, 0.0481, 19, nil, nil, nil, 55, 19, 139058 },
+									{ 19, 0.9519, 376, 5, 293, 136339, 49, 52, 135981, 11, 18, 138501 },
+									{ 18, 0.0481, 19, nil, nil, nil, 52, 19, 139058 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.945, 292, 5, 215, 148028, 52, 30, 147503, 59, 15, 147641 },
-									{ 18, 0.055, 17, nil, nil, nil, 55, 17, 147969 },
+									{ 19, 0.945, 292, 5, 215, 148028, 49, 30, 147503, 56, 15, 147641 },
+									{ 18, 0.055, 17, nil, nil, nil, 52, 17, 147969 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7963, 1384, 5, 768, 275965, 4, 174, 275131, 59, 107, 287751 },
-									{ 18, 0.2037, 354, 1, 102, 283440, 2, 110, 262024, 53, 15, 289625 },
+									{ 19, 0.7963, 1384, 5, 768, 275965, 4, 174, 275131, 56, 107, 287751 },
+									{ 18, 0.2037, 354, 1, 102, 283440, 2, 110, 262024, 50, 15, 289625 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8796, 314, 5, 193, 144662, 4, 29, 236981, 52, 21, 138625 },
+									{ 19, 0.8796, 314, 5, 193, 144662, 4, 29, 236981, 49, 21, 138625 },
 									{ 18, 0.1204, 43, nil, nil, nil, 1, 14, 136722, 2, 26, 246983 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.9127, 230, 5, 138, 313407, 4, 32, 315861, 59, 25, 316972 },
+									{ 19, 0.9127, 230, 5, 138, 313407, 4, 32, 315861, 56, 25, 316972 },
 									{ 18, 0.0873, 22, nil, nil, nil, 1, 15, 315939 },
 								},
 							},
@@ -22522,7 +22503,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8436, 205, 5, 105, 257473, 4, 40, 267087, 59, 18, 263484 },
+									{ 19, 0.8436, 205, 5, 105, 257473, 4, 40, 267087, 56, 18, 263484 },
 									{ 18, 0.1564, 38, nil, nil, nil, 1, 21, 263239 },
 								},
 							},
@@ -22544,60 +22525,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.8727, 9915, 5, 6770, 146761, 52, 1415, 148270, 11, 559, 179407 },
-									{ 18, 0.1273, 1446, 54, 501, 317686, 55, 715, 147745, 1, 33, 218168 },
+									{ 19, 0.8727, 9915, 5, 6770, 146761, 49, 1415, 148270, 11, 559, 179407 },
+									{ 18, 0.1273, 1446, 51, 501, 317686, 52, 715, 147745, 1, 33, 218168 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8989, 3220, 5, 2383, 139233, 52, 549, 138542, 56, 48, 160791 },
-									{ 18, 0.1011, 362, 54, 155, 295028, 55, 165, 139944, 57, 12, 294306 },
+									{ 19, 0.8989, 3220, 5, 2383, 139233, 49, 549, 138542, 53, 48, 160791 },
+									{ 18, 0.1011, 362, 51, 155, 295028, 52, 165, 139944, 54, 12, 294306 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.87, 1766, 5, 1263, 149263, 52, 238, 216286, 11, 110, 149356 },
-									{ 18, 0.13, 264, nil, nil, nil, 54, 99, 353655, 55, 132, 149332, 58, 13, 235821 },
+									{ 19, 0.87, 1766, 5, 1263, 149263, 49, 238, 216286, 11, 110, 149356 },
+									{ 18, 0.13, 264, nil, nil, nil, 51, 99, 353655, 52, 132, 149332, 55, 13, 235821 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7836, 8595, 5, 4990, 158147, 4, 788, 189937, 59, 600, 171733 },
-									{ 18, 0.2164, 2373, 1, 461, 160266, 2, 798, 156733, 54, 375, 192576 },
+									{ 19, 0.7836, 8595, 5, 4990, 158147, 4, 788, 189937, 56, 600, 171733 },
+									{ 18, 0.2164, 2373, 1, 461, 160266, 2, 798, 156733, 51, 375, 192576 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8177, 1974, 5, 1240, 109732, 4, 135, 124898, 52, 204, 118077 },
-									{ 18, 0.1823, 440, nil, nil, nil, 1, 86, 101327, 54, 132, 142107, 60, 178, 130644 },
+									{ 19, 0.8177, 1974, 5, 1240, 109732, 4, 135, 124898, 49, 204, 118077 },
+									{ 18, 0.1823, 440, nil, nil, nil, 1, 86, 101327, 51, 132, 142107, 57, 178, 130644 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.8187, 1571, 5, 938, 187899, 4, 151, 194544, 59, 138, 192672 },
-									{ 18, 0.1813, 348, 1, 81, 182600, 2, 108, 173324, 54, 60, 239735 },
+									{ 19, 0.8187, 1571, 5, 938, 187899, 4, 151, 194544, 56, 138, 192672 },
+									{ 18, 0.1813, 348, 1, 81, 182600, 2, 108, 173324, 51, 60, 239735 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 19, 0.7939, 1953, 5, 912, 147271, 4, 306, 167683, 59, 175, 142736 },
-									{ 18, 0.2061, 507, 1, 187, 139945, 54, 90, 134844, 2, 96, 176944 },
+									{ 19, 0.7939, 1953, 5, 912, 147271, 4, 306, 167683, 56, 175, 142736 },
+									{ 18, 0.2061, 507, 1, 187, 139945, 51, 90, 134844, 2, 96, 176944 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 19, 0.8022, 373, 5, 193, 117291, 52, 48, 116420, 4, 38, 127724 },
-									{ 18, 0.1978, 92, nil, nil, nil, 1, 48, 111069, 54, 26, 120033 },
+									{ 19, 0.8022, 373, 5, 193, 117291, 49, 48, 116420, 4, 38, 127724 },
+									{ 18, 0.1978, 92, nil, nil, nil, 1, 48, 111069, 51, 26, 120033 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 19, 0.8153, 309, 5, 148, 205474, 4, 46, 204609, 59, 39, 192688 },
-									{ 18, 0.1847, 70, nil, nil, nil, 1, 23, 187914, 54, 23, 140473, 21, 16, 174191 },
+									{ 19, 0.8153, 309, 5, 148, 205474, 4, 46, 204609, 56, 39, 192688 },
+									{ 18, 0.1847, 70, nil, nil, nil, 1, 23, 187914, 51, 23, 140473, 21, 16, 174191 },
 								},
 							},
 						},
@@ -22632,7 +22613,6 @@ ns.talentBuilds = {
 				"YmlZmNDGAAAAAYWGsNDAAAAAottZmZmZmxYmZmZbmlZGPgHYmZmZMMzYMAGYBmxoxsAy2A2MAYmZwA",
 				"YmlZmNDGAAAAAYWGsNDAAAAAotlZmZmZmxYmZmZbmlZG8AzMzMjhZGjBYzsMwAWC2GmADLGLmZAGMA",
 				"YmlZmNDGAAAAAYWGsNDAAAAAotlZmZmZmxYmZmZZmlZG8AzMzMjhZGjBYzsMwAWCWGmADLGLmZAGMA",
-				"YmlZmNDGAAAAAYWGsNDAAAAAottZmZmZmxYmZmZbmlZG8AzMzMjhZGjBwALwMGNmNQ2GwmxGgZmBD",
 				"YmlZmNDGAAAAAYWGsNDAAAAAIbzMzMzMjxMzMz2MmZMmxMzMmhZMGADsAzY0Y2AZbAbGAMzMDD",
 				"YmlxsZwAAAAAAzyglZAAAAAAttNzMzMzMGzMzMbzsMzMDzMzMzMMDzMAGYBmxoxsAy2A2MAYmBGA",
 				"YmlZmNDGAAAAAYWGsNDAAAAAottZmZmZmxYmZmZbGzMGzYmZGzwMGDgBWgZMaMLgsNgNDAmZGMA",
@@ -22688,8 +22668,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 52, 0.9156, 282, 1, 189, 20, 7, 29, 21, 25, 32, 20 },
-							{ 53, 0.0844, 26, nil, nil, nil, 8, 26, 23 },
+							{ 52, 0.9091, 190, 1, 131, 20, 7, 18, 21, 13, 16, 20 },
+							{ 53, 0.0909, 19, nil, nil, nil, 8, 19, 23 },
 						},
 					},
 					["20-99"] = {
@@ -22785,8 +22765,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 52, 0.9822, 221, 1, 147, 20, 17, 26, 20, 13, 17, 20 },
-							{ 53, 0.0178, 4, nil, nil, nil, 14, 4, 16 },
+							{ 52, 1, 153, 1, 90, 20, 18, 22, 21, 17, 27, 20 },
 						},
 					},
 					["20-99"] = {
@@ -22901,36 +22880,36 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9751, 1329, 26, 733, 424297, 27, 91, 421265, 28, 119, 434414 },
-									{ 53, 0.0249, 34, nil, nil, nil, 29, 28, 398931 },
+									{ 52, 0.9823, 721, 25, 409, 417246, 26, 52, 428228, 27, 55, 436044 },
+									{ 53, 0.0177, 13, nil, nil, nil, 28, 13, 395155 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 92, 26, 65, 361804 },
+									{ 52, 1, 92, 25, 65, 361804 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 112, 26, 71, 449507, 28, 13, 451201, 1, 12, 439975 },
+									{ 52, 1, 112, 25, 71, 449507, 27, 13, 451201, 1, 12, 439975 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9398, 437, 27, 146, 348591, 2, 59, 365031, 26, 87, 335674 },
+									{ 52, 0.9398, 437, 26, 146, 348591, 2, 59, 365031, 25, 87, 335674 },
 									{ 53, 0.0602, 28, nil, nil, nil, 16, 11, 344893 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 74, nil, nil, nil, 27, 27, 309435, 26, 26, 277595 },
+									{ 52, 1, 74, nil, nil, nil, 26, 27, 309435, 25, 26, 277595 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 0.96, 72, nil, nil, nil, 27, 21, 387709, 26, 20, 379200 },
+									{ 52, 0.96, 72, nil, nil, nil, 26, 21, 387709, 25, 20, 379200 },
 									{ 53, 0.04, 3, nil, nil, nil, 16, 3, 405865 },
 								},
 							},
@@ -22938,13 +22917,13 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9486, 166, 27, 54, 192606, 2, 39, 212786, 1, 17, 219294 },
-									{ 53, 0.0514, 9, nil, nil, nil, 30, 5, 177087 },
+									{ 52, 0.9486, 166, 26, 54, 192606, 2, 39, 212786, 1, 17, 219294 },
+									{ 53, 0.0514, 9, nil, nil, nil, 29, 5, 177087 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 24, nil, nil, nil, 27, 13, 164586 },
+									{ 52, 1, 24, nil, nil, nil, 26, 13, 164586 },
 								},
 							},
 							["median"] = {
@@ -22958,36 +22937,36 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9823, 721, 26, 409, 417246, 27, 52, 428228, 28, 55, 436044 },
-									{ 53, 0.0177, 13, nil, nil, nil, 29, 13, 395155 },
+									{ 52, 0.9823, 721, 25, 409, 417246, 26, 52, 428228, 27, 55, 436044 },
+									{ 53, 0.0177, 13, nil, nil, nil, 28, 13, 395155 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 92, 26, 65, 361804 },
+									{ 52, 1, 92, 25, 65, 361804 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 112, 26, 71, 449507, 28, 13, 451201, 1, 12, 439975 },
+									{ 52, 1, 112, 25, 71, 449507, 27, 13, 451201, 1, 12, 439975 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9398, 437, 27, 146, 348591, 2, 59, 365031, 26, 87, 335674 },
+									{ 52, 0.9398, 437, 26, 146, 348591, 2, 59, 365031, 25, 87, 335674 },
 									{ 53, 0.0602, 28, nil, nil, nil, 16, 11, 344893 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 74, nil, nil, nil, 27, 27, 309435, 26, 26, 277595 },
+									{ 52, 1, 74, nil, nil, nil, 26, 27, 309435, 25, 26, 277595 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 0.96, 72, nil, nil, nil, 27, 21, 387709, 26, 20, 379200 },
+									{ 52, 0.96, 72, nil, nil, nil, 26, 21, 387709, 25, 20, 379200 },
 									{ 53, 0.04, 3, nil, nil, nil, 16, 3, 405865 },
 								},
 							},
@@ -22995,13 +22974,13 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9486, 166, 27, 54, 192606, 2, 39, 212786, 1, 17, 219294 },
-									{ 53, 0.0514, 9, nil, nil, nil, 30, 5, 177087 },
+									{ 52, 0.9486, 166, 26, 54, 192606, 2, 39, 212786, 1, 17, 219294 },
+									{ 53, 0.0514, 9, nil, nil, nil, 29, 5, 177087 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 24, nil, nil, nil, 27, 13, 164586 },
+									{ 52, 1, 24, nil, nil, nil, 26, 13, 164586 },
 								},
 							},
 							["median"] = {
@@ -23017,53 +22996,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 178, 27, 61, 219140, 34, 27, 212544 },
+									{ 52, 1, 178, 26, 61, 219140, 33, 27, 212544 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 14, nil, nil, nil, 35, 7, 187196 },
+									{ 52, 1, 14, nil, nil, nil, 34, 7, 187196 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 24, nil, nil, nil, 27, 11, 220731 },
+									{ 52, 1, 24, nil, nil, nil, 26, 11, 220731 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9843, 250, 27, 111, 165647, 36, 30, 136942, 34, 29, 149220 },
+									{ 52, 0.9843, 250, 26, 111, 165647, 35, 30, 136942, 33, 29, 149220 },
 									{ 53, 0.0157, 4, nil, nil, nil, 16, 4, 155355 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 24, nil, nil, nil, 27, 14, 130517 },
+									{ 52, 1, 24, nil, nil, nil, 26, 14, 130517 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 57, nil, nil, nil, 27, 32, 170151 },
+									{ 52, 1, 57, nil, nil, nil, 26, 32, 170151 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9732, 109, 27, 47, 169127, 33, 16, 135735, 2, 13, 169091 },
+									{ 52, 0.9732, 109, 26, 47, 169127, 32, 16, 135735, 2, 13, 169091 },
 									{ 53, 0.0268, 3, nil, nil, nil, 16, 3, 229057 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 22, nil, nil, nil, 27, 11, 117154 },
+									{ 52, 1, 22, nil, nil, nil, 26, 11, 117154 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 9, nil, nil, nil, 27, 6, 205218 },
+									{ 52, 1, 9, nil, nil, nil, 26, 6, 205218 },
 								},
 							},
 						},
@@ -23072,51 +23051,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 160, nil, nil, nil, 31, 49, 213711, 27, 38, 246235, 33, 17, 202573 },
+									{ 52, 1, 160, nil, nil, nil, 30, 49, 213711, 26, 38, 246235, 32, 17, 202573 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 13, nil, nil, nil, 31, 7, 189016 },
+									{ 52, 1, 13, nil, nil, nil, 30, 7, 189016 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 18, nil, nil, nil, 31, 7, 242118 },
+									{ 52, 1, 18, nil, nil, nil, 30, 7, 242118 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 242, 27, 102, 211883, 37, 37, 199210, 33, 23, 224222 },
+									{ 52, 1, 242, 26, 102, 211883, 36, 37, 199210, 32, 23, 224222 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 17, nil, nil, nil, 27, 9, 182764 },
+									{ 52, 1, 17, nil, nil, nil, 26, 9, 182764 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 64, nil, nil, nil, 27, 28, 234433 },
+									{ 52, 1, 64, nil, nil, nil, 26, 28, 234433 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 99, 27, 45, 223065, 33, 17, 200882 },
+									{ 52, 1, 99, 26, 45, 223065, 32, 17, 200882 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 28, nil, nil, nil, 27, 14, 171495 },
+									{ 52, 1, 28, nil, nil, nil, 26, 14, 171495 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 12, nil, nil, nil, 27, 8, 284864 },
+									{ 52, 1, 12, nil, nil, nil, 26, 8, 284864 },
 								},
 							},
 						},
@@ -23125,48 +23104,48 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9271, 89, nil, nil, nil, 40, 43, 299747, 41, 14, 267476 },
-									{ 53, 0.0729, 7, nil, nil, nil, 29, 7, 288550 },
+									{ 52, 0.9271, 89, nil, nil, nil, 39, 43, 299747, 40, 14, 267476 },
+									{ 53, 0.0729, 7, nil, nil, nil, 28, 7, 288550 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 10, nil, nil, nil, 41, 6, 261867 },
+									{ 52, 1, 10, nil, nil, nil, 40, 6, 261867 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 15, nil, nil, nil, 40, 12, 350436 },
+									{ 52, 1, 15, nil, nil, nil, 39, 12, 350436 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9803, 149, 27, 75, 322983, 34, 16, 302736, 2, 14, 301963 },
+									{ 52, 0.9803, 149, 26, 75, 322983, 33, 16, 302736, 2, 14, 301963 },
 									{ 53, 0.0197, 3, nil, nil, nil, 16, 3, 353506 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 9, nil, nil, nil, 34, 5, 243706 },
+									{ 52, 1, 9, nil, nil, nil, 33, 5, 243706 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 24, nil, nil, nil, 27, 17, 331156 },
+									{ 52, 1, 24, nil, nil, nil, 26, 17, 331156 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 72, nil, nil, nil, 27, 40, 273391 },
+									{ 52, 1, 72, nil, nil, nil, 26, 40, 273391 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 9, nil, nil, nil, 27, 9, 273314 },
+									{ 52, 1, 9, nil, nil, nil, 26, 9, 273314 },
 								},
 							},
 						},
@@ -23175,52 +23154,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 86, nil, nil, nil, 34, 17, 194480, 38, 16, 204972, 27, 18, 228377 },
+									{ 52, 1, 86, nil, nil, nil, 33, 17, 194480, 37, 16, 204972, 26, 18, 228377 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 8, nil, nil, nil, 34, 4, 174619 },
+									{ 52, 1, 8, nil, nil, nil, 33, 4, 174619 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 3, nil, nil, nil, 34, 3, 235582 },
+									{ 52, 1, 3, nil, nil, nil, 33, 3, 235582 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9877, 240, 27, 102, 230683, 39, 35, 174562, 33, 26, 234045 },
+									{ 52, 0.9877, 240, 26, 102, 230683, 38, 35, 174562, 32, 26, 234045 },
 									{ 53, 0.0123, 3, nil, nil, nil, 16, 3, 248266 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 21, nil, nil, nil, 27, 8, 176738 },
+									{ 52, 1, 21, nil, nil, nil, 26, 8, 176738 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 50, nil, nil, nil, 27, 30, 235144 },
+									{ 52, 1, 50, nil, nil, nil, 26, 30, 235144 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 90, 27, 43, 191603, 33, 13, 174572 },
+									{ 52, 1, 90, 26, 43, 191603, 32, 13, 174572 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 3, nil, nil, nil, 27, 3, 139500 },
+									{ 52, 1, 3, nil, nil, nil, 26, 3, 139500 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 17, nil, nil, nil, 27, 10, 211894 },
+									{ 52, 1, 17, nil, nil, nil, 26, 10, 211894 },
 								},
 							},
 						},
@@ -23229,29 +23208,29 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 149, 32, 72, 314290, 42, 37, 342562, 43, 23, 397012 },
+									{ 52, 1, 149, 31, 72, 314290, 41, 37, 342562, 42, 23, 397012 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 23, nil, nil, nil, 32, 16, 293210 },
+									{ 52, 1, 23, nil, nil, nil, 31, 16, 293210 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 20, nil, nil, nil, 32, 9, 352150 },
+									{ 52, 1, 20, nil, nil, nil, 31, 9, 352150 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 158, 27, 56, 227775, 2, 30, 209596, 44, 15, 206171 },
+									{ 52, 1, 158, 26, 56, 227775, 2, 30, 209596, 43, 15, 206171 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 11, nil, nil, nil, 27, 4, 159368 },
+									{ 52, 1, 11, nil, nil, nil, 26, 4, 159368 },
 								},
 							},
 							["median"] = {
@@ -23263,17 +23242,17 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 71, 27, 43, 192688 },
+									{ 52, 1, 71, 26, 43, 192688 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 4, nil, nil, nil, 27, 4, 170370 },
+									{ 52, 1, 4, nil, nil, nil, 26, 4, 170370 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 12, nil, nil, nil, 27, 12, 190680 },
+									{ 52, 1, 12, nil, nil, nil, 26, 12, 190680 },
 								},
 							},
 						},
@@ -23282,29 +23261,29 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 56, nil, nil, nil, 39, 17, 432459, 45, 14, 456183 },
+									{ 52, 1, 56, nil, nil, nil, 38, 17, 432459, 44, 14, 456183 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 6, nil, nil, nil, 39, 6, 407421 },
+									{ 52, 1, 6, nil, nil, nil, 38, 6, 407421 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 3, nil, nil, nil, 39, 3, 471975 },
+									{ 52, 1, 3, nil, nil, nil, 38, 3, 471975 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 68, nil, nil, nil, 27, 32, 416833, 2, 13, 439579 },
+									{ 52, 1, 68, nil, nil, nil, 26, 32, 416833, 2, 13, 439579 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 6, nil, nil, nil, 27, 6, 384732 },
+									{ 52, 1, 6, nil, nil, nil, 26, 6, 384732 },
 								},
 							},
 							["median"] = {
@@ -23316,12 +23295,12 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 58, nil, nil, nil, 27, 41, 316616 },
+									{ 52, 1, 58, nil, nil, nil, 26, 41, 316616 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 6, nil, nil, nil, 27, 6, 313058 },
+									{ 52, 1, 6, nil, nil, nil, 26, 6, 313058 },
 								},
 							},
 						},
@@ -23330,51 +23309,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 49, nil, nil, nil, 46, 10, 289958 },
+									{ 52, 1, 49, nil, nil, nil, 45, 10, 289958 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 5, nil, nil, nil, 47, 5, 243428 },
+									{ 52, 1, 5, nil, nil, nil, 46, 5, 243428 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 5, nil, nil, nil, 46, 5, 290919 },
+									{ 52, 1, 5, nil, nil, nil, 45, 5, 290919 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 119, nil, nil, nil, 48, 43, 103852, 27, 38, 106012, 2, 12, 110580 },
+									{ 52, 1, 119, nil, nil, nil, 47, 43, 103852, 26, 38, 106012, 2, 12, 110580 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 4, nil, nil, nil, 27, 4, 97076 },
+									{ 52, 1, 4, nil, nil, nil, 26, 4, 97076 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 13, nil, nil, nil, 27, 8, 133271 },
+									{ 52, 1, 13, nil, nil, nil, 26, 8, 133271 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 36, nil, nil, nil, 27, 22, 128524 },
+									{ 52, 1, 36, nil, nil, nil, 26, 22, 128524 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 5, nil, nil, nil, 27, 5, 110816 },
+									{ 52, 1, 5, nil, nil, nil, 26, 5, 110816 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 3, nil, nil, nil, 27, 3, 139480 },
+									{ 52, 1, 3, nil, nil, nil, 26, 3, 139480 },
 								},
 							},
 						},
@@ -23383,51 +23362,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 71, nil, nil, nil, 49, 26, 500611, 50, 26, 501780 },
+									{ 52, 1, 71, nil, nil, nil, 48, 26, 500611, 49, 26, 501780 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 5, nil, nil, nil, 49, 5, 491489 },
+									{ 52, 1, 5, nil, nil, nil, 48, 5, 491489 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 4, nil, nil, nil, 50, 4, 513183 },
+									{ 52, 1, 4, nil, nil, nil, 49, 4, 513183 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 107, nil, nil, nil, 39, 39, 390840, 27, 33, 339714 },
+									{ 52, 1, 107, nil, nil, nil, 38, 39, 390840, 26, 33, 339714 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 4, nil, nil, nil, 27, 4, 310196 },
+									{ 52, 1, 4, nil, nil, nil, 26, 4, 310196 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 13, nil, nil, nil, 27, 10, 368386 },
+									{ 52, 1, 13, nil, nil, nil, 26, 10, 368386 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 48, nil, nil, nil, 27, 22, 347840 },
+									{ 52, 1, 48, nil, nil, nil, 26, 22, 347840 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 14, nil, nil, nil, 27, 5, 266212 },
+									{ 52, 1, 14, nil, nil, nil, 26, 5, 266212 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 3, nil, nil, nil, 27, 3, 441558 },
+									{ 52, 1, 3, nil, nil, nil, 26, 3, 441558 },
 								},
 							},
 						},
@@ -23436,52 +23415,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 184, 27, 55, 146603, 33, 32, 141974, 31, 24, 143835 },
+									{ 52, 1, 184, 26, 55, 146603, 32, 32, 141974, 30, 24, 143835 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 25, nil, nil, nil, 33, 10, 135886 },
+									{ 52, 1, 25, nil, nil, nil, 32, 10, 135886 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 32, nil, nil, nil, 33, 9, 147851 },
+									{ 52, 1, 32, nil, nil, nil, 32, 9, 147851 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9799, 342, 27, 166, 283154, 2, 46, 314339, 34, 32, 282349 },
+									{ 52, 0.9799, 342, 26, 166, 283154, 2, 46, 314339, 33, 32, 282349 },
 									{ 53, 0.0201, 7, nil, nil, nil, 16, 7, 307382 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 30, nil, nil, nil, 27, 19, 242131 },
+									{ 52, 1, 30, nil, nil, nil, 26, 19, 242131 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 67, nil, nil, nil, 27, 36, 311864 },
+									{ 52, 1, 67, nil, nil, nil, 26, 36, 311864 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 1, 72, nil, nil, nil, 27, 36, 271156, 2, 13, 279637 },
+									{ 52, 1, 72, nil, nil, nil, 26, 36, 271156, 2, 13, 279637 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 7, nil, nil, nil, 27, 7, 208418 },
+									{ 52, 1, 7, nil, nil, nil, 26, 7, 208418 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 5, nil, nil, nil, 27, 5, 307648 },
+									{ 52, 1, 5, nil, nil, nil, 26, 5, 307648 },
 								},
 							},
 						},
@@ -23490,54 +23469,54 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9946, 1293, 27, 209, 154409, 31, 95, 148720, 32, 78, 310542 },
-									{ 53, 0.0054, 7, nil, nil, nil, 29, 7, 288550 },
+									{ 52, 0.9946, 1293, 26, 209, 154409, 30, 95, 148720, 31, 78, 310542 },
+									{ 53, 0.0054, 7, nil, nil, nil, 28, 7, 288550 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 159, nil, nil, nil, 33, 20, 137930, 32, 16, 293210, 27, 16, 138822 },
+									{ 52, 1, 159, nil, nil, nil, 32, 20, 137930, 31, 16, 293210, 26, 16, 138822 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 192, nil, nil, nil, 27, 35, 198582, 34, 15, 228021, 31, 13, 149183 },
+									{ 52, 1, 192, nil, nil, nil, 26, 35, 198582, 33, 15, 228021, 30, 13, 149183 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9767, 1970, 27, 715, 184661, 2, 193, 179376, 34, 148, 160663 },
+									{ 52, 0.9767, 1970, 26, 715, 184661, 2, 193, 179376, 33, 148, 160663 },
 									{ 53, 0.0233, 47, nil, nil, nil, 16, 24, 179749 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 190, nil, nil, nil, 27, 72, 138218, 34, 20, 109782, 33, 17, 115169 },
+									{ 52, 1, 190, nil, nil, nil, 26, 72, 138218, 33, 20, 109782, 32, 17, 115169 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 376, 27, 171, 181665, 2, 49, 184442, 34, 39, 178933 },
+									{ 52, 1, 376, 26, 171, 181665, 2, 49, 184442, 33, 39, 178933 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 52, 0.9918, 726, 27, 339, 149804, 33, 77, 138730, 2, 76, 172436 },
+									{ 52, 0.9918, 726, 26, 339, 149804, 32, 77, 138730, 2, 76, 172436 },
 									{ 53, 0.0082, 6, nil, nil, nil, 16, 6, 195704 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 52, 1, 131, nil, nil, nil, 27, 52, 119596, 33, 22, 115475, 2, 14, 152312 },
+									{ 52, 1, 131, nil, nil, nil, 26, 52, 119596, 32, 22, 115475, 2, 14, 152312 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 52, 1, 108, nil, nil, nil, 27, 60, 193172, 2, 12, 209323 },
+									{ 52, 1, 108, nil, nil, nil, 26, 60, 193172, 2, 12, 209323 },
 								},
 							},
 						},
@@ -23623,7 +23602,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 51, 1, 596, 10, 312, 21, 6, 272, 21 },
+							{ 51, 1, 423, 10, 215, 20, 32, 197, 23 },
 						},
 					},
 					["20-99"] = {
@@ -23714,7 +23693,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 51, 1, 476, 10, 265, 20, 22, 199, 23 },
+							{ 51, 1, 317, 10, 174, 20, 22, 138, 23 },
 						},
 					},
 					["20-99"] = {
@@ -24515,7 +24494,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 51, 1, 867, 5, 775, 20 },
+							{ 51, 1, 582, 5, 525, 20, 7, 18, 21 },
 						},
 					},
 					["20-99"] = {
@@ -24604,7 +24583,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 51, 1, 750, 5, 676, 20, 7, 18, 21, 8, 21, 20 },
+							{ 51, 1, 514, 5, 451, 20, 8, 18, 21, 7, 14, 21 },
 						},
 					},
 					["20-99"] = {
@@ -24711,8 +24690,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 51, 0.9057, 8347, 15, 5023, 412667, 2, 2048, 408683, 10, 396, 416563 },
-									{ 53, 0.0943, 869, nil, nil, nil, 17, 439, 358870, 18, 403, 373854, 19, 23, 368995 },
+									{ 51, 0.8915, 5425, 15, 3098, 413998, 10, 206, 416318, 16, 1569, 409402 },
+									{ 53, 0.1085, 660, nil, nil, nil, 17, 417, 352277, 18, 228, 367684 },
 								},
 							},
 							["fast"] = {
@@ -25439,6 +25418,8 @@ ns.talentBuilds = {
 				"zMbbzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjZ2WMhZsNWmxMzDMsMLzYxMzYmFAgZAmZghhB",
 				"zMbLzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjx2iJMzsNWmZmZeghFLzYxMzYmFAgBwMDMMMA",
 				"zMbLzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjZWWmJmZsNWm5BmZMwyMWMzMmZBAYGgZGYYYA",
+				"zMbLzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjx2iJMzsNWmZmZMsMLzYxMzYmFAgBwMDMMMA",
+				"zMbLzMzYML2mhZMzAAAAAALmxwGsAzohGbAwsMzMjx2ipNmZMWmZmZMsMLzYxMzYmFAgBwMDMMMA",
 				"zMbbzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjx2ipNmx2YZmZmxwysMjFzMjZWAAGAzMwwwA",
 				"zMbLzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjx2iJMjtxyMzMzDMjFLzYxMzYmFAgBwMDMMMA",
 				"zMbbzMzMzMLbbDMmZAAAAAgNzYYDWgZ0QjNAw2MzMGbLzEmxGLzMzMmhZZGLmZYmFAwMDwMDMMMA",
@@ -25456,7 +25437,6 @@ ns.talentBuilds = {
 				"zMbLzMmZmZZbbgxMDAAAAAsYGDbwCMjGasBAzyMzMGbLmwMzyYZmZmxwysMjFzMjZWAAGAzMwwwA",
 				"zMLLzMGjZZZZMmhBAAAAYxMbwAGwsxEysAAzyMzMGbLmwMz2YZmZmxwysMmlZMmZWAAGGAzMGGG",
 				"zMbLzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjxyyMhZsNWmZmZMjFLzYxMzYmFAgBwMDMMMA",
-				"zMbLzMzYML2mhZMzAAAAAALmxwGsAzohGbAwsNzMjx2ipNmZ2GLzMzMGWsMjFzMjZWAAGAzMwwwA",
 				"zMbbzMzYML2mhZMzAAAAAAbmxwGsAzohGbAwsNzMjxyiJMjtxyMzMjZsYZGLmZGzsAAMMwMDMMMA",
 				"zMbbzMGjZZZZMmhBAAAAYxMbwAGwsxEysAAz2MzMGbLmwMz2YZmZmxwilZmlZMmZWAAGGAzMGGG",
 				"zMLbzMGjZZZZMmhBAAAAYxMbwAGwsxEysAAzyMzMGbLmwMz2YZmZmxwysMmlZMmZWAAGGAzMGGG",
@@ -25520,19 +25500,19 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 55, 0.9313, 2657, 48, 1795, 16, 20, 787, 13, 49, 31, 12 },
-							{ 56, 0.0687, 196, nil, nil, nil, 38, 144, 20, 50, 13, 14, 10, 19, 12 },
+							{ 55, 0.9313, 2657, 50, 1795, 16, 20, 787, 13, 51, 31, 12 },
+							{ 56, 0.0687, 196, nil, nil, nil, 40, 144, 20, 52, 13, 14, 10, 19, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9442, 609, nil, nil, nil, 51, 506, 22, 52, 103, 21 },
-							{ 56, 0.0558, 36, nil, nil, nil, 26, 33, 23 },
+							{ 55, 0.9441, 422, nil, nil, nil, 53, 347, 22, 18, 75, 21 },
+							{ 56, 0.0559, 25, nil, nil, nil, 26, 25, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 1, 66, nil, nil, nil, 53, 66, 22 },
+							{ 55, 1, 66, nil, nil, nil, 54, 66, 22 },
 						},
 					},
 				},
@@ -25545,19 +25525,19 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 55, 0.9281, 2480, 36, 1682, 14, 2, 733, 12, 37, 38, 16 },
-							{ 56, 0.0719, 192, nil, nil, nil, 45, 110, 22 },
+							{ 55, 0.9281, 2480, 38, 1682, 14, 2, 733, 12, 39, 38, 16 },
+							{ 56, 0.0719, 192, nil, nil, nil, 47, 110, 22 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.946, 298, nil, nil, nil, 46, 231, 21, 20, 67, 19 },
-							{ 56, 0.054, 17, nil, nil, nil, 47, 14, 21 },
+							{ 55, 0.946, 298, nil, nil, nil, 48, 231, 21, 20, 67, 19 },
+							{ 56, 0.054, 17, nil, nil, nil, 49, 14, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 1, 32, nil, nil, nil, 39, 32, 21 },
+							{ 55, 1, 32, nil, nil, nil, 41, 32, 21 },
 						},
 					},
 				},
@@ -25570,44 +25550,44 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 55, 0.9258, 2182, 13, 1453, 16, 2, 669, 12, 41, 27, 15 },
-							{ 56, 0.0742, 175, nil, nil, nil, 42, 86, 21, 23, 30, 17 },
+							{ 55, 0.9258, 2182, 13, 1453, 16, 2, 669, 12, 43, 27, 15 },
+							{ 56, 0.0742, 175, nil, nil, nil, 44, 86, 21, 23, 30, 17 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9797, 289, nil, nil, nil, 43, 235, 21, 44, 54, 21 },
+							{ 55, 0.9797, 289, nil, nil, nil, 45, 235, 21, 46, 54, 21 },
 							{ 56, 0.0203, 6, nil, nil, nil, 26, 3, 23 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 1, 38, nil, nil, nil, 43, 35, 23 },
+							{ 55, 1, 38, nil, nil, nil, 45, 35, 23 },
 						},
 					},
 				},
 				["14032"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 55, 0.932, 192, 2, 79, 9, 36, 102, 9 },
+							{ 55, 0.932, 192, 2, 79, 9, 38, 102, 9 },
 							{ 56, 0.068, 14, nil, nil, nil, 4, 4, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 55, 0.9324, 2399, 20, 737, 15, 36, 1592, 13, 37, 50, 16 },
-							{ 56, 0.0676, 174, nil, nil, nil, 38, 111, 18, 10, 30, 12 },
+							{ 55, 0.9324, 2399, 20, 737, 15, 38, 1592, 13, 39, 50, 16 },
+							{ 56, 0.0676, 174, nil, nil, nil, 40, 111, 18, 10, 30, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9819, 271, nil, nil, nil, 39, 194, 21, 40, 77, 18 },
+							{ 55, 0.9819, 271, nil, nil, nil, 41, 194, 21, 42, 77, 18 },
 							{ 56, 0.0181, 5, nil, nil, nil, 19, 5, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 1, 17, nil, nil, nil, 39, 17, 22 },
+							{ 55, 1, 17, nil, nil, nil, 41, 17, 22 },
 						},
 					},
 				},
@@ -25626,13 +25606,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9486, 461, 2, 121, 16, 35, 340, 21 },
-							{ 56, 0.0514, 25, nil, nil, nil, 19, 19, 21 },
+							{ 55, 0.9313, 312, nil, nil, nil, 35, 225, 21, 36, 87, 21 },
+							{ 56, 0.0687, 23, nil, nil, nil, 19, 20, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 0.8696, 20, nil, nil, nil, 35, 20, 21 },
+							{ 55, 0.8696, 20, nil, nil, nil, 37, 20, 21 },
 							{ 56, 0.1304, 3, nil, nil, nil, 19, 3, 21 },
 						},
 					},
@@ -25745,60 +25725,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 56, 0.5431, 2525, 54, 1150, 402408, 55, 1166, 407923, 56, 96, 381670 },
-									{ 55, 0.4569, 2124, 49, 198, 417261, 2, 162, 416286, 57, 1294, 431318 },
+									{ 56, 0.5431, 2525, 55, 1150, 402408, 56, 1166, 407923, 57, 96, 381670 },
+									{ 55, 0.4569, 2124, 51, 198, 417261, 2, 162, 416286, 58, 1294, 431318 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 56, 0.5562, 480, 54, 227, 371792, 55, 231, 364487 },
-									{ 55, 0.4438, 383, nil, nil, nil, 31, 257, 342167, 49, 32, 383686, 2, 25, 386509 },
+									{ 56, 0.5562, 480, 55, 227, 371792, 56, 231, 364487 },
+									{ 55, 0.4438, 383, nil, nil, nil, 31, 257, 342167, 51, 32, 383686, 2, 25, 386509 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 56, 0.6079, 445, nil, nil, nil, 55, 223, 446688, 54, 210, 444350 },
-									{ 55, 0.3921, 287, nil, nil, nil, 57, 169, 445433, 2, 25, 449441, 49, 28, 443948 },
+									{ 56, 0.6079, 445, nil, nil, nil, 56, 223, 446688, 55, 210, 444350 },
+									{ 55, 0.3921, 287, nil, nil, nil, 58, 169, 445433, 2, 25, 449441, 51, 28, 443948 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8491, 1570, 49, 457, 349956, 57, 450, 340614, 2, 312, 349992 },
-									{ 56, 0.1509, 279, 55, 87, 323191, 54, 108, 332911, 5, 31, 366041 },
+									{ 55, 0.8491, 1570, 51, 457, 349956, 58, 450, 340614, 2, 312, 349992 },
+									{ 56, 0.1509, 279, 56, 87, 323191, 55, 108, 332911, 5, 31, 366041 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8641, 267, 49, 95, 297028, 57, 101, 305331, 2, 38, 311096 },
-									{ 56, 0.1359, 42, nil, nil, nil, 55, 22, 297420, 54, 13, 281156 },
+									{ 55, 0.8641, 267, 51, 95, 297028, 58, 101, 305331, 2, 38, 311096 },
+									{ 56, 0.1359, 42, nil, nil, nil, 56, 22, 297420, 55, 13, 281156 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.8121, 255, 49, 86, 381389, 2, 52, 382438, 57, 80, 384155 },
-									{ 56, 0.1879, 59, nil, nil, nil, 55, 20, 377752, 54, 22, 379112 },
+									{ 55, 0.8121, 255, 51, 86, 381389, 2, 52, 382438, 58, 80, 384155 },
+									{ 56, 0.1879, 59, nil, nil, nil, 56, 20, 377752, 55, 22, 379112 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8985, 416, 49, 139, 216535, 2, 105, 225598, 57, 94, 195833 },
-									{ 56, 0.1015, 47, nil, nil, nil, 55, 15, 205227 },
+									{ 55, 0.8985, 416, 51, 139, 216535, 2, 105, 225598, 58, 94, 195833 },
+									{ 56, 0.1015, 47, nil, nil, nil, 56, 15, 205227 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9434, 50, nil, nil, nil, 49, 22, 158107, 57, 17, 162746 },
-									{ 56, 0.0566, 3, nil, nil, nil, 55, 3, 165491 },
+									{ 55, 0.9434, 50, nil, nil, nil, 51, 22, 158107, 58, 17, 162746 },
+									{ 56, 0.0566, 3, nil, nil, nil, 56, 3, 165491 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9674, 89, nil, nil, nil, 49, 29, 238924, 2, 31, 234030, 3, 17, 239809 },
-									{ 56, 0.0326, 3, nil, nil, nil, 58, 3, 217170 },
+									{ 55, 0.9674, 89, nil, nil, nil, 51, 29, 238924, 2, 31, 234030, 3, 17, 239809 },
+									{ 56, 0.0326, 3, nil, nil, nil, 59, 3, 217170 },
 								},
 							},
 						},
@@ -25807,60 +25787,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 56, 0.5431, 2525, 54, 1150, 402408, 55, 1166, 407923, 56, 96, 381670 },
-									{ 55, 0.4569, 2124, 49, 198, 417261, 2, 162, 416286, 57, 1294, 431318 },
+									{ 56, 0.5431, 2525, 55, 1150, 402408, 56, 1166, 407923, 57, 96, 381670 },
+									{ 55, 0.4569, 2124, 51, 198, 417261, 2, 162, 416286, 58, 1294, 431318 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 56, 0.5562, 480, 54, 227, 371792, 55, 231, 364487 },
-									{ 55, 0.4438, 383, nil, nil, nil, 31, 257, 342167, 49, 32, 383686, 2, 25, 386509 },
+									{ 56, 0.5562, 480, 55, 227, 371792, 56, 231, 364487 },
+									{ 55, 0.4438, 383, nil, nil, nil, 31, 257, 342167, 51, 32, 383686, 2, 25, 386509 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 56, 0.6079, 445, nil, nil, nil, 55, 223, 446688, 54, 210, 444350 },
-									{ 55, 0.3921, 287, nil, nil, nil, 57, 169, 445433, 2, 25, 449441, 49, 28, 443948 },
+									{ 56, 0.6079, 445, nil, nil, nil, 56, 223, 446688, 55, 210, 444350 },
+									{ 55, 0.3921, 287, nil, nil, nil, 58, 169, 445433, 2, 25, 449441, 51, 28, 443948 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8491, 1570, 49, 457, 349956, 57, 450, 340614, 2, 312, 349992 },
-									{ 56, 0.1509, 279, 55, 87, 323191, 54, 108, 332911, 5, 31, 366041 },
+									{ 55, 0.8491, 1570, 51, 457, 349956, 58, 450, 340614, 2, 312, 349992 },
+									{ 56, 0.1509, 279, 56, 87, 323191, 55, 108, 332911, 5, 31, 366041 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8641, 267, 49, 95, 297028, 57, 101, 305331, 2, 38, 311096 },
-									{ 56, 0.1359, 42, nil, nil, nil, 55, 22, 297420, 54, 13, 281156 },
+									{ 55, 0.8641, 267, 51, 95, 297028, 58, 101, 305331, 2, 38, 311096 },
+									{ 56, 0.1359, 42, nil, nil, nil, 56, 22, 297420, 55, 13, 281156 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.8121, 255, 49, 86, 381389, 2, 52, 382438, 57, 80, 384155 },
-									{ 56, 0.1879, 59, nil, nil, nil, 55, 20, 377752, 54, 22, 379112 },
+									{ 55, 0.8121, 255, 51, 86, 381389, 2, 52, 382438, 58, 80, 384155 },
+									{ 56, 0.1879, 59, nil, nil, nil, 56, 20, 377752, 55, 22, 379112 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8985, 416, 49, 139, 216535, 2, 105, 225598, 57, 94, 195833 },
-									{ 56, 0.1015, 47, nil, nil, nil, 55, 15, 205227 },
+									{ 55, 0.8985, 416, 51, 139, 216535, 2, 105, 225598, 58, 94, 195833 },
+									{ 56, 0.1015, 47, nil, nil, nil, 56, 15, 205227 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9434, 50, nil, nil, nil, 49, 22, 158107, 57, 17, 162746 },
-									{ 56, 0.0566, 3, nil, nil, nil, 55, 3, 165491 },
+									{ 55, 0.9434, 50, nil, nil, nil, 51, 22, 158107, 58, 17, 162746 },
+									{ 56, 0.0566, 3, nil, nil, nil, 56, 3, 165491 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9674, 89, nil, nil, nil, 49, 29, 238924, 2, 31, 234030, 3, 17, 239809 },
-									{ 56, 0.0326, 3, nil, nil, nil, 58, 3, 217170 },
+									{ 55, 0.9674, 89, nil, nil, nil, 51, 29, 238924, 2, 31, 234030, 3, 17, 239809 },
+									{ 56, 0.0326, 3, nil, nil, nil, 59, 3, 217170 },
 								},
 							},
 						},
@@ -25871,38 +25851,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9451, 999, 9, 717, 209130, 49, 83, 214692, 67, 147, 192089 },
-									{ 56, 0.0549, 58, nil, nil, nil, 63, 16, 182993, 68, 15, 206163 },
+									{ 55, 0.9451, 999, 9, 717, 209130, 51, 83, 214692, 68, 147, 192089 },
+									{ 56, 0.0549, 58, nil, nil, nil, 64, 16, 182993, 69, 15, 206163 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9532, 224, nil, nil, nil, 9, 166, 182394, 67, 45, 182537 },
-									{ 56, 0.0468, 11, nil, nil, nil, 63, 11, 177741 },
+									{ 55, 0.9532, 224, nil, nil, nil, 9, 166, 182394, 68, 45, 182537 },
+									{ 56, 0.0468, 11, nil, nil, nil, 64, 11, 177741 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 130, nil, nil, nil, 9, 97, 219056, 49, 12, 228572, 67, 18, 220220 },
+									{ 55, 1, 130, nil, nil, nil, 9, 97, 219056, 51, 12, 228572, 68, 18, 220220 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9088, 917, 49, 326, 147357, 57, 333, 147960, 2, 116, 139440 },
-									{ 56, 0.0912, 92, nil, nil, nil, 69, 17, 143439, 6, 16, 154573, 5, 14, 151842 },
+									{ 55, 0.9088, 917, 51, 326, 147357, 58, 333, 147960, 2, 116, 139440 },
+									{ 56, 0.0912, 92, nil, nil, nil, 70, 17, 143439, 6, 16, 154573, 5, 14, 151842 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9254, 186, 49, 77, 118272, 57, 72, 113595, 2, 20, 116904 },
-									{ 56, 0.0746, 15, nil, nil, nil, 69, 9, 124416 },
+									{ 55, 0.9254, 186, 51, 77, 118272, 58, 72, 113595, 2, 20, 116904 },
+									{ 56, 0.0746, 15, nil, nil, nil, 70, 9, 124416 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9448, 137, 49, 49, 164663, 57, 60, 173634, 2, 16, 172519 },
+									{ 55, 0.9448, 137, 51, 49, 164663, 58, 60, 173634, 2, 16, 172519 },
 									{ 56, 0.0552, 8, nil, nil, nil, 6, 5, 178494 },
 								},
 							},
@@ -25910,18 +25890,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.977, 255, 49, 94, 148633, 57, 75, 166038, 2, 48, 154370 },
+									{ 55, 0.977, 255, 51, 94, 148633, 58, 75, 166038, 2, 48, 154370 },
 									{ 56, 0.023, 6, nil, nil, nil, 6, 3, 126685 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 60, nil, nil, nil, 49, 28, 122671, 9, 21, 143518 },
+									{ 55, 1, 60, nil, nil, nil, 51, 28, 122671, 9, 21, 143518 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 32, nil, nil, nil, 57, 10, 206522 },
+									{ 55, 1, 32, nil, nil, nil, 58, 10, 206522 },
 								},
 							},
 						},
@@ -25930,39 +25910,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8859, 823, 9, 573, 223906, 49, 71, 223450, 59, 87, 192562 },
-									{ 56, 0.1141, 106, 60, 74, 202231 },
+									{ 55, 0.8859, 823, 9, 573, 223906, 51, 71, 223450, 60, 87, 192562 },
+									{ 56, 0.1141, 106, 61, 74, 202231 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8588, 146, nil, nil, nil, 9, 96, 187185, 59, 22, 184993, 70, 16, 192238 },
-									{ 56, 0.1412, 24, nil, nil, nil, 60, 21, 189791 },
+									{ 55, 0.8588, 146, nil, nil, nil, 9, 96, 187185, 60, 22, 184993, 71, 16, 192238 },
+									{ 56, 0.1412, 24, nil, nil, nil, 61, 21, 189791 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.7917, 95, nil, nil, nil, 9, 77, 243405, 49, 12, 251798 },
-									{ 56, 0.2083, 25, nil, nil, nil, 60, 16, 249176 },
+									{ 55, 0.7917, 95, nil, nil, nil, 9, 77, 243405, 51, 12, 251798 },
+									{ 56, 0.2083, 25, nil, nil, nil, 61, 16, 249176 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9278, 887, 49, 336, 199092, 57, 330, 194563, 2, 89, 196825 },
-									{ 56, 0.0722, 69, nil, nil, nil, 60, 13, 185593, 6, 13, 216264 },
+									{ 55, 0.9278, 887, 51, 336, 199092, 58, 330, 194563, 2, 89, 196825 },
+									{ 56, 0.0722, 69, nil, nil, nil, 61, 13, 185593, 6, 13, 216264 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9483, 165, 49, 68, 170468, 57, 80, 161469 },
-									{ 56, 0.0517, 9, nil, nil, nil, 60, 6, 172718 },
+									{ 55, 0.9483, 165, 51, 68, 170468, 58, 80, 161469 },
+									{ 56, 0.0517, 9, nil, nil, nil, 61, 6, 172718 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9701, 130, 49, 50, 228571, 57, 59, 229855 },
+									{ 55, 0.9701, 130, 51, 50, 228571, 58, 59, 229855 },
 									{ 56, 0.0299, 4, nil, nil, nil, 6, 4, 234026 },
 								},
 							},
@@ -25970,18 +25950,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9874, 236, 49, 90, 201415, 57, 73, 248714, 2, 41, 194580 },
+									{ 55, 0.9874, 236, 51, 90, 201415, 58, 73, 248714, 2, 41, 194580 },
 									{ 56, 0.0126, 3, nil, nil, nil, 6, 3, 181316 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 70, nil, nil, nil, 49, 37, 175822, 9, 19, 184238 },
+									{ 55, 1, 70, nil, nil, nil, 51, 37, 175822, 9, 19, 184238 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 23, nil, nil, nil, 49, 9, 283425 },
+									{ 55, 1, 23, nil, nil, nil, 51, 9, 283425 },
 								},
 							},
 						},
@@ -25990,57 +25970,57 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 56, 0.7825, 385, 72, 245, 292802, 73, 48, 352388, 60, 15, 258943 },
-									{ 55, 0.2175, 107, nil, nil, nil, 57, 77, 345654, 49, 13, 283255 },
+									{ 56, 0.7825, 385, 73, 245, 292802, 74, 48, 352388, 61, 15, 258943 },
+									{ 55, 0.2175, 107, nil, nil, nil, 58, 77, 345654, 51, 13, 283255 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 56, 0.873, 55, nil, nil, nil, 72, 41, 259393 },
+									{ 56, 0.873, 55, nil, nil, nil, 73, 41, 259393 },
 									{ 55, 0.127, 8, nil, nil, nil, 9, 4, 259566 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 56, 0.9184, 45, nil, nil, nil, 64, 35, 351675 },
-									{ 55, 0.0816, 4, nil, nil, nil, 49, 4, 340654 },
+									{ 56, 0.9184, 45, nil, nil, nil, 65, 35, 351675 },
+									{ 55, 0.0816, 4, nil, nil, nil, 51, 4, 340654 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8495, 570, 57, 226, 313354, 49, 208, 311192, 2, 57, 292214 },
-									{ 56, 0.1505, 101, nil, nil, nil, 72, 55, 312323 },
+									{ 55, 0.8495, 570, 58, 226, 313354, 51, 208, 311192, 2, 57, 292214 },
+									{ 56, 0.1505, 101, nil, nil, nil, 73, 55, 312323 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8779, 115, nil, nil, nil, 9, 46, 242597, 74, 50, 243884, 2, 16, 270691 },
-									{ 56, 0.1221, 16, nil, nil, nil, 75, 13, 238093 },
+									{ 55, 0.8779, 115, nil, nil, nil, 9, 46, 242597, 75, 50, 243884, 2, 16, 270691 },
+									{ 56, 0.1221, 16, nil, nil, nil, 76, 13, 238093 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 102, 49, 50, 330248, 57, 43, 329545 },
+									{ 55, 1, 102, 51, 50, 330248, 58, 43, 329545 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9721, 209, 49, 86, 275203, 57, 76, 229240, 2, 29, 312293 },
-									{ 56, 0.0279, 6, nil, nil, nil, 64, 3, 216150 },
+									{ 55, 0.9721, 209, 51, 86, 275203, 58, 76, 229240, 2, 29, 312293 },
+									{ 56, 0.0279, 6, nil, nil, nil, 65, 3, 216150 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 9, nil, nil, nil, 49, 5, 144977 },
+									{ 55, 1, 9, nil, nil, nil, 51, 5, 144977 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 38, nil, nil, nil, 49, 14, 277857, 57, 16, 251365 },
+									{ 55, 1, 38, nil, nil, nil, 51, 14, 277857, 58, 16, 251365 },
 								},
 							},
 						},
@@ -26049,39 +26029,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.7364, 486, 9, 351, 200064, 49, 49, 200203, 71, 23, 197147 },
-									{ 56, 0.2636, 174, 62, 74, 199995, 60, 16, 226566, 63, 16, 175511 },
+									{ 55, 0.7364, 486, 9, 351, 200064, 51, 49, 200203, 72, 23, 197147 },
+									{ 56, 0.2636, 174, 63, 74, 199995, 61, 16, 226566, 64, 16, 175511 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 55, 0.6667, 64, nil, nil, nil, 9, 50, 169576 },
-									{ 56, 0.3333, 32, nil, nil, nil, 62, 13, 178799 },
+									{ 56, 0.3333, 32, nil, nil, nil, 63, 13, 178799 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.7538, 49, nil, nil, nil, 57, 41, 226866 },
-									{ 56, 0.2462, 16, nil, nil, nil, 62, 11, 230389 },
+									{ 55, 0.7538, 49, nil, nil, nil, 58, 41, 226866 },
+									{ 56, 0.2462, 16, nil, nil, nil, 63, 11, 230389 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9168, 860, 49, 298, 209117, 57, 336, 216009, 2, 88, 207298 },
-									{ 56, 0.0832, 78, nil, nil, nil, 62, 18, 202390 },
+									{ 55, 0.9168, 860, 51, 298, 209117, 58, 336, 216009, 2, 88, 207298 },
+									{ 56, 0.0832, 78, nil, nil, nil, 63, 18, 202390 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9722, 175, 49, 62, 182982, 57, 74, 168850, 2, 16, 184648 },
-									{ 56, 0.0278, 5, nil, nil, nil, 62, 5, 182152 },
+									{ 55, 0.9722, 175, 51, 62, 182982, 58, 74, 168850, 2, 16, 184648 },
+									{ 56, 0.0278, 5, nil, nil, nil, 63, 5, 182152 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9621, 127, 49, 52, 236254, 57, 58, 242810, 2, 14, 237802 },
+									{ 55, 0.9621, 127, 51, 52, 236254, 58, 58, 242810, 2, 14, 237802 },
 									{ 56, 0.0379, 5, nil, nil, nil, 5, 5, 246645 },
 								},
 							},
@@ -26089,18 +26069,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.984, 246, 49, 95, 194416, 57, 76, 173936, 2, 40, 197560 },
+									{ 55, 0.984, 246, 51, 95, 194416, 58, 76, 173936, 2, 40, 197560 },
 									{ 56, 0.016, 4, nil, nil, nil, 5, 4, 200068 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 15, nil, nil, nil, 57, 8, 119628 },
+									{ 55, 1, 15, nil, nil, nil, 58, 8, 119628 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 53, nil, nil, nil, 49, 26, 214834, 9, 16, 216604 },
+									{ 55, 1, 53, nil, nil, nil, 51, 26, 214834, 9, 16, 216604 },
 								},
 							},
 						},
@@ -26109,56 +26089,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 56, 0.9727, 392, 61, 229, 341148, 76, 63, 335219, 65, 55, 347594 },
-									{ 55, 0.0273, 11, nil, nil, nil, 49, 8, 349831 },
+									{ 56, 0.9727, 392, 62, 229, 341148, 77, 63, 335219, 66, 55, 347594 },
+									{ 55, 0.0273, 11, nil, nil, nil, 51, 8, 349831 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 56, 1, 61, nil, nil, nil, 61, 43, 306938 },
+									{ 56, 1, 61, nil, nil, nil, 62, 43, 306938 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 56, 1, 41, nil, nil, nil, 61, 30, 353644 },
+									{ 56, 1, 41, nil, nil, nil, 62, 30, 353644 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.598, 424, 49, 147, 204838, 9, 117, 196526, 2, 79, 208931 },
-									{ 56, 0.402, 285, 65, 121, 197494, 61, 92, 193529, 5, 12, 207711 },
+									{ 55, 0.598, 424, 51, 147, 204838, 9, 117, 196526, 2, 79, 208931 },
+									{ 56, 0.402, 285, 66, 121, 197494, 62, 92, 193529, 5, 12, 207711 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 56, 0.5556, 80, nil, nil, nil, 65, 50, 149459, 61, 23, 152970 },
-									{ 55, 0.4444, 64, nil, nil, nil, 49, 24, 187137, 9, 20, 177676 },
+									{ 56, 0.5556, 80, nil, nil, nil, 66, 50, 149459, 62, 23, 152970 },
+									{ 55, 0.4444, 64, nil, nil, nil, 51, 24, 187137, 9, 20, 177676 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.7449, 73, nil, nil, nil, 49, 32, 244061, 2, 17, 243515, 9, 20, 247037 },
-									{ 56, 0.2551, 25, nil, nil, nil, 65, 15, 246005 },
+									{ 55, 0.7449, 73, nil, nil, nil, 51, 32, 244061, 2, 17, 243515, 9, 20, 247037 },
+									{ 56, 0.2551, 25, nil, nil, nil, 66, 15, 246005 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9381, 182, 49, 66, 182275, 57, 64, 178994, 2, 30, 203465 },
-									{ 56, 0.0619, 12, nil, nil, nil, 77, 6, 165340 },
+									{ 55, 0.9381, 182, 51, 66, 182275, 58, 64, 178994, 2, 30, 203465 },
+									{ 56, 0.0619, 12, nil, nil, nil, 78, 6, 165340 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 10, nil, nil, nil, 49, 6, 171717 },
+									{ 55, 1, 10, nil, nil, nil, 51, 6, 171717 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 24, nil, nil, nil, 57, 11, 186555 },
+									{ 55, 1, 24, nil, nil, nil, 58, 11, 186555 },
 								},
 							},
 						},
@@ -26167,55 +26147,55 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.879, 305, nil, nil, nil, 57, 252, 445691, 78, 39, 505458 },
-									{ 56, 0.121, 42, nil, nil, nil, 79, 22, 440572 },
+									{ 55, 0.879, 305, nil, nil, nil, 58, 252, 445691, 79, 39, 505458 },
+									{ 56, 0.121, 42, nil, nil, nil, 80, 22, 440572 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8056, 29, nil, nil, nil, 80, 25, 406552 },
-									{ 56, 0.1944, 7, nil, nil, nil, 63, 7, 407793 },
+									{ 55, 0.8056, 29, nil, nil, nil, 81, 25, 406552 },
+									{ 56, 0.1944, 7, nil, nil, nil, 64, 7, 407793 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 55, 0.85, 17, nil, nil, nil, 9, 17, 464737 },
-									{ 56, 0.15, 3, nil, nil, nil, 79, 3, 464976 },
+									{ 56, 0.15, 3, nil, nil, nil, 80, 3, 464976 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9296, 330, 49, 122, 420780, 57, 129, 420598, 2, 34, 428142 },
-									{ 56, 0.0704, 25, nil, nil, nil, 65, 7, 416765 },
+									{ 55, 0.9296, 330, 51, 122, 420780, 58, 129, 420598, 2, 34, 428142 },
+									{ 56, 0.0704, 25, nil, nil, nil, 66, 7, 416765 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 44, nil, nil, nil, 57, 15, 385977, 49, 19, 367540 },
+									{ 55, 1, 44, nil, nil, nil, 58, 15, 385977, 51, 19, 367540 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 48, nil, nil, nil, 49, 25, 446461, 57, 15, 445824 },
+									{ 55, 1, 48, nil, nil, nil, 51, 25, 446461, 58, 15, 445824 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 1, 152, 49, 59, 323774, 57, 57, 280835, 2, 23, 358232 },
+									{ 55, 1, 152, 51, 59, 323774, 58, 57, 280835, 2, 23, 358232 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 9, nil, nil, nil, 57, 6, 244037 },
+									{ 55, 1, 9, nil, nil, nil, 58, 6, 244037 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 21, nil, nil, nil, 49, 13, 313082 },
+									{ 55, 1, 21, nil, nil, nil, 51, 13, 313082 },
 								},
 							},
 						},
@@ -26224,56 +26204,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.865, 615, nil, nil, nil, 57, 438, 274327, 59, 97, 269279, 49, 14, 290574 },
-									{ 56, 0.135, 96, nil, nil, nil, 83, 22, 242308, 84, 32, 294906, 85, 21, 287782 },
+									{ 55, 0.865, 615, nil, nil, nil, 58, 438, 274327, 60, 97, 269279, 51, 14, 290574 },
+									{ 56, 0.135, 96, nil, nil, nil, 84, 22, 242308, 85, 32, 294906, 86, 21, 287782 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.6552, 38, nil, nil, nil, 57, 26, 237302 },
-									{ 56, 0.3448, 20, nil, nil, nil, 83, 17, 238276 },
+									{ 55, 0.6552, 38, nil, nil, nil, 58, 26, 237302 },
+									{ 56, 0.3448, 20, nil, nil, nil, 84, 17, 238276 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9437, 67, nil, nil, nil, 86, 58, 308345 },
-									{ 56, 0.0563, 4, nil, nil, nil, 85, 4, 292035 },
+									{ 55, 0.9437, 67, nil, nil, nil, 87, 58, 308345 },
+									{ 56, 0.0563, 4, nil, nil, nil, 86, 4, 292035 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9644, 460, 49, 127, 103381, 57, 152, 105255, 87, 54, 90125 },
-									{ 56, 0.0356, 17, nil, nil, nil, 55, 6, 150091 },
+									{ 55, 0.9644, 460, 51, 127, 103381, 58, 152, 105255, 88, 54, 90125 },
+									{ 56, 0.0356, 17, nil, nil, nil, 56, 6, 150091 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 95, nil, nil, nil, 87, 30, 87796, 49, 24, 89177, 57, 23, 91798 },
+									{ 55, 1, 95, nil, nil, nil, 88, 30, 87796, 51, 24, 89177, 58, 23, 91798 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 58, nil, nil, nil, 49, 25, 123079, 57, 17, 128726 },
+									{ 55, 1, 58, nil, nil, nil, 51, 25, 123079, 58, 17, 128726 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9608, 98, nil, nil, nil, 57, 44, 121461, 49, 38, 114061 },
+									{ 55, 0.9608, 98, nil, nil, nil, 58, 44, 121461, 51, 38, 114061 },
 									{ 56, 0.0392, 4, nil, nil, nil, 5, 4, 145241 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 20, nil, nil, nil, 49, 12, 100239 },
+									{ 55, 1, 20, nil, nil, nil, 51, 12, 100239 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 11, nil, nil, nil, 57, 4, 137571 },
+									{ 55, 1, 11, nil, nil, nil, 58, 4, 137571 },
 								},
 							},
 						},
@@ -26282,54 +26262,54 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9885, 856, nil, nil, nil, 88, 715, 504263, 59, 110, 502739, 89, 24, 501222 },
-									{ 56, 0.0115, 10, nil, nil, nil, 90, 7, 549634 },
+									{ 55, 0.9885, 856, nil, nil, nil, 89, 715, 504263, 60, 110, 502739, 90, 24, 501222 },
+									{ 56, 0.0115, 10, nil, nil, nil, 91, 7, 549634 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 71, nil, nil, nil, 88, 66, 490629 },
+									{ 55, 1, 71, nil, nil, nil, 89, 66, 490629 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 86, nil, nil, nil, 88, 70, 510033 },
+									{ 55, 1, 86, nil, nil, nil, 89, 70, 510033 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9413, 353, 57, 163, 340373, 49, 115, 353339, 2, 34, 361177 },
-									{ 56, 0.0587, 22, nil, nil, nil, 55, 5, 352124 },
+									{ 55, 0.9413, 353, 58, 163, 340373, 51, 115, 353339, 2, 34, 361177 },
+									{ 56, 0.0587, 22, nil, nil, nil, 56, 5, 352124 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 36, nil, nil, nil, 49, 14, 286559, 57, 18, 291537 },
+									{ 55, 1, 36, nil, nil, nil, 51, 14, 286559, 58, 18, 291537 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 39, nil, nil, nil, 57, 20, 371365, 49, 15, 369071 },
+									{ 55, 1, 39, nil, nil, nil, 58, 20, 371365, 51, 15, 369071 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9556, 86, nil, nil, nil, 49, 31, 279914, 57, 35, 416243 },
+									{ 55, 0.9556, 86, nil, nil, nil, 51, 31, 279914, 58, 35, 416243 },
 									{ 56, 0.0444, 4, nil, nil, nil, 5, 4, 346680 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 31, nil, nil, nil, 49, 17, 255126 },
+									{ 55, 1, 31, nil, nil, nil, 51, 17, 255126 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 9, nil, nil, nil, 57, 5, 438352 },
+									{ 55, 1, 9, nil, nil, nil, 58, 5, 438352 },
 								},
 							},
 						},
@@ -26338,39 +26318,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9261, 1203, 57, 821, 144372, 49, 100, 143305, 81, 63, 144695 },
-									{ 56, 0.0739, 96, nil, nil, nil, 82, 33, 144793, 63, 15, 138328 },
+									{ 55, 0.9261, 1203, 58, 821, 144372, 51, 100, 143305, 82, 63, 144695 },
+									{ 56, 0.0739, 96, nil, nil, nil, 83, 33, 144793, 64, 15, 138328 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9091, 210, nil, nil, nil, 57, 146, 139540, 49, 16, 139581, 59, 24, 136224 },
-									{ 56, 0.0909, 21, nil, nil, nil, 63, 8, 133106 },
+									{ 55, 0.9091, 210, nil, nil, nil, 58, 146, 139540, 51, 16, 139581, 60, 24, 136224 },
+									{ 56, 0.0909, 21, nil, nil, nil, 64, 8, 133106 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9106, 163, 57, 113, 147669, 49, 26, 148014 },
-									{ 56, 0.0894, 16, nil, nil, nil, 82, 9, 147861 },
+									{ 55, 0.9106, 163, 58, 113, 147669, 51, 26, 148014 },
+									{ 56, 0.0894, 16, nil, nil, nil, 83, 9, 147861 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9089, 1307, 49, 385, 278875, 57, 460, 272752, 2, 201, 278442 },
-									{ 56, 0.0911, 131, nil, nil, nil, 5, 24, 316943, 54, 37, 282625, 55, 12, 271850 },
+									{ 55, 0.9089, 1307, 51, 385, 278875, 58, 460, 272752, 2, 201, 278442 },
+									{ 56, 0.0911, 131, nil, nil, nil, 5, 24, 316943, 55, 37, 282625, 56, 12, 271850 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9536, 226, 49, 75, 149416, 57, 106, 139656, 2, 23, 149118 },
-									{ 56, 0.0464, 11, nil, nil, nil, 66, 8, 131156 },
+									{ 55, 0.9536, 226, 51, 75, 149416, 58, 106, 139656, 2, 23, 149118 },
+									{ 56, 0.0464, 11, nil, nil, nil, 67, 8, 131156 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9439, 185, 49, 68, 316634, 57, 75, 309296, 2, 25, 306614 },
+									{ 55, 0.9439, 185, 51, 68, 316634, 58, 75, 309296, 2, 25, 306614 },
 									{ 56, 0.0561, 11, nil, nil, nil, 5, 8, 318127 },
 								},
 							},
@@ -26378,19 +26358,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9526, 181, 49, 65, 277473, 57, 56, 163047, 2, 34, 273666 },
+									{ 55, 0.9526, 181, 51, 65, 277473, 58, 56, 163047, 2, 34, 273666 },
 									{ 56, 0.0474, 9, nil, nil, nil, 5, 6, 250914 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.88, 22, nil, nil, nil, 57, 11, 158070 },
+									{ 55, 0.88, 22, nil, nil, nil, 58, 11, 158070 },
 									{ 56, 0.12, 3, nil, nil, nil, 5, 3, 206727 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 24, nil, nil, nil, 49, 8, 301690 },
+									{ 55, 1, 24, nil, nil, nil, 51, 8, 301690 },
 								},
 							},
 						},
@@ -26399,59 +26379,59 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.805, 7229, 57, 5151, 147105, 49, 420, 146659, 59, 935, 148996 },
-									{ 56, 0.195, 1751, 60, 124, 200332, 61, 603, 338514, 62, 105, 199792 },
+									{ 55, 0.805, 7229, 58, 5151, 147105, 51, 420, 146659, 60, 935, 148996 },
+									{ 56, 0.195, 1751, 61, 124, 200332, 62, 603, 338514, 63, 105, 199792 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8111, 2083, 9, 1496, 141391, 49, 87, 140877, 59, 290, 138761 },
-									{ 56, 0.1889, 485, nil, nil, nil, 63, 56, 137903, 60, 44, 188114, 61, 161, 286388 },
+									{ 55, 0.8154, 1356, 9, 1005, 141178, 60, 185, 137690, 51, 53, 141237 },
+									{ 56, 0.1846, 307, nil, nil, nil, 64, 43, 137903, 61, 36, 189425, 62, 121, 288836 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.8351, 1079, 9, 820, 148477, 49, 73, 148721, 59, 107, 231042 },
-									{ 56, 0.1649, 213, nil, nil, nil, 60, 27, 244755, 64, 84, 351675, 62, 21, 229332 },
+									{ 55, 0.8351, 1079, 9, 820, 148477, 51, 73, 148721, 60, 107, 231042 },
+									{ 56, 0.1649, 213, nil, nil, nil, 61, 27, 244755, 65, 84, 351675, 63, 21, 229332 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8664, 7021, 49, 2125, 156921, 57, 2545, 165574, 2, 839, 188911 },
-									{ 56, 0.1336, 1083, 65, 180, 185543, 5, 81, 181183, 6, 69, 178494 },
+									{ 55, 0.8664, 7021, 51, 2125, 156921, 58, 2545, 165574, 2, 839, 188911 },
+									{ 56, 0.1336, 1083, 66, 180, 185543, 5, 81, 181183, 6, 69, 178494 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8305, 1323, 49, 430, 117950, 57, 552, 118929, 2, 119, 124928 },
-									{ 56, 0.1695, 270, nil, nil, nil, 65, 66, 145628, 66, 103, 116170, 62, 15, 136302 },
+									{ 55, 0.8305, 1323, 51, 430, 117950, 58, 552, 118929, 2, 119, 124928 },
+									{ 56, 0.1695, 270, nil, nil, nil, 66, 66, 145628, 67, 103, 116170, 63, 15, 136302 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.8931, 1103, 49, 386, 178289, 57, 407, 179459, 2, 130, 211566 },
-									{ 56, 0.1069, 132, nil, nil, nil, 5, 20, 246646, 65, 27, 244510, 6, 15, 189832 },
+									{ 55, 0.8931, 1103, 51, 386, 178289, 58, 407, 179459, 2, 130, 211566 },
+									{ 56, 0.1069, 132, nil, nil, nil, 5, 20, 246646, 66, 27, 244510, 6, 15, 189832 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9606, 1755, 49, 670, 142465, 57, 562, 134415, 2, 275, 163360 },
+									{ 55, 0.9606, 1755, 51, 670, 142465, 58, 562, 134415, 2, 275, 163360 },
 									{ 56, 0.0394, 72, nil, nil, nil, 5, 31, 163970, 6, 14, 160088 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9656, 309, 49, 121, 120174, 57, 115, 116445, 2, 40, 137031 },
+									{ 55, 0.9656, 309, 51, 121, 120174, 58, 115, 116445, 2, 40, 137031 },
 									{ 56, 0.0344, 11, nil, nil, nil, 5, 11, 105259 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9839, 306, 49, 111, 208070, 57, 104, 194182, 2, 42, 203179 },
+									{ 55, 0.9839, 306, 51, 111, 208070, 58, 104, 194182, 2, 42, 203179 },
 									{ 56, 0.0161, 5, nil, nil, nil, 5, 5, 183935 },
 								},
 							},
@@ -26487,8 +26467,8 @@ ns.talentBuilds = {
 				"zYMzMzMzMzMzMzAAAAAAAAAsBYzMG2ILwMM0gFAmtZMjxyyMwMz2YZmZmZMWYGAADjZwIwMDGMuAA",
 				"jZmZmZmZmZmZGzAAAAAAAAAALwGMjFN2GAzEsBwsMjZM2WMwMz2YZmZmZwyYGAAgxYGxMDwgxA",
 				"zgZmZmZmhZmZAAAAAAAAAsBYzMG2ILwMM0gFAmlZMjxyyMwMz2YZmZm5BMWGzAAMDjZGGBmZwgxA",
-				"zYMzMzMzMzMzMzAAAAAAAAAsBYzMG2ILwMM0gFAmlZMjxyixGzMbjlZmZmBGzAAYYMDmJwMDGMuAA",
 				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZMzyyM2MzMmZZmZmBWGGAgZYMDGBmZwgxFA",
+				"zYMzMzMzMzMzMzAAAAAAAAAsBYzMG2ILwMM0gFAmlZMjxyixGzMbjlZmZmBGzAAYYMDmJwMDGMuAA",
 				"zgZmZmZmhZmZAAAAAAAAAsBYzMG2ILwMM0gFAmlZMjxyyM2YmZbsMzMzwYZMDAwMMmZYEYmBDGD",
 				"jZmZmZmZmZmZGzAAAAAAAAAALwGMjFN2GAzEsBwsMjZMWWmxCzMbsMzMzwwYGAgZAGzMxMDAMGA",
 				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZMWWMWYmZbsMzMzALjZAAmhxMMzEYmBDGXA",
@@ -26500,7 +26480,6 @@ ns.talentBuilds = {
 				"zgZmZmZmhZmZAAAAAAAAAsBYzMG2ILwMM0gFAmtZMjxyyM2YmZbsMzMzwYhZAAmhxMDzEYmBDGD",
 				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZMWWmBmZ2GLzMzMMWGzAAMDjZYGBmZwgxFA",
 				"zgZmZmZmhZmZAAAAAAAAAsBYzMG2ILwMM0gFAmtZMjxyiBmZ2GLzMzMDWGzAAMDjZGmJwMDGMGA",
-				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZMWWmxCzMbjlZmZGGLjZAAmhxMYEYmBDGXA",
 				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZMzyyM2YmBLzMzMPghxMAAzwYGMTgZGMYcBA",
 				"jZmZmZmZmZmZmZGAAAAAAAAAYB2gZsox2AYmgNAmlZMzMWWmBmZ2YZmZmhhxMAAGgxMTMzAAjB",
 				"zgZmZmZmZmZmZGAAAAAAAAgNAbmxwGZBmhhGsAwsMjZmZWWmxiZmhZZmZmBMmBAYGGzgRgZGMYcBA",
@@ -26545,8 +26524,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9709, 1234, 1, 814, 20, 38, 373, 23, 18, 47, 19 },
-							{ 54, 0.0291, 37, nil, nil, nil, 23, 37, 21 },
+							{ 55, 0.9675, 864, 10, 585, 20, 12, 243, 24, 22, 36, 18 },
+							{ 54, 0.0325, 29, nil, nil, nil, 23, 29, 21 },
 						},
 					},
 					["20-99"] = {
@@ -26646,13 +26625,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 55, 0.9657, 845, 10, 541, 20, 7, 255, 20, 25, 49, 22 },
-							{ 54, 0.0343, 30, nil, nil, nil, 8, 30, 19 },
+							{ 55, 0.9663, 630, 10, 434, 20, 25, 162, 23, 26, 31, 22 },
+							{ 54, 0.0337, 22, nil, nil, nil, 8, 22, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 55, 1, 118, nil, nil, nil, 26, 35, 23, 27, 83, 22 },
+							{ 55, 1, 118, nil, nil, nil, 25, 35, 23, 27, 83, 22 },
 						},
 					},
 				},
@@ -26764,19 +26743,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9083, 2168, 39, 1125, 427056, 1, 901, 432627, 2, 104, 412114 },
-									{ 54, 0.0917, 219, 4, 89, 423421, 5, 84, 430517, 40, 43, 420207 },
+									{ 55, 0.9083, 2168, 38, 1125, 427056, 1, 901, 432627, 2, 104, 412114 },
+									{ 54, 0.0917, 219, 4, 89, 423421, 5, 84, 430517, 39, 43, 420207 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8711, 250, 39, 157, 383932, 1, 80, 394104 },
+									{ 55, 0.8711, 250, 38, 157, 383932, 1, 80, 394104 },
 									{ 54, 0.1289, 37, nil, nil, nil, 4, 15, 382799, 5, 18, 351359 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9018, 303, 39, 136, 449623, 1, 146, 447156, 2, 21, 448022 },
+									{ 55, 0.9018, 303, 38, 136, 449623, 1, 146, 447156, 2, 21, 448022 },
 									{ 54, 0.0982, 33, nil, nil, nil, 4, 19, 444791 },
 								},
 							},
@@ -26784,28 +26763,28 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6853, 810, 39, 310, 351055, 13, 393, 347505, 2, 74, 345685 },
-									{ 54, 0.3147, 372, 4, 149, 365705, 5, 117, 367500, 40, 78, 366957 },
+									{ 55, 0.6853, 810, 38, 310, 351055, 13, 393, 347505, 2, 74, 345685 },
+									{ 54, 0.3147, 372, 4, 149, 365705, 5, 117, 367500, 39, 78, 366957 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.7651, 114, nil, nil, nil, 39, 41, 315833, 13, 55, 291919, 2, 14, 300730 },
+									{ 55, 0.7651, 114, nil, nil, nil, 38, 41, 315833, 13, 55, 291919, 2, 14, 300730 },
 									{ 54, 0.2349, 35, nil, nil, nil, 5, 16, 319674 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.6382, 127, nil, nil, nil, 39, 58, 385428, 13, 58, 377353 },
-									{ 54, 0.3618, 72, nil, nil, nil, 4, 30, 388187, 5, 29, 380779, 40, 13, 383536 },
+									{ 55, 0.6382, 127, nil, nil, nil, 38, 58, 385428, 13, 58, 377353 },
+									{ 54, 0.3618, 72, nil, nil, nil, 4, 30, 388187, 5, 29, 380779, 39, 13, 383536 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.526, 162, 4, 83, 225133, 5, 54, 207598, 40, 17, 232159 },
-									{ 55, 0.474, 146, nil, nil, nil, 13, 65, 213563, 39, 42, 205597, 2, 29, 191491 },
+									{ 54, 0.526, 162, 4, 83, 225133, 5, 54, 207598, 39, 17, 232159 },
+									{ 55, 0.474, 146, nil, nil, nil, 13, 65, 213563, 38, 42, 205597, 2, 29, 191491 },
 								},
 							},
 							["fast"] = {
@@ -26817,7 +26796,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 54, 0.5714, 32, nil, nil, nil, 4, 14, 236297, 5, 13, 228002 },
-									{ 55, 0.4286, 24, nil, nil, nil, 39, 9, 239809 },
+									{ 55, 0.4286, 24, nil, nil, nil, 38, 9, 239809 },
 								},
 							},
 						},
@@ -26826,19 +26805,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.9083, 2168, 39, 1125, 427056, 1, 901, 432627, 2, 104, 412114 },
-									{ 54, 0.0917, 219, 4, 89, 423421, 5, 84, 430517, 40, 43, 420207 },
+									{ 55, 0.9083, 2168, 38, 1125, 427056, 1, 901, 432627, 2, 104, 412114 },
+									{ 54, 0.0917, 219, 4, 89, 423421, 5, 84, 430517, 39, 43, 420207 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.8711, 250, 39, 157, 383932, 1, 80, 394104 },
+									{ 55, 0.8711, 250, 38, 157, 383932, 1, 80, 394104 },
 									{ 54, 0.1289, 37, nil, nil, nil, 4, 15, 382799, 5, 18, 351359 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.9018, 303, 39, 136, 449623, 1, 146, 447156, 2, 21, 448022 },
+									{ 55, 0.9018, 303, 38, 136, 449623, 1, 146, 447156, 2, 21, 448022 },
 									{ 54, 0.0982, 33, nil, nil, nil, 4, 19, 444791 },
 								},
 							},
@@ -26846,28 +26825,28 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6853, 810, 39, 310, 351055, 13, 393, 347505, 2, 74, 345685 },
-									{ 54, 0.3147, 372, 4, 149, 365705, 5, 117, 367500, 40, 78, 366957 },
+									{ 55, 0.6853, 810, 38, 310, 351055, 13, 393, 347505, 2, 74, 345685 },
+									{ 54, 0.3147, 372, 4, 149, 365705, 5, 117, 367500, 39, 78, 366957 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.7651, 114, nil, nil, nil, 39, 41, 315833, 13, 55, 291919, 2, 14, 300730 },
+									{ 55, 0.7651, 114, nil, nil, nil, 38, 41, 315833, 13, 55, 291919, 2, 14, 300730 },
 									{ 54, 0.2349, 35, nil, nil, nil, 5, 16, 319674 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.6382, 127, nil, nil, nil, 39, 58, 385428, 13, 58, 377353 },
-									{ 54, 0.3618, 72, nil, nil, nil, 4, 30, 388187, 5, 29, 380779, 40, 13, 383536 },
+									{ 55, 0.6382, 127, nil, nil, nil, 38, 58, 385428, 13, 58, 377353 },
+									{ 54, 0.3618, 72, nil, nil, nil, 4, 30, 388187, 5, 29, 380779, 39, 13, 383536 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.526, 162, 4, 83, 225133, 5, 54, 207598, 40, 17, 232159 },
-									{ 55, 0.474, 146, nil, nil, nil, 13, 65, 213563, 39, 42, 205597, 2, 29, 191491 },
+									{ 54, 0.526, 162, 4, 83, 225133, 5, 54, 207598, 39, 17, 232159 },
+									{ 55, 0.474, 146, nil, nil, nil, 13, 65, 213563, 38, 42, 205597, 2, 29, 191491 },
 								},
 							},
 							["fast"] = {
@@ -26879,7 +26858,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 54, 0.5714, 32, nil, nil, nil, 4, 14, 236297, 5, 13, 228002 },
-									{ 55, 0.4286, 24, nil, nil, nil, 39, 9, 239809 },
+									{ 55, 0.4286, 24, nil, nil, nil, 38, 9, 239809 },
 								},
 							},
 						},
@@ -26890,28 +26869,28 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.7639, 372, 13, 191, 226438, 41, 162, 197698 },
-									{ 54, 0.2361, 115, nil, nil, nil, 5, 66, 206242, 44, 29, 223511, 4, 12, 221819 },
+									{ 55, 0.7639, 372, 13, 191, 226438, 40, 162, 197698 },
+									{ 54, 0.2361, 115, nil, nil, nil, 5, 66, 206242, 43, 29, 223511, 4, 12, 221819 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.7692, 30, nil, nil, nil, 13, 8, 178462, 41, 22, 176188 },
+									{ 55, 0.7692, 30, nil, nil, nil, 13, 8, 178462, 40, 22, 176188 },
 									{ 54, 0.2308, 9, nil, nil, nil, 28, 9, 167559 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 55, 0.8113, 43, nil, nil, nil, 13, 33, 224218 },
-									{ 54, 0.1887, 10, nil, nil, nil, 44, 7, 226561 },
+									{ 54, 0.1887, 10, nil, nil, nil, 43, 7, 226561 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6331, 314, 13, 219, 148506, 2, 25, 144453, 42, 23, 164338 },
-									{ 54, 0.3669, 182, 5, 74, 161332, 4, 53, 151623, 40, 48, 170179 },
+									{ 55, 0.6331, 314, 13, 219, 148506, 2, 25, 144453, 41, 23, 164338 },
+									{ 54, 0.3669, 182, 5, 74, 161332, 4, 53, 151623, 39, 48, 170179 },
 								},
 							},
 							["fast"] = {
@@ -26931,7 +26910,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 55, 0.529, 73, nil, nil, nil, 13, 51, 167814 },
-									{ 54, 0.471, 65, nil, nil, nil, 5, 35, 157112, 4, 18, 180711, 40, 12, 193901 },
+									{ 54, 0.471, 65, nil, nil, nil, 5, 35, 157112, 4, 18, 180711, 39, 12, 193901 },
 								},
 							},
 							["fast"] = {
@@ -26952,13 +26931,13 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6316, 264, 13, 168, 250690, 45, 77, 195983 },
-									{ 54, 0.3684, 154, nil, nil, nil, 5, 92, 218713, 40, 59, 203854 },
+									{ 55, 0.6316, 264, 13, 168, 250690, 44, 77, 195983 },
+									{ 54, 0.3684, 154, nil, nil, nil, 5, 92, 218713, 39, 59, 203854 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 54, 0.661, 39, nil, nil, nil, 28, 21, 170902, 40, 18, 193692 },
+									{ 54, 0.661, 39, nil, nil, nil, 28, 21, 170902, 39, 18, 193692 },
 									{ 55, 0.339, 20, nil, nil, nil, 13, 12, 190752 },
 								},
 							},
@@ -26972,8 +26951,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6506, 311, 13, 220, 198385, 42, 28, 221297, 2, 25, 209414 },
-									{ 54, 0.3494, 167, 5, 73, 210903, 40, 48, 224497, 4, 42, 210245 },
+									{ 55, 0.6506, 311, 13, 220, 198385, 41, 28, 221297, 2, 25, 209414 },
+									{ 54, 0.3494, 167, 5, 73, 210903, 39, 48, 224497, 4, 42, 210245 },
 								},
 							},
 							["fast"] = {
@@ -27014,7 +26993,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.5872, 101, nil, nil, nil, 28, 54, 278367, 44, 37, 302038 },
+									{ 54, 0.5872, 101, nil, nil, nil, 28, 54, 278367, 43, 37, 302038 },
 									{ 55, 0.4128, 71, nil, nil, nil, 13, 21, 342777, 14, 47, 251866 },
 								},
 							},
@@ -27034,8 +27013,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6447, 196, 13, 142, 318674, 2, 17, 309465, 42, 14, 299765 },
-									{ 54, 0.3553, 108, nil, nil, nil, 5, 55, 324935, 4, 25, 318599, 40, 25, 344622 },
+									{ 55, 0.6447, 196, 13, 142, 318674, 2, 17, 309465, 41, 14, 299765 },
+									{ 54, 0.3553, 108, nil, nil, nil, 5, 55, 324935, 4, 25, 318599, 39, 25, 344622 },
 								},
 							},
 							["fast"] = {
@@ -27076,19 +27055,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8142, 206, nil, nil, nil, 13, 60, 231130, 43, 119, 214856, 42, 23, 172492 },
-									{ 54, 0.1858, 47, nil, nil, nil, 5, 27, 220747, 40, 17, 200658 },
+									{ 55, 0.8142, 206, nil, nil, nil, 13, 60, 231130, 42, 119, 214856, 41, 23, 172492 },
+									{ 54, 0.1858, 47, nil, nil, nil, 5, 27, 220747, 39, 17, 200658 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.9032, 28, nil, nil, nil, 42, 13, 162115, 43, 15, 174520 },
+									{ 55, 0.9032, 28, nil, nil, nil, 41, 13, 162115, 42, 15, 174520 },
 									{ 54, 0.0968, 3, nil, nil, nil, 5, 3, 185758 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.85, 17, nil, nil, nil, 43, 9, 226002 },
+									{ 55, 0.85, 17, nil, nil, nil, 42, 9, 226002 },
 									{ 54, 0.15, 3, nil, nil, nil, 5, 3, 233040 },
 								},
 							},
@@ -27096,8 +27075,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.666, 311, 13, 219, 215351, 42, 30, 256184, 2, 21, 209252 },
-									{ 54, 0.334, 156, 5, 72, 229592, 40, 40, 232249, 4, 40, 215122 },
+									{ 55, 0.666, 311, 13, 219, 215351, 41, 30, 256184, 2, 21, 209252 },
+									{ 54, 0.334, 156, 5, 72, 229592, 39, 40, 232249, 4, 40, 215122 },
 								},
 							},
 							["fast"] = {
@@ -27138,26 +27117,26 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8375, 67, nil, nil, nil, 46, 59, 330214 },
+									{ 55, 0.8375, 67, nil, nil, nil, 45, 59, 330214 },
 									{ 54, 0.1625, 13, nil, nil, nil, 28, 10, 349162 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 1, 13, nil, nil, nil, 41, 13, 287481 },
+									{ 55, 1, 13, nil, nil, nil, 40, 13, 287481 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 5, nil, nil, nil, 46, 5, 362064 },
+									{ 55, 1, 5, nil, nil, nil, 45, 5, 362064 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6414, 195, 13, 136, 207723, 2, 17, 205380, 42, 14, 226380 },
-									{ 54, 0.3586, 109, nil, nil, nil, 4, 47, 227838, 5, 34, 233029, 40, 21, 244745 },
+									{ 55, 0.6414, 195, 13, 136, 207723, 2, 17, 205380, 41, 14, 226380 },
+									{ 54, 0.3586, 109, nil, nil, nil, 4, 47, 227838, 5, 34, 233029, 39, 21, 244745 },
 								},
 							},
 							["fast"] = {
@@ -27198,18 +27177,18 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.5366, 22, nil, nil, nil, 47, 18, 425164 },
-									{ 55, 0.4634, 19, nil, nil, nil, 48, 14, 423765 },
+									{ 54, 0.5366, 22, nil, nil, nil, 46, 18, 425164 },
+									{ 55, 0.4634, 19, nil, nil, nil, 47, 14, 423765 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 54, 1, 3, nil, nil, nil, 47, 3, 399157 },
+									{ 54, 1, 3, nil, nil, nil, 46, 3, 399157 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 1, 3, nil, nil, nil, 49, 3, 462079 },
+									{ 55, 1, 3, nil, nil, nil, 48, 3, 462079 },
 								},
 							},
 						},
@@ -27217,13 +27196,13 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 55, 0.609, 95, nil, nil, nil, 13, 79, 427291 },
-									{ 54, 0.391, 61, nil, nil, nil, 4, 22, 444369, 40, 17, 413933, 5, 19, 432366 },
+									{ 54, 0.391, 61, nil, nil, nil, 4, 22, 444369, 39, 17, 413933, 5, 19, 432366 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 55, 0.75, 9, nil, nil, nil, 13, 9, 378911 },
-									{ 54, 0.25, 3, nil, nil, nil, 40, 3, 376956 },
+									{ 54, 0.25, 3, nil, nil, nil, 39, 3, 376956 },
 								},
 							},
 							["median"] = {
@@ -27247,7 +27226,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 54, 0.6364, 7, nil, nil, nil, 40, 4, 336608 },
+									{ 54, 0.6364, 7, nil, nil, nil, 39, 4, 336608 },
 									{ 55, 0.3636, 4, nil, nil, nil, 30, 4, 339891 },
 								},
 							},
@@ -27257,8 +27236,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.8553, 130, nil, nil, nil, 28, 111, 267864, 40, 19, 289248 },
-									{ 55, 0.1447, 22, nil, nil, nil, 46, 9, 234341, 13, 13, 246461 },
+									{ 54, 0.8553, 130, nil, nil, nil, 28, 111, 267864, 39, 19, 289248 },
+									{ 55, 0.1447, 22, nil, nil, nil, 45, 9, 234341, 13, 13, 246461 },
 								},
 							},
 							["fast"] = {
@@ -27276,7 +27255,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 55, 0.5074, 103, nil, nil, nil, 13, 80, 101196 },
-									{ 54, 0.4926, 100, nil, nil, nil, 5, 42, 102209, 40, 31, 115858, 4, 24, 109463 },
+									{ 54, 0.4926, 100, nil, nil, nil, 5, 42, 102209, 39, 31, 115858, 4, 24, 109463 },
 								},
 							},
 							["fast"] = {
@@ -27287,7 +27266,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 54, 0.7308, 19, nil, nil, nil, 40, 10, 118199 },
+									{ 54, 0.7308, 19, nil, nil, nil, 39, 10, 118199 },
 									{ 55, 0.2692, 7, nil, nil, nil, 13, 4, 124381 },
 								},
 							},
@@ -27318,7 +27297,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 54, 0.9352, 101, nil, nil, nil, 5, 93, 504545 },
-									{ 55, 0.0648, 7, nil, nil, nil, 51, 7, 504517 },
+									{ 55, 0.0648, 7, nil, nil, nil, 50, 7, 504517 },
 								},
 							},
 							["fast"] = {
@@ -27335,19 +27314,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 54, 0.5556, 85, nil, nil, nil, 5, 44, 332592, 40, 28, 325601, 4, 13, 375639 },
+									{ 54, 0.5556, 85, nil, nil, nil, 5, 44, 332592, 39, 28, 325601, 4, 13, 375639 },
 									{ 55, 0.4444, 68, nil, nil, nil, 13, 52, 332850 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 54, 0.6774, 21, nil, nil, nil, 40, 10, 307131 },
+									{ 54, 0.6774, 21, nil, nil, nil, 39, 10, 307131 },
 									{ 55, 0.3226, 10, nil, nil, nil, 13, 10, 304995 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 54, 0.8182, 18, nil, nil, nil, 40, 8, 370566 },
+									{ 54, 0.8182, 18, nil, nil, nil, 39, 8, 370566 },
 									{ 55, 0.1818, 4, nil, nil, nil, 13, 4, 367125 },
 								},
 							},
@@ -27376,8 +27355,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.8891, 585, 13, 487, 145455, 42, 19, 143300, 50, 69, 181590 },
-									{ 54, 0.1109, 73, nil, nil, nil, 5, 45, 144203, 40, 20, 142238 },
+									{ 55, 0.8891, 585, 13, 487, 145455, 41, 19, 143300, 49, 69, 181590 },
+									{ 54, 0.1109, 73, nil, nil, nil, 5, 45, 144203, 39, 20, 142238 },
 								},
 							},
 							["fast"] = {
@@ -27396,8 +27375,8 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.7117, 637, 13, 462, 289881, 2, 56, 279251, 42, 32, 301818 },
-									{ 54, 0.2883, 258, 4, 91, 289667, 5, 94, 302566, 40, 47, 283830 },
+									{ 55, 0.7117, 637, 13, 462, 289881, 2, 56, 279251, 41, 32, 301818 },
+									{ 54, 0.2883, 258, 4, 91, 289667, 5, 94, 302566, 39, 47, 283830 },
 								},
 							},
 							["fast"] = {
@@ -27438,59 +27417,59 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6701, 2186, 13, 1202, 147552, 41, 824, 206170, 42, 91, 146605 },
-									{ 54, 0.3299, 1076, 5, 709, 207594, 40, 301, 201980, 4, 29, 228062 },
+									{ 55, 0.6701, 2186, 13, 1202, 147552, 40, 824, 206170, 41, 91, 146605 },
+									{ 54, 0.3299, 1076, 5, 709, 207594, 39, 301, 201980, 4, 29, 228062 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.5876, 285, nil, nil, nil, 13, 107, 140634, 41, 154, 163047, 42, 24, 142842 },
-									{ 54, 0.4124, 200, nil, nil, nil, 28, 150, 167906, 40, 50, 142750 },
+									{ 55, 0.5876, 285, nil, nil, nil, 13, 107, 140634, 40, 154, 163047, 41, 24, 142842 },
+									{ 54, 0.4124, 200, nil, nil, nil, 28, 150, 167906, 39, 50, 142750 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.7073, 348, 13, 230, 148931, 42, 17, 148583, 43, 93, 224548 },
-									{ 54, 0.2927, 144, nil, nil, nil, 5, 99, 229125, 44, 35, 223511 },
+									{ 55, 0.7073, 348, 13, 230, 148931, 41, 17, 148583, 42, 93, 224548 },
+									{ 54, 0.2927, 144, nil, nil, nil, 5, 99, 229125, 43, 35, 223511 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.6535, 2578, 13, 1747, 176998, 42, 188, 183311, 2, 189, 185886 },
-									{ 54, 0.3465, 1367, 5, 549, 173038, 4, 377, 175000, 40, 363, 182110 },
+									{ 55, 0.6535, 2578, 13, 1747, 176998, 41, 188, 183311, 2, 189, 185886 },
+									{ 54, 0.3465, 1367, 5, 549, 173038, 4, 377, 175000, 39, 363, 182110 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 55, 0.7301, 441, 13, 315, 118088, 2, 30, 119188, 42, 30, 111403 },
-									{ 54, 0.2699, 163, nil, nil, nil, 5, 95, 106744, 4, 38, 132616, 40, 30, 178184 },
+									{ 55, 0.7301, 441, 13, 315, 118088, 2, 30, 119188, 41, 30, 111403 },
+									{ 54, 0.2699, 163, nil, nil, nil, 5, 95, 106744, 4, 38, 132616, 39, 30, 178184 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 55, 0.6365, 436, 13, 308, 229287, 42, 36, 178113, 2, 33, 197205 },
-									{ 54, 0.3635, 249, 5, 95, 185670, 4, 82, 209386, 40, 65, 172353 },
+									{ 55, 0.6365, 436, 13, 308, 229287, 41, 36, 178113, 2, 33, 197205 },
+									{ 54, 0.3635, 249, 5, 95, 185670, 4, 82, 209386, 39, 65, 172353 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 55, 0.5222, 542, 13, 387, 153623, 42, 42, 166857, 39, 69, 124222 },
-									{ 54, 0.4778, 496, 5, 240, 154280, 4, 136, 181991, 40, 81, 172316 },
+									{ 55, 0.5222, 542, 13, 387, 153623, 41, 42, 166857, 38, 69, 124222 },
+									{ 54, 0.4778, 496, 5, 240, 154280, 4, 136, 181991, 39, 81, 172316 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 54, 0.5, 76, nil, nil, nil, 5, 48, 125509, 4, 16, 142954, 40, 12, 80256 },
+									{ 54, 0.5, 76, nil, nil, nil, 5, 48, 125509, 4, 16, 142954, 39, 12, 80256 },
 									{ 55, 0.5, 76, nil, nil, nil, 13, 56, 125773 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 54, 0.5578, 82, nil, nil, nil, 5, 35, 198177, 4, 34, 215858, 40, 13, 204171 },
+									{ 54, 0.5578, 82, nil, nil, nil, 5, 35, 198177, 4, 34, 215858, 39, 13, 204171 },
 									{ 55, 0.4422, 65, nil, nil, nil, 13, 49, 202936 },
 								},
 							},
@@ -27608,8 +27587,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 54, 0.9957, 4418, 52, 2812, 21, 12, 501, 21, 19, 436, 19 },
-							{ 56, 0.0043, 19, nil, nil, nil, 10, 7, 17 },
+							{ 54, 0.9964, 3046, 52, 2014, 21, 2, 296, 17, 16, 329, 24 },
+							{ 56, 0.0036, 11, nil, nil, nil, 9, 7, 16 },
 						},
 					},
 					["20-99"] = {
@@ -27707,8 +27686,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 54, 0.9991, 3235, 35, 2274, 21, 19, 347, 18, 37, 166, 23 },
-							{ 56, 0.0009, 3, nil, nil, nil, 9, 3, 17 },
+							{ 54, 1, 2161, 35, 1590, 21, 2, 203, 17, 37, 98, 22 },
 						},
 					},
 					["20-99"] = {
@@ -28518,7 +28496,6 @@ ns.talentBuilds = {
 				"wMMzoZzMz2MzYWGAAwMzsMbmZWGDAM22GYATwMsFYYbAAAYGAAAzMjZMzsNGzYMzMzYYmZGAgBMA",
 				"wMMzoZzMz2MzY2GAAwMzsMbmZWGDAM2WGYATwMsFYYbAAAYGAAAzMjZMzsNGzgZmZGDzMzAAMDMA",
 				"wMjZGNLmxiZGzyAAAmZmlZzMzyYAALwAziRjZAZ2ALDAAAzAAAzMYMzMmtxYGmZmZYYmZmBAMDMA",
-				"wMegZGNbmZ2mZGzyAAAmZmlZzMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZsNGzYMzMzYYmZGAgBMA",
 				"wMjZGNbmx2MzYWGAAwMzsMbmZWGDAM2WGYATwMsFYYbAAAYGAAAzMjZMzsNGzYMzMzYYmZGAgBMA",
 				"wMMzoZzMz2MzMz2AAAmZmlZzMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZsNGzYMzMzYYmZGAgBMA",
 				"wMzMzoZjx2MzYWGAAwMzsMbzMzyYAgx22ADYCmhtADbDAAAzAAAYmZMjZGjxMYmZmxwMzMAADYA",
@@ -28576,7 +28553,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 57, 1, 456, 5, 287, 18, 21, 99, 20, 15, 20, 20 },
+							{ 57, 1, 335, 5, 207, 18, 20, 75, 20, 15, 16, 20 },
 						},
 					},
 					["20-99"] = {
@@ -28623,7 +28600,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 57, 1, 316, 5, 200, 19, 21, 66, 20, 11, 18, 20 },
+							{ 57, 1, 223, 5, 138, 18, 20, 49, 20, 11, 15, 20 },
 						},
 					},
 					["20-99"] = {
@@ -28635,7 +28612,7 @@ ns.talentBuilds = {
 				["14032"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 57, 1, 84, nil, nil, nil, 20, 36, 9, 2, 35, 9 },
+							{ 57, 1, 84, nil, nil, nil, 19, 36, 9, 2, 35, 9 },
 						},
 					},
 					["10-99"] = {
@@ -28646,7 +28623,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 57, 1, 213, 5, 140, 18, 21, 53, 20 },
+							{ 57, 1, 213, 5, 140, 18, 20, 53, 20 },
 						},
 					},
 					["20-99"] = {
@@ -28670,7 +28647,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 57, 1, 377, 5, 244, 19, 19, 88, 20, 7, 20, 18 },
+							{ 57, 1, 247, 5, 161, 18, 16, 53, 19, 17, 13, 18 },
 						},
 					},
 					["20-99"] = {
@@ -28718,7 +28695,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 57, 1, 361, 5, 236, 19, 6, 65, 20 },
+							{ 57, 1, 261, 1, 173, 18, 6, 49, 20 },
 						},
 					},
 					["20-99"] = {
@@ -28783,44 +28760,44 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9975, 2415, 1, 785, 429330, 2, 279, 446015, 22, 778, 409246 },
-									{ 58, 0.0025, 6, nil, nil, nil, 23, 3, 427586 },
+									{ 57, 0.9975, 2415, 1, 785, 429330, 2, 279, 446015, 21, 778, 409246 },
+									{ 58, 0.0025, 6, nil, nil, nil, 22, 3, 427586 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 434, 1, 103, 376393, 22, 161, 370193, 24, 54, 368046 },
+									{ 57, 1, 434, 1, 103, 376393, 21, 161, 370193, 23, 54, 368046 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 395, 1, 135, 447624, 22, 171, 445370, 25, 21, 447833 },
+									{ 57, 1, 395, 1, 135, 447624, 21, 171, 445370, 24, 21, 447833 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9858, 693, 1, 270, 353519, 2, 117, 361388, 26, 110, 354837 },
-									{ 58, 0.0142, 10, nil, nil, nil, 27, 4, 303689 },
+									{ 57, 0.9858, 693, 1, 270, 353519, 2, 117, 361388, 25, 110, 354837 },
+									{ 58, 0.0142, 10, nil, nil, nil, 26, 4, 303689 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 102, nil, nil, nil, 1, 38, 301297, 22, 20, 310976, 2, 14, 300229 },
+									{ 57, 1, 102, nil, nil, nil, 1, 38, 301297, 21, 20, 310976, 2, 14, 300229 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 115, nil, nil, nil, 1, 47, 381494, 26, 22, 390573, 2, 20, 382187 },
+									{ 57, 1, 115, nil, nil, nil, 1, 47, 381494, 25, 22, 390573, 2, 20, 382187 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9784, 181, 26, 68, 217495, 2, 37, 200358, 1, 41, 227044 },
-									{ 58, 0.0216, 4, nil, nil, nil, 27, 4, 194446 },
+									{ 57, 0.9784, 181, 25, 68, 217495, 2, 37, 200358, 1, 41, 227044 },
+									{ 58, 0.0216, 4, nil, nil, nil, 26, 4, 194446 },
 								},
 							},
 							["fast"] = {
@@ -28839,44 +28816,44 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9975, 2415, 1, 785, 429330, 2, 279, 446015, 22, 778, 409246 },
-									{ 58, 0.0025, 6, nil, nil, nil, 23, 3, 427586 },
+									{ 57, 0.9975, 2415, 1, 785, 429330, 2, 279, 446015, 21, 778, 409246 },
+									{ 58, 0.0025, 6, nil, nil, nil, 22, 3, 427586 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 434, 1, 103, 376393, 22, 161, 370193, 24, 54, 368046 },
+									{ 57, 1, 434, 1, 103, 376393, 21, 161, 370193, 23, 54, 368046 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 395, 1, 135, 447624, 22, 171, 445370, 25, 21, 447833 },
+									{ 57, 1, 395, 1, 135, 447624, 21, 171, 445370, 24, 21, 447833 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9858, 693, 1, 270, 353519, 2, 117, 361388, 26, 110, 354837 },
-									{ 58, 0.0142, 10, nil, nil, nil, 27, 4, 303689 },
+									{ 57, 0.9858, 693, 1, 270, 353519, 2, 117, 361388, 25, 110, 354837 },
+									{ 58, 0.0142, 10, nil, nil, nil, 26, 4, 303689 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 102, nil, nil, nil, 1, 38, 301297, 22, 20, 310976, 2, 14, 300229 },
+									{ 57, 1, 102, nil, nil, nil, 1, 38, 301297, 21, 20, 310976, 2, 14, 300229 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 115, nil, nil, nil, 1, 47, 381494, 26, 22, 390573, 2, 20, 382187 },
+									{ 57, 1, 115, nil, nil, nil, 1, 47, 381494, 25, 22, 390573, 2, 20, 382187 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9784, 181, 26, 68, 217495, 2, 37, 200358, 1, 41, 227044 },
-									{ 58, 0.0216, 4, nil, nil, nil, 27, 4, 194446 },
+									{ 57, 0.9784, 181, 25, 68, 217495, 2, 37, 200358, 1, 41, 227044 },
+									{ 58, 0.0216, 4, nil, nil, nil, 26, 4, 194446 },
 								},
 							},
 							["fast"] = {
@@ -28897,53 +28874,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9873, 234, 26, 76, 219731, 34, 28, 189379, 35, 20, 173874 },
+									{ 57, 0.9873, 234, 25, 76, 219731, 33, 28, 189379, 34, 20, 173874 },
 									{ 58, 0.0127, 3, nil, nil, nil, 18, 3, 285051 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 32, nil, nil, nil, 34, 10, 173790 },
+									{ 57, 1, 32, nil, nil, nil, 33, 10, 173790 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 22, nil, nil, nil, 26, 14, 217551 },
+									{ 57, 1, 22, nil, nil, nil, 25, 14, 217551 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9864, 362, 26, 205, 150892, 2, 26, 147990, 1, 29, 157882 },
+									{ 57, 0.9864, 362, 25, 205, 150892, 2, 26, 147990, 1, 29, 157882 },
 									{ 58, 0.0136, 5, nil, nil, nil, 4, 5, 222436 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 66, nil, nil, nil, 26, 37, 124106 },
+									{ 57, 1, 66, nil, nil, nil, 25, 37, 124106 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 67, nil, nil, nil, 26, 44, 176427 },
+									{ 57, 1, 67, nil, nil, nil, 25, 44, 176427 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 128, 26, 87, 156928, 2, 14, 165653 },
+									{ 57, 1, 128, 25, 87, 156928, 2, 14, 165653 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 31, nil, nil, nil, 26, 23, 134195 },
+									{ 57, 1, 31, nil, nil, nil, 25, 23, 134195 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 12, nil, nil, nil, 26, 9, 209057 },
+									{ 57, 1, 12, nil, nil, nil, 25, 9, 209057 },
 								},
 							},
 						},
@@ -28952,47 +28929,47 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 776, 28, 457, 210485, 36, 41, 196682, 37, 36, 205941 },
+									{ 57, 1, 776, 27, 457, 210485, 35, 41, 196682, 36, 36, 205941 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 173, nil, nil, nil, 28, 105, 187624, 36, 14, 177427 },
+									{ 57, 1, 173, nil, nil, nil, 27, 105, 187624, 35, 14, 177427 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 149, nil, nil, nil, 28, 98, 249320, 36, 12, 246928 },
+									{ 57, 1, 149, nil, nil, nil, 27, 98, 249320, 35, 12, 246928 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9904, 514, 26, 331, 198662, 2, 30, 202258, 33, 19, 203019 },
+									{ 57, 0.9904, 514, 25, 331, 198662, 2, 30, 202258, 32, 19, 203019 },
 									{ 58, 0.0096, 5, nil, nil, nil, 4, 5, 282644 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 125, nil, nil, nil, 26, 83, 169881 },
+									{ 57, 1, 125, nil, nil, nil, 25, 83, 169881 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 69, nil, nil, nil, 26, 52, 238446 },
+									{ 57, 1, 69, nil, nil, nil, 25, 52, 238446 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 132, 26, 92, 233076, 2, 12, 246939 },
+									{ 57, 1, 132, 25, 92, 233076, 2, 12, 246939 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 26, nil, nil, nil, 26, 19, 164911 },
+									{ 57, 1, 26, nil, nil, nil, 25, 19, 164911 },
 								},
 							},
 							["median"] = {
@@ -29006,41 +28983,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 233, 30, 82, 276618, 40, 69, 359772, 41, 26, 351216 },
+									{ 57, 1, 233, 29, 82, 276618, 39, 69, 359772, 40, 26, 351216 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 35, nil, nil, nil, 30, 17, 257836 },
+									{ 57, 1, 35, nil, nil, nil, 29, 17, 257836 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 22, nil, nil, nil, 30, 10, 341190 },
+									{ 57, 1, 22, nil, nil, nil, 29, 10, 341190 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 222, 26, 112, 313552, 2, 21, 314897, 1, 25, 314406 },
+									{ 57, 1, 222, 25, 112, 313552, 2, 21, 314897, 1, 25, 314406 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 28, nil, nil, nil, 26, 13, 280262 },
+									{ 57, 1, 28, nil, nil, nil, 25, 13, 280262 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 35, nil, nil, nil, 26, 24, 338179 },
+									{ 57, 1, 35, nil, nil, nil, 25, 24, 338179 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 115, 26, 73, 240656, 2, 12, 229125 },
+									{ 57, 1, 115, 25, 73, 240656, 2, 12, 229125 },
 								},
 							},
 							["fast"] = {
@@ -29050,7 +29027,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 12, nil, nil, nil, 26, 12, 273657 },
+									{ 57, 1, 12, nil, nil, nil, 25, 12, 273657 },
 								},
 							},
 						},
@@ -29059,52 +29036,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 155, nil, nil, nil, 38, 87, 177101, 39, 14, 201426 },
+									{ 57, 1, 155, nil, nil, nil, 37, 87, 177101, 38, 14, 201426 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 28, nil, nil, nil, 38, 17, 166432 },
+									{ 57, 1, 28, nil, nil, nil, 37, 17, 166432 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 7, nil, nil, nil, 38, 7, 231754 },
+									{ 57, 1, 7, nil, nil, nil, 37, 7, 231754 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9889, 357, 26, 217, 216475, 2, 30, 222128, 33, 19, 227573 },
+									{ 57, 0.9889, 357, 25, 217, 216475, 2, 30, 222128, 32, 19, 227573 },
 									{ 58, 0.0111, 4, nil, nil, nil, 4, 4, 322143 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 91, nil, nil, nil, 26, 44, 183472 },
+									{ 57, 1, 91, nil, nil, nil, 25, 44, 183472 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 58, nil, nil, nil, 26, 44, 242488 },
+									{ 57, 1, 58, nil, nil, nil, 25, 44, 242488 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 127, 26, 88, 184140 },
+									{ 57, 1, 127, 25, 88, 184140 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 13, nil, nil, nil, 26, 13, 134448 },
+									{ 57, 1, 13, nil, nil, nil, 25, 13, 134448 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 23, nil, nil, nil, 26, 18, 217226 },
+									{ 57, 1, 23, nil, nil, nil, 25, 18, 217226 },
 								},
 							},
 						},
@@ -29113,52 +29090,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 58, nil, nil, nil, 42, 17, 305775, 30, 12, 337073 },
+									{ 57, 1, 58, nil, nil, nil, 41, 17, 305775, 29, 12, 337073 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 15, nil, nil, nil, 42, 8, 296314 },
+									{ 57, 1, 15, nil, nil, nil, 41, 8, 296314 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 3, nil, nil, nil, 42, 3, 357545 },
+									{ 57, 1, 3, nil, nil, nil, 41, 3, 357545 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9833, 177, 26, 67, 214219, 2, 28, 204088, 1, 34, 218902 },
+									{ 57, 0.9833, 177, 25, 67, 214219, 2, 28, 204088, 1, 34, 218902 },
 									{ 58, 0.0167, 3, nil, nil, nil, 4, 3, 297557 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 23, nil, nil, nil, 26, 9, 196487 },
+									{ 57, 1, 23, nil, nil, nil, 25, 9, 196487 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 17, nil, nil, nil, 26, 8, 250198 },
+									{ 57, 1, 17, nil, nil, nil, 25, 8, 250198 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 94, 26, 54, 179974, 2, 12, 175166, 1, 16, 174816 },
+									{ 57, 1, 94, 25, 54, 179974, 2, 12, 175166, 1, 16, 174816 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 13, nil, nil, nil, 26, 9, 168458 },
+									{ 57, 1, 13, nil, nil, nil, 25, 9, 168458 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 7, nil, nil, nil, 26, 7, 188270 },
+									{ 57, 1, 7, nil, nil, nil, 25, 7, 188270 },
 								},
 							},
 						},
@@ -29167,51 +29144,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 55, nil, nil, nil, 39, 19, 453941, 43, 16, 440339 },
+									{ 57, 1, 55, nil, nil, nil, 38, 19, 453941, 42, 16, 440339 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 3, nil, nil, nil, 39, 3, 400595 },
+									{ 57, 1, 3, nil, nil, nil, 38, 3, 400595 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 6, nil, nil, nil, 39, 6, 465524 },
+									{ 57, 1, 6, nil, nil, nil, 38, 6, 465524 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 126, nil, nil, nil, 26, 54, 403409, 44, 13, 421576, 1, 12, 448782 },
+									{ 57, 1, 126, nil, nil, nil, 25, 54, 403409, 43, 13, 421576, 1, 12, 448782 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 16, nil, nil, nil, 26, 10, 376065 },
+									{ 57, 1, 16, nil, nil, nil, 25, 10, 376065 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 18, nil, nil, nil, 26, 6, 456412 },
+									{ 57, 1, 18, nil, nil, nil, 25, 6, 456412 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 73, nil, nil, nil, 26, 45, 297136 },
+									{ 57, 1, 73, nil, nil, nil, 25, 45, 297136 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 5, nil, nil, nil, 26, 5, 248463 },
+									{ 57, 1, 5, nil, nil, nil, 25, 5, 248463 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 6, nil, nil, nil, 26, 6, 299794 },
+									{ 57, 1, 6, nil, nil, nil, 25, 6, 299794 },
 								},
 							},
 						},
@@ -29220,46 +29197,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 20, nil, nil, nil, 32, 8, 255444 },
+									{ 57, 1, 20, nil, nil, nil, 31, 8, 255444 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 10, nil, nil, nil, 32, 4, 251627 },
+									{ 57, 1, 10, nil, nil, nil, 31, 4, 251627 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 6, nil, nil, nil, 45, 3, 293264 },
+									{ 57, 1, 6, nil, nil, nil, 44, 3, 293264 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 124, 26, 86, 107343 },
+									{ 57, 1, 124, 25, 86, 107343 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 13, nil, nil, nil, 26, 7, 94296 },
+									{ 57, 1, 13, nil, nil, nil, 25, 7, 94296 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 22, nil, nil, nil, 26, 16, 125760 },
+									{ 57, 1, 22, nil, nil, nil, 25, 16, 125760 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 58, nil, nil, nil, 26, 34, 98664 },
+									{ 57, 1, 58, nil, nil, nil, 25, 34, 98664 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 13, nil, nil, nil, 26, 13, 92489 },
+									{ 57, 1, 13, nil, nil, nil, 25, 13, 92489 },
 								},
 							},
 							["median"] = {
@@ -29273,46 +29250,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 45, nil, nil, nil, 46, 7, 501071 },
+									{ 57, 1, 45, nil, nil, nil, 45, 7, 501071 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 4, nil, nil, nil, 46, 4, 496592 },
+									{ 57, 1, 4, nil, nil, nil, 45, 4, 496592 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 63, nil, nil, nil, 26, 42, 342479 },
+									{ 57, 1, 63, nil, nil, nil, 25, 42, 342479 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 7, nil, nil, nil, 26, 7, 292578 },
+									{ 57, 1, 7, nil, nil, nil, 25, 7, 292578 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 6, nil, nil, nil, 26, 3, 373242 },
+									{ 57, 1, 6, nil, nil, nil, 25, 3, 373242 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 55, nil, nil, nil, 26, 36, 273043 },
+									{ 57, 1, 55, nil, nil, nil, 25, 36, 273043 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 16, nil, nil, nil, 26, 13, 263118 },
+									{ 57, 1, 16, nil, nil, nil, 25, 13, 263118 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 3, nil, nil, nil, 26, 3, 438715 },
+									{ 57, 1, 3, nil, nil, nil, 25, 3, 438715 },
 								},
 							},
 						},
@@ -29321,52 +29298,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 331, 29, 74, 142133, 28, 99, 140858, 32, 28, 144129 },
+									{ 57, 1, 331, 28, 74, 142133, 27, 99, 140858, 31, 28, 144129 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 80, nil, nil, nil, 29, 21, 137852, 28, 35, 133774 },
+									{ 57, 1, 80, nil, nil, nil, 28, 21, 137852, 27, 35, 133774 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 51, nil, nil, nil, 29, 18, 147878, 28, 20, 148266 },
+									{ 57, 1, 51, nil, nil, nil, 28, 18, 147878, 27, 20, 148266 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9944, 531, 26, 246, 293834, 2, 61, 284988, 1, 85, 293057 },
+									{ 57, 0.9944, 531, 25, 246, 293834, 2, 61, 284988, 1, 85, 293057 },
 									{ 58, 0.0056, 3, nil, nil, nil, 18, 3, 335957 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 75, nil, nil, nil, 26, 33, 144687, 1, 12, 196360 },
+									{ 57, 1, 75, nil, nil, nil, 25, 33, 144687, 1, 12, 196360 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 81, 26, 52, 315031 },
+									{ 57, 1, 81, 25, 52, 315031 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 1, 77, nil, nil, nil, 26, 39, 268211, 1, 15, 304231 },
+									{ 57, 1, 77, nil, nil, nil, 25, 39, 268211, 1, 15, 304231 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 3, nil, nil, nil, 26, 3, 150598 },
+									{ 57, 1, 3, nil, nil, nil, 25, 3, 150598 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 10, nil, nil, nil, 26, 4, 314815 },
+									{ 57, 1, 10, nil, nil, nil, 25, 4, 314815 },
 								},
 							},
 						},
@@ -29375,54 +29352,54 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9987, 2305, 28, 766, 193800, 29, 124, 142725, 30, 99, 276017 },
+									{ 57, 0.9987, 2305, 27, 766, 193800, 28, 124, 142725, 29, 99, 276017 },
 									{ 58, 0.0013, 3, nil, nil, nil, 18, 3, 285051 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 480, 28, 173, 141977, 29, 35, 138512, 31, 44, 138020 },
+									{ 57, 1, 480, 27, 173, 141977, 28, 35, 138512, 30, 44, 138020 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 332, 28, 151, 236348, 29, 27, 147883, 32, 13, 148322 },
+									{ 57, 1, 332, 27, 151, 236348, 28, 27, 147883, 31, 13, 148322 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9863, 2886, 26, 1420, 175411, 2, 251, 206810, 1, 275, 211822 },
-									{ 58, 0.0137, 40, nil, nil, nil, 4, 20, 229522, 27, 12, 260563 },
+									{ 57, 0.9863, 2886, 25, 1420, 175411, 2, 251, 206810, 1, 275, 211822 },
+									{ 58, 0.0137, 40, nil, nil, nil, 4, 20, 229522, 26, 12, 260563 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 581, 26, 274, 129855, 2, 41, 122162, 5, 56, 136405 },
+									{ 57, 1, 581, 25, 274, 129855, 2, 41, 122162, 5, 56, 136405 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 465, 26, 264, 183026, 1, 46, 171398, 2, 39, 238496 },
+									{ 57, 1, 465, 25, 264, 183026, 1, 46, 171398, 2, 39, 238496 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 57, 0.9921, 1011, 26, 554, 142582, 2, 89, 166437, 33, 66, 168151 },
-									{ 58, 0.0079, 8, nil, nil, nil, 27, 8, 187951 },
+									{ 57, 0.9921, 1011, 25, 554, 142582, 2, 89, 166437, 32, 66, 168151 },
+									{ 58, 0.0079, 8, nil, nil, nil, 26, 8, 187951 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 57, 1, 204, 26, 118, 114029, 2, 17, 137638, 33, 15, 133644 },
+									{ 57, 1, 204, 25, 118, 114029, 2, 17, 137638, 32, 15, 133644 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 57, 1, 151, 26, 87, 209539, 2, 19, 195651, 1, 18, 141837 },
+									{ 57, 1, 151, 25, 87, 209539, 2, 19, 195651, 1, 18, 141837 },
 								},
 							},
 						},
@@ -29451,19 +29428,16 @@ ns.talentBuilds = {
 				"YMzMzoBjtZmxsMAAAAAAAgxMGWgB2GtRDLGMWGzMzMzAAzYmxMzMAjZMzAAAMzMzMzMD2mZAGA",
 				"wMjZGNbmZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZmxww2MGwA",
 				"wMMzoZzMz2MzMz2AAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZmxwwyMGwA",
-				"wMmZGNbMz2MzYWGAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMzMmZAGzYGbAAgxMzMGGWmxAGA",
 				"wMmZGNbMz2MzY2GAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMzMmZAGzYGbAAgxMzMGGWmxAGA",
 				"wMmZGNbMz2MzY2GAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMmZmZAGzYGbAAgxMzMGG2mxAGA",
 				"wMegZGNbmZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZmxwwyMGwA",
-				"wMmZmpZjZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjZmZmZAGzwYDAAMmZmxAWmxAGA",
 				"wMjZGNbmZ2mZGz2AAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZmxwwyMGwA",
 				"wMmZGNbMz2MzY2GAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMzMzMDwYGzYDAAMmZmxAWmxAGA",
 				"wMMzoZzMz2MzYWGAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMmZmZAGzYmZDAAMmZmxwwyMGwA",
-				"wMmZGNbMz2MzYWGAAAAAAAwYGDLwAbj2ohFjZGLz2MzMmBAmZMmZmZAGzYGbAAgxMzMGGWmxAGA",
 				"wMMzoZzMz2MzMzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzYDAAMmZmxww2MGwA",
 				"wMjZGNbmZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjZmZmZAGzYGbAAgxMzMGwyMGwA",
-				"wMjZGNbmZ2mZGzyAAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjZGzMDwYGGbAAAmZmZGGzyMGwA",
 				"wMMzoZzMz2MzYWGAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMmZmZAGzYmZDAAMmZmxww2MGwA",
+				"wMmZGNbMz2MzYWGAAAAAAAwYGDLwAbjWohFjZGLz2MzMmBAmZMzMmZAGzYGbAAgxMzMGGWmxAGA",
 				"wMmZGNbMz2MzMz2AAAAAAAAGzYYBGYb0CNsYMzYZ2mZmxMAwMjxMzMDwYGzAAAYMzMjhhlZMgB",
 				"wMmZGNbM2mZGz2AAAAAAAAGzYYBGYb0CNsYMGLz2MzMmBAmZMzMzMDwYGzMbAAgxMzMGGWmxAGA",
 				"YmZmZmpZjhZmZmlBAAAAAAAMmxwCMw2oNaYxYmxysNzMjZAgZGjZmZGAmBDAAwYmZmZYYZGDYA",
@@ -29529,13 +29503,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.9953, 4867, 24, 3935, 19, 2, 168, 12, 3, 94, 12 },
+							{ 59, 0.9953, 4867, 22, 3935, 19, 2, 168, 12, 3, 94, 12 },
 							{ 57, 0.0047, 23, nil, nil, nil, 4, 14, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 2000, 1, 1799, 20, 30, 40, 23, 31, 32, 21 },
+							{ 59, 1, 1309, 1, 1211, 20, 27, 21, 21, 28, 20, 21 },
 						},
 					},
 					["20-99"] = {
@@ -29553,13 +29527,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.9962, 3714, 22, 3014, 18, 2, 127, 12, 3, 77, 12 },
+							{ 59, 0.9962, 3714, 21, 3014, 18, 2, 127, 12, 3, 77, 12 },
 							{ 57, 0.0038, 14, nil, nil, nil, 4, 9, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1041, 11, 965, 20, 28, 19, 19, 29, 13, 19 },
+							{ 59, 1, 1041, 11, 965, 20, 25, 19, 19, 26, 13, 19 },
 						},
 					},
 					["20-99"] = {
@@ -29583,7 +29557,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1428, 6, 1297, 20, 25, 29, 22, 27, 14, 21 },
+							{ 59, 1, 906, 6, 828, 20, 23, 21, 22, 20, 14, 21 },
 						},
 					},
 					["20-99"] = {
@@ -29601,18 +29575,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.995, 3554, 24, 2912, 19, 2, 146, 12, 3, 70, 12 },
+							{ 59, 0.995, 3554, 22, 2912, 19, 2, 146, 12, 3, 70, 12 },
 							{ 57, 0.005, 18, nil, nil, nil, 4, 6, 12, 5, 12, 10 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1021, 6, 951, 20, 25, 13, 23, 14, 13, 23 },
+							{ 59, 1, 1021, 6, 951, 20, 23, 13, 23, 14, 13, 23 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 59, 1, 174, nil, nil, nil, 26, 174, 23 },
+							{ 59, 1, 174, nil, nil, nil, 24, 174, 23 },
 						},
 					},
 				},
@@ -29625,13 +29599,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.9925, 4868, 22, 3892, 18, 2, 192, 12, 3, 130, 12 },
+							{ 59, 0.9925, 4868, 21, 3892, 18, 2, 192, 12, 3, 130, 12 },
 							{ 57, 0.0075, 37, nil, nil, nil, 5, 12, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1549, 11, 1448, 20, 23, 19, 21, 19, 12, 21 },
+							{ 59, 1, 1031, 1, 974, 20 },
 						},
 					},
 					["20-99"] = {
@@ -29655,7 +29629,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1240, 11, 1128, 20, 20, 20, 22, 21, 28, 21 },
+							{ 59, 1, 1240, 11, 1128, 20, 19, 20, 22, 20, 28, 21 },
 						},
 					},
 					["20-99"] = {
@@ -29679,7 +29653,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 1, 1490, 11, 1353, 20, 14, 60, 24, 19, 14, 20 },
+							{ 59, 1, 972, 11, 887, 20, 14, 39, 24, 7, 13, 20 },
 						},
 					},
 					["20-99"] = {
@@ -29715,8 +29689,8 @@ ns.talentBuilds = {
 				["all"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 59, 0.9733, 2040, 1, 1199, 9, 2, 301, 9, 3, 173, 9 },
-							{ 57, 0.0267, 56, nil, nil, nil, 4, 16, 9, 5, 31, 8 },
+							{ 59, 0.9735, 2165, 1, 1287, 9, 2, 314, 9, 3, 177, 9 },
+							{ 57, 0.0265, 59, nil, nil, nil, 4, 18, 9, 5, 32, 8 },
 						},
 					},
 					["10-99"] = {
@@ -29743,48 +29717,47 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9942, 6474, 32, 4158, 428283, 33, 569, 417018, 34, 282, 417492 },
-									{ 57, 0.0058, 38, nil, nil, nil, 35, 22, 426607, 10, 13, 417779 },
+									{ 59, 0.9942, 6474, 29, 4158, 428283, 30, 569, 417018, 31, 282, 417492 },
+									{ 57, 0.0058, 38, nil, nil, nil, 32, 22, 426607, 10, 13, 417779 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9955, 2217, 32, 1082, 377440, 33, 351, 364759, 34, 168, 374513 },
-									{ 57, 0.0045, 10, nil, nil, nil, 35, 7, 394710 },
+									{ 59, 1, 1219, 29, 647, 372383, 30, 144, 371031, 33, 40, 345225 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9937, 950, 32, 678, 448939, 33, 54, 446605, 34, 41, 447477 },
-									{ 57, 0.0063, 6, nil, nil, nil, 35, 6, 445783 },
+									{ 59, 0.9937, 950, 29, 678, 448939, 30, 54, 446605, 31, 41, 447477 },
+									{ 57, 0.0063, 6, nil, nil, nil, 32, 6, 445783 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9291, 2242, 1, 1338, 345417, 37, 152, 339630, 2, 79, 376701 },
-									{ 57, 0.0709, 171, 35, 64, 359452, 10, 59, 356329, 38, 17, 355023 },
+									{ 59, 0.9291, 2242, 1, 1338, 345417, 34, 152, 339630, 2, 79, 376701 },
+									{ 57, 0.0709, 171, 32, 64, 359452, 10, 59, 356329, 35, 17, 355023 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9571, 446, 1, 283, 298802, 39, 20, 281675, 37, 25, 309757 },
-									{ 57, 0.0429, 20, nil, nil, nil, 35, 8, 296147 },
+									{ 59, 0.9571, 446, 1, 283, 298802, 36, 20, 281675, 34, 25, 309757 },
+									{ 57, 0.0429, 20, nil, nil, nil, 32, 8, 296147 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9488, 389, 1, 261, 382329, 37, 23, 372661, 2, 17, 388623 },
-									{ 57, 0.0512, 21, nil, nil, nil, 35, 14, 388823 },
+									{ 59, 0.9488, 389, 1, 261, 382329, 34, 23, 372661, 2, 17, 388623 },
+									{ 57, 0.0512, 21, nil, nil, nil, 32, 14, 388823 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8404, 479, 1, 275, 190642, 2, 53, 227679, 37, 37, 204680 },
-									{ 57, 0.1596, 91, nil, nil, nil, 10, 37, 218005, 35, 29, 211343 },
+									{ 59, 0.8404, 479, 1, 275, 190642, 2, 53, 227679, 34, 37, 204680 },
+									{ 57, 0.1596, 91, nil, nil, nil, 10, 37, 218005, 32, 29, 211343 },
 								},
 							},
 							["fast"] = {
@@ -29805,47 +29778,47 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9942, 6474, 32, 4158, 428283, 33, 569, 417018, 34, 282, 417492 },
-									{ 57, 0.0058, 38, nil, nil, nil, 35, 22, 426607, 10, 13, 417779 },
+									{ 59, 0.9942, 6474, 29, 4158, 428283, 30, 569, 417018, 31, 282, 417492 },
+									{ 57, 0.0058, 38, nil, nil, nil, 32, 22, 426607, 10, 13, 417779 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 1219, 32, 647, 372383, 33, 144, 371031, 36, 40, 345225 },
+									{ 59, 1, 1219, 29, 647, 372383, 30, 144, 371031, 33, 40, 345225 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9937, 950, 32, 678, 448939, 33, 54, 446605, 34, 41, 447477 },
-									{ 57, 0.0063, 6, nil, nil, nil, 35, 6, 445783 },
+									{ 59, 0.9937, 950, 29, 678, 448939, 30, 54, 446605, 31, 41, 447477 },
+									{ 57, 0.0063, 6, nil, nil, nil, 32, 6, 445783 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9291, 2242, 1, 1338, 345417, 37, 152, 339630, 2, 79, 376701 },
-									{ 57, 0.0709, 171, 35, 64, 359452, 10, 59, 356329, 38, 17, 355023 },
+									{ 59, 0.9291, 2242, 1, 1338, 345417, 34, 152, 339630, 2, 79, 376701 },
+									{ 57, 0.0709, 171, 32, 64, 359452, 10, 59, 356329, 35, 17, 355023 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9571, 446, 1, 283, 298802, 39, 20, 281675, 37, 25, 309757 },
-									{ 57, 0.0429, 20, nil, nil, nil, 35, 8, 296147 },
+									{ 59, 0.9571, 446, 1, 283, 298802, 36, 20, 281675, 34, 25, 309757 },
+									{ 57, 0.0429, 20, nil, nil, nil, 32, 8, 296147 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9488, 389, 1, 261, 382329, 37, 23, 372661, 2, 17, 388623 },
-									{ 57, 0.0512, 21, nil, nil, nil, 35, 14, 388823 },
+									{ 59, 0.9488, 389, 1, 261, 382329, 34, 23, 372661, 2, 17, 388623 },
+									{ 57, 0.0512, 21, nil, nil, nil, 32, 14, 388823 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8404, 479, 1, 275, 190642, 2, 53, 227679, 37, 37, 204680 },
-									{ 57, 0.1596, 91, nil, nil, nil, 10, 37, 218005, 35, 29, 211343 },
+									{ 59, 0.8404, 479, 1, 275, 190642, 2, 53, 227679, 34, 37, 204680 },
+									{ 57, 0.1596, 91, nil, nil, nil, 10, 37, 218005, 32, 29, 211343 },
 								},
 							},
 							["fast"] = {
@@ -29868,58 +29841,58 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9965, 2293, 37, 434, 217189, 48, 862, 195164, 46, 299, 222179 },
-									{ 57, 0.0035, 8, nil, nil, nil, 35, 8, 233586 },
+									{ 59, 0.9965, 2293, 34, 434, 217189, 45, 862, 195164, 43, 299, 222179 },
+									{ 57, 0.0035, 8, nil, nil, nil, 32, 8, 233586 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 696, 48, 203, 176610, 37, 89, 177623, 49, 69, 171870 },
+									{ 59, 1, 696, 45, 203, 176610, 34, 89, 177623, 46, 69, 171870 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 352, 37, 82, 219213, 48, 160, 222595, 46, 43, 221707 },
+									{ 59, 1, 352, 34, 82, 219213, 45, 160, 222595, 43, 43, 221707 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8943, 1074, 37, 167, 144709, 1, 393, 152260, 46, 214, 153591 },
-									{ 57, 0.1057, 127, 35, 63, 152879, 10, 33, 168674, 38, 12, 174313 },
+									{ 59, 0.8943, 1074, 34, 167, 144709, 1, 393, 152260, 43, 214, 153591 },
+									{ 57, 0.1057, 127, 32, 63, 152879, 10, 33, 168674, 35, 12, 174313 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9362, 220, nil, nil, nil, 37, 35, 123722, 50, 20, 105648, 1, 56, 117263 },
-									{ 57, 0.0638, 15, nil, nil, nil, 35, 10, 122011 },
+									{ 59, 0.9362, 220, nil, nil, nil, 34, 35, 123722, 47, 20, 105648, 1, 56, 117263 },
+									{ 57, 0.0638, 15, nil, nil, nil, 32, 10, 122011 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9177, 145, nil, nil, nil, 1, 75, 166400, 37, 18, 165003, 51, 12, 161844 },
-									{ 57, 0.0823, 13, nil, nil, nil, 35, 10, 174216 },
+									{ 59, 0.9177, 145, nil, nil, nil, 1, 75, 166400, 34, 18, 165003, 48, 12, 161844 },
+									{ 57, 0.0823, 13, nil, nil, nil, 32, 10, 174216 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8075, 281, 1, 148, 163902, 37, 34, 138670, 2, 16, 153112 },
-									{ 57, 0.1925, 67, nil, nil, nil, 35, 38, 154033, 10, 22, 171451 },
+									{ 59, 0.8075, 281, 1, 148, 163902, 34, 34, 138670, 2, 16, 153112 },
+									{ 57, 0.1925, 67, nil, nil, nil, 32, 38, 154033, 10, 22, 171451 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 59, 0.7241, 42, nil, nil, nil, 1, 21, 125996 },
-									{ 57, 0.2759, 16, nil, nil, nil, 35, 11, 127441 },
+									{ 57, 0.2759, 16, nil, nil, nil, 32, 11, 127441 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 59, 0.8387, 26, nil, nil, nil, 1, 20, 206483 },
-									{ 57, 0.1613, 5, nil, nil, nil, 35, 5, 208675 },
+									{ 57, 0.1613, 5, nil, nil, nil, 32, 5, 208675 },
 								},
 							},
 						},
@@ -29928,54 +29901,54 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9235, 1352, 42, 546, 217915, 52, 284, 206230, 37, 96, 260255 },
-									{ 57, 0.0765, 112, nil, nil, nil, 43, 25, 212581, 44, 41, 229897, 53, 15, 215474 },
+									{ 59, 0.9235, 1352, 39, 546, 217915, 49, 284, 206230, 34, 96, 260255 },
+									{ 57, 0.0765, 112, nil, nil, nil, 40, 25, 212581, 41, 41, 229897, 50, 15, 215474 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9151, 334, 42, 183, 188691, 52, 95, 185672, 45, 33, 187122 },
-									{ 57, 0.0849, 31, nil, nil, nil, 43, 10, 199768 },
+									{ 59, 0.9151, 334, 39, 183, 188691, 49, 95, 185672, 42, 33, 187122 },
+									{ 57, 0.0849, 31, nil, nil, nil, 40, 10, 199768 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9296, 185, 42, 85, 247929, 52, 33, 244562, 37, 17, 248058 },
-									{ 57, 0.0704, 14, nil, nil, nil, 54, 11, 242182 },
+									{ 59, 0.9296, 185, 39, 85, 247929, 49, 33, 244562, 34, 17, 248058 },
+									{ 57, 0.0704, 14, nil, nil, nil, 51, 11, 242182 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8497, 848, 37, 119, 197373, 1, 272, 216651, 46, 162, 194356 },
-									{ 57, 0.1503, 150, 35, 73, 202042, 10, 23, 230795, 38, 14, 241567 },
+									{ 59, 0.8497, 848, 34, 119, 197373, 1, 272, 216651, 43, 162, 194356 },
+									{ 57, 0.1503, 150, 32, 73, 202042, 10, 23, 230795, 35, 14, 241567 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.8362, 97, nil, nil, nil, 37, 18, 166099, 42, 20, 153480, 46, 23, 169341 },
-									{ 57, 0.1638, 19, nil, nil, nil, 35, 11, 175245 },
+									{ 59, 0.8362, 97, nil, nil, nil, 34, 18, 166099, 39, 20, 153480, 43, 23, 169341 },
+									{ 57, 0.1638, 19, nil, nil, nil, 32, 11, 175245 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.8417, 117, nil, nil, nil, 1, 47, 221459, 37, 21, 225210, 46, 15, 246699 },
-									{ 57, 0.1583, 22, nil, nil, nil, 35, 15, 230090 },
+									{ 59, 0.8417, 117, nil, nil, nil, 1, 47, 221459, 34, 21, 225210, 43, 15, 246699 },
+									{ 57, 0.1583, 22, nil, nil, nil, 32, 15, 230090 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.7678, 248, 1, 123, 237885, 37, 33, 227158, 55, 46, 239459 },
-									{ 57, 0.2322, 75, nil, nil, nil, 35, 39, 205234, 10, 19, 230253 },
+									{ 59, 0.7678, 248, 1, 123, 237885, 34, 33, 227158, 52, 46, 239459 },
+									{ 57, 0.2322, 75, nil, nil, nil, 32, 39, 205234, 10, 19, 230253 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 59, 0.6275, 32, nil, nil, nil, 1, 17, 171649 },
-									{ 57, 0.3725, 19, nil, nil, nil, 35, 13, 176462 },
+									{ 57, 0.3725, 19, nil, nil, nil, 32, 13, 176462 },
 								},
 							},
 							["median"] = {
@@ -29990,56 +29963,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 1, 1016, 57, 230, 293168, 58, 124, 289684, 40, 286, 342005 },
+									{ 59, 1, 1016, 54, 230, 293168, 55, 124, 289684, 37, 286, 342005 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 150, nil, nil, nil, 58, 26, 260270, 59, 51, 260486, 57, 18, 259091 },
+									{ 59, 1, 150, nil, nil, nil, 55, 26, 260270, 56, 51, 260486, 54, 18, 259091 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 124, nil, nil, nil, 57, 28, 346887, 58, 21, 349742, 40, 26, 353889 },
+									{ 59, 1, 124, nil, nil, nil, 54, 28, 346887, 55, 21, 349742, 37, 26, 353889 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8816, 521, 37, 132, 308743, 1, 191, 316942, 55, 97, 304160 },
-									{ 57, 0.1184, 70, 35, 44, 330743, 10, 13, 313896 },
+									{ 59, 0.8816, 521, 34, 132, 308743, 1, 191, 316942, 52, 97, 304160 },
+									{ 57, 0.1184, 70, 32, 44, 330743, 10, 13, 313896 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.8966, 52, nil, nil, nil, 37, 16, 278951, 55, 12, 290154, 11, 21, 246784 },
-									{ 57, 0.1034, 6, nil, nil, nil, 35, 6, 282846 },
+									{ 59, 0.8966, 52, nil, nil, nil, 34, 16, 278951, 52, 12, 290154, 11, 21, 246784 },
+									{ 57, 0.1034, 6, nil, nil, nil, 32, 6, 282846 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9167, 88, nil, nil, nil, 37, 35, 330192, 1, 33, 325330, 46, 12, 335514 },
-									{ 57, 0.0833, 8, nil, nil, nil, 35, 8, 336142 },
+									{ 59, 0.9167, 88, nil, nil, nil, 34, 35, 330192, 1, 33, 325330, 43, 12, 335514 },
+									{ 57, 0.0833, 8, nil, nil, nil, 32, 8, 336142 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.7849, 197, 1, 97, 196826, 37, 37, 211243, 46, 39, 186891 },
-									{ 57, 0.2151, 54, nil, nil, nil, 35, 29, 297241, 10, 17, 286028 },
+									{ 59, 0.7849, 197, 1, 97, 196826, 34, 37, 211243, 43, 39, 186891 },
+									{ 57, 0.2151, 54, nil, nil, nil, 32, 29, 297241, 10, 17, 286028 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 28, nil, nil, nil, 1, 16, 146644, 45, 12, 149492 },
+									{ 59, 1, 28, nil, nil, nil, 1, 16, 146644, 42, 12, 149492 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 59, 0.6061, 20, nil, nil, nil, 1, 11, 254544 },
-									{ 57, 0.3939, 13, nil, nil, nil, 35, 8, 282084 },
+									{ 57, 0.3939, 13, nil, nil, nil, 32, 8, 282084 },
 								},
 							},
 						},
@@ -30048,46 +30021,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9978, 1338, 56, 313, 197107, 57, 273, 216082, 36, 118, 211663 },
-									{ 57, 0.0022, 3, nil, nil, nil, 35, 3, 256097 },
+									{ 59, 0.9978, 1338, 53, 313, 197107, 54, 273, 216082, 33, 118, 211663 },
+									{ 57, 0.0022, 3, nil, nil, nil, 32, 3, 256097 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 201, nil, nil, nil, 56, 49, 175494, 36, 18, 173407, 57, 30, 176696 },
+									{ 59, 1, 201, nil, nil, nil, 53, 49, 175494, 33, 18, 173407, 54, 30, 176696 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 182, nil, nil, nil, 57, 46, 231053, 36, 21, 230247, 56, 39, 227266 },
+									{ 59, 1, 182, nil, nil, nil, 54, 46, 231053, 33, 21, 230247, 53, 39, 227266 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8944, 906, 37, 180, 207596, 1, 277, 229894, 55, 208, 224310 },
-									{ 57, 0.1056, 107, 35, 69, 227949, 10, 17, 238661 },
+									{ 59, 0.8944, 906, 34, 180, 207596, 1, 277, 229894, 52, 208, 224310 },
+									{ 57, 0.1056, 107, 32, 69, 227949, 10, 17, 238661 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9394, 155, nil, nil, nil, 37, 42, 189618, 50, 14, 170199, 55, 54, 186419 },
-									{ 57, 0.0606, 10, nil, nil, nil, 35, 10, 191951 },
+									{ 59, 0.9394, 155, nil, nil, nil, 34, 42, 189618, 47, 14, 170199, 52, 54, 186419 },
+									{ 57, 0.0606, 10, nil, nil, nil, 32, 10, 191951 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9097, 141, nil, nil, nil, 1, 41, 230875, 37, 27, 239272, 55, 27, 242591 },
-									{ 57, 0.0903, 14, nil, nil, nil, 35, 14, 245118 },
+									{ 59, 0.9097, 141, nil, nil, nil, 1, 41, 230875, 34, 27, 239272, 52, 27, 242591 },
+									{ 57, 0.0903, 14, nil, nil, nil, 32, 14, 245118 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.7795, 251, 1, 123, 155875, 37, 43, 165025, 55, 45, 199348 },
-									{ 57, 0.2205, 71, 35, 41, 207914, 10, 15, 206973 },
+									{ 59, 0.7795, 251, 1, 123, 155875, 34, 43, 165025, 52, 45, 199348 },
+									{ 57, 0.2205, 71, 32, 41, 207914, 10, 15, 206973 },
 								},
 							},
 							["fast"] = {
@@ -30098,7 +30071,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 59, 0.6222, 28, nil, nil, nil, 1, 13, 211761 },
-									{ 57, 0.3778, 17, nil, nil, nil, 35, 14, 208867 },
+									{ 57, 0.3778, 17, nil, nil, nil, 32, 14, 208867 },
 								},
 							},
 						},
@@ -30107,45 +30080,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 1, 1803, 40, 1233, 342861, 60, 205, 351846, 61, 131, 340676 },
+									{ 59, 1, 1803, 37, 1233, 342861, 57, 205, 351846, 58, 131, 340676 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 166, 40, 143, 295308 },
+									{ 59, 1, 166, 37, 143, 295308 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 173, 40, 133, 352191, 60, 22, 360708 },
+									{ 59, 1, 173, 37, 133, 352191, 57, 22, 360708 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9283, 712, 1, 411, 212903, 37, 73, 211399, 46, 75, 212366 },
-									{ 57, 0.0717, 55, nil, nil, nil, 35, 29, 241988, 10, 18, 212641 },
+									{ 59, 0.9283, 712, 1, 411, 212903, 34, 73, 211399, 43, 75, 212366 },
+									{ 57, 0.0717, 55, nil, nil, nil, 32, 29, 241988, 10, 18, 212641 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9505, 96, nil, nil, nil, 40, 51, 177162, 60, 15, 180715 },
-									{ 57, 0.0495, 5, nil, nil, nil, 35, 5, 189045 },
+									{ 59, 0.9505, 96, nil, nil, nil, 37, 51, 177162, 57, 15, 180715 },
+									{ 57, 0.0495, 5, nil, nil, nil, 32, 5, 189045 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9217, 106, nil, nil, nil, 1, 61, 247569, 37, 19, 242623, 46, 14, 248330 },
-									{ 57, 0.0783, 9, nil, nil, nil, 35, 5, 244251 },
+									{ 59, 0.9217, 106, nil, nil, nil, 1, 61, 247569, 34, 19, 242623, 43, 14, 248330 },
+									{ 57, 0.0783, 9, nil, nil, nil, 32, 5, 244251 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8556, 237, 1, 135, 174865, 37, 35, 178465, 2, 13, 186916 },
-									{ 57, 0.1444, 40, nil, nil, nil, 35, 22, 198830, 10, 14, 185864 },
+									{ 59, 0.8556, 237, 1, 135, 174865, 34, 35, 178465, 2, 13, 186916 },
+									{ 57, 0.1444, 40, nil, nil, nil, 32, 22, 198830, 10, 14, 185864 },
 								},
 							},
 							["fast"] = {
@@ -30156,7 +30129,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 59, 0.8889, 32, nil, nil, nil, 1, 23, 183915 },
-									{ 57, 0.1111, 4, nil, nil, nil, 35, 4, 191711 },
+									{ 57, 0.1111, 4, nil, nil, nil, 32, 4, 191711 },
 								},
 							},
 						},
@@ -30165,45 +30138,45 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 1, 541, 62, 255, 460462, 63, 93, 473279, 40, 96, 459918 },
+									{ 59, 1, 541, 59, 255, 460462, 60, 93, 473279, 37, 96, 459918 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 55, nil, nil, nil, 64, 30, 413579 },
+									{ 59, 1, 55, nil, nil, nil, 61, 30, 413579 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 72, nil, nil, nil, 62, 47, 457059, 63, 16, 473279 },
+									{ 59, 1, 72, nil, nil, nil, 59, 47, 457059, 60, 16, 473279 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.933, 390, 1, 140, 439010, 37, 56, 423049, 46, 101, 397034 },
-									{ 57, 0.067, 28, nil, nil, nil, 35, 21, 444416 },
+									{ 59, 0.933, 390, 1, 140, 439010, 34, 56, 423049, 43, 101, 397034 },
+									{ 57, 0.067, 28, nil, nil, nil, 32, 21, 444416 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9348, 43, nil, nil, nil, 46, 14, 362911, 1, 13, 375356 },
-									{ 57, 0.0652, 3, nil, nil, nil, 35, 3, 385710 },
+									{ 59, 0.9348, 43, nil, nil, nil, 43, 14, 362911, 1, 13, 375356 },
+									{ 57, 0.0652, 3, nil, nil, nil, 32, 3, 385710 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9296, 66, nil, nil, nil, 1, 31, 444419, 55, 15, 449918 },
-									{ 57, 0.0704, 5, nil, nil, nil, 35, 5, 450700 },
+									{ 59, 0.9296, 66, nil, nil, nil, 1, 31, 444419, 52, 15, 449918 },
+									{ 57, 0.0704, 5, nil, nil, nil, 32, 5, 450700 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8508, 211, 1, 105, 283322, 37, 26, 292914, 46, 37, 305083 },
-									{ 57, 0.1492, 37, nil, nil, nil, 35, 23, 358772, 10, 14, 357138 },
+									{ 59, 0.8508, 211, 1, 105, 283322, 34, 26, 292914, 43, 37, 305083 },
+									{ 57, 0.1492, 37, nil, nil, nil, 32, 23, 358772, 10, 14, 357138 },
 								},
 							},
 							["fast"] = {
@@ -30213,7 +30186,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.7391, 17, nil, nil, nil, 37, 7, 304062 },
+									{ 59, 0.7391, 17, nil, nil, nil, 34, 7, 304062 },
 									{ 57, 0.2609, 6, nil, nil, nil, 10, 3, 333502 },
 								},
 							},
@@ -30223,57 +30196,57 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 1, 1876, 45, 897, 278455, 66, 262, 278602, 67, 176, 281728 },
+									{ 59, 1, 1876, 42, 897, 278455, 63, 262, 278602, 64, 176, 281728 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 249, nil, nil, nil, 45, 121, 234844, 66, 55, 228213, 68, 42, 236726 },
+									{ 59, 1, 249, nil, nil, nil, 42, 121, 234844, 63, 55, 228213, 65, 42, 236726 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 244, nil, nil, nil, 45, 143, 291035, 66, 37, 291322, 69, 27, 291932 },
+									{ 59, 1, 244, nil, nil, nil, 42, 143, 291035, 63, 37, 291322, 66, 27, 291932 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9439, 690, 45, 342, 99104, 1, 114, 110475, 37, 59, 105673 },
-									{ 57, 0.0561, 41, nil, nil, nil, 35, 27, 111371 },
+									{ 59, 0.9439, 690, 42, 342, 99104, 1, 114, 110475, 34, 59, 105673 },
+									{ 57, 0.0561, 41, nil, nil, nil, 32, 27, 111371 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9381, 106, nil, nil, nil, 45, 69, 90719, 50, 17, 88163 },
-									{ 57, 0.0619, 7, nil, nil, nil, 35, 4, 95373 },
+									{ 59, 0.9381, 106, nil, nil, nil, 42, 69, 90719, 47, 17, 88163 },
+									{ 57, 0.0619, 7, nil, nil, nil, 32, 4, 95373 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9506, 77, nil, nil, nil, 1, 20, 114115, 45, 41, 112030 },
-									{ 57, 0.0494, 4, nil, nil, nil, 35, 4, 133140 },
+									{ 59, 0.9506, 77, nil, nil, nil, 1, 20, 114115, 42, 41, 112030 },
+									{ 57, 0.0494, 4, nil, nil, nil, 32, 4, 133140 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8457, 159, nil, nil, nil, 1, 77, 114297, 45, 43, 126146, 37, 16, 99656 },
-									{ 57, 0.1543, 29, nil, nil, nil, 35, 21, 105547 },
+									{ 59, 0.8457, 159, nil, nil, nil, 1, 77, 114297, 42, 43, 126146, 34, 16, 99656 },
+									{ 57, 0.1543, 29, nil, nil, nil, 32, 21, 105547 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 59, 0.6111, 22, nil, nil, nil, 1, 13, 99814 },
-									{ 57, 0.3889, 14, nil, nil, nil, 35, 10, 98335 },
+									{ 57, 0.3889, 14, nil, nil, nil, 32, 10, 98335 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 59, 0.5714, 4, nil, nil, nil, 1, 4, 136160 },
-									{ 57, 0.4286, 3, nil, nil, nil, 35, 3, 135479 },
+									{ 57, 0.4286, 3, nil, nil, nil, 32, 3, 135479 },
 								},
 							},
 						},
@@ -30282,50 +30255,50 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 1, 2439, 41, 1960, 504312, 70, 336, 503436, 71, 73, 500175 },
+									{ 59, 1, 2439, 38, 1960, 504312, 67, 336, 503436, 68, 73, 500175 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 373, 41, 317, 492277, 70, 52, 494913 },
+									{ 59, 1, 373, 38, 317, 492277, 67, 52, 494913 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 379, 41, 332, 511184, 70, 47, 512796 },
+									{ 59, 1, 379, 38, 332, 511184, 67, 47, 512796 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9581, 618, 45, 347, 341916, 1, 72, 343711, 37, 43, 329871 },
-									{ 57, 0.0419, 27, nil, nil, nil, 35, 17, 365777 },
+									{ 59, 0.9581, 618, 42, 347, 341916, 1, 72, 343711, 34, 43, 329871 },
+									{ 57, 0.0419, 27, nil, nil, nil, 32, 17, 365777 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 72, nil, nil, nil, 41, 52, 289819 },
+									{ 59, 1, 72, nil, nil, nil, 38, 52, 289819 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9153, 54, nil, nil, nil, 45, 38, 372891 },
-									{ 57, 0.0847, 5, nil, nil, nil, 35, 5, 368249 },
+									{ 59, 0.9153, 54, nil, nil, nil, 42, 38, 372891 },
+									{ 57, 0.0847, 5, nil, nil, nil, 32, 5, 368249 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.848, 145, nil, nil, nil, 1, 61, 315066, 45, 51, 412073, 37, 12, 250744 },
-									{ 57, 0.152, 26, nil, nil, nil, 35, 18, 276011 },
+									{ 59, 0.848, 145, nil, nil, nil, 1, 61, 315066, 42, 51, 412073, 34, 12, 250744 },
+									{ 57, 0.152, 26, nil, nil, nil, 32, 18, 276011 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 59, 0.5385, 21, nil, nil, nil, 1, 11, 202781 },
-									{ 57, 0.4615, 18, nil, nil, nil, 35, 13, 271765 },
+									{ 57, 0.4615, 18, nil, nil, nil, 32, 13, 271765 },
 								},
 							},
 							["median"] = {
@@ -30339,46 +30312,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9963, 2141, 46, 971, 144998, 1, 395, 149123, 37, 225, 146684 },
-									{ 57, 0.0037, 8, nil, nil, nil, 35, 8, 306331 },
+									{ 59, 0.9963, 2141, 43, 971, 144998, 1, 395, 149123, 34, 225, 146684 },
+									{ 57, 0.0037, 8, nil, nil, nil, 32, 8, 306331 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 1, 283, 46, 199, 137063, 65, 32, 132648 },
+									{ 59, 1, 283, 43, 199, 137063, 62, 32, 132648 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 1, 295, 46, 175, 148049, 1, 53, 148252, 37, 24, 148094 },
+									{ 59, 1, 295, 43, 175, 148049, 1, 53, 148252, 34, 24, 148094 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9243, 1747, 1, 802, 288092, 46, 369, 278898, 37, 136, 266630 },
-									{ 57, 0.0757, 143, 35, 75, 296483, 10, 30, 326715, 38, 15, 311748 },
+									{ 59, 0.9243, 1747, 1, 802, 288092, 43, 369, 278898, 34, 136, 266630 },
+									{ 57, 0.0757, 143, 32, 75, 296483, 10, 30, 326715, 35, 15, 311748 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9527, 282, nil, nil, nil, 1, 112, 172429, 46, 89, 144779, 50, 17, 136458 },
-									{ 57, 0.0473, 14, nil, nil, nil, 35, 10, 235914 },
+									{ 59, 0.9527, 282, nil, nil, nil, 1, 112, 172429, 43, 89, 144779, 47, 17, 136458 },
+									{ 57, 0.0473, 14, nil, nil, nil, 32, 10, 235914 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9018, 257, 1, 144, 316048, 46, 41, 320740, 2, 18, 320527 },
-									{ 57, 0.0982, 28, nil, nil, nil, 35, 15, 307588 },
+									{ 59, 0.9018, 257, 1, 144, 316048, 43, 41, 320740, 2, 18, 320527 },
+									{ 57, 0.0982, 28, nil, nil, nil, 32, 15, 307588 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8222, 222, 1, 121, 250164, 46, 52, 295324, 37, 23, 247942 },
-									{ 57, 0.1778, 48, nil, nil, nil, 35, 27, 271894, 10, 18, 272324 },
+									{ 59, 0.8222, 222, 1, 121, 250164, 43, 52, 295324, 34, 23, 247942 },
+									{ 57, 0.1778, 48, nil, nil, nil, 32, 27, 271894, 10, 18, 272324 },
 								},
 							},
 							["fast"] = {
@@ -30398,60 +30371,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9915, 17343, 40, 3662, 246812, 41, 5114, 255889, 42, 675, 214797 },
-									{ 57, 0.0085, 148, nil, nil, nil, 35, 28, 234602, 43, 27, 210995, 44, 46, 224914 },
+									{ 59, 0.9915, 17343, 37, 3662, 246812, 38, 5114, 255889, 39, 675, 214797 },
+									{ 57, 0.0085, 148, nil, nil, nil, 32, 28, 234602, 40, 27, 210995, 41, 46, 224914 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9937, 3009, 45, 978, 180230, 40, 604, 191488, 42, 136, 185804 },
-									{ 57, 0.0063, 19, nil, nil, nil, 43, 7, 186559 },
+									{ 59, 0.9937, 3009, 42, 978, 180230, 37, 604, 191488, 39, 136, 185804 },
+									{ 57, 0.0063, 19, nil, nil, nil, 40, 7, 186559 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9945, 2899, 40, 667, 236408, 46, 943, 148276, 37, 326, 216330 },
-									{ 57, 0.0055, 16, nil, nil, nil, 47, 12, 261020 },
+									{ 59, 0.9945, 2899, 37, 667, 236408, 43, 943, 148276, 34, 326, 216330 },
+									{ 57, 0.0055, 16, nil, nil, nil, 44, 12, 261020 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.9192, 9193, 1, 2988, 190826, 37, 1167, 154680, 46, 2174, 176058 },
-									{ 57, 0.0808, 808, 35, 425, 195694, 10, 150, 187874, 38, 72, 213848 },
+									{ 59, 0.9192, 9193, 1, 2988, 190826, 34, 1167, 154680, 43, 2174, 176058 },
+									{ 57, 0.0808, 808, 32, 425, 195694, 10, 150, 187874, 35, 72, 213848 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.9425, 1657, 37, 194, 131408, 1, 457, 137096, 46, 514, 140343 },
-									{ 57, 0.0575, 101, nil, nil, nil, 35, 60, 119047, 10, 23, 125446, 5, 13, 97116 },
+									{ 59, 0.9425, 1657, 34, 194, 131408, 1, 457, 137096, 43, 514, 140343 },
+									{ 57, 0.0575, 101, nil, nil, nil, 32, 60, 119047, 10, 23, 125446, 5, 13, 97116 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.9183, 1495, 1, 582, 178839, 37, 211, 187897, 46, 330, 184823 },
-									{ 57, 0.0817, 133, 35, 81, 210773, 10, 26, 212259 },
+									{ 59, 0.9183, 1495, 1, 582, 178839, 34, 211, 187897, 43, 330, 184823 },
+									{ 57, 0.0817, 133, 32, 81, 210773, 10, 26, 212259 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 59, 0.8311, 2322, 1, 1082, 141085, 37, 303, 152335, 46, 483, 138248 },
-									{ 57, 0.1689, 472, 35, 258, 153377, 10, 135, 168669, 5, 27, 170732 },
+									{ 59, 0.8311, 2322, 1, 1082, 141085, 34, 303, 152335, 43, 483, 138248 },
+									{ 57, 0.1689, 472, 32, 258, 153377, 10, 135, 168669, 5, 27, 170732 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 59, 0.8675, 478, 1, 248, 114297, 37, 57, 106076, 45, 104, 106524 },
-									{ 57, 0.1325, 73, nil, nil, nil, 35, 49, 106904, 10, 24, 106962 },
+									{ 59, 0.8675, 478, 1, 248, 114297, 34, 57, 106076, 42, 104, 106524 },
+									{ 57, 0.1325, 73, nil, nil, nil, 32, 49, 106904, 10, 24, 106962 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 59, 0.8465, 386, 1, 193, 194898, 37, 60, 204718, 2, 21, 188617 },
-									{ 57, 0.1535, 70, nil, nil, nil, 35, 46, 201582, 10, 24, 228242 },
+									{ 59, 0.8465, 386, 1, 193, 194898, 34, 60, 204718, 2, 21, 188617 },
+									{ 57, 0.1535, 70, nil, nil, nil, 32, 46, 201582, 10, 24, 228242 },
 								},
 							},
 						},
@@ -30484,6 +30457,7 @@ ns.talentBuilds = {
 				"wMjZGNLmxmZGzysNzMjFzYZZmBAAzgZmZzCMwsY0YGAzWsxAAAjZYAAwMDGzMmZDAAwMzMDAAzwA",
 				"gZmZGNLmxiZGzysNzMjFzYZZmBAAzgZmZxCMwsY0YGAzWsxAAAjZYAAwMDGzMjBAAgZmZGAAmhB",
 				"wMmZGNbmx2MzY2mNzMzsYmZZZMAAYGjZmZBMmxwCZgthNaswAAAjBDAwMDwYGzMAAAMzMDAAmhB",
+				"wMMzoZxMz2MzMzysZmZmFzMLLjBAAzYMzMLgxMGWIDsNsQjFGAAYMYAAmZAGzYGbAAAmZmBAAzwA",
 				"wMMzoZzMz2MzMz2sZmZmFzMLLjBAAzYMzMbgxMGWIDsNsQjFGAAYMYYDAzMAjZMjNAAAzMzAAwYYA",
 				"wMMzoZzM2mZGz2sZmZmFzMLLzDMAAYGjZmZBMmxwCZgthFaswAAAjBYDAzMAzMjZmNAAAzMzAAwYYA",
 				"wMMzoZzMz2MzY2mNzMzsYmZZZMAAYGjZmZBMmxwCZgthFaswAAAjBDbAYmBYMjZmFAAAzMzAAwYYA",
@@ -30492,7 +30466,6 @@ ns.talentBuilds = {
 				"wMjZGNLmxmZGzysNzYmFzYZZMAAYGjZmZxCMwsY0YGAzWsxAAAjZYAAwMDGzMmZDAAwMzMDAAzwA",
 				"wMmZGNbMz2MzYWmNzMzsYmZZZMAAYGjZmZBMmxwCZgthFaswAAAjBDAwMDwYGzMAAAMzMDAAmhB",
 				"wMegZGNbmZ2mZGz2sZmZmFzMLLjBAAzYMzMLgxMGWIDsNsQjFGAAYMYYDAzMAjZMzAAAwMzMAAMGG",
-				"wMjZGNLMz2MzMzysZmZmFzMLLzDMAAYGjZmZBMmxwCZgthFaswAAAjBDAwMDwYGzAAAgZmZGAAeghB",
 				"YmxMzoZjhZmxsNLzMzMLmZ2WYAAwMGzMzCYMjhFyAbDL0YhBAAGDG2AwMDwMzYMbAAAmZmBAgxwA",
 				"wMzMzMNbMMzMzsMLjZmZxMz2CDAAmxYmZWAjZMsQGYbYhGLMAAwYwwGAmZAMzYMAAAMzMDAAmhB",
 				"gZmZGNbMMzMzsMLjZmZxMz2CDAAmxYmZWAjZMsQGYbYjGLMAAwYwwGAmZAMzMzMAAAMzMDAAmhB",
@@ -30565,14 +30538,14 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.5293, 298, 8, 199, 12, 30, 29, 20 },
+							{ 59, 0.5293, 298, 8, 199, 12, 31, 29, 20 },
 							{ 58, 0.4707, 265, 1, 136, 12, 2, 68, 12, 19, 52, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 0.5556, 30, nil, nil, nil, 31, 3, 23, 4, 27, 20 },
-							{ 58, 0.4444, 24, nil, nil, nil, 2, 5, 18, 1, 13, 17 },
+							{ 58, 0.5455, 18, nil, nil, nil, 1, 8, 17 },
+							{ 59, 0.4545, 15, nil, nil, nil, 4, 15, 20 },
 						},
 					},
 				},
@@ -30585,13 +30558,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.5378, 249, 8, 168, 13, 27, 13, 15, 18, 23, 14 },
-							{ 58, 0.4622, 214, 1, 135, 12, 28, 51, 15, 3, 25, 14 },
+							{ 59, 0.5378, 249, 8, 168, 13, 28, 13, 15, 18, 23, 14 },
+							{ 58, 0.4622, 214, 1, 135, 12, 29, 51, 15, 3, 25, 14 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 59, 0.75, 21, nil, nil, nil, 29, 21, 20 },
+							{ 59, 0.75, 21, nil, nil, nil, 30, 21, 20 },
 							{ 58, 0.25, 7, nil, nil, nil, 1, 3, 17 },
 						},
 					},
@@ -30599,20 +30572,20 @@ ns.talentBuilds = {
 				["8910"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 59, 0.5179, 29, nil, nil, nil, 25, 6, 9, 8, 19, 8 },
+							{ 59, 0.5179, 29, nil, nil, nil, 26, 6, 9, 8, 19, 8 },
 							{ 58, 0.4821, 27, nil, nil, nil, 2, 7, 9, 15, 20, 8 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.5215, 267, 8, 172, 12, 26, 34, 22 },
+							{ 59, 0.5215, 267, 8, 172, 12, 27, 34, 22 },
 							{ 58, 0.4785, 245, 1, 147, 12, 2, 64, 12, 13, 31, 17 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 58, 0.6154, 16, nil, nil, nil, 2, 3, 18 },
-							{ 59, 0.3846, 10, nil, nil, nil, 8, 10, 19 },
+							{ 59, 0.6, 9, nil, nil, nil, 8, 9, 17 },
+							{ 58, 0.4, 6, nil, nil, nil, 2, 3, 18 },
 						},
 					},
 				},
@@ -30625,14 +30598,14 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 59, 0.548, 257, 8, 158, 12, 23, 32, 19, 24, 15, 17 },
+							{ 59, 0.548, 257, 8, 158, 12, 24, 32, 19, 25, 15, 17 },
 							{ 58, 0.452, 212, 1, 133, 12, 3, 29, 17 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
 							{ 58, 0.64, 16, nil, nil, nil, 19, 3, 17 },
-							{ 59, 0.36, 9, nil, nil, nil, 24, 4, 18 },
+							{ 59, 0.36, 9, nil, nil, nil, 25, 4, 18 },
 						},
 					},
 				},
@@ -30651,8 +30624,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 58, 0.7419, 23, nil, nil, nil, 10, 3, 18 },
-							{ 59, 0.2581, 8, nil, nil, nil, 8, 8, 18 },
+							{ 58, 0.625, 15, nil, nil, nil, 10, 3, 18 },
+							{ 59, 0.375, 9, nil, nil, nil, 23, 6, 19 },
 						},
 					},
 				},
@@ -30691,8 +30664,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 58, 0.5758, 19, nil, nil, nil, 2, 9, 16 },
-							{ 59, 0.4242, 14, nil, nil, nil, 8, 14, 17 },
+							{ 58, 0.7, 21, nil, nil, nil, 10, 4, 18 },
+							{ 59, 0.3, 9, nil, nil, nil, 8, 9, 17 },
 						},
 					},
 				},
@@ -31487,16 +31460,15 @@ ns.talentBuilds = {
 				"gZbzYGGzyMzGzMjBAAAAAAYZBzEzMwMM2MwMzMDzmtZGjlhltHYZb2wsAAALzy0ysNzyAAABwwGYmBMNGAAwA",
 				"wMbbGDGz2M2YmZMAAAAAAALLYEzMwMM2MwMzMDz2YmxMLDLbz22sNMLAAwGCAAwsNLNzMzGDbAMzw0YAAAD",
 				"wMbbGDGzyM2YmZMAAAAAAALLYEzMwMM2gxMzMDzmtZGzsMssNbbz2wsAAAbIAAAz2s0MzMbMsBwMDTjBAAMA",
-				"gZbzYGGzyMzGzMjBAAAAAAYZBzEzMwMM2AmZmZMzGzMGLDLbPw22shZBAAWmlplZbmlBAACghNwMDYaMgBAMA",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBzEzMwMM2AmZmZY2sNzYsMss9ALbzGmFAAYZWmWmtZWGAAIAG2AzMgpxAGAwA",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBz0MzMwMMzGwMjZMzGzMmZDLbPwy2shZBAAWmlplZZmlBAACghNwMDYaMAAgB",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBjYmBmhZ2MwMzMDzGzMmZZYZ7BW2mNMLAAwysNtMbzsMAAQAMsBmZATjBAAMA",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBjYmBmhxGDmZmZY2sNzYmlhltHYZb2wsAAALzy0ysNzyAAABwwGYmBMNGAAwA",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBjYmBmhZ2MwMzMDzGzMmZZYZ7B22mNMLAAwysMtMbzsMAAQAMsBmZATjBAAMA",
 				"wMbbGDGzyM2YmZMAAAAAAALLYEzMwMM2MwMzMDzmtZGzsMssNbbz2wsAAAbIAAAz2s0MzMbMsBwMDTjBAAMA",
+				"gZbzYGGzyMzGzMDAAAAAAALLYEzMwMMzGDmZmZY2YmxMLDLbPwy2shZBAAWmlplZbmlBAACghNwMDYaMADAMA",
 				"wMbbGDGz2MPwGzMjBAAAAAAYZBjYmBmhxmBmZmZY2GzMmZZYZbW2mNMLAAwGCAAwsNLNzMzGDbAMzw0YAAAD",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBzEmBmhxmBmZmZMzGzMmZZYZ7BW2mNMLAAwysMtMbzsMAAQAMsBmZATjBAAMA",
-				"gZbzYGGzyMzGzMjBAAAAAAYZBjYmBmhxGwMzMDzmtZGzsMss9AbbzGmFAAYZWmWmtZWGAAIAG2AzMgpxAGAwA",
 				"gZbzYGGzyMzGzMjBAAAAAAYZBjYmBmhZ2AmZmZY2YmxMLDLbPwy2shZBAAWmlplZbmlBAACghNwMDYaMADAMA",
 				"wMbbGzYGWmxGmZAAAAAAAYZBjYmBmhxGjxMzMDz2YmxMLDLb22GzMzCAAshAAAMbzSzMzswwGAzMMNGAAwA",
 				"gZbzYGPwYWM2mxMDAAAAAAALLYEmBmhxmZMmZmZMzywMmZZYZzy2sMMLAAwysMtMbzsMAAQAmhNwMDYaMAAgB",
@@ -31547,13 +31519,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 66, 0.968, 1118, 16, 962, 20, 21, 69, 23, 41, 69, 23 },
-							{ 65, 0.032, 37, nil, nil, nil, 15, 16, 21, 4, 16, 16 },
+							{ 66, 0.974, 750, 16, 641, 20, 21, 52, 23, 36, 45, 22 },
+							{ 65, 0.026, 20, nil, nil, nil, 15, 9, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 66, 0.9701, 260, nil, nil, nil, 42, 228, 24, 21, 19, 23, 2, 13, 21 },
+							{ 66, 0.9701, 260, nil, nil, nil, 41, 228, 24, 21, 19, 23, 2, 13, 21 },
 							{ 65, 0.0299, 8, nil, nil, nil, 15, 8, 21 },
 						},
 					},
@@ -31592,14 +31564,14 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 66, 0.8265, 1439, 7, 1165, 20, 21, 39, 22, 37, 136, 19 },
-							{ 65, 0.1735, 302, 4, 171, 12, 38, 17, 16 },
+							{ 66, 0.8265, 1439, 7, 1165, 20, 21, 39, 22, 36, 136, 19 },
+							{ 65, 0.1735, 302, 4, 171, 12, 37, 17, 16 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 66, 0.9737, 629, 16, 564, 19, 21, 25, 22, 2, 40, 19 },
-							{ 65, 0.0263, 17, nil, nil, nil, 15, 4, 21 },
+							{ 66, 0.9795, 430, nil, nil, nil, 38, 384, 23, 21, 22, 22, 36, 24, 19 },
+							{ 65, 0.0205, 9, nil, nil, nil, 15, 3, 21 },
 						},
 					},
 					["20-99"] = {
@@ -31617,19 +31589,19 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 66, 0.8039, 1439, 20, 1191, 18, 2, 129, 13, 34, 19, 23 },
+							{ 66, 0.8039, 1439, 20, 1191, 18, 2, 129, 13, 33, 19, 23 },
 							{ 65, 0.1961, 351, 4, 215, 12, 15, 13, 19, 30, 25, 15 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 66, 0.9769, 423, 16, 374, 19, 18, 26, 23, 35, 15, 22 },
+							{ 66, 0.9769, 423, 16, 374, 19, 18, 26, 23, 34, 15, 22 },
 							{ 65, 0.0231, 10, nil, nil, nil, 15, 6, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 66, 1, 85, nil, nil, nil, 36, 85, 23 },
+							{ 66, 1, 85, nil, nil, nil, 35, 85, 23 },
 						},
 					},
 				},
@@ -31648,13 +31620,13 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 66, 0.9664, 835, 16, 714, 20, 21, 40, 22, 32, 60, 21 },
-							{ 65, 0.0336, 29, nil, nil, nil, 15, 9, 19 },
+							{ 66, 0.975, 545, 16, 462, 20, 21, 28, 22, 2, 46, 21 },
+							{ 65, 0.025, 14, nil, nil, nil, 15, 3, 20 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 66, 1, 187, nil, nil, nil, 33, 167, 23 },
+							{ 66, 1, 187, nil, nil, nil, 32, 167, 23 },
 						},
 					},
 				},
@@ -31698,8 +31670,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 66, 0.9757, 925, 16, 818, 20, 21, 47, 22, 26, 56, 21 },
-							{ 65, 0.0243, 23, nil, nil, nil, 15, 7, 20, 4, 16, 16 },
+							{ 66, 0.9772, 601, 16, 540, 20, 17, 33, 23, 26, 28, 21 },
+							{ 65, 0.0228, 14, nil, nil, nil, 15, 3, 20 },
 						},
 					},
 					["20-99"] = {
@@ -31766,39 +31738,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.6297, 619, 19, 346, 430399, 43, 108, 423073, 4, 35, 430758 },
-									{ 66, 0.3703, 364, 44, 66, 435987, 1, 208, 434315, 2, 37, 434354 },
+									{ 65, 0.6297, 619, 19, 346, 430399, 42, 108, 423073, 4, 35, 430758 },
+									{ 66, 0.3703, 364, 43, 66, 435987, 1, 208, 434315, 2, 37, 434354 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 0.8585, 91, nil, nil, nil, 45, 67, 383039 },
-									{ 66, 0.1415, 15, nil, nil, nil, 44, 5, 335225 },
+									{ 65, 0.8585, 91, nil, nil, nil, 44, 67, 383039 },
+									{ 66, 0.1415, 15, nil, nil, nil, 43, 5, 335225 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.5989, 112, 19, 58, 444276, 43, 26, 453102, 4, 13, 445079 },
-									{ 66, 0.4011, 75, nil, nil, nil, 44, 17, 445413, 1, 36, 455148, 2, 12, 444449 },
+									{ 65, 0.5989, 112, 19, 58, 444276, 42, 26, 453102, 4, 13, 445079 },
+									{ 66, 0.4011, 75, nil, nil, nil, 43, 17, 445413, 1, 36, 455148, 2, 12, 444449 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.5315, 270, 19, 135, 347253, 4, 40, 376786, 46, 14, 297243 },
-									{ 66, 0.4685, 238, 44, 107, 355385, 1, 90, 373997, 2, 12, 396074 },
+									{ 65, 0.5315, 270, 19, 135, 347253, 4, 40, 376786, 45, 14, 297243 },
+									{ 66, 0.4685, 238, 43, 107, 355385, 1, 90, 373997, 2, 12, 396074 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.8021, 77, nil, nil, nil, 19, 39, 300827 },
-									{ 66, 0.1979, 19, nil, nil, nil, 44, 15, 312166 },
+									{ 66, 0.1979, 19, nil, nil, nil, 43, 15, 312166 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5176, 44, nil, nil, nil, 44, 25, 387245, 1, 16, 397488 },
+									{ 66, 0.5176, 44, nil, nil, nil, 43, 25, 387245, 1, 16, 397488 },
 									{ 65, 0.4824, 41, nil, nil, nil, 19, 26, 388869 },
 								},
 							},
@@ -31806,19 +31778,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5417, 65, nil, nil, nil, 44, 35, 232429, 16, 26, 204759 },
+									{ 66, 0.5417, 65, nil, nil, nil, 43, 35, 232429, 16, 26, 204759 },
 									{ 65, 0.4583, 55, nil, nil, nil, 19, 26, 186860, 4, 25, 217670 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.6923, 9, nil, nil, nil, 19, 6, 150406 },
-									{ 66, 0.3077, 4, nil, nil, nil, 44, 4, 167113 },
+									{ 66, 0.3077, 4, nil, nil, nil, 43, 4, 167113 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5263, 10, nil, nil, nil, 44, 7, 242236 },
+									{ 66, 0.5263, 10, nil, nil, nil, 43, 7, 242236 },
 									{ 65, 0.4737, 9, nil, nil, nil, 19, 6, 228126 },
 								},
 							},
@@ -31828,39 +31800,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.6297, 619, 19, 346, 430399, 43, 108, 423073, 4, 35, 430758 },
-									{ 66, 0.3703, 364, 44, 66, 435987, 1, 208, 434315, 2, 37, 434354 },
+									{ 65, 0.6297, 619, 19, 346, 430399, 42, 108, 423073, 4, 35, 430758 },
+									{ 66, 0.3703, 364, 43, 66, 435987, 1, 208, 434315, 2, 37, 434354 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 0.8585, 91, nil, nil, nil, 45, 67, 383039 },
-									{ 66, 0.1415, 15, nil, nil, nil, 44, 5, 335225 },
+									{ 65, 0.8585, 91, nil, nil, nil, 44, 67, 383039 },
+									{ 66, 0.1415, 15, nil, nil, nil, 43, 5, 335225 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.5989, 112, 19, 58, 444276, 43, 26, 453102, 4, 13, 445079 },
-									{ 66, 0.4011, 75, nil, nil, nil, 44, 17, 445413, 1, 36, 455148, 2, 12, 444449 },
+									{ 65, 0.5989, 112, 19, 58, 444276, 42, 26, 453102, 4, 13, 445079 },
+									{ 66, 0.4011, 75, nil, nil, nil, 43, 17, 445413, 1, 36, 455148, 2, 12, 444449 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.5315, 270, 19, 135, 347253, 4, 40, 376786, 46, 14, 297243 },
-									{ 66, 0.4685, 238, 44, 107, 355385, 1, 90, 373997, 2, 12, 396074 },
+									{ 65, 0.5315, 270, 19, 135, 347253, 4, 40, 376786, 45, 14, 297243 },
+									{ 66, 0.4685, 238, 43, 107, 355385, 1, 90, 373997, 2, 12, 396074 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.8021, 77, nil, nil, nil, 19, 39, 300827 },
-									{ 66, 0.1979, 19, nil, nil, nil, 44, 15, 312166 },
+									{ 66, 0.1979, 19, nil, nil, nil, 43, 15, 312166 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5176, 44, nil, nil, nil, 44, 25, 387245, 1, 16, 397488 },
+									{ 66, 0.5176, 44, nil, nil, nil, 43, 25, 387245, 1, 16, 397488 },
 									{ 65, 0.4824, 41, nil, nil, nil, 19, 26, 388869 },
 								},
 							},
@@ -31868,19 +31840,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5417, 65, nil, nil, nil, 44, 35, 232429, 16, 26, 204759 },
+									{ 66, 0.5417, 65, nil, nil, nil, 43, 35, 232429, 16, 26, 204759 },
 									{ 65, 0.4583, 55, nil, nil, nil, 19, 26, 186860, 4, 25, 217670 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.6923, 9, nil, nil, nil, 19, 6, 150406 },
-									{ 66, 0.3077, 4, nil, nil, nil, 44, 4, 167113 },
+									{ 66, 0.3077, 4, nil, nil, nil, 43, 4, 167113 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5263, 10, nil, nil, nil, 44, 7, 242236 },
+									{ 66, 0.5263, 10, nil, nil, nil, 43, 7, 242236 },
 									{ 65, 0.4737, 9, nil, nil, nil, 19, 6, 228126 },
 								},
 							},
@@ -31892,8 +31864,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.769, 223, 19, 152, 211827, 55, 13, 213190 },
-									{ 66, 0.231, 67, nil, nil, nil, 44, 31, 229860, 1, 13, 240927 },
+									{ 65, 0.769, 223, 19, 152, 211827, 54, 13, 213190 },
+									{ 66, 0.231, 67, nil, nil, nil, 43, 31, 229860, 1, 13, 240927 },
 								},
 							},
 							["fast"] = {
@@ -31904,26 +31876,26 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 65, 0.7111, 32, nil, nil, nil, 19, 25, 220130 },
-									{ 66, 0.2889, 13, nil, nil, nil, 44, 10, 224830 },
+									{ 66, 0.2889, 13, nil, nil, nil, 43, 10, 224830 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7354, 189, 19, 104, 150234, 4, 27, 168534, 46, 15, 133217 },
-									{ 66, 0.2646, 68, nil, nil, nil, 44, 46, 159120, 16, 22, 147234 },
+									{ 65, 0.7354, 189, 19, 104, 150234, 4, 27, 168534, 45, 15, 133217 },
+									{ 66, 0.2646, 68, nil, nil, nil, 43, 46, 159120, 16, 22, 147234 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.9184, 45, nil, nil, nil, 19, 28, 113437 },
-									{ 66, 0.0816, 4, nil, nil, nil, 44, 4, 140101 },
+									{ 66, 0.0816, 4, nil, nil, nil, 43, 4, 140101 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5135, 19, nil, nil, nil, 44, 12, 168023 },
+									{ 66, 0.5135, 19, nil, nil, nil, 43, 12, 168023 },
 									{ 65, 0.4865, 18, nil, nil, nil, 19, 14, 172970 },
 								},
 							},
@@ -31931,13 +31903,13 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5638, 53, nil, nil, nil, 44, 32, 153633, 16, 21, 67532 },
+									{ 66, 0.5638, 53, nil, nil, nil, 43, 32, 153633, 16, 21, 67532 },
 									{ 65, 0.4362, 41, nil, nil, nil, 19, 24, 162299, 4, 13, 142893 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 0.5652, 13, nil, nil, nil, 44, 8, 92957 },
+									{ 66, 0.5652, 13, nil, nil, nil, 43, 8, 92957 },
 									{ 65, 0.4348, 10, nil, nil, nil, 19, 6, 117615 },
 								},
 							},
@@ -31953,59 +31925,59 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.75, 192, 19, 142, 228305 },
-									{ 66, 0.25, 64, nil, nil, nil, 44, 32, 263416, 49, 12, 208712 },
+									{ 66, 0.25, 64, nil, nil, nil, 43, 32, 263416, 48, 12, 208712 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.7619, 16, nil, nil, nil, 19, 13, 183074 },
-									{ 66, 0.2381, 5, nil, nil, nil, 49, 5, 184633 },
+									{ 66, 0.2381, 5, nil, nil, nil, 48, 5, 184633 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.8485, 28, nil, nil, nil, 19, 21, 250461 },
-									{ 66, 0.1515, 5, nil, nil, nil, 44, 5, 252441 },
+									{ 66, 0.1515, 5, nil, nil, nil, 43, 5, 252441 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7233, 183, 19, 104, 193055, 4, 29, 236065, 46, 15, 177771 },
-									{ 66, 0.2767, 70, 44, 48, 212919, 16, 22, 221134 },
+									{ 65, 0.7233, 183, 19, 104, 193055, 4, 29, 236065, 45, 15, 177771 },
+									{ 66, 0.2767, 70, 43, 48, 212919, 16, 22, 221134 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.9184, 45, nil, nil, nil, 19, 28, 171435 },
-									{ 66, 0.0816, 4, nil, nil, nil, 44, 4, 174410 },
+									{ 66, 0.0816, 4, nil, nil, nil, 43, 4, 174410 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5278, 19, nil, nil, nil, 19, 16, 228631 },
-									{ 66, 0.4722, 17, nil, nil, nil, 44, 14, 225706 },
+									{ 66, 0.4722, 17, nil, nil, nil, 43, 14, 225706 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5632, 49, nil, nil, nil, 44, 31, 226863, 16, 18, 207175 },
+									{ 66, 0.5632, 49, nil, nil, nil, 43, 31, 226863, 16, 18, 207175 },
 									{ 65, 0.4368, 38, nil, nil, nil, 19, 22, 229350, 4, 12, 210859 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.55, 11, nil, nil, nil, 19, 6, 174399 },
-									{ 66, 0.45, 9, nil, nil, nil, 44, 6, 116673 },
+									{ 66, 0.45, 9, nil, nil, nil, 43, 6, 116673 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5, 4, nil, nil, nil, 4, 4, 282945 },
-									{ 66, 0.5, 4, nil, nil, nil, 44, 4, 285121 },
+									{ 66, 0.5, 4, nil, nil, nil, 43, 4, 285121 },
 								},
 							},
 						},
@@ -32015,7 +31987,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.856, 107, nil, nil, nil, 19, 61, 304127 },
-									{ 66, 0.144, 18, nil, nil, nil, 44, 7, 367268 },
+									{ 66, 0.144, 18, nil, nil, nil, 43, 7, 367268 },
 								},
 							},
 							["fast"] = {
@@ -32032,39 +32004,39 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7913, 163, 19, 90, 314971, 4, 21, 323433, 46, 15, 285390 },
-									{ 66, 0.2087, 43, nil, nil, nil, 44, 29, 317228 },
+									{ 65, 0.7913, 163, 19, 90, 314971, 4, 21, 323433, 45, 15, 285390 },
+									{ 66, 0.2087, 43, nil, nil, nil, 43, 29, 317228 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.9474, 54, nil, nil, nil, 19, 25, 284041 },
-									{ 66, 0.0526, 3, nil, nil, nil, 44, 3, 283571 },
+									{ 66, 0.0526, 3, nil, nil, nil, 43, 3, 283571 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.88, 22, nil, nil, nil, 19, 19, 333403 },
-									{ 66, 0.12, 3, nil, nil, nil, 44, 3, 336023 },
+									{ 66, 0.12, 3, nil, nil, nil, 43, 3, 336023 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5429, 38, nil, nil, nil, 44, 26, 234123, 16, 12, 172220 },
+									{ 66, 0.5429, 38, nil, nil, nil, 43, 26, 234123, 16, 12, 172220 },
 									{ 65, 0.4571, 32, nil, nil, nil, 19, 18, 244066 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 1, 6, nil, nil, nil, 44, 3, 135516 },
+									{ 66, 1, 6, nil, nil, nil, 43, 3, 135516 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.6111, 11, nil, nil, nil, 19, 8, 248575 },
-									{ 66, 0.3889, 7, nil, nil, nil, 44, 7, 239970 },
+									{ 66, 0.3889, 7, nil, nil, nil, 43, 7, 239970 },
 								},
 							},
 						},
@@ -32074,7 +32046,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.8274, 139, 19, 105, 215928 },
-									{ 66, 0.1726, 29, nil, nil, nil, 44, 18, 257492 },
+									{ 66, 0.1726, 29, nil, nil, nil, 43, 18, 257492 },
 								},
 							},
 							["fast"] = {
@@ -32091,39 +32063,39 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7209, 186, 19, 102, 212243, 4, 26, 248502, 46, 15, 197405 },
-									{ 66, 0.2791, 72, nil, nil, nil, 44, 44, 238383, 1, 28, 247274 },
+									{ 65, 0.7209, 186, 19, 102, 212243, 4, 26, 248502, 45, 15, 197405 },
+									{ 66, 0.2791, 72, nil, nil, nil, 43, 44, 238383, 1, 28, 247274 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.9298, 53, nil, nil, nil, 19, 29, 188043 },
-									{ 66, 0.0702, 4, nil, nil, nil, 44, 4, 199577 },
+									{ 66, 0.0702, 4, nil, nil, nil, 43, 4, 199577 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5405, 20, nil, nil, nil, 19, 16, 239786 },
-									{ 66, 0.4595, 17, nil, nil, nil, 44, 10, 233617 },
+									{ 66, 0.4595, 17, nil, nil, nil, 43, 10, 233617 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5952, 50, nil, nil, nil, 44, 33, 184192, 16, 17, 113495 },
+									{ 66, 0.5952, 50, nil, nil, nil, 43, 33, 184192, 16, 17, 113495 },
 									{ 65, 0.4048, 34, nil, nil, nil, 19, 18, 169766, 4, 12, 168772 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 0.7, 7, nil, nil, nil, 44, 4, 100987 },
+									{ 66, 0.7, 7, nil, nil, nil, 43, 4, 100987 },
 									{ 65, 0.3, 3, nil, nil, nil, 19, 3, 136736 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 1, 9, nil, nil, nil, 44, 9, 209578 },
+									{ 66, 1, 9, nil, nil, nil, 43, 9, 209578 },
 								},
 							},
 						},
@@ -32132,8 +32104,8 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.9239, 85, nil, nil, nil, 19, 51, 346634, 56, 17, 330804 },
-									{ 66, 0.0761, 7, nil, nil, nil, 57, 4, 348522 },
+									{ 65, 0.9239, 85, nil, nil, nil, 19, 51, 346634, 55, 17, 330804 },
+									{ 66, 0.0761, 7, nil, nil, nil, 56, 4, 348522 },
 								},
 							},
 							["fast"] = {
@@ -32150,27 +32122,27 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7559, 161, 19, 92, 211513, 46, 15, 207578, 4, 13, 238885 },
-									{ 66, 0.2441, 52, nil, nil, nil, 44, 28, 222014, 16, 21, 208640 },
+									{ 65, 0.7559, 161, 19, 92, 211513, 45, 15, 207578, 4, 13, 238885 },
+									{ 66, 0.2441, 52, nil, nil, nil, 43, 28, 222014, 16, 21, 208640 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.9063, 29, nil, nil, nil, 19, 17, 191095 },
-									{ 66, 0.0938, 3, nil, nil, nil, 44, 3, 160481 },
+									{ 66, 0.0938, 3, nil, nil, nil, 43, 3, 160481 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.8286, 29, nil, nil, nil, 19, 17, 247997 },
-									{ 66, 0.1714, 6, nil, nil, nil, 44, 6, 241239 },
+									{ 66, 0.1714, 6, nil, nil, nil, 43, 6, 241239 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5313, 34, nil, nil, nil, 44, 25, 179651 },
+									{ 66, 0.5313, 34, nil, nil, nil, 43, 25, 179651 },
 									{ 65, 0.4688, 30, nil, nil, nil, 19, 17, 183437 },
 								},
 							},
@@ -32181,7 +32153,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 0.5, 3, nil, nil, nil, 44, 3, 191134 },
+									{ 66, 0.5, 3, nil, nil, nil, 43, 3, 191134 },
 									{ 65, 0.5, 3, nil, nil, nil, 19, 3, 187947 },
 								},
 							},
@@ -32191,21 +32163,21 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.94, 47, nil, nil, nil, 47, 11, 492028, 45, 27, 471824 },
-									{ 66, 0.06, 3, nil, nil, nil, 44, 3, 450334 },
+									{ 65, 0.94, 47, nil, nil, nil, 46, 11, 492028, 44, 27, 471824 },
+									{ 66, 0.06, 3, nil, nil, nil, 43, 3, 450334 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 4, nil, nil, nil, 45, 4, 490058 },
+									{ 65, 1, 4, nil, nil, nil, 44, 4, 490058 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.8276, 96, nil, nil, nil, 19, 45, 389542, 46, 14, 408975 },
-									{ 66, 0.1724, 20, nil, nil, nil, 44, 15, 449382 },
+									{ 65, 0.8276, 96, nil, nil, nil, 19, 45, 389542, 45, 14, 408975 },
+									{ 66, 0.1724, 20, nil, nil, nil, 43, 15, 449382 },
 								},
 							},
 							["fast"] = {
@@ -32216,26 +32188,26 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5714, 4, nil, nil, nil, 19, 4, 460386 },
-									{ 66, 0.4286, 3, nil, nil, nil, 44, 3, 443279 },
+									{ 66, 0.4286, 3, nil, nil, nil, 43, 3, 443279 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5323, 33, nil, nil, nil, 44, 24, 303854 },
+									{ 66, 0.5323, 33, nil, nil, nil, 43, 24, 303854 },
 									{ 65, 0.4677, 29, nil, nil, nil, 19, 15, 319035 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 1, 3, nil, nil, nil, 44, 3, 233150 },
+									{ 66, 1, 3, nil, nil, nil, 43, 3, 233150 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5, 5, nil, nil, nil, 19, 5, 314242 },
-									{ 66, 0.5, 5, nil, nil, nil, 44, 5, 326315 },
+									{ 66, 0.5, 5, nil, nil, nil, 43, 5, 326315 },
 								},
 							},
 						},
@@ -32244,27 +32216,27 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.8462, 99, nil, nil, nil, 48, 23, 309064, 50, 21, 275882, 47, 17, 300222 },
-									{ 66, 0.1538, 18, nil, nil, nil, 58, 10, 257993 },
+									{ 65, 0.8462, 99, nil, nil, nil, 47, 23, 309064, 49, 21, 275882, 46, 17, 300222 },
+									{ 66, 0.1538, 18, nil, nil, nil, 57, 10, 257993 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 1, 3, nil, nil, nil, 58, 3, 190367 },
+									{ 66, 1, 3, nil, nil, nil, 57, 3, 190367 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.8571, 18, nil, nil, nil, 48, 8, 310092 },
-									{ 66, 0.1429, 3, nil, nil, nil, 58, 3, 291044 },
+									{ 65, 0.8571, 18, nil, nil, nil, 47, 8, 310092 },
+									{ 66, 0.1429, 3, nil, nil, nil, 57, 3, 291044 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7519, 100, nil, nil, nil, 19, 63, 108293, 46, 13, 101758 },
-									{ 66, 0.2481, 33, nil, nil, nil, 44, 23, 115273 },
+									{ 65, 0.7519, 100, nil, nil, nil, 19, 63, 108293, 45, 13, 101758 },
+									{ 66, 0.2481, 33, nil, nil, nil, 43, 23, 115273 },
 								},
 							},
 							["fast"] = {
@@ -32275,7 +32247,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5556, 5, nil, nil, nil, 19, 5, 123828 },
-									{ 66, 0.4444, 4, nil, nil, nil, 44, 4, 134956 },
+									{ 66, 0.4444, 4, nil, nil, nil, 43, 4, 134956 },
 								},
 							},
 						},
@@ -32283,13 +32255,13 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.5349, 23, nil, nil, nil, 19, 14, 110154 },
-									{ 66, 0.4651, 20, nil, nil, nil, 44, 15, 117661 },
+									{ 66, 0.4651, 20, nil, nil, nil, 43, 15, 117661 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.625, 5, nil, nil, nil, 19, 5, 82150 },
-									{ 66, 0.375, 3, nil, nil, nil, 44, 3, 78327 },
+									{ 66, 0.375, 3, nil, nil, nil, 43, 3, 78327 },
 								},
 							},
 							["median"] = {
@@ -32303,26 +32275,26 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.8713, 88, nil, nil, nil, 48, 37, 517566, 47, 15, 546438 },
-									{ 66, 0.1287, 13, nil, nil, nil, 59, 7, 556151 },
+									{ 65, 0.8713, 88, nil, nil, nil, 47, 37, 517566, 46, 15, 546438 },
+									{ 66, 0.1287, 13, nil, nil, nil, 58, 7, 556151 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 4, nil, nil, nil, 48, 4, 494248 },
+									{ 65, 1, 4, nil, nil, nil, 47, 4, 494248 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 3, nil, nil, nil, 48, 3, 533570 },
+									{ 65, 1, 3, nil, nil, nil, 47, 3, 533570 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7868, 107, nil, nil, nil, 19, 54, 327382, 46, 14, 388384 },
-									{ 66, 0.2132, 29, nil, nil, nil, 44, 15, 353788 },
+									{ 65, 0.7868, 107, nil, nil, nil, 19, 54, 327382, 45, 14, 388384 },
+									{ 66, 0.2132, 29, nil, nil, nil, 43, 15, 353788 },
 								},
 							},
 							["fast"] = {
@@ -32332,7 +32304,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.68, 17, nil, nil, nil, 60, 13, 372815 },
+									{ 65, 0.68, 17, nil, nil, nil, 59, 13, 372815 },
 									{ 66, 0.32, 8, nil, nil, nil, 16, 4, 370171 },
 								},
 							},
@@ -32341,7 +32313,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.5313, 17, nil, nil, nil, 19, 11, 290331 },
-									{ 66, 0.4688, 15, nil, nil, nil, 44, 10, 341906 },
+									{ 66, 0.4688, 15, nil, nil, nil, 43, 10, 341906 },
 								},
 							},
 							["fast"] = {
@@ -32351,7 +32323,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 1, 3, nil, nil, nil, 44, 3, 431846 },
+									{ 66, 1, 3, nil, nil, nil, 43, 3, 431846 },
 								},
 							},
 						},
@@ -32360,40 +32332,40 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7797, 230, 19, 133, 144494, 55, 12, 145719, 43, 14, 139642 },
-									{ 66, 0.2203, 65, nil, nil, nil, 44, 26, 146049, 1, 24, 145958 },
+									{ 65, 0.7797, 230, 19, 133, 144494, 54, 12, 145719, 42, 14, 139642 },
+									{ 66, 0.2203, 65, nil, nil, nil, 43, 26, 146049, 1, 24, 145958 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.8966, 26, nil, nil, nil, 19, 23, 136783 },
-									{ 66, 0.1034, 3, nil, nil, nil, 44, 3, 141734 },
+									{ 66, 0.1034, 3, nil, nil, nil, 43, 3, 141734 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.7805, 32, nil, nil, nil, 19, 29, 147893 },
-									{ 66, 0.2195, 9, nil, nil, nil, 44, 9, 147605 },
+									{ 66, 0.2195, 9, nil, nil, nil, 43, 9, 147605 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.5962, 220, 19, 122, 280595, 4, 38, 291716, 46, 14, 138805 },
-									{ 66, 0.4038, 149, 44, 71, 311830, 1, 55, 290513, 2, 13, 340093 },
+									{ 65, 0.5962, 220, 19, 122, 280595, 4, 38, 291716, 45, 14, 138805 },
+									{ 66, 0.4038, 149, 43, 71, 311830, 1, 55, 290513, 2, 13, 340093 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 65, 0.8452, 71, nil, nil, nil, 19, 36, 140709 },
-									{ 66, 0.1548, 13, nil, nil, nil, 44, 9, 255137 },
+									{ 66, 0.1548, 13, nil, nil, nil, 43, 9, 255137 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.575, 23, nil, nil, nil, 19, 18, 323282 },
-									{ 66, 0.425, 17, nil, nil, nil, 44, 17, 311830 },
+									{ 66, 0.425, 17, nil, nil, nil, 43, 17, 311830 },
 								},
 							},
 						},
@@ -32401,7 +32373,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 65, 0.5484, 34, nil, nil, nil, 19, 18, 259958, 4, 13, 282400 },
-									{ 66, 0.4516, 28, nil, nil, nil, 44, 18, 271216 },
+									{ 66, 0.4516, 28, nil, nil, nil, 43, 18, 271216 },
 								},
 							},
 							["fast"] = {
@@ -32412,7 +32384,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 66, 1, 3, nil, nil, nil, 44, 3, 313408 },
+									{ 66, 1, 3, nil, nil, nil, 43, 3, 313408 },
 								},
 							},
 						},
@@ -32421,60 +32393,60 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7789, 1592, 19, 765, 147911, 47, 87, 248892, 48, 104, 308919 },
-									{ 66, 0.2211, 452, 44, 128, 149318, 49, 26, 213951, 1, 106, 146302 },
+									{ 65, 0.7789, 1592, 19, 765, 147911, 46, 87, 248892, 47, 104, 308919 },
+									{ 66, 0.2211, 452, 43, 128, 149318, 48, 26, 213951, 1, 106, 146302 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 0.8907, 163, nil, nil, nil, 19, 102, 140407, 48, 28, 186927, 50, 12, 131874 },
-									{ 66, 0.1093, 20, nil, nil, nil, 49, 10, 179759 },
+									{ 65, 0.8907, 163, nil, nil, nil, 19, 102, 140407, 47, 28, 186927, 49, 12, 131874 },
+									{ 66, 0.1093, 20, nil, nil, nil, 48, 10, 179759 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.8121, 242, 19, 159, 149058, 47, 15, 238832 },
-									{ 66, 0.1879, 56, nil, nil, nil, 44, 28, 148346 },
+									{ 65, 0.8121, 242, 19, 159, 149058, 46, 15, 238832 },
+									{ 66, 0.1879, 56, nil, nil, nil, 43, 28, 148346 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 0.7037, 1591, 19, 816, 171822, 4, 180, 186906, 46, 149, 102655 },
-									{ 66, 0.2963, 670, 44, 337, 174559, 16, 236, 147333, 51, 19, 142007 },
+									{ 65, 0.7037, 1591, 19, 816, 171822, 4, 180, 186906, 45, 149, 102655 },
+									{ 66, 0.2963, 670, 43, 337, 174559, 16, 236, 147333, 50, 19, 142007 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 0.8832, 446, nil, nil, nil, 19, 240, 118659, 52, 53, 118609, 53, 50, 92523 },
-									{ 66, 0.1168, 59, nil, nil, nil, 44, 40, 140546, 16, 19, 139261 },
+									{ 65, 0.8832, 446, nil, nil, nil, 19, 240, 118659, 51, 53, 118609, 52, 50, 92523 },
+									{ 66, 0.1168, 59, nil, nil, nil, 43, 40, 140546, 16, 19, 139261 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 0.655, 224, 19, 141, 187297, 4, 30, 209185, 46, 21, 135154 },
-									{ 66, 0.345, 118, 44, 76, 187560, 16, 39, 218658 },
+									{ 65, 0.655, 224, 19, 141, 187297, 4, 30, 209185, 45, 21, 135154 },
+									{ 66, 0.345, 118, 43, 76, 187560, 16, 39, 218658 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 66, 0.5459, 369, 44, 214, 134032, 16, 146, 102194 },
-									{ 65, 0.4541, 307, nil, nil, nil, 19, 157, 136805, 4, 97, 137897, 54, 28, 140465 },
+									{ 66, 0.5459, 369, 43, 214, 134032, 16, 146, 102194 },
+									{ 65, 0.4541, 307, nil, nil, nil, 19, 157, 136805, 4, 97, 137897, 53, 28, 140465 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 66, 0.5648, 61, nil, nil, nil, 44, 33, 109543, 16, 28, 67532 },
+									{ 66, 0.5648, 61, nil, nil, nil, 43, 33, 109543, 16, 28, 67532 },
 									{ 65, 0.4352, 47, nil, nil, nil, 19, 31, 103913, 4, 16, 106694 },
 								},
 							},
 							["median"] = {
 								["all"] = {
 									{ 65, 0.5545, 61, nil, nil, nil, 19, 34, 150391, 4, 18, 199725 },
-									{ 66, 0.4455, 49, nil, nil, nil, 44, 37, 209096, 16, 12, 182829 },
+									{ 66, 0.4455, 49, nil, nil, nil, 43, 37, 209096, 16, 12, 182829 },
 								},
 							},
 						},
@@ -32499,15 +32471,12 @@ ns.talentBuilds = {
 				"MzYMghZZmZ2mxAAAAAAAAAAAALDzEmhhBMjhZmZGmthZYWmJAgNzsNGGzMDAgNA0sMLNzMzCwwAzMAwyYIGwA",
 				"MzYMYMYbmZ2mxAAAAAAAAAAAALDjwMMMgZMMzMzwsMMDzyMBAsYmtxwYmZAAsBgmlZpZmZWAGGYmBgxyYIGwA",
 				"MzYMYMYbmZ2mBAAAAAAAAAAAYZYmmxMMMGMMMzMzwshZYWmJAgFzsNmxYmZAAsBgmlZpZmZWAGzAzMAgBiBM",
-				"MzYMYMYbmx2MAAAAAAAAAAAALDjmxMgBMjhZmZGmNMDzyMBAsYmtxMmZmZAAsBgmlZpZmZ2AGzAzMAMWGIGwA",
 				"MzYMYMYbmZ2mxAAAAAAAAAAAALDzEmhhBMMjZmZGmNMDzyMBAsYmtxwYmZAAsBgmlZpZmZWAGzAzMAMWGIGwA",
 				"MzYMYMYbmx2MAAAAAAAAAAAALDz0MmhhBMMMzMzwsgZwyMBAsYmtxMmZmZAAsBgmlZpZmZ2AGzAzMAMWGIGwA",
 				"MzYMYMYbmx2MAAAAAAAAAAAALDz0MmhhBMMMzMzwshZwyMBAsYmtxMmZmZAAsBgmlZpZmZ2AGzAzMAM2GIGwA",
 				"MzYMYMYbmx2MAAAAAAAAAAAALDz0MmhhBjhhZmZGmNMDWmJAgFzsNmxMzMDAgNA0sMLNzMzGwwAzMAMWGIGwA",
 				"MzYMYMYbmx2MAAAAAAAAAAAALDz0MmBMGMMMzMzwsxMDzyMBAsYmtxMmZmZAAsBgmlZpZmZ2AGGYmBghBiBM",
-				"MzYMYMYbmx2MAAAAAAAAAAAALDz0MmhhxghhZmZGmNMDWmJAgFzsNmxMzMDAgNA0sMLNzMzGwwAzMAMWGIGwA",
 				"MzYMYMYbmZ2mBAAAAAAAAAAAYZY0MmhhBMMMzMzwsNMDzyMBAsYmtxMGzMDAgNA0sMLNzMzGwwAzMAM2GIGwA",
-				"MzYMYMYbmx2MAAAAAAAAAAAALDjmxMMMGMMMzMzwshZYWmJAgFzsNmxMzMDAgNA0sMLNzMzGwwAzMAMWGIGwA",
 				"MzYMYMYbmZ2mxAAAAAAAAAAAALDjmxMgBjxYMzMzwsNMDWegJAgFzsNGGzMDAgNA0sMLNzMzCwwAzMAMWmBxAG",
 				"MzYw2MGsNzMbzAAAAAAAAAAAAsMMCzYbYAzYYmZmhZZYGmlZCAYzMbjhZmZGAAbAoZZWamZmFAMwMDAsMGiBM",
 				"MzYw2MGsNzMbzAAAAAAAAAAAAsMMTYGGGwMGmZmZY2GmhZZmAAWMz2YYmZmBAwGAaWmlmZmZBADMzAALjhYAD",
@@ -32548,7 +32517,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 337, 1, 273, 17, 23, 41, 21, 12, 16, 18 },
+							{ 65, 1, 237, 1, 200, 18, 8, 29, 23 },
 						},
 					},
 					["20-99"] = {
@@ -32565,7 +32534,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1568, 16, 1219, 15, 12, 118, 12, 22, 28, 19 },
+							{ 65, 1, 1568, 15, 1219, 15, 12, 118, 12, 20, 28, 19 },
 						},
 					},
 					["15-99"] = {
@@ -32587,12 +32556,12 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1620, 16, 1172, 14, 12, 143, 12, 20, 68, 21 },
+							{ 65, 1, 1620, 15, 1172, 14, 12, 143, 12, 19, 68, 21 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 264, 1, 214, 16, 21, 13, 21 },
+							{ 65, 1, 191, 1, 165, 17 },
 						},
 					},
 					["20-99"] = {
@@ -32609,12 +32578,12 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1690, 16, 1237, 15, 12, 151, 12, 19, 96, 20 },
+							{ 65, 1, 1690, 15, 1237, 15, 12, 151, 12, 18, 96, 20 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 287, 1, 234, 17, 19, 27, 20, 12, 20, 16 },
+							{ 65, 1, 190, 1, 164, 17, 18, 12, 21, 12, 14, 16 },
 						},
 					},
 					["20-99"] = {
@@ -32631,12 +32600,12 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1623, 16, 1213, 15, 3, 75, 13, 12, 152, 12 },
+							{ 65, 1, 1623, 15, 1213, 15, 3, 75, 13, 12, 152, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 291, 1, 243, 17, 18, 19, 22, 12, 17, 16 },
+							{ 65, 1, 207, 1, 173, 17, 17, 15, 22 },
 						},
 					},
 					["20-99"] = {
@@ -32653,7 +32622,7 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1344, 16, 1000, 14, 12, 107, 13, 17, 77, 21 },
+							{ 65, 1, 1344, 15, 1000, 14, 12, 107, 13, 16, 77, 21 },
 						},
 					},
 					["15-99"] = {
@@ -32670,12 +32639,12 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 65, 1, 1348, 16, 1031, 15, 12, 117, 13, 17, 69, 21 },
+							{ 65, 1, 1348, 15, 1031, 15, 12, 117, 13, 16, 69, 21 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 299, 1, 230, 17, 3, 24, 20 },
+							{ 65, 1, 208, 1, 164, 18, 3, 15, 20 },
 						},
 					},
 					["20-99"] = {
@@ -32697,7 +32666,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 65, 1, 233, 1, 184, 17, 15, 18, 21 },
+							{ 65, 1, 143, 1, 126, 17 },
 						},
 					},
 					["20-99"] = {
@@ -32737,41 +32706,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 3887, 24, 2799, 420786, 25, 421, 422512, 26, 252, 360079 },
+									{ 65, 1, 3887, 21, 2799, 420786, 22, 421, 422512, 23, 252, 360079 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 614, nil, nil, nil, 13, 457, 368307, 27, 83, 347255, 26, 39, 357919 },
+									{ 65, 1, 614, nil, nil, nil, 13, 457, 368307, 24, 83, 347255, 23, 39, 357919 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 656, nil, nil, nil, 13, 520, 448139, 27, 85, 440268, 12, 14, 455061 },
+									{ 65, 1, 656, nil, nil, nil, 13, 520, 448139, 24, 85, 440268, 12, 14, 455061 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 1353, 13, 849, 338514, 25, 190, 351121, 28, 63, 363810 },
+									{ 65, 1, 1353, 13, 849, 338514, 22, 190, 351121, 25, 63, 363810 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 265, 13, 167, 297721, 25, 53, 309085, 2, 24, 310640 },
+									{ 65, 1, 265, 13, 167, 297721, 22, 53, 309085, 2, 24, 310640 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 205, 13, 132, 384185, 25, 28, 378389, 2, 26, 377587 },
+									{ 65, 1, 205, 13, 132, 384185, 22, 28, 378389, 2, 26, 377587 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 347, 1, 222, 218062, 25, 55, 209181, 12, 49, 196065 },
+									{ 65, 1, 347, 1, 222, 218062, 22, 55, 209181, 12, 49, 196065 },
 								},
 							},
 							["fast"] = {
@@ -32790,41 +32759,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 3887, 24, 2799, 420786, 25, 421, 422512, 26, 252, 360079 },
+									{ 65, 1, 3887, 21, 2799, 420786, 22, 421, 422512, 23, 252, 360079 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 614, nil, nil, nil, 13, 457, 368307, 27, 83, 347255, 26, 39, 357919 },
+									{ 65, 1, 614, nil, nil, nil, 13, 457, 368307, 24, 83, 347255, 23, 39, 357919 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 656, nil, nil, nil, 13, 520, 448139, 27, 85, 440268, 12, 14, 455061 },
+									{ 65, 1, 656, nil, nil, nil, 13, 520, 448139, 24, 85, 440268, 12, 14, 455061 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 1353, 13, 849, 338514, 25, 190, 351121, 28, 63, 363810 },
+									{ 65, 1, 1353, 13, 849, 338514, 22, 190, 351121, 25, 63, 363810 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 265, 13, 167, 297721, 25, 53, 309085, 2, 24, 310640 },
+									{ 65, 1, 265, 13, 167, 297721, 22, 53, 309085, 2, 24, 310640 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 205, 13, 132, 384185, 25, 28, 378389, 2, 26, 377587 },
+									{ 65, 1, 205, 13, 132, 384185, 22, 28, 378389, 2, 26, 377587 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 347, 1, 222, 218062, 25, 55, 209181, 12, 49, 196065 },
+									{ 65, 1, 347, 1, 222, 218062, 22, 55, 209181, 12, 49, 196065 },
 								},
 							},
 							["fast"] = {
@@ -32845,46 +32814,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 916, 13, 567, 213036, 25, 149, 194732, 29, 111, 185006 },
+									{ 65, 1, 916, 13, 567, 213036, 22, 149, 194732, 26, 111, 185006 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 174, nil, nil, nil, 13, 86, 180796, 25, 31, 174330, 29, 40, 171022 },
+									{ 65, 1, 174, nil, nil, nil, 13, 86, 180796, 22, 31, 174330, 26, 40, 171022 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 128, 13, 100, 221774, 25, 18, 219976 },
+									{ 65, 1, 128, 13, 100, 221774, 22, 18, 219976 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 717, 13, 409, 143867, 25, 187, 148124, 28, 37, 151204 },
+									{ 65, 1, 717, 13, 409, 143867, 22, 187, 148124, 25, 37, 151204 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 146, 13, 77, 113095, 25, 42, 114768 },
+									{ 65, 1, 146, 13, 77, 113095, 22, 42, 114768 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 130, 13, 81, 164517, 25, 36, 174940 },
+									{ 65, 1, 130, 13, 81, 164517, 22, 36, 174940 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 204, 13, 136, 158731, 25, 36, 155402, 12, 19, 147837 },
+									{ 65, 1, 204, 13, 136, 158731, 22, 36, 155402, 12, 19, 147837 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 48, nil, nil, nil, 13, 28, 110677, 25, 13, 111560 },
+									{ 65, 1, 48, nil, nil, nil, 13, 28, 110677, 22, 13, 111560 },
 								},
 							},
 							["median"] = {
@@ -32898,46 +32867,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 865, 25, 335, 211683, 13, 204, 236212, 29, 244, 197005 },
+									{ 65, 1, 865, 22, 335, 211683, 13, 204, 236212, 26, 244, 197005 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 166, 25, 59, 184129, 13, 27, 192885, 29, 69, 184122 },
+									{ 65, 1, 166, 22, 59, 184129, 13, 27, 192885, 26, 69, 184122 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 101, nil, nil, nil, 25, 40, 244981, 13, 34, 247721, 29, 15, 249074 },
+									{ 65, 1, 101, nil, nil, nil, 22, 40, 244981, 13, 34, 247721, 26, 15, 249074 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 708, 25, 270, 198108, 13, 310, 195656, 28, 34, 204149 },
+									{ 65, 1, 708, 22, 270, 198108, 13, 310, 195656, 25, 34, 204149 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 119, nil, nil, nil, 25, 47, 165686, 13, 47, 166009, 30, 13, 153792 },
+									{ 65, 1, 119, nil, nil, nil, 22, 47, 165686, 13, 47, 166009, 27, 13, 153792 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 112, nil, nil, nil, 25, 52, 229558, 13, 46, 233932 },
+									{ 65, 1, 112, nil, nil, nil, 22, 52, 229558, 13, 46, 233932 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 189, 13, 120, 226817, 25, 42, 202809, 12, 15, 230236 },
+									{ 65, 1, 189, 13, 120, 226817, 22, 42, 202809, 12, 15, 230236 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 40, nil, nil, nil, 13, 24, 149354, 25, 13, 169303 },
+									{ 65, 1, 40, nil, nil, nil, 13, 24, 149354, 22, 13, 169303 },
 								},
 							},
 							["median"] = {
@@ -32951,7 +32920,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 424, 13, 374, 339357, 25, 15, 303232, 29, 20, 266338 },
+									{ 65, 1, 424, 13, 374, 339357, 22, 15, 303232, 26, 20, 266338 },
 								},
 							},
 							["fast"] = {
@@ -32968,24 +32937,24 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 548, 13, 333, 309285, 25, 131, 302024, 28, 22, 313200 },
+									{ 65, 1, 548, 13, 333, 309285, 22, 131, 302024, 25, 22, 313200 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 81, nil, nil, nil, 13, 46, 280903, 25, 21, 261722 },
+									{ 65, 1, 81, nil, nil, nil, 13, 46, 280903, 22, 21, 261722 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 112, nil, nil, nil, 13, 62, 325895, 25, 38, 337662 },
+									{ 65, 1, 112, nil, nil, nil, 13, 62, 325895, 22, 38, 337662 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 172, 13, 107, 208948, 25, 39, 195245, 12, 13, 219646 },
+									{ 65, 1, 172, 13, 107, 208948, 22, 39, 195245, 12, 13, 219646 },
 								},
 							},
 							["fast"] = {
@@ -33004,41 +32973,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 565, 13, 303, 216324, 25, 110, 187940, 29, 110, 192449 },
+									{ 65, 1, 565, 13, 303, 216324, 22, 110, 187940, 26, 110, 192449 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 99, nil, nil, nil, 25, 27, 167267, 13, 41, 181270, 29, 27, 163961 },
+									{ 65, 1, 99, nil, nil, nil, 22, 27, 167267, 13, 41, 181270, 26, 27, 163961 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 65, nil, nil, nil, 13, 34, 231665, 25, 17, 228168 },
+									{ 65, 1, 65, nil, nil, nil, 13, 34, 231665, 22, 17, 228168 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 694, 13, 330, 208784, 25, 244, 222388, 28, 31, 215017 },
+									{ 65, 1, 694, 13, 330, 208784, 22, 244, 222388, 25, 31, 215017 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 126, nil, nil, nil, 13, 57, 179646, 25, 48, 168909 },
+									{ 65, 1, 126, nil, nil, nil, 13, 57, 179646, 22, 48, 168909 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 118, nil, nil, nil, 13, 61, 236880, 25, 49, 243739 },
+									{ 65, 1, 118, nil, nil, nil, 13, 61, 236880, 22, 49, 243739 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 201, 13, 123, 165641, 25, 48, 174420, 12, 16, 191379 },
+									{ 65, 1, 201, 13, 123, 165641, 22, 48, 174420, 12, 16, 191379 },
 								},
 							},
 							["fast"] = {
@@ -33074,24 +33043,24 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 655, 13, 480, 210073, 25, 78, 207669, 28, 18, 209824 },
+									{ 65, 1, 655, 13, 480, 210073, 22, 78, 207669, 25, 18, 209824 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 88, nil, nil, nil, 13, 69, 189345, 25, 13, 179748 },
+									{ 65, 1, 88, nil, nil, nil, 13, 69, 189345, 22, 13, 179748 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 116, 13, 85, 244984, 25, 18, 245398 },
+									{ 65, 1, 116, 13, 85, 244984, 22, 18, 245398 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 163, 13, 109, 178347, 25, 26, 176350, 12, 15, 173951 },
+									{ 65, 1, 163, 13, 109, 178347, 22, 26, 176350, 12, 15, 173951 },
 								},
 							},
 							["fast"] = {
@@ -33110,12 +33079,12 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 186, nil, nil, nil, 13, 71, 459480, 25, 29, 438380, 31, 44, 459296 },
+									{ 65, 1, 186, nil, nil, nil, 13, 71, 459480, 22, 29, 438380, 28, 44, 459296 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 21, nil, nil, nil, 25, 7, 405106 },
+									{ 65, 1, 21, nil, nil, nil, 22, 7, 405106 },
 								},
 							},
 							["median"] = {
@@ -33127,7 +33096,7 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 318, 13, 163, 418837, 25, 112, 421168, 12, 15, 472246 },
+									{ 65, 1, 318, 13, 163, 418837, 22, 112, 421168, 12, 15, 472246 },
 								},
 							},
 							["fast"] = {
@@ -33137,14 +33106,14 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 41, nil, nil, nil, 13, 24, 451682, 25, 17, 450397 },
+									{ 65, 1, 41, nil, nil, nil, 13, 24, 451682, 22, 17, 450397 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 131, 13, 79, 287319, 25, 30, 281389 },
+									{ 65, 1, 131, 13, 79, 287319, 22, 30, 281389 },
 								},
 							},
 							["fast"] = {
@@ -33163,41 +33132,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 345, 25, 109, 279466, 33, 192, 255221, 13, 14, 285480 },
+									{ 65, 1, 345, 22, 109, 279466, 30, 192, 255221, 13, 14, 285480 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 64, nil, nil, nil, 33, 46, 215945, 25, 15, 225481 },
+									{ 65, 1, 64, nil, nil, nil, 30, 46, 215945, 22, 15, 225481 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 39, nil, nil, nil, 29, 24, 289471 },
+									{ 65, 1, 39, nil, nil, nil, 26, 24, 289471 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 390, 25, 174, 103939, 13, 151, 96304, 28, 14, 109855 },
+									{ 65, 1, 390, 22, 174, 103939, 13, 151, 96304, 25, 14, 109855 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 64, nil, nil, nil, 13, 35, 88697, 25, 19, 94947 },
+									{ 65, 1, 64, nil, nil, nil, 13, 35, 88697, 22, 19, 94947 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 47, nil, nil, nil, 25, 20, 115323, 1, 21, 116219 },
+									{ 65, 1, 47, nil, nil, nil, 22, 20, 115323, 1, 21, 116219 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 103, 13, 66, 118807, 25, 28, 121964 },
+									{ 65, 1, 103, 13, 66, 118807, 22, 28, 121964 },
 								},
 							},
 							["fast"] = {
@@ -33216,41 +33185,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 284, nil, nil, nil, 34, 103, 502356, 25, 63, 500693, 29, 107, 502925 },
+									{ 65, 1, 284, nil, nil, nil, 31, 103, 502356, 22, 63, 500693, 26, 107, 502925 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 31, nil, nil, nil, 25, 11, 488203, 34, 17, 490602 },
+									{ 65, 1, 31, nil, nil, nil, 22, 11, 488203, 31, 17, 490602 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 38, nil, nil, nil, 34, 21, 510210 },
+									{ 65, 1, 38, nil, nil, nil, 31, 21, 510210 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 322, 25, 155, 338080, 13, 109, 341670, 12, 15, 347409 },
+									{ 65, 1, 322, 22, 155, 338080, 13, 109, 341670, 12, 15, 347409 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 42, nil, nil, nil, 25, 23, 296660, 13, 16, 289691 },
+									{ 65, 1, 42, nil, nil, nil, 22, 23, 296660, 13, 16, 289691 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 36, nil, nil, nil, 25, 15, 367168, 13, 15, 366296 },
+									{ 65, 1, 36, nil, nil, nil, 22, 15, 367168, 13, 15, 366296 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 96, 13, 61, 303044, 25, 26, 278999 },
+									{ 65, 1, 96, 13, 61, 303044, 22, 26, 278999 },
 								},
 							},
 							["fast"] = {
@@ -33260,7 +33229,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 14, nil, nil, nil, 25, 8, 431979 },
+									{ 65, 1, 14, nil, nil, nil, 22, 8, 431979 },
 								},
 							},
 						},
@@ -33269,41 +33238,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 1032, 25, 296, 143615, 13, 305, 146621, 32, 313, 143002 },
+									{ 65, 1, 1032, 22, 296, 143615, 13, 305, 146621, 29, 313, 143002 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 181, 25, 61, 135889, 13, 33, 137724, 32, 67, 138264 },
+									{ 65, 1, 181, 22, 61, 135889, 13, 33, 137724, 29, 67, 138264 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 183, 25, 72, 147645, 13, 56, 147747, 32, 46, 148063 },
+									{ 65, 1, 183, 22, 72, 147645, 13, 56, 147747, 29, 46, 148063 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 1003, 13, 528, 272019, 25, 270, 267556, 28, 35, 299511 },
+									{ 65, 1, 1003, 13, 528, 272019, 22, 270, 267556, 25, 35, 299511 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 199, 13, 93, 142709, 25, 79, 148902 },
+									{ 65, 1, 199, 13, 93, 142709, 22, 79, 148902 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 165, 13, 99, 315212, 25, 40, 313408 },
+									{ 65, 1, 165, 13, 99, 315212, 22, 40, 313408 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 131, 13, 75, 255987, 25, 37, 260546 },
+									{ 65, 1, 131, 13, 75, 255987, 22, 37, 260546 },
 								},
 							},
 							["fast"] = {
@@ -33322,51 +33291,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 5888, 13, 2351, 206459, 25, 1283, 146955, 29, 1432, 149169 },
+									{ 65, 1, 5888, 13, 2351, 206459, 22, 1283, 146955, 26, 1432, 149169 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 1138, 25, 261, 139330, 13, 354, 142194, 29, 387, 142975 },
+									{ 65, 1, 1138, 22, 261, 139330, 13, 354, 142194, 26, 387, 142975 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 969, 13, 420, 219682, 25, 219, 148323, 29, 223, 227135 },
+									{ 65, 1, 969, 13, 420, 219682, 22, 219, 148323, 26, 223, 227135 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 6012, 13, 3026, 169001, 25, 1700, 144338, 28, 220, 156197 },
+									{ 65, 1, 6012, 13, 3026, 169001, 22, 1700, 144338, 25, 220, 156197 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 1100, 13, 521, 109369, 25, 362, 113194, 30, 74, 97783 },
+									{ 65, 1, 1100, 13, 521, 109369, 22, 362, 113194, 27, 74, 97783 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 1074, 13, 565, 185459, 25, 334, 181945, 28, 40, 194218 },
+									{ 65, 1, 1074, 13, 565, 185459, 22, 334, 181945, 25, 40, 194218 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 65, 1, 1516, 13, 926, 135403, 25, 319, 129710, 12, 123, 136684 },
+									{ 65, 1, 1516, 13, 926, 135403, 22, 319, 129710, 12, 123, 136684 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 65, 1, 289, 13, 161, 115153, 25, 76, 113203, 12, 24, 109056 },
+									{ 65, 1, 289, 13, 161, 115153, 22, 76, 113203, 12, 24, 109056 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 65, 1, 288, 13, 179, 192108, 25, 65, 195393, 12, 25, 204642 },
+									{ 65, 1, 288, 13, 179, 192108, 22, 65, 195393, 12, 25, 204642 },
 								},
 							},
 						},
@@ -33396,23 +33365,23 @@ ns.talentBuilds = {
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGaGzAGMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYwAwMgxgZRGzA",
 				"gxMWGLjZx2MmZsYstsNjZ2Mz2yyMjFGTzYGwgBMmZmZY2wMMLzEAAAAABYxyMLz2MTAAAGAmBMGYRGzA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGCzAGMgxMzMDzGmhZbmAAAAAzy02sNzysBABAgBDzMAwYYsMZAA",
-				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwgBYZmZmhZDzwsMTAAAAAEgFbzsMbzMBAgBAYGwYgFZMDA",
-				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFmRzYGwgBwMzMDzGmBLzEAAAAABYx2MLz2MTAAYwAwMgxgZRGzA",
+				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwgBwMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADAwMgxgZRGzA",
+				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFmRzYGwgBwMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
 				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFmRzYGwgBYZmZmhZDzglZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGaGzAGMYMLzMzMMbYGmlHYCAAAAMLTbz2MLzGAEAAGgZGAYMwiMAA",
 				"AMWmZZML2mxMjFjtllZMzmZ2WWmZswMaGzAGMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYwAwMgxgZRGzA",
 				"AMWmZZML2mxMjNjtllZMzmZ2WWmZswMaGzAGMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYwAwMgxgZRGzA",
-				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFmRzYGwgBwMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
 				"AMWmZZML2mxMjNjtllZMzmZ2WWmZswMaGzAGMgxMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGaGzAGMALzMzMMbwwsMTAAAAAEgFbzsMbzMBAgBDAzAGDmFZMDA",
+				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFmRzYGwgBwMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFmRzYGwYMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYAAmBMGYRGzA",
+				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwgBYZmZmhZDzwsMTAAAAAEgFbzsMbzMBAgBAYGwYgFZMDA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFmRzYGwgBYZmZmhZDzwsMTAAAAAEgFbzsMbzMBAgBAYGwYgFZMDA",
-				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwgBwMzMDzGmhZZmAAAAAIAL2mZZ2mZCAADAwMgxgZRGzA",
 				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFGaGzAGMALzMzMMbYGmlZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
 				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFGaGzAGMALzMzMMbYGmlZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGaGzAGMALzMzMMbYGmlZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
 				"AMWmZZML2mxMjNjtllZMzmZ2WWmZswMaGzYDjxAsMzMzwsBDzyMBAAAAQAWsNzysNzEAAGAgZAjBWkxMA",
-				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwYMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYAAmBMGYRGzA",
+				"AMWmZZML2mxMjNjtllZMzmZ2WWmZswQzYGbYMGAzMzMMbYGmlZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
 				"ghxyMLjZx2MmZsZstsNjZ2Mz2yyMjFGaGzAGjBMLzMzMMbwwsMTAAAAAEgFbzsMbzMBAgBAYGwYgFZMDA",
 				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFGaGzYDjxAYmZmhZDzwsMTAAAAAEgFbzsMbzMBAAAAzAGDmFZMDA",
 				"AMWmZZML2mxMjFjtllZMzmZ2WWmZswQzYGwgBMmZmZY2mNGmlZCAAAAgAsYbmlZbmJAAMAAzAGDmFZMDA",
@@ -33422,8 +33391,7 @@ ns.talentBuilds = {
 				"AMWmZZML2mxMjFjtltZMzmZ2WWmZswMaGzAGMAmZmZYWmNzwsMTAAAAAEgFbzsMbzMBAgBAYGwAmFZMDA",
 				"AMWmZZML2mxMjNjtllZMzmZ2WWmZswMaGzAGMgxMzMDz2sxwsMTAAAAAEgFbzsMbzMBAgBAYGwYgFZMDA",
 				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFGTzYGwYMAmZmZY2ghZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
-				"ghxyMLjZx2MmZsZstsMjZ2Mz2yyMjFmRzYGwYMAmZmZY2ghZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
-				"ghxyMLjZx2MmZsYstsNjZ2Mz2yyMjFGTzYGwYMAmZmZY2ghZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
+				"ghxyMLjZx2MmZsYstsMjZ2Mz2yyMjFmRzYGwYMAmZmZY2wMMLzEAAAAABYx2MLz2MTAAYAAmBMGYRGzA",
 				"ghxyMLjZx2MmZsZstsNjZ2Mz2yyMjFGTzYGwYMAmZmZY2ghZZmAAAAAIAL2mZZ2mZCAADGAmBMGYRGzA",
 				"ghx2MwmFzYmZZGbYmZYmltlZGLMjmxMgBDGzyMzMDz2gBLmAAAAAIALWmZZ2mZCAADYAmBMGGLyYGA",
 				"ghx2MwmFzYmZZGbYmZYmlttZGLMjmxMgBDGzyMzMDz2gBLmAAAAAIALWmZZ2mZCAADYAmBMGGLyYGA",
@@ -33465,18 +33433,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 64, 0.9978, 9519, 45, 5714, 22, 36, 2510, 22, 18, 104, 14 },
+							{ 64, 0.9978, 9519, 45, 5714, 22, 46, 2510, 22, 18, 104, 14 },
 							{ 66, 0.0022, 21, nil, nil, nil, 23, 15, 14 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 5998, 14, 1701, 23, 46, 3492, 22, 47, 157, 24 },
+							{ 64, 1, 4077, 12, 2355, 23, 14, 1267, 23, 47, 183, 24 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 64, 1, 2286, 36, 787, 23, 29, 1301, 22, 48, 111, 24 },
+							{ 64, 1, 2286, 46, 787, 23, 29, 1301, 22, 47, 111, 24 },
 						},
 					},
 				},
@@ -33518,7 +33486,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 3489, 35, 2304, 22, 36, 838, 20, 37, 129, 24 },
+							{ 64, 1, 2306, 36, 1524, 22, 2, 592, 20, 37, 75, 24 },
 						},
 					},
 					["20-99"] = {
@@ -33535,13 +33503,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 64, 0.9962, 7108, 20, 2719, 22, 30, 3357, 20, 18, 94, 16 },
+							{ 64, 0.9962, 7108, 30, 2719, 22, 31, 3357, 20, 18, 94, 16 },
 							{ 66, 0.0038, 27, nil, nil, nil, 19, 20, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 4158, 31, 2272, 22, 30, 1378, 21, 32, 206, 23 },
+							{ 64, 1, 2789, 20, 1535, 22, 31, 968, 21, 32, 114, 23 },
 						},
 					},
 					["20-99"] = {
@@ -33558,18 +33526,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 64, 0.9965, 8067, 6, 2794, 22, 11, 309, 22, 28, 3876, 20 },
+							{ 64, 0.9965, 8067, 6, 2794, 22, 11, 309, 22, 27, 3876, 20 },
 							{ 66, 0.0035, 28, nil, nil, nil, 19, 17, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 4536, 2, 2097, 22, 11, 415, 22, 28, 1480, 21 },
+							{ 64, 1, 3110, 2, 1536, 22, 11, 278, 22, 28, 997, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 64, 1, 1695, 2, 1034, 23, 11, 242, 22, 26, 83, 24 },
+							{ 64, 1, 1695, 2, 1034, 23, 11, 242, 22, 21, 83, 24 },
 						},
 					},
 				},
@@ -33588,12 +33556,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 3439, 25, 1803, 22, 24, 1312, 22, 26, 96, 24 },
+							{ 64, 1, 3439, 25, 1803, 22, 24, 1312, 22, 21, 96, 24 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 64, 1, 1885, 27, 911, 23, 2, 833, 23, 26, 69, 24 },
+							{ 64, 1, 1885, 26, 911, 23, 2, 833, 23, 21, 69, 24 },
 						},
 					},
 				},
@@ -33611,7 +33579,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 5071, 20, 2752, 23, 17, 1644, 22, 21, 249, 24 },
+							{ 64, 1, 3508, 20, 2000, 23, 17, 1112, 22, 21, 168, 23 },
 						},
 					},
 					["20-99"] = {
@@ -33634,7 +33602,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 64, 1, 4503, 14, 1689, 23, 15, 2081, 22, 7, 216, 22 },
+							{ 64, 1, 3045, 14, 1236, 23, 15, 1363, 22, 7, 130, 22 },
 						},
 					},
 					["20-99"] = {
@@ -33674,39 +33642,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9955, 8126, 49, 5294, 423673, 50, 1101, 425350, 51, 273, 411194 },
-									{ 66, 0.0045, 37, nil, nil, nil, 52, 13, 374107, 53, 19, 451082 },
+									{ 64, 0.9955, 8126, 48, 5294, 423673, 49, 1101, 425350, 50, 273, 411194 },
+									{ 66, 0.0045, 37, nil, nil, nil, 51, 13, 374107, 52, 19, 451082 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.994, 1488, 49, 1080, 376832, 50, 156, 367197, 51, 55, 361695 },
-									{ 66, 0.006, 9, nil, nil, nil, 52, 9, 370518 },
+									{ 64, 0.994, 1488, 48, 1080, 376832, 49, 156, 367197, 50, 55, 361695 },
+									{ 66, 0.006, 9, nil, nil, nil, 51, 9, 370518 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9978, 1341, 49, 934, 446703, 50, 173, 447934, 51, 41, 449725 },
-									{ 66, 0.0022, 3, nil, nil, nil, 53, 3, 453005 },
+									{ 64, 0.9978, 1341, 48, 934, 446703, 49, 173, 447934, 50, 41, 449725 },
+									{ 66, 0.0022, 3, nil, nil, nil, 52, 3, 453005 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.97, 1906, 49, 743, 341733, 50, 450, 355243, 1, 271, 353265 },
-									{ 66, 0.03, 59, nil, nil, nil, 10, 24, 375434, 53, 17, 356988, 4, 14, 353957 },
+									{ 64, 0.97, 1906, 48, 743, 341733, 49, 450, 355243, 1, 271, 353265 },
+									{ 66, 0.03, 59, nil, nil, nil, 10, 24, 375434, 52, 17, 356988, 4, 14, 353957 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9908, 322, 49, 156, 294405, 50, 67, 297930, 54, 22, 295951 },
+									{ 64, 0.9908, 322, 48, 156, 294405, 49, 67, 297930, 53, 22, 295951 },
 									{ 66, 0.0092, 3, nil, nil, nil, 10, 3, 299654 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9662, 286, 49, 120, 377300, 50, 82, 380952, 1, 37, 380075 },
+									{ 64, 0.9662, 286, 48, 120, 377300, 49, 82, 380952, 1, 37, 380075 },
 									{ 66, 0.0338, 10, nil, nil, nil, 10, 6, 388874 },
 								},
 							},
@@ -33714,18 +33682,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9719, 449, 50, 139, 213693, 49, 143, 207179, 55, 27, 221638 },
+									{ 64, 0.9719, 449, 49, 139, 213693, 48, 143, 207179, 54, 27, 221638 },
 									{ 66, 0.0281, 13, nil, nil, nil, 10, 7, 267338 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 58, nil, nil, nil, 50, 26, 161215, 49, 24, 146928 },
+									{ 64, 1, 58, nil, nil, nil, 49, 26, 161215, 48, 24, 146928 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 70, nil, nil, nil, 49, 26, 236546, 50, 22, 234046 },
+									{ 64, 1, 70, nil, nil, nil, 48, 26, 236546, 49, 22, 234046 },
 								},
 							},
 						},
@@ -33734,39 +33702,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9955, 8126, 49, 5294, 423673, 50, 1101, 425350, 51, 273, 411194 },
-									{ 66, 0.0045, 37, nil, nil, nil, 52, 13, 374107, 53, 19, 451082 },
+									{ 64, 0.9955, 8126, 48, 5294, 423673, 49, 1101, 425350, 50, 273, 411194 },
+									{ 66, 0.0045, 37, nil, nil, nil, 51, 13, 374107, 52, 19, 451082 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.994, 1488, 49, 1080, 376832, 50, 156, 367197, 51, 55, 361695 },
-									{ 66, 0.006, 9, nil, nil, nil, 52, 9, 370518 },
+									{ 64, 0.994, 1488, 48, 1080, 376832, 49, 156, 367197, 50, 55, 361695 },
+									{ 66, 0.006, 9, nil, nil, nil, 51, 9, 370518 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9978, 1341, 49, 934, 446703, 50, 173, 447934, 51, 41, 449725 },
-									{ 66, 0.0022, 3, nil, nil, nil, 53, 3, 453005 },
+									{ 64, 0.9978, 1341, 48, 934, 446703, 49, 173, 447934, 50, 41, 449725 },
+									{ 66, 0.0022, 3, nil, nil, nil, 52, 3, 453005 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.97, 1906, 49, 743, 341733, 50, 450, 355243, 1, 271, 353265 },
-									{ 66, 0.03, 59, nil, nil, nil, 10, 24, 375434, 53, 17, 356988, 4, 14, 353957 },
+									{ 64, 0.97, 1906, 48, 743, 341733, 49, 450, 355243, 1, 271, 353265 },
+									{ 66, 0.03, 59, nil, nil, nil, 10, 24, 375434, 52, 17, 356988, 4, 14, 353957 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9908, 322, 49, 156, 294405, 50, 67, 297930, 54, 22, 295951 },
+									{ 64, 0.9908, 322, 48, 156, 294405, 49, 67, 297930, 53, 22, 295951 },
 									{ 66, 0.0092, 3, nil, nil, nil, 10, 3, 299654 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9662, 286, 49, 120, 377300, 50, 82, 380952, 1, 37, 380075 },
+									{ 64, 0.9662, 286, 48, 120, 377300, 49, 82, 380952, 1, 37, 380075 },
 									{ 66, 0.0338, 10, nil, nil, nil, 10, 6, 388874 },
 								},
 							},
@@ -33774,18 +33742,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9719, 449, 50, 139, 213693, 49, 143, 207179, 55, 27, 221638 },
+									{ 64, 0.9719, 449, 49, 139, 213693, 48, 143, 207179, 54, 27, 221638 },
 									{ 66, 0.0281, 13, nil, nil, nil, 10, 7, 267338 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 58, nil, nil, nil, 50, 26, 161215, 49, 24, 146928 },
+									{ 64, 1, 58, nil, nil, nil, 49, 26, 161215, 48, 24, 146928 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 70, nil, nil, nil, 49, 26, 236546, 50, 22, 234046 },
+									{ 64, 1, 70, nil, nil, nil, 48, 26, 236546, 49, 22, 234046 },
 								},
 							},
 						},
@@ -33796,53 +33764,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 1847, 49, 1121, 205579, 50, 325, 213532, 51, 84, 194234 },
+									{ 64, 1, 1847, 48, 1121, 205579, 49, 325, 213532, 50, 84, 194234 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 255, 49, 175, 178069, 50, 32, 179528, 51, 34, 177933 },
+									{ 64, 1, 255, 48, 175, 178069, 49, 32, 179528, 50, 34, 177933 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 350, 49, 236, 223028, 50, 64, 219943 },
+									{ 64, 1, 350, 48, 236, 223028, 49, 64, 219943 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.984, 1349, 49, 647, 147234, 50, 299, 157510, 1, 156, 154418 },
+									{ 64, 0.984, 1349, 48, 647, 147234, 49, 299, 157510, 1, 156, 154418 },
 									{ 66, 0.016, 22, nil, nil, nil, 10, 8, 137202 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9858, 208, 49, 136, 115401, 50, 35, 124917, 1, 18, 116145 },
+									{ 64, 0.9858, 208, 48, 136, 115401, 49, 35, 124917, 1, 18, 116145 },
 									{ 66, 0.0142, 3, nil, nil, nil, 10, 3, 135194 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 260, 49, 137, 164229, 50, 67, 168573, 56, 27, 165126 },
+									{ 64, 1, 260, 48, 137, 164229, 49, 67, 168573, 55, 27, 165126 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 251, 49, 103, 165646, 50, 86, 162680, 29, 25, 151395 },
+									{ 64, 1, 251, 48, 103, 165646, 49, 86, 162680, 29, 25, 151395 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 48, nil, nil, nil, 49, 23, 121653, 50, 19, 135966 },
+									{ 64, 1, 48, nil, nil, nil, 48, 23, 121653, 49, 19, 135966 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 27, nil, nil, nil, 49, 14, 206552 },
+									{ 64, 1, 27, nil, nil, nil, 48, 14, 206552 },
 								},
 							},
 						},
@@ -33851,52 +33819,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 1707, 49, 1071, 220871, 50, 293, 231478, 51, 78, 210522 },
+									{ 64, 1, 1707, 48, 1071, 220871, 49, 293, 231478, 50, 78, 210522 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 258, 49, 187, 187383, 50, 34, 188398, 51, 28, 184761 },
+									{ 64, 1, 258, 48, 187, 187383, 49, 34, 188398, 50, 28, 184761 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 307, 49, 226, 246470, 50, 44, 246482 },
+									{ 64, 1, 307, 48, 226, 246470, 49, 44, 246482 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9885, 1293, 49, 618, 199136, 50, 297, 207505, 29, 142, 197448 },
-									{ 66, 0.0115, 15, nil, nil, nil, 53, 6, 229418 },
+									{ 64, 0.9885, 1293, 48, 618, 199136, 49, 297, 207505, 29, 142, 197448 },
+									{ 66, 0.0115, 15, nil, nil, nil, 52, 6, 229418 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 206, 49, 130, 165419, 50, 34, 169478, 1, 28, 167104 },
+									{ 64, 1, 206, 48, 130, 165419, 49, 34, 169478, 1, 28, 167104 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 212, 49, 118, 230514, 50, 64, 229779, 29, 15, 234354 },
+									{ 64, 1, 212, 48, 118, 230514, 49, 64, 229779, 29, 15, 234354 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 245, 49, 105, 237246, 50, 83, 220020, 1, 24, 247940 },
+									{ 64, 1, 245, 48, 105, 237246, 49, 83, 220020, 1, 24, 247940 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 43, nil, nil, nil, 50, 24, 176468, 49, 19, 157059 },
+									{ 64, 1, 43, nil, nil, nil, 49, 24, 176468, 48, 19, 157059 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 28, nil, nil, nil, 49, 19, 284519 },
+									{ 64, 1, 28, nil, nil, nil, 48, 19, 284519 },
 								},
 							},
 						},
@@ -33905,53 +33873,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 1088, 49, 735, 287054, 50, 140, 290713, 57, 33, 337612 },
+									{ 64, 1, 1088, 48, 735, 287054, 49, 140, 290713, 56, 33, 337612 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 175, 49, 133, 259749, 50, 20, 258064, 58, 17, 258781 },
+									{ 64, 1, 175, 48, 133, 259749, 49, 20, 258064, 57, 17, 258781 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 176, 49, 121, 347856, 50, 33, 350920 },
+									{ 64, 1, 176, 48, 121, 347856, 49, 33, 350920 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9901, 1096, 49, 581, 307847, 50, 229, 312835, 29, 112, 306332 },
-									{ 66, 0.0099, 11, nil, nil, nil, 53, 7, 350443 },
+									{ 64, 0.9901, 1096, 48, 581, 307847, 49, 229, 312835, 29, 112, 306332 },
+									{ 66, 0.0099, 11, nil, nil, nil, 52, 7, 350443 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 170, 49, 110, 271355, 50, 30, 281956, 1, 14, 266195 },
+									{ 64, 1, 170, 48, 110, 271355, 49, 30, 281956, 1, 14, 266195 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9816, 160, 49, 101, 325808, 50, 36, 332942 },
-									{ 66, 0.0184, 3, nil, nil, nil, 53, 3, 350443 },
+									{ 64, 0.9816, 160, 48, 101, 325808, 49, 36, 332942 },
+									{ 66, 0.0184, 3, nil, nil, nil, 52, 3, 350443 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 206, 49, 86, 189893, 50, 73, 229821, 1, 15, 305545 },
+									{ 64, 1, 206, 48, 86, 189893, 49, 73, 229821, 1, 15, 305545 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 26, nil, nil, nil, 49, 16, 159354 },
+									{ 64, 1, 26, nil, nil, nil, 48, 16, 159354 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 16, nil, nil, nil, 50, 9, 247375 },
+									{ 64, 1, 16, nil, nil, nil, 49, 9, 247375 },
 								},
 							},
 						},
@@ -33960,52 +33928,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 1231, 49, 811, 205437, 50, 188, 205172, 51, 75, 205078 },
+									{ 64, 1, 1231, 48, 811, 205437, 49, 188, 205172, 50, 75, 205078 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 189, 49, 139, 172720, 50, 31, 176604 },
+									{ 64, 1, 189, 48, 139, 172720, 49, 31, 176604 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 185, 49, 144, 228428, 50, 23, 230503 },
+									{ 64, 1, 185, 48, 144, 228428, 49, 23, 230503 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9856, 1296, 49, 621, 210646, 50, 295, 224913, 29, 139, 209442 },
-									{ 66, 0.0144, 19, nil, nil, nil, 53, 9, 222477 },
+									{ 64, 0.9856, 1296, 48, 621, 210646, 49, 295, 224913, 29, 139, 209442 },
+									{ 66, 0.0144, 19, nil, nil, nil, 52, 9, 222477 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 208, 49, 130, 175568, 50, 34, 183816, 1, 28, 178486 },
+									{ 64, 1, 208, 48, 130, 175568, 49, 34, 183816, 1, 28, 178486 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 195, 49, 103, 236593, 50, 56, 241424, 29, 17, 249401 },
+									{ 64, 1, 195, 48, 103, 236593, 49, 56, 241424, 29, 17, 249401 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 225, 49, 95, 168135, 50, 77, 198453, 1, 23, 201700 },
+									{ 64, 1, 225, 48, 95, 168135, 49, 77, 198453, 1, 23, 201700 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 24, nil, nil, nil, 49, 19, 122386 },
+									{ 64, 1, 24, nil, nil, nil, 48, 19, 122386 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 46, nil, nil, nil, 50, 26, 214962 },
+									{ 64, 1, 46, nil, nil, nil, 49, 26, 214962 },
 								},
 							},
 						},
@@ -34014,53 +33982,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9977, 1300, 51, 778, 343204, 59, 173, 338715, 49, 110, 341802 },
-									{ 66, 0.0023, 3, nil, nil, nil, 60, 3, 380424 },
+									{ 64, 0.9977, 1300, 50, 778, 343204, 58, 173, 338715, 48, 110, 341802 },
+									{ 66, 0.0023, 3, nil, nil, nil, 59, 3, 380424 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 202, 51, 133, 293923, 59, 36, 305579, 49, 17, 299264 },
+									{ 64, 1, 202, 50, 133, 293923, 58, 36, 305579, 48, 17, 299264 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 192, 51, 123, 358094, 59, 33, 354850, 49, 15, 364068 },
+									{ 64, 1, 192, 50, 123, 358094, 58, 33, 354850, 48, 15, 364068 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9936, 1246, 49, 614, 211277, 50, 215, 210721, 29, 146, 202341 },
-									{ 66, 0.0064, 8, nil, nil, nil, 53, 4, 226628 },
+									{ 64, 0.9936, 1246, 48, 614, 211277, 49, 215, 210721, 29, 146, 202341 },
+									{ 66, 0.0064, 8, nil, nil, nil, 52, 4, 226628 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 185, 49, 107, 188247, 50, 40, 188634, 1, 24, 180392 },
+									{ 64, 1, 185, 48, 107, 188247, 49, 40, 188634, 1, 24, 180392 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 197, 49, 97, 243866, 50, 50, 245259, 29, 17, 243720 },
+									{ 64, 1, 197, 48, 97, 243866, 49, 50, 245259, 29, 17, 243720 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 215, 49, 90, 172724, 50, 67, 188151, 1, 17, 200508 },
+									{ 64, 1, 215, 48, 90, 172724, 49, 67, 188151, 1, 17, 200508 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 29, nil, nil, nil, 49, 29, 157899 },
+									{ 64, 1, 29, nil, nil, nil, 48, 29, 157899 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 17, nil, nil, nil, 50, 9, 185791 },
+									{ 64, 1, 17, nil, nil, nil, 49, 9, 185791 },
 								},
 							},
 						},
@@ -34069,51 +34037,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 725, 49, 401, 442436, 51, 124, 427534, 50, 87, 448233 },
+									{ 64, 1, 725, 48, 401, 442436, 50, 124, 427534, 49, 87, 448233 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 107, nil, nil, nil, 49, 54, 409917, 51, 32, 417729, 50, 15, 370976 },
+									{ 64, 1, 107, nil, nil, nil, 48, 54, 409917, 50, 32, 417729, 49, 15, 370976 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 101, 49, 59, 460316, 50, 16, 465298 },
+									{ 64, 1, 101, 48, 59, 460316, 49, 16, 465298 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 422, 49, 227, 417511, 50, 81, 426951, 54, 23, 440246 },
+									{ 64, 1, 422, 48, 227, 417511, 49, 81, 426951, 53, 23, 440246 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 60, nil, nil, nil, 49, 40, 365384 },
+									{ 64, 1, 60, nil, nil, nil, 48, 40, 365384 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 56, nil, nil, nil, 49, 40, 447502, 50, 13, 442762 },
+									{ 64, 1, 56, nil, nil, nil, 48, 40, 447502, 49, 13, 442762 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 164, 49, 81, 284012, 50, 52, 315329 },
+									{ 64, 1, 164, 48, 81, 284012, 49, 52, 315329 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 17, nil, nil, nil, 49, 13, 253698 },
+									{ 64, 1, 17, nil, nil, nil, 48, 13, 253698 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 27, nil, nil, nil, 49, 17, 312502 },
+									{ 64, 1, 27, nil, nil, nil, 48, 17, 312502 },
 								},
 							},
 						},
@@ -34122,52 +34090,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 942, 49, 578, 282096, 50, 108, 279230, 61, 92, 316281 },
+									{ 64, 1, 942, 48, 578, 282096, 49, 108, 279230, 60, 92, 316281 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 120, nil, nil, nil, 49, 81, 244199, 50, 15, 233867 },
+									{ 64, 1, 120, nil, nil, nil, 48, 81, 244199, 49, 15, 233867 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 147, 49, 99, 291434, 50, 21, 290232 },
+									{ 64, 1, 147, 48, 99, 291434, 49, 21, 290232 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.993, 428, 49, 225, 103067, 50, 80, 105469, 54, 30, 100164 },
+									{ 64, 0.993, 428, 48, 225, 103067, 49, 80, 105469, 53, 30, 100164 },
 									{ 66, 0.007, 3, nil, nil, nil, 10, 3, 102928 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 55, nil, nil, nil, 49, 35, 89527 },
+									{ 64, 1, 55, nil, nil, nil, 48, 35, 89527 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 63, nil, nil, nil, 49, 39, 113719 },
+									{ 64, 1, 63, nil, nil, nil, 48, 39, 113719 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 135, 49, 64, 123872, 50, 40, 108972 },
+									{ 64, 1, 135, 48, 64, 123872, 49, 40, 108972 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 29, nil, nil, nil, 50, 14, 96814, 49, 15, 99642 },
+									{ 64, 1, 29, nil, nil, nil, 49, 14, 96814, 48, 15, 99642 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 23, nil, nil, nil, 49, 14, 136839 },
+									{ 64, 1, 23, nil, nil, nil, 48, 14, 136839 },
 								},
 							},
 						},
@@ -34176,52 +34144,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 1065, 49, 577, 504334, 50, 122, 500448, 62, 52, 558500 },
+									{ 64, 1, 1065, 48, 577, 504334, 49, 122, 500448, 61, 52, 558500 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 169, 49, 103, 492861, 50, 22, 490849, 63, 18, 491107 },
+									{ 64, 1, 169, 48, 103, 492861, 49, 22, 490849, 62, 18, 491107 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 144, 49, 97, 510851, 50, 13, 511716, 63, 17, 511650 },
+									{ 64, 1, 144, 48, 97, 510851, 49, 13, 511716, 62, 17, 511650 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9928, 413, 49, 245, 324734, 50, 57, 344722, 54, 38, 399699 },
-									{ 66, 0.0072, 3, nil, nil, nil, 64, 3, 352352 },
+									{ 64, 0.9928, 413, 48, 245, 324734, 49, 57, 344722, 53, 38, 399699 },
+									{ 66, 0.0072, 3, nil, nil, nil, 63, 3, 352352 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 57, nil, nil, nil, 49, 48, 297568 },
+									{ 64, 1, 57, nil, nil, nil, 48, 48, 297568 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 56, nil, nil, nil, 49, 41, 364113, 50, 15, 370382 },
+									{ 64, 1, 56, nil, nil, nil, 48, 41, 364113, 49, 15, 370382 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 1, 123, 49, 59, 417250, 50, 42, 295753 },
+									{ 64, 1, 123, 48, 59, 417250, 49, 42, 295753 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 19, nil, nil, nil, 50, 12, 252555 },
+									{ 64, 1, 19, nil, nil, nil, 49, 12, 252555 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 19, nil, nil, nil, 49, 11, 429208 },
+									{ 64, 1, 19, nil, nil, nil, 48, 11, 429208 },
 								},
 							},
 						},
@@ -34230,37 +34198,37 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9981, 1544, 49, 996, 145400, 50, 245, 145506, 51, 64, 144809 },
+									{ 64, 0.9981, 1544, 48, 996, 145400, 49, 245, 145506, 50, 64, 144809 },
 									{ 66, 0.0019, 3, nil, nil, nil, 9, 3, 142272 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 212, 49, 164, 137097, 50, 30, 135741 },
+									{ 64, 1, 212, 48, 164, 137097, 49, 30, 135741 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 216, 49, 143, 148083, 50, 50, 148205 },
+									{ 64, 1, 216, 48, 143, 148083, 49, 50, 148205 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9759, 1658, 49, 726, 281715, 50, 397, 293156, 1, 225, 304889 },
-									{ 66, 0.0241, 41, nil, nil, nil, 53, 12, 325390, 4, 15, 305221 },
+									{ 64, 0.9759, 1658, 48, 726, 281715, 49, 397, 293156, 1, 225, 304889 },
+									{ 66, 0.0241, 41, nil, nil, nil, 52, 12, 325390, 4, 15, 305221 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9867, 222, 49, 121, 146373, 50, 47, 240211, 29, 26, 196650 },
+									{ 64, 0.9867, 222, 48, 121, 146373, 49, 47, 240211, 29, 26, 196650 },
 									{ 66, 0.0133, 3, nil, nil, nil, 10, 3, 242469 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9871, 305, 49, 133, 311363, 50, 85, 313625, 1, 38, 315768 },
+									{ 64, 0.9871, 305, 48, 133, 311363, 49, 85, 313625, 1, 38, 315768 },
 									{ 66, 0.0129, 4, nil, nil, nil, 23, 4, 329603 },
 								},
 							},
@@ -34268,18 +34236,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9684, 184, 49, 82, 257772, 50, 63, 270933, 1, 14, 298661 },
-									{ 66, 0.0316, 6, nil, nil, nil, 53, 3, 279916 },
+									{ 64, 0.9684, 184, 48, 82, 257772, 49, 63, 270933, 1, 14, 298661 },
+									{ 66, 0.0316, 6, nil, nil, nil, 52, 3, 279916 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 21, nil, nil, nil, 49, 16, 146903 },
+									{ 64, 1, 21, nil, nil, nil, 48, 16, 146903 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 40, nil, nil, nil, 49, 20, 305605, 50, 13, 308503 },
+									{ 64, 1, 40, nil, nil, nil, 48, 20, 305605, 49, 13, 308503 },
 								},
 							},
 						},
@@ -34288,57 +34256,57 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9992, 12960, 49, 6858, 191766, 50, 1728, 198185, 51, 1467, 296188 },
+									{ 64, 0.9992, 12960, 48, 6858, 191766, 49, 1728, 198185, 50, 1467, 296188 },
 									{ 66, 0.0008, 11, nil, nil, nil, 9, 8, 147055 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 1, 2155, 49, 1260, 142196, 50, 275, 141664, 51, 322, 279832 },
+									{ 64, 1, 2155, 48, 1260, 142196, 49, 275, 141664, 50, 322, 279832 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 1, 2284, 49, 1334, 223348, 50, 309, 216187, 51, 229, 291652 },
+									{ 64, 1, 2284, 48, 1334, 223348, 49, 309, 216187, 50, 229, 291652 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9844, 10492, 49, 4919, 166920, 50, 2059, 177285, 1, 1225, 183466 },
-									{ 66, 0.0156, 166, nil, nil, nil, 53, 63, 166559, 10, 45, 203033, 23, 40, 181146 },
+									{ 64, 0.9844, 10492, 48, 4919, 166920, 49, 2059, 177285, 1, 1225, 183466 },
+									{ 66, 0.0156, 166, nil, nil, nil, 52, 63, 166559, 10, 45, 203033, 23, 40, 181146 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9927, 1634, 49, 933, 133438, 50, 269, 133809, 1, 201, 100813 },
+									{ 64, 0.9927, 1634, 48, 933, 133438, 49, 269, 133809, 1, 201, 100813 },
 									{ 66, 0.0073, 12, nil, nil, nil, 10, 12, 116704 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9791, 1877, 49, 861, 185245, 50, 429, 186102, 54, 59, 114207 },
-									{ 66, 0.0209, 40, nil, nil, nil, 53, 15, 231508, 23, 15, 261416 },
+									{ 64, 0.9791, 1877, 48, 861, 185245, 49, 429, 186102, 53, 59, 114207 },
+									{ 66, 0.0209, 40, nil, nil, nil, 52, 15, 231508, 23, 15, 261416 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 64, 0.9798, 1940, 49, 777, 134522, 50, 597, 145553, 1, 179, 170981 },
-									{ 66, 0.0202, 40, nil, nil, nil, 53, 12, 195094 },
+									{ 64, 0.9798, 1940, 48, 777, 134522, 49, 597, 145553, 1, 179, 170981 },
+									{ 66, 0.0202, 40, nil, nil, nil, 52, 12, 195094 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 64, 0.9884, 342, 49, 178, 123072, 50, 99, 113988, 51, 14, 129648 },
+									{ 64, 0.9884, 342, 48, 178, 123072, 49, 99, 113988, 50, 14, 129648 },
 									{ 66, 0.0116, 4, nil, nil, nil, 4, 4, 135390 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 64, 0.9906, 316, 49, 135, 189026, 50, 114, 198150, 55, 15, 209962 },
+									{ 64, 0.9906, 316, 48, 135, 189026, 49, 114, 198150, 54, 15, 209962 },
 									{ 66, 0.0094, 3, nil, nil, nil, 10, 3, 265831 },
 								},
 							},
@@ -34362,7 +34330,6 @@ ns.talentBuilds = {
 				"mZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZgtZzMGmFNNmZGDbAAAADAAAgZGMAAAAM",
 				"mZmZmZ2mxMzMmZmMmZAAAAAAAzixsNDzMwM2mtZmZMGYZglZzMGmFNNmZGDbAAAADAAAgZGMAAAAM",
 				"mZmZmZ2mxMzMGzkxMDAAAAAAYWMmtZeAzMwM2mtZmZMGYZglZzMGmFNNmZGDbAAAADAAAgZGMAAAAM",
-				"mZmZmZ2mxMzMzYmMmZAAAAAAAzixsMDzM4Bmx2sNPwMjxALDsMbmxwsopxMzYYDAAAYAAAAMzgBAAAgB",
 				"mZmZmZ2mxMzMGzkxMDAAAAAAY2MmtZYmBmx2sNzMjxALDsMbmxwsopxMzYGbAAAADAAAgZGMAAAAM",
 				"mZGzMzmxMzMmZmMmZAAAAAAAzyDMmtZYmBzM2mt5BmZMGDLDsNLmxwsppxMzYYDAAAAAAAgZGMAAAAM",
 				"mZGzMzmxMzMmZmwMDAAAAAAwyMzYGmZwMjtZbegZGjxwyALziZMMbaaMzMzwGAAAAAAAAzMYAAAAYA",
@@ -34415,13 +34382,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 0.9951, 805, 1, 381, 20, 2, 354, 19 },
-							{ 35, 0.0049, 4, nil, nil, nil, 4, 4, 16 },
+							{ 34, 1, 562, 1, 278, 19, 2, 250, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 34, 1, 141, nil, nil, nil, 14, 89, 22, 2, 52, 21 },
+							{ 34, 1, 141, nil, nil, nil, 13, 89, 22, 2, 52, 21 },
 						},
 					},
 				},
@@ -34462,8 +34428,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 0.9945, 539, 1, 251, 18, 2, 249, 18 },
-							{ 35, 0.0055, 3, nil, nil, nil, 4, 3, 20 },
+							{ 34, 1, 385, 2, 190, 18, 1, 172, 18 },
 						},
 					},
 					["20-99"] = {
@@ -34486,8 +34451,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 0.9935, 610, 1, 280, 19, 2, 264, 18, 13, 12, 19 },
-							{ 35, 0.0065, 4, nil, nil, nil, 4, 4, 20 },
+							{ 34, 0.9911, 444, 1, 202, 18, 2, 193, 18 },
+							{ 35, 0.0089, 4, nil, nil, nil, 4, 4, 20 },
 						},
 					},
 					["20-99"] = {
@@ -34510,8 +34475,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 0.9954, 656, 1, 330, 19, 2, 283, 18 },
-							{ 35, 0.0046, 3, nil, nil, nil, 4, 3, 18 },
+							{ 34, 1, 499, 1, 241, 19, 2, 224, 18 },
 						},
 					},
 					["20-99"] = {
@@ -34557,7 +34521,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 1, 675, 1, 342, 18, 2, 299, 18, 3, 13, 16 },
+							{ 34, 1, 509, 2, 229, 18, 1, 252, 17 },
 						},
 					},
 					["20-99"] = {
@@ -34580,7 +34544,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 34, 1, 591, 1, 294, 19, 2, 259, 18 },
+							{ 34, 1, 448, 1, 214, 20, 2, 214, 18 },
 						},
 					},
 					["20-99"] = {
@@ -34622,56 +34586,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.7952, 3661, 2, 477, 434271, 15, 1552, 427547, 16, 716, 405840 },
-									{ 35, 0.2048, 943, nil, nil, nil, 17, 371, 357815, 18, 539, 399101, 19, 24, 379804 },
+									{ 34, 0.7952, 3661, 2, 477, 434271, 14, 1552, 427547, 15, 716, 405840 },
+									{ 35, 0.2048, 943, nil, nil, nil, 16, 371, 357815, 17, 539, 399101, 18, 24, 379804 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 0.8193, 689, nil, nil, nil, 20, 376, 350860, 21, 44, 398993, 2, 54, 386788 },
-									{ 35, 0.1807, 152, nil, nil, nil, 17, 82, 350323, 18, 60, 361044 },
+									{ 34, 0.8193, 689, nil, nil, nil, 19, 376, 350860, 20, 44, 398993, 2, 54, 386788 },
+									{ 35, 0.1807, 152, nil, nil, nil, 16, 82, 350323, 17, 60, 361044 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 0.8891, 561, 2, 79, 443113, 15, 235, 447980, 21, 44, 450283 },
-									{ 35, 0.1109, 70, nil, nil, nil, 18, 70, 438689 },
+									{ 34, 0.8891, 561, 2, 79, 443113, 14, 235, 447980, 20, 44, 450283 },
+									{ 35, 0.1109, 70, nil, nil, nil, 17, 70, 438689 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9985, 1955, 2, 501, 352714, 16, 439, 349124, 1, 298, 349841 },
-									{ 35, 0.0015, 3, nil, nil, nil, 18, 3, 301657 },
+									{ 34, 0.9985, 1955, 2, 501, 352714, 15, 439, 349124, 1, 298, 349841 },
+									{ 35, 0.0015, 3, nil, nil, nil, 17, 3, 301657 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 378, 2, 68, 303062, 22, 119, 277774, 16, 97, 302741 },
+									{ 34, 1, 378, 2, 68, 303062, 21, 119, 277774, 15, 97, 302741 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 312, 2, 89, 383825, 16, 76, 384380, 1, 55, 379541 },
+									{ 34, 1, 312, 2, 89, 383825, 15, 76, 384380, 1, 55, 379541 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9693, 505, 2, 154, 214920, 1, 106, 214598, 16, 102, 215484 },
-									{ 35, 0.0307, 16, nil, nil, nil, 23, 8, 210737 },
+									{ 34, 0.9693, 505, 2, 154, 214920, 1, 106, 214598, 15, 102, 215484 },
+									{ 35, 0.0307, 16, nil, nil, nil, 22, 8, 210737 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 59, nil, nil, nil, 2, 18, 168980, 16, 14, 178190 },
+									{ 34, 1, 59, nil, nil, nil, 2, 18, 168980, 15, 14, 178190 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 72, nil, nil, nil, 2, 21, 235135, 1, 20, 217162, 16, 18, 235498 },
+									{ 34, 1, 72, nil, nil, nil, 2, 21, 235135, 1, 20, 217162, 15, 18, 235498 },
 								},
 							},
 						},
@@ -34680,56 +34644,56 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.7952, 3661, 2, 477, 434271, 15, 1552, 427547, 16, 716, 405840 },
-									{ 35, 0.2048, 943, nil, nil, nil, 17, 371, 357815, 18, 539, 399101, 19, 24, 379804 },
+									{ 34, 0.7952, 3661, 2, 477, 434271, 14, 1552, 427547, 15, 716, 405840 },
+									{ 35, 0.2048, 943, nil, nil, nil, 16, 371, 357815, 17, 539, 399101, 18, 24, 379804 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 0.8193, 689, nil, nil, nil, 20, 376, 350860, 21, 44, 398993, 2, 54, 386788 },
-									{ 35, 0.1807, 152, nil, nil, nil, 17, 82, 350323, 18, 60, 361044 },
+									{ 34, 0.8193, 689, nil, nil, nil, 19, 376, 350860, 20, 44, 398993, 2, 54, 386788 },
+									{ 35, 0.1807, 152, nil, nil, nil, 16, 82, 350323, 17, 60, 361044 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 0.8891, 561, 2, 79, 443113, 15, 235, 447980, 21, 44, 450283 },
-									{ 35, 0.1109, 70, nil, nil, nil, 18, 70, 438689 },
+									{ 34, 0.8891, 561, 2, 79, 443113, 14, 235, 447980, 20, 44, 450283 },
+									{ 35, 0.1109, 70, nil, nil, nil, 17, 70, 438689 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9985, 1955, 2, 501, 352714, 16, 439, 349124, 1, 298, 349841 },
-									{ 35, 0.0015, 3, nil, nil, nil, 18, 3, 301657 },
+									{ 34, 0.9985, 1955, 2, 501, 352714, 15, 439, 349124, 1, 298, 349841 },
+									{ 35, 0.0015, 3, nil, nil, nil, 17, 3, 301657 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 378, 2, 68, 303062, 22, 119, 277774, 16, 97, 302741 },
+									{ 34, 1, 378, 2, 68, 303062, 21, 119, 277774, 15, 97, 302741 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 312, 2, 89, 383825, 16, 76, 384380, 1, 55, 379541 },
+									{ 34, 1, 312, 2, 89, 383825, 15, 76, 384380, 1, 55, 379541 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9693, 505, 2, 154, 214920, 1, 106, 214598, 16, 102, 215484 },
-									{ 35, 0.0307, 16, nil, nil, nil, 23, 8, 210737 },
+									{ 34, 0.9693, 505, 2, 154, 214920, 1, 106, 214598, 15, 102, 215484 },
+									{ 35, 0.0307, 16, nil, nil, nil, 22, 8, 210737 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 59, nil, nil, nil, 2, 18, 168980, 16, 14, 178190 },
+									{ 34, 1, 59, nil, nil, nil, 2, 18, 168980, 15, 14, 178190 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 72, nil, nil, nil, 2, 21, 235135, 1, 20, 217162, 16, 18, 235498 },
+									{ 34, 1, 72, nil, nil, nil, 2, 21, 235135, 1, 20, 217162, 15, 18, 235498 },
 								},
 							},
 						},
@@ -34740,48 +34704,48 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 851, 22, 374, 213093, 16, 327, 205624, 25, 49, 215517 },
+									{ 34, 1, 851, 21, 374, 213093, 15, 327, 205624, 24, 49, 215517 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 134, nil, nil, nil, 26, 67, 180209, 15, 64, 170365 },
+									{ 34, 1, 134, nil, nil, nil, 25, 67, 180209, 14, 64, 170365 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 139, nil, nil, nil, 22, 69, 219378, 16, 49, 221029 },
+									{ 34, 1, 139, nil, nil, nil, 21, 69, 219378, 15, 49, 221029 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.997, 1013, 16, 382, 155269, 2, 129, 157951, 25, 83, 152769 },
-									{ 35, 0.003, 3, nil, nil, nil, 23, 3, 173139 },
+									{ 34, 0.997, 1013, 15, 382, 155269, 2, 129, 157951, 24, 83, 152769 },
+									{ 35, 0.003, 3, nil, nil, nil, 22, 3, 173139 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 232, nil, nil, nil, 22, 76, 107607, 16, 90, 112984, 25, 16, 119282 },
+									{ 34, 1, 232, nil, nil, nil, 21, 76, 107607, 15, 90, 112984, 24, 16, 119282 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 179, 16, 71, 163807, 2, 34, 166909, 22, 36, 167873 },
+									{ 34, 1, 179, 15, 71, 163807, 2, 34, 166909, 21, 36, 167873 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9811, 259, 16, 81, 162310, 2, 50, 170661, 25, 41, 197716 },
+									{ 34, 0.9811, 259, 15, 81, 162310, 2, 50, 170661, 24, 41, 197716 },
 									{ 35, 0.0189, 5, nil, nil, nil, 4, 5, 183343 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 56, nil, nil, nil, 16, 23, 135164 },
+									{ 34, 1, 56, nil, nil, nil, 15, 23, 135164 },
 								},
 							},
 							["median"] = {
@@ -34795,53 +34759,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 773, 22, 314, 234455, 16, 340, 219134, 25, 41, 254866 },
+									{ 34, 1, 773, 21, 314, 234455, 15, 340, 219134, 24, 41, 254866 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 104, nil, nil, nil, 26, 55, 185079, 22, 44, 191412 },
+									{ 34, 1, 104, nil, nil, nil, 25, 55, 185079, 21, 44, 191412 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 120, nil, nil, nil, 22, 51, 248502, 16, 51, 250962 },
+									{ 34, 1, 120, nil, nil, nil, 21, 51, 248502, 15, 51, 250962 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.995, 1002, 16, 391, 208250, 2, 121, 212075, 25, 77, 206691 },
-									{ 35, 0.005, 5, nil, nil, nil, 23, 5, 239417 },
+									{ 34, 0.995, 1002, 15, 391, 208250, 2, 121, 212075, 24, 77, 206691 },
+									{ 35, 0.005, 5, nil, nil, nil, 22, 5, 239417 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 193, nil, nil, nil, 22, 57, 153061, 24, 86, 153535, 25, 14, 165456 },
+									{ 34, 1, 193, nil, nil, nil, 21, 57, 153061, 23, 86, 153535, 24, 14, 165456 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 154, nil, nil, nil, 16, 72, 236800, 2, 26, 225694, 1, 16, 218597 },
+									{ 34, 1, 154, nil, nil, nil, 15, 72, 236800, 2, 26, 225694, 1, 16, 218597 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9876, 238, 16, 83, 209088, 25, 43, 259591, 2, 42, 240940 },
+									{ 34, 0.9876, 238, 15, 83, 209088, 24, 43, 259591, 2, 42, 240940 },
 									{ 35, 0.0124, 3, nil, nil, nil, 4, 3, 269916 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 58, nil, nil, nil, 16, 26, 171621 },
+									{ 34, 1, 58, nil, nil, nil, 15, 26, 171621 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 41, nil, nil, nil, 2, 11, 282360, 16, 16, 285160 },
+									{ 34, 1, 41, nil, nil, nil, 2, 11, 282360, 15, 16, 285160 },
 								},
 							},
 						},
@@ -34850,53 +34814,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 337, 28, 136, 355027, 29, 69, 286957, 16, 50, 285186 },
+									{ 34, 1, 337, 27, 136, 355027, 28, 69, 286957, 15, 50, 285186 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 25, nil, nil, nil, 28, 12, 274081 },
+									{ 34, 1, 25, nil, nil, nil, 27, 12, 274081 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 42, nil, nil, nil, 30, 19, 349778, 24, 12, 343569 },
+									{ 34, 1, 42, nil, nil, nil, 29, 19, 349778, 23, 12, 343569 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9964, 831, 16, 301, 317649, 2, 103, 312831, 25, 56, 313770 },
-									{ 35, 0.0036, 3, nil, nil, nil, 23, 3, 353353 },
+									{ 34, 0.9964, 831, 15, 301, 317649, 2, 103, 312831, 24, 56, 313770 },
+									{ 35, 0.0036, 3, nil, nil, nil, 22, 3, 353353 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 194, nil, nil, nil, 22, 62, 236434, 24, 79, 267086, 2, 13, 279234 },
+									{ 34, 1, 194, nil, nil, nil, 21, 62, 236434, 23, 79, 267086, 2, 13, 279234 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 143, nil, nil, nil, 16, 59, 329277, 2, 18, 331001, 31, 30, 346104 },
+									{ 34, 1, 143, nil, nil, nil, 15, 59, 329277, 2, 18, 331001, 30, 30, 346104 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9773, 215, 16, 76, 255159, 25, 39, 198487, 2, 36, 222797 },
+									{ 34, 0.9773, 215, 15, 76, 255159, 24, 39, 198487, 2, 36, 222797 },
 									{ 35, 0.0227, 5, nil, nil, nil, 4, 5, 205940 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 24, nil, nil, nil, 25, 9, 133482 },
+									{ 34, 1, 24, nil, nil, nil, 24, 9, 133482 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 34, nil, nil, nil, 25, 10, 245763, 16, 12, 252777 },
+									{ 34, 1, 34, nil, nil, nil, 24, 10, 245763, 15, 12, 252777 },
 								},
 							},
 						},
@@ -34905,53 +34869,53 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 551, 22, 239, 224790, 16, 247, 202794, 25, 25, 242181 },
+									{ 34, 1, 551, 21, 239, 224790, 15, 247, 202794, 24, 25, 242181 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 57, nil, nil, nil, 26, 36, 170148, 22, 21, 176523 },
+									{ 34, 1, 57, nil, nil, nil, 25, 36, 170148, 21, 21, 176523 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 75, nil, nil, nil, 22, 38, 225104, 16, 30, 227974 },
+									{ 34, 1, 75, nil, nil, nil, 21, 38, 225104, 15, 30, 227974 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.997, 991, 16, 384, 225272, 22, 229, 199538, 2, 108, 227954 },
-									{ 35, 0.003, 3, nil, nil, nil, 23, 3, 257135 },
+									{ 34, 0.997, 991, 15, 384, 225272, 21, 229, 199538, 2, 108, 227954 },
+									{ 35, 0.003, 3, nil, nil, nil, 22, 3, 257135 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 221, nil, nil, nil, 22, 74, 169010, 16, 87, 181150, 25, 15, 177759 },
+									{ 34, 1, 221, nil, nil, nil, 21, 74, 169010, 15, 87, 181150, 24, 15, 177759 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 165, nil, nil, nil, 16, 65, 235852, 2, 26, 235655, 1, 22, 237417 },
+									{ 34, 1, 165, nil, nil, nil, 15, 65, 235852, 2, 26, 235655, 1, 22, 237417 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9837, 241, 16, 85, 179876, 25, 42, 156310, 2, 37, 175703 },
+									{ 34, 0.9837, 241, 15, 85, 179876, 24, 42, 156310, 2, 37, 175703 },
 									{ 35, 0.0163, 4, nil, nil, nil, 4, 4, 159974 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 32, nil, nil, nil, 25, 11, 118152 },
+									{ 34, 1, 32, nil, nil, nil, 24, 11, 118152 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 43, nil, nil, nil, 16, 24, 212568 },
+									{ 34, 1, 43, nil, nil, nil, 15, 24, 212568 },
 								},
 							},
 						},
@@ -34960,52 +34924,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 230, 27, 145, 334737, 22, 13, 399187, 32, 25, 360271 },
+									{ 34, 1, 230, 26, 145, 334737, 21, 13, 399187, 31, 25, 360271 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 26, nil, nil, nil, 27, 26, 296339 },
+									{ 34, 1, 26, nil, nil, nil, 26, 26, 296339 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 28, nil, nil, nil, 27, 19, 354266 },
+									{ 34, 1, 28, nil, nil, nil, 26, 19, 354266 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 750, 2, 105, 218100, 16, 171, 212443, 27, 116, 196662 },
+									{ 34, 1, 750, 2, 105, 218100, 15, 171, 212443, 26, 116, 196662 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 130, nil, nil, nil, 22, 20, 172627, 27, 30, 181650, 2, 12, 171463 },
+									{ 34, 1, 130, nil, nil, nil, 21, 20, 172627, 26, 30, 181650, 2, 12, 171463 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 107, nil, nil, nil, 16, 30, 248177, 2, 19, 246329, 22, 19, 247840 },
+									{ 34, 1, 107, nil, nil, nil, 15, 30, 248177, 2, 19, 246329, 21, 19, 247840 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9855, 204, nil, nil, nil, 16, 61, 189650, 2, 42, 180957, 25, 33, 182510 },
+									{ 34, 0.9855, 204, nil, nil, nil, 15, 61, 189650, 2, 42, 180957, 24, 33, 182510 },
 									{ 35, 0.0145, 3, nil, nil, nil, 4, 3, 184637 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 24, nil, nil, nil, 16, 7, 146735 },
+									{ 34, 1, 24, nil, nil, nil, 15, 7, 146735 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 36, nil, nil, nil, 25, 12, 185640 },
+									{ 34, 1, 36, nil, nil, nil, 24, 12, 185640 },
 								},
 							},
 						},
@@ -35014,46 +34978,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 192, nil, nil, nil, 24, 93, 445761, 22, 70, 460661 },
+									{ 34, 1, 192, nil, nil, nil, 23, 93, 445761, 21, 70, 460661 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 19, nil, nil, nil, 24, 10, 426912 },
+									{ 34, 1, 19, nil, nil, nil, 23, 10, 426912 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 30, nil, nil, nil, 22, 17, 468353, 24, 13, 468106 },
+									{ 34, 1, 30, nil, nil, nil, 21, 17, 468353, 23, 13, 468106 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 528, 16, 196, 419633, 22, 149, 417518, 25, 40, 443851 },
+									{ 34, 1, 528, 15, 196, 419633, 21, 149, 417518, 24, 40, 443851 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 90, nil, nil, nil, 16, 39, 380628, 22, 23, 347333 },
+									{ 34, 1, 90, nil, nil, nil, 15, 39, 380628, 21, 23, 347333 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 101, nil, nil, nil, 16, 42, 447562, 22, 30, 444118 },
+									{ 34, 1, 101, nil, nil, nil, 15, 42, 447562, 21, 30, 444118 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 178, nil, nil, nil, 16, 53, 306799, 2, 36, 303457, 25, 31, 289556 },
+									{ 34, 1, 178, nil, nil, nil, 15, 53, 306799, 2, 36, 303457, 24, 31, 289556 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 12, nil, nil, nil, 25, 5, 248838 },
+									{ 34, 1, 12, nil, nil, nil, 24, 5, 248838 },
 								},
 							},
 							["median"] = {
@@ -35067,41 +35031,41 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 338, nil, nil, nil, 24, 179, 277620, 22, 122, 273755, 34, 17, 298150 },
+									{ 34, 1, 338, nil, nil, nil, 23, 179, 277620, 21, 122, 273755, 33, 17, 298150 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 51, nil, nil, nil, 26, 35, 244268, 22, 16, 240280 },
+									{ 34, 1, 51, nil, nil, nil, 25, 35, 244268, 21, 16, 240280 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 42, nil, nil, nil, 24, 21, 289598, 35, 13, 308024 },
+									{ 34, 1, 42, nil, nil, nil, 23, 21, 289598, 34, 13, 308024 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 674, 16, 266, 104629, 25, 69, 100894, 2, 60, 113244 },
+									{ 34, 1, 674, 15, 266, 104629, 24, 69, 100894, 2, 60, 113244 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 141, nil, nil, nil, 22, 50, 87353, 25, 19, 93060, 24, 48, 85603 },
+									{ 34, 1, 141, nil, nil, nil, 21, 50, 87353, 24, 19, 93060, 23, 48, 85603 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 63, nil, nil, nil, 25, 14, 136866, 16, 21, 113642, 15, 16, 112057 },
+									{ 34, 1, 63, nil, nil, nil, 24, 14, 136866, 15, 21, 113642, 14, 16, 112057 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 160, nil, nil, nil, 2, 43, 124871, 16, 48, 125260, 25, 24, 116341 },
+									{ 34, 1, 160, nil, nil, nil, 2, 43, 124871, 15, 48, 125260, 24, 24, 116341 },
 								},
 							},
 							["fast"] = {
@@ -35111,7 +35075,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 20, nil, nil, nil, 25, 7, 136510 },
+									{ 34, 1, 20, nil, nil, nil, 24, 7, 136510 },
 								},
 							},
 						},
@@ -35120,46 +35084,46 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 488, 26, 280, 500666, 22, 174, 501079, 34, 16, 546438 },
+									{ 34, 1, 488, 25, 280, 500666, 21, 174, 501079, 33, 16, 546438 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 86, nil, nil, nil, 26, 44, 492180, 22, 42, 493662 },
+									{ 34, 1, 86, nil, nil, nil, 25, 44, 492180, 21, 42, 493662 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 68, nil, nil, nil, 26, 36, 510225, 22, 32, 511171 },
+									{ 34, 1, 68, nil, nil, nil, 25, 36, 510225, 21, 32, 511171 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 581, 16, 233, 328780, 25, 55, 327097, 22, 176, 334117 },
+									{ 34, 1, 581, 15, 233, 328780, 24, 55, 327097, 21, 176, 334117 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 67, nil, nil, nil, 16, 31, 300525, 25, 14, 293676, 22, 13, 296074 },
+									{ 34, 1, 67, nil, nil, nil, 15, 31, 300525, 24, 14, 293676, 21, 13, 296074 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 77, nil, nil, nil, 16, 37, 370861, 22, 20, 367602 },
+									{ 34, 1, 77, nil, nil, nil, 15, 37, 370861, 21, 20, 367602 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 143, nil, nil, nil, 2, 41, 310145, 25, 25, 417397, 16, 40, 310388 },
+									{ 34, 1, 143, nil, nil, nil, 2, 41, 310145, 24, 25, 417397, 15, 40, 310388 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 31, nil, nil, nil, 16, 16, 281091 },
+									{ 34, 1, 31, nil, nil, nil, 15, 16, 281091 },
 								},
 							},
 							["median"] = {
@@ -35173,52 +35137,52 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 873, 24, 431, 146130, 22, 299, 145692, 25, 39, 145399 },
+									{ 34, 1, 873, 23, 431, 146130, 21, 299, 145692, 24, 39, 145399 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 95, nil, nil, nil, 22, 29, 135871, 33, 61, 139203 },
+									{ 34, 1, 95, nil, nil, nil, 21, 29, 135871, 32, 61, 139203 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 166, nil, nil, nil, 24, 92, 147829, 22, 57, 147794 },
+									{ 34, 1, 166, nil, nil, nil, 23, 92, 147829, 21, 57, 147794 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 1491, 16, 506, 280544, 2, 261, 290765, 1, 198, 278724 },
+									{ 34, 1, 1491, 15, 506, 280544, 2, 261, 290765, 1, 198, 278724 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 325, nil, nil, nil, 22, 116, 137215, 16, 117, 146405, 2, 29, 148902 },
+									{ 34, 1, 325, nil, nil, nil, 21, 116, 137215, 15, 117, 146405, 2, 29, 148902 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 239, 16, 85, 315538, 2, 48, 313953, 25, 20, 315763 },
+									{ 34, 1, 239, 15, 85, 315538, 2, 48, 313953, 24, 20, 315763 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9853, 201, 16, 63, 285784, 2, 39, 254108, 1, 31, 288253 },
+									{ 34, 0.9853, 201, 15, 63, 285784, 2, 39, 254108, 1, 31, 288253 },
 									{ 35, 0.0147, 3, nil, nil, nil, 4, 3, 237025 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 21, nil, nil, nil, 16, 7, 154129 },
+									{ 34, 1, 21, nil, nil, nil, 15, 7, 154129 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 40, nil, nil, nil, 1, 9, 298474, 16, 12, 301860 },
+									{ 34, 1, 40, nil, nil, nil, 1, 9, 298474, 15, 12, 301860 },
 								},
 							},
 						},
@@ -35227,54 +35191,54 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 1, 5285, 22, 1818, 198409, 24, 2169, 148260, 25, 198, 199822 },
+									{ 34, 1, 5285, 21, 1818, 198409, 23, 2169, 148260, 24, 198, 199822 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 820, 26, 401, 142745, 22, 318, 150514, 27, 34, 294091 },
+									{ 34, 1, 820, 25, 401, 142745, 21, 318, 150514, 26, 34, 294091 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 928, 22, 355, 206644, 24, 388, 148611, 25, 33, 149793 },
+									{ 34, 1, 928, 21, 355, 206644, 23, 388, 148611, 24, 33, 149793 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9971, 8512, 16, 2993, 166512, 2, 1033, 189310, 25, 610, 146620 },
-									{ 35, 0.0029, 25, nil, nil, nil, 23, 22, 167155 },
+									{ 34, 0.9971, 8512, 15, 2993, 166512, 2, 1033, 189310, 24, 610, 146620 },
+									{ 35, 0.0029, 25, nil, nil, nil, 22, 22, 167155 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 1865, 16, 670, 130998, 2, 141, 141452, 22, 581, 100165 },
+									{ 34, 1, 1865, 15, 670, 130998, 2, 141, 141452, 21, 581, 100165 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 0.994, 1491, 16, 539, 179019, 2, 213, 188574, 25, 112, 171820 },
-									{ 35, 0.006, 9, nil, nil, nil, 23, 9, 203592 },
+									{ 34, 0.994, 1491, 15, 539, 179019, 2, 213, 188574, 24, 112, 171820 },
+									{ 35, 0.006, 9, nil, nil, nil, 22, 9, 203592 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 34, 0.9859, 1962, 16, 596, 150611, 2, 393, 139304, 25, 306, 135189 },
+									{ 34, 0.9859, 1962, 15, 596, 150611, 2, 393, 139304, 24, 306, 135189 },
 									{ 35, 0.0141, 28, nil, nil, nil, 4, 28, 186249 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 34, 1, 348, 16, 116, 136096, 25, 56, 103217, 2, 60, 119116 },
+									{ 34, 1, 348, 15, 116, 136096, 24, 56, 103217, 2, 60, 119116 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 34, 1, 351, 16, 99, 206415, 25, 74, 191239, 2, 72, 184481 },
+									{ 34, 1, 351, 15, 99, 206415, 24, 74, 191239, 2, 72, 184481 },
 								},
 							},
 						},
@@ -35297,24 +35261,20 @@ ns.talentBuilds = {
 				"WmxMzMGmRmZGYxMmBzMmZMzMzMjBz2MjtHYmZbMmBAAAAAAQAzMsBAAAgBmZmZmt2mZmBAAAAAYA",
 				"WmxMzMGmRmZGMLmxMYmxMjZegZmZMY2mZsZmZbMMAAAAAAACYmZsBAAAgBmZmZmt2mZmBAGAAAAD",
 				"YMzMjhZkZmBWMjZwMjZGz8AzMzYYmtZGbjZMGzAAAAwsNDGGLbMhhZmxCAAAAGYAEgZGwMAAAAG",
-				"WmxMzMzwMyMzALmxMYmxMjZmZmZMY2mZs9AmZbMmBAAAAAAQAzMsBAAAgBmZmZmt2mZmBAAAAAYA",
+				"2mxMzMGmRmZGMLmxMYmxMjZegZmZMY2mZs9AzMbjhBAAAAAAQAzMjNAAAAMwMzMzs12MzMAAAAAAD",
 				"MjZmZMMjMzMwiZMDmZMzYmHYmZGDzsNzY7BmZMGzAAAAAAAIgZmxGAAAAGYmZmZWabmZGAYAAAAMA",
 				"WmxMzMGmRmZGMLmxMYmxMjZegZmZMY2mZsZmZbMmBAAAAAAQAzMjNAAAAMwMzMzs12MzMAAAAAAD",
-				"MjZmZmhZkZmBWMjZwMjZGzMzMzYwsNzY7BmZ2GDDAAAAAAgAmZGbAAAAYgZmZmZrtZmZAAAAAAG",
 				"MjZmZMMjMzMYWMjZwMjZGz8AzMzYwsNzYbmZ2GjZAAAAAAAEwMDbAAAAYgZmZmZrtZmZAAAAAAG",
 				"2mxMzMGmRmZGMLmxMYmxMjZegZmZMY2mZsZmZbMMAAAAAAACYmZsBAAAgBmZmZmt2mZmBAGAAAAD",
 				"MjZmZMMjMzMwiZMDmZMzYmZmZGDmtZGbmZ2GjZAAAAAAAEwMzYDAAAADMzMzMbtNzMDAMAAAAG",
 				"MjZmZMMjMzMwiZMDmZMzYmHYmZGDzsNzYzMz2YMDAAAAAAgAmZGbAAAAYgZmZmZptZmZAgBAAAwA",
 				"MjZmZmhZkZmBziZMDmZMzYmHYmZGDmtZGbzMz2YYAAAAAAAEwMDbAAAAYgZmZmZrtZmZAAAAAAG",
+				"MjZmZMMjMzMYWMjZwMjZGz8AzMzYwsNzYzMz2YMDAAAAAAgAmZGbAAAAYgZmZmZptZmZAgBAAAwA",
 				"MjZmZmhZkZmBWMjZwMjZGzMzMzYwsNzYbmZ2GDDAAAAAAgAmZYDAAAADMzMzMbtNzMDAAAAAwA",
-				"MjZmZMmZkZmBziZMDmZMzYmHYmZGDmtZGbmZ2GDDAAAAAAgAmZGbAAAAYgZmZmZrtZmZAgBAAAwA",
-				"MjZmZMMjMzMwiZMDmZMzYmZmZGDmtZGbPwMz2YMDAAAAAAgAmZGbAAAAYgZmZmZrtZmZAAAAAAG",
 				"MjZmZMMjMzMwiZMDmZMzYmZmZGDmtZGbjZ2GjZAAAAAAAEwMzYDAAAADMzMzMbtNzMDAAAAAwA",
-				"MjZmZMMjMzMYWMjZwMjZGzYmZGDzsNzYzMz2YMDAAAAAAgAmZGbAAAAYgZmZmZrtZmZAgBAAAwA",
+				"MjZmZmhZkZmBziZMDmZMzYmHYmZGDmtZGbPwMz2YMDAAAAAAgAmZYDAAAADMzMzMbtNzMDAAAAAwA",
 				"MjZmZmhZkZmBziZMDmZMzYmHYmZGDmtZGbmZ2GDDAAAAAAgAmZGbAAAAYgZmZmZrtZmZAgBAAAwA",
 				"YMzMjhZkZmBWMjZwMjZGz8AzMzYYmtZGbzMz2YMDAAAAAAgAmZGbAAAAYgZmZmZptZmZAAAAAAG",
-				"WmxMzMzwMyMzgZxMmBzMmZMzDMzMjBz2MjtZmZbMAAAAAAAQAzMsBAAAgBmZmZmt2mZmBAAAAAYA",
-				"YMzMjhZkZmBWMjZwMjZGz8AzMzYYmtZGbPwMz2YMDAAAAAAgAmZGbAAAAYgZmZmZptZmZAgBAAAwA",
 				"YMzMjxMjMzMYWMjZwMjZGzYmZGDzsNzY7BmZ2GDAAAAAAAEwMzYDAAAADmZmZmZrtZmZAgBAAAwA",
 				"YMzMjZmZkZmZYWMzMjhZMzYGzMzYYGmx2YmtxAAAAAAAABMzM2AAAAwAzMzMzWbzMzAADAAAgB",
 				"YMzMjZmZkZmZYWMzMjhZMzYGzYmZYGmx2MzYMAAAAAAAQAzMjNAAAAMYMzMzs02MzMAwAAAAYA",
@@ -35362,7 +35322,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 292, nil, nil, nil, 29, 197, 21, 30, 50, 19, 7, 23, 19 },
+							{ 124, 1, 193, nil, nil, nil, 21, 3, 20, 5, 134, 19, 7, 17, 19 },
 						},
 					},
 				},
@@ -35374,13 +35334,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 124, 0.9944, 1970, 27, 1011, 13, 6, 400, 13, 25, 101, 19 },
+							{ 124, 0.9944, 1970, 25, 1011, 13, 6, 400, 13, 23, 101, 19 },
 							{ 35, 0.0056, 11, nil, nil, nil, 12, 11, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 159, nil, nil, nil, 28, 35, 20, 1, 102, 19 },
+							{ 124, 1, 159, nil, nil, nil, 26, 35, 20, 1, 102, 19 },
 						},
 					},
 				},
@@ -35393,13 +35353,13 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 124, 0.9981, 1582, 1, 791, 12, 2, 323, 12, 25, 117, 19 },
+							{ 124, 0.9981, 1582, 1, 791, 12, 2, 323, 12, 23, 117, 19 },
 							{ 35, 0.0019, 3, nil, nil, nil, 12, 3, 11 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 141, nil, nil, nil, 26, 3, 20, 9, 99, 18, 22, 14, 18 },
+							{ 124, 1, 118, nil, nil, nil, 22, 13, 21, 24, 78, 20, 2, 20, 16 },
 						},
 					},
 					["20-99"] = {
@@ -35422,7 +35382,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 213, nil, nil, nil, 23, 132, 22, 24, 30, 18, 2, 30, 17 },
+							{ 124, 1, 149, nil, nil, nil, 21, 3, 19, 1, 100, 18, 22, 15, 18 },
 						},
 					},
 				},
@@ -35440,12 +35400,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 168, nil, nil, nil, 17, 115, 21, 22, 23, 19, 6, 21, 18 },
+							{ 124, 1, 110, nil, nil, nil, 16, 83, 21, 6, 19, 19 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 124, 1, 4, nil, nil, nil, 17, 4, 21 },
+							{ 124, 1, 4, nil, nil, nil, 16, 4, 21 },
 						},
 					},
 				},
@@ -35457,18 +35417,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 124, 0.9934, 1652, 17, 835, 14, 2, 335, 12, 3, 97, 12 },
+							{ 124, 0.9934, 1652, 16, 835, 14, 2, 335, 12, 3, 97, 12 },
 							{ 35, 0.0066, 11, nil, nil, nil, 12, 6, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 154, nil, nil, nil, 18, 109, 20, 19, 12, 18, 20, 21, 17 },
+							{ 124, 1, 154, nil, nil, nil, 17, 109, 20, 18, 12, 18, 19, 21, 17 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 124, 1, 8, nil, nil, nil, 21, 8, 21 },
+							{ 124, 1, 8, nil, nil, nil, 20, 8, 21 },
 						},
 					},
 				},
@@ -35485,7 +35445,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 178, nil, nil, nil, 15, 111, 22, 16, 12, 21, 7, 12, 20 },
+							{ 124, 1, 138, nil, nil, nil, 15, 92, 22, 6, 21, 17 },
 						},
 					},
 					["20-99"] = {
@@ -35508,7 +35468,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 200, nil, nil, nil, 13, 16, 20, 5, 124, 19 },
+							{ 124, 1, 117, nil, nil, nil, 13, 83, 21, 2, 22, 16 },
 						},
 					},
 				},
@@ -35543,24 +35503,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 714, 21, 248, 431013, 31, 119, 413108, 2, 63, 418042 },
+									{ 124, 1, 714, 20, 248, 431013, 27, 119, 413108, 2, 63, 418042 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 76, nil, nil, nil, 31, 13, 361917, 2, 15, 383491, 32, 14, 348858 },
+									{ 124, 1, 76, nil, nil, nil, 27, 13, 361917, 2, 15, 383491, 28, 14, 348858 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 121, nil, nil, nil, 21, 52, 448229, 31, 24, 453901, 2, 14, 452127 },
+									{ 124, 1, 121, nil, nil, nil, 20, 52, 448229, 27, 24, 453901, 2, 14, 452127 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 0.9916, 470, 2, 107, 332588, 21, 135, 367649, 33, 46, 347410 },
+									{ 124, 0.9916, 470, 2, 107, 332588, 20, 135, 367649, 29, 46, 347410 },
 									{ 35, 0.0084, 4, nil, nil, nil, 12, 4, 364198 },
 								},
 							},
@@ -35578,17 +35538,17 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 154, nil, nil, nil, 2, 38, 183523, 33, 26, 229086, 21, 41, 218624 },
+									{ 124, 1, 154, nil, nil, nil, 2, 38, 183523, 29, 26, 229086, 20, 41, 218624 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 17, nil, nil, nil, 34, 9, 153526 },
+									{ 124, 1, 17, nil, nil, nil, 30, 9, 153526 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 19, nil, nil, nil, 33, 6, 238970 },
+									{ 124, 1, 19, nil, nil, nil, 29, 6, 238970 },
 								},
 							},
 						},
@@ -35597,24 +35557,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 714, 21, 248, 431013, 31, 119, 413108, 2, 63, 418042 },
+									{ 124, 1, 714, 20, 248, 431013, 27, 119, 413108, 2, 63, 418042 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 76, nil, nil, nil, 31, 13, 361917, 2, 15, 383491, 32, 14, 348858 },
+									{ 124, 1, 76, nil, nil, nil, 27, 13, 361917, 2, 15, 383491, 28, 14, 348858 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 121, nil, nil, nil, 21, 52, 448229, 31, 24, 453901, 2, 14, 452127 },
+									{ 124, 1, 121, nil, nil, nil, 20, 52, 448229, 27, 24, 453901, 2, 14, 452127 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 0.9916, 470, 2, 107, 332588, 21, 135, 367649, 33, 46, 347410 },
+									{ 124, 0.9916, 470, 2, 107, 332588, 20, 135, 367649, 29, 46, 347410 },
 									{ 35, 0.0084, 4, nil, nil, nil, 12, 4, 364198 },
 								},
 							},
@@ -35632,17 +35592,17 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 154, nil, nil, nil, 2, 38, 183523, 33, 26, 229086, 21, 41, 218624 },
+									{ 124, 1, 154, nil, nil, nil, 2, 38, 183523, 29, 26, 229086, 20, 41, 218624 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 17, nil, nil, nil, 34, 9, 153526 },
+									{ 124, 1, 17, nil, nil, nil, 30, 9, 153526 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 19, nil, nil, nil, 33, 6, 238970 },
+									{ 124, 1, 19, nil, nil, nil, 29, 6, 238970 },
 								},
 							},
 						},
@@ -35653,24 +35613,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 153, nil, nil, nil, 21, 39, 210834, 37, 12, 184343, 33, 12, 225190 },
+									{ 124, 1, 153, nil, nil, nil, 20, 39, 210834, 33, 12, 184343, 29, 12, 225190 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 7, nil, nil, nil, 37, 4, 179936 },
+									{ 124, 1, 7, nil, nil, nil, 33, 4, 179936 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 20, nil, nil, nil, 21, 8, 223166 },
+									{ 124, 1, 20, nil, nil, nil, 20, 8, 223166 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 288, 21, 77, 166716, 2, 45, 148319, 33, 36, 170239 },
+									{ 124, 1, 288, 20, 77, 166716, 2, 45, 148319, 29, 36, 170239 },
 								},
 							},
 							["fast"] = {
@@ -35680,19 +35640,19 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 45, nil, nil, nil, 21, 16, 174992 },
+									{ 124, 1, 45, nil, nil, nil, 20, 16, 174992 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 86, nil, nil, nil, 2, 24, 176646, 33, 30, 162024, 21, 22, 139495 },
+									{ 124, 1, 86, nil, nil, nil, 2, 24, 176646, 29, 30, 162024, 20, 22, 139495 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 17, nil, nil, nil, 33, 8, 131198 },
+									{ 124, 1, 17, nil, nil, nil, 29, 8, 131198 },
 								},
 							},
 							["median"] = {
@@ -35706,24 +35666,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 130, nil, nil, nil, 21, 31, 243948, 35, 12, 257571 },
+									{ 124, 1, 130, nil, nil, nil, 20, 31, 243948, 31, 12, 257571 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 10, nil, nil, nil, 38, 4, 187509 },
+									{ 124, 1, 10, nil, nil, nil, 34, 4, 187509 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 18, nil, nil, nil, 21, 9, 245722 },
+									{ 124, 1, 18, nil, nil, nil, 20, 9, 245722 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 281, 21, 80, 223893, 2, 43, 194704, 33, 33, 234099 },
+									{ 124, 1, 281, 20, 80, 223893, 2, 43, 194704, 29, 33, 234099 },
 								},
 							},
 							["fast"] = {
@@ -35733,14 +35693,14 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 54, nil, nil, nil, 21, 18, 240080, 2, 12, 237250 },
+									{ 124, 1, 54, nil, nil, nil, 20, 18, 240080, 2, 12, 237250 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 89, nil, nil, nil, 2, 25, 231705, 33, 28, 221847, 21, 27, 255831 },
+									{ 124, 1, 89, nil, nil, nil, 2, 25, 231705, 29, 28, 221847, 20, 27, 255831 },
 								},
 							},
 							["fast"] = {
@@ -35759,24 +35719,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 73, nil, nil, nil, 35, 18, 390250 },
+									{ 124, 1, 73, nil, nil, nil, 31, 18, 390250 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 39, 4, 274031 },
+									{ 124, 1, 4, nil, nil, nil, 35, 4, 274031 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 37, 4, 345395 },
+									{ 124, 1, 4, nil, nil, nil, 33, 4, 345395 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 211, nil, nil, nil, 21, 61, 320478, 2, 36, 307771, 33, 27, 313480 },
+									{ 124, 1, 211, nil, nil, nil, 20, 61, 320478, 2, 36, 307771, 29, 27, 313480 },
 								},
 							},
 							["fast"] = {
@@ -35793,12 +35753,12 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 73, nil, nil, nil, 2, 21, 214370, 33, 24, 208997, 21, 24, 220213 },
+									{ 124, 1, 73, nil, nil, nil, 2, 21, 214370, 29, 24, 208997, 20, 24, 220213 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 7, nil, nil, nil, 33, 4, 156942 },
+									{ 124, 1, 7, nil, nil, nil, 29, 4, 156942 },
 								},
 							},
 							["median"] = {
@@ -35812,7 +35772,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 98, nil, nil, nil, 21, 32, 236052 },
+									{ 124, 1, 98, nil, nil, nil, 20, 32, 236052 },
 								},
 							},
 							["fast"] = {
@@ -35829,7 +35789,7 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 288, 21, 76, 247700, 2, 44, 217907, 33, 36, 229929 },
+									{ 124, 1, 288, 20, 76, 247700, 2, 44, 217907, 29, 36, 229929 },
 								},
 							},
 							["fast"] = {
@@ -35839,14 +35799,14 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 43, nil, nil, nil, 33, 12, 232551, 21, 14, 253985 },
+									{ 124, 1, 43, nil, nil, nil, 29, 12, 232551, 20, 14, 253985 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 85, nil, nil, nil, 2, 23, 167571, 33, 26, 193638, 21, 23, 195271 },
+									{ 124, 1, 85, nil, nil, nil, 2, 23, 167571, 29, 26, 193638, 20, 23, 195271 },
 								},
 							},
 							["fast"] = {
@@ -35856,7 +35816,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 14, nil, nil, nil, 33, 4, 210791 },
+									{ 124, 1, 14, nil, nil, nil, 29, 4, 210791 },
 								},
 							},
 						},
@@ -35865,24 +35825,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 35, nil, nil, nil, 36, 17, 345643 },
+									{ 124, 1, 35, nil, nil, nil, 32, 17, 345643 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 40, 4, 287856 },
+									{ 124, 1, 4, nil, nil, nil, 36, 4, 287856 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 36, 4, 364585 },
+									{ 124, 1, 4, nil, nil, nil, 32, 4, 364585 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 163, nil, nil, nil, 21, 45, 217657, 2, 29, 192625, 33, 21, 212730 },
+									{ 124, 1, 163, nil, nil, nil, 20, 45, 217657, 2, 29, 192625, 29, 21, 212730 },
 								},
 							},
 							["fast"] = {
@@ -35899,7 +35859,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 65, nil, nil, nil, 2, 25, 176014, 33, 18, 186512, 21, 19, 174726 },
+									{ 124, 1, 65, nil, nil, nil, 2, 25, 176014, 29, 18, 186512, 20, 19, 174726 },
 								},
 							},
 							["fast"] = {
@@ -35909,7 +35869,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 8, nil, nil, nil, 33, 5, 186445 },
+									{ 124, 1, 8, nil, nil, nil, 29, 5, 186445 },
 								},
 							},
 						},
@@ -35918,24 +35878,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 22, nil, nil, nil, 41, 7, 429770 },
+									{ 124, 1, 22, nil, nil, nil, 37, 7, 429770 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 5, nil, nil, nil, 41, 5, 421755 },
+									{ 124, 1, 5, nil, nil, nil, 37, 5, 421755 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 36, 4, 471670 },
+									{ 124, 1, 4, nil, nil, nil, 32, 4, 471670 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 91, nil, nil, nil, 2, 21, 398781, 21, 18, 425728 },
+									{ 124, 1, 91, nil, nil, nil, 2, 21, 398781, 20, 18, 425728 },
 								},
 							},
 							["fast"] = {
@@ -35945,24 +35905,24 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 10, nil, nil, nil, 42, 4, 450889 },
+									{ 124, 1, 10, nil, nil, nil, 38, 4, 450889 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 52, nil, nil, nil, 2, 19, 291345, 33, 16, 303179, 21, 13, 265812 },
+									{ 124, 1, 52, nil, nil, nil, 2, 19, 291345, 29, 16, 303179, 20, 13, 265812 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 7, nil, nil, nil, 21, 4, 259307 },
+									{ 124, 1, 7, nil, nil, nil, 20, 4, 259307 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 3, nil, nil, nil, 33, 3, 323902 },
+									{ 124, 1, 3, nil, nil, nil, 29, 3, 323902 },
 								},
 							},
 						},
@@ -35971,19 +35931,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 28, nil, nil, nil, 36, 9, 294441 },
+									{ 124, 1, 28, nil, nil, nil, 32, 9, 294441 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 3, nil, nil, nil, 44, 3, 249937 },
+									{ 124, 1, 3, nil, nil, nil, 40, 3, 249937 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 90, nil, nil, nil, 2, 22, 100454, 33, 14, 102887, 21, 13, 108700 },
+									{ 124, 1, 90, nil, nil, nil, 2, 22, 100454, 29, 14, 102887, 20, 13, 108700 },
 								},
 							},
 							["fast"] = {
@@ -36000,17 +35960,17 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 42, nil, nil, nil, 33, 14, 125636, 2, 13, 130235, 21, 15, 122704 },
+									{ 124, 1, 42, nil, nil, nil, 29, 14, 125636, 2, 13, 130235, 20, 15, 122704 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 9, nil, nil, nil, 45, 3, 95389 },
+									{ 124, 1, 9, nil, nil, nil, 41, 3, 95389 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 3, nil, nil, nil, 33, 3, 138610 },
+									{ 124, 1, 3, nil, nil, nil, 29, 3, 138610 },
 								},
 							},
 						},
@@ -36019,17 +35979,17 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 26, nil, nil, nil, 46, 7, 492860 },
+									{ 124, 1, 26, nil, nil, nil, 42, 7, 492860 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 4, nil, nil, nil, 46, 4, 490620 },
+									{ 124, 1, 4, nil, nil, nil, 42, 4, 490620 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 3, nil, nil, nil, 47, 3, 513589 },
+									{ 124, 1, 3, nil, nil, nil, 43, 3, 513589 },
 								},
 							},
 						},
@@ -36053,7 +36013,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 33, nil, nil, nil, 2, 12, 391170, 33, 12, 335096 },
+									{ 124, 1, 33, nil, nil, nil, 2, 12, 391170, 29, 12, 335096 },
 								},
 							},
 							["fast"] = {
@@ -36072,24 +36032,24 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 180, nil, nil, nil, 21, 66, 143929, 43, 14, 142960, 33, 13, 145159 },
+									{ 124, 1, 180, nil, nil, nil, 20, 66, 143929, 39, 14, 142960, 29, 13, 145159 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 15, nil, nil, nil, 21, 8, 139805 },
+									{ 124, 1, 15, nil, nil, nil, 20, 8, 139805 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 31, nil, nil, nil, 21, 12, 148353 },
+									{ 124, 1, 31, nil, nil, nil, 20, 12, 148353 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 372, 2, 83, 265427, 21, 127, 305677, 33, 36, 299511 },
+									{ 124, 1, 372, 2, 83, 265427, 20, 127, 305677, 29, 36, 299511 },
 								},
 							},
 							["fast"] = {
@@ -36099,14 +36059,14 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 60, nil, nil, nil, 2, 12, 315745, 21, 27, 320340 },
+									{ 124, 1, 60, nil, nil, nil, 2, 12, 315745, 20, 27, 320340 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 75, nil, nil, nil, 2, 24, 254904, 21, 22, 303762, 33, 13, 271733 },
+									{ 124, 1, 75, nil, nil, nil, 2, 24, 254904, 20, 22, 303762, 29, 13, 271733 },
 								},
 							},
 							["fast"] = {
@@ -36125,51 +36085,51 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 1051, 21, 214, 147489, 35, 65, 244818, 36, 109, 255123 },
+									{ 124, 1, 1051, 20, 214, 147489, 31, 65, 244818, 32, 109, 255123 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 97, nil, nil, nil, 21, 19, 140412 },
+									{ 124, 1, 97, nil, nil, nil, 20, 19, 140412 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 136, nil, nil, nil, 21, 41, 148860, 36, 16, 244834, 33, 13, 148359 },
+									{ 124, 1, 136, nil, nil, nil, 20, 41, 148860, 32, 16, 244834, 29, 13, 148359 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 2383, 2, 378, 172181, 21, 567, 188539, 33, 232, 186343 },
+									{ 124, 1, 2383, 2, 378, 172181, 20, 567, 188539, 29, 232, 186343 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 245, nil, nil, nil, 2, 82, 101542, 21, 51, 135331, 33, 24, 197782 },
+									{ 124, 1, 245, nil, nil, nil, 2, 82, 101542, 20, 51, 135331, 29, 24, 197782 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 371, 2, 63, 186014, 21, 113, 192890, 33, 51, 196894 },
+									{ 124, 1, 371, 2, 63, 186014, 20, 113, 192890, 29, 51, 196894 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 124, 1, 714, 2, 189, 162489, 33, 192, 132344, 21, 197, 133453 },
+									{ 124, 1, 714, 2, 189, 162489, 29, 192, 132344, 20, 197, 133453 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 124, 1, 113, nil, nil, nil, 2, 36, 127598, 33, 28, 116978, 21, 43, 120161 },
+									{ 124, 1, 113, nil, nil, nil, 2, 36, 127598, 29, 28, 116978, 20, 43, 120161 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 124, 1, 100, nil, nil, nil, 2, 34, 203337, 33, 34, 185818, 21, 28, 205927 },
+									{ 124, 1, 100, nil, nil, nil, 2, 34, 203337, 29, 34, 185818, 20, 28, 205927 },
 								},
 							},
 						},
@@ -36192,13 +36152,13 @@ ns.talentBuilds = {
 				"AzMDmZMzwMMmBDTzMzMZgxMzMMzMzMAjZMmZ2mZGMDMjZgNwWwMMB2CWGmBYmZYA",
 				"AzMDMDzYmBMYMTzMzMNjx2MmZmZmHYmZGwMmxYmZbmZgBGDWglxox2AyMIYDDMzghB",
 				"Az8ADmZMzwMwMYMTjZmJjxyMzMzwYmZGwMmZGzMLzMDmBmxMwCYLYGmAbBLDDgZmhB",
-				"AzMDmZMzwMMmBDTzMzMZgxMzMMzMzMAjZMmZWmZGMDMjZgNwWwMMB2CWGmBYmZYA",
 				"AzMDgZGmhxAjHYamZmpZY2mxMzMzMzMzAMzMzYmZZmZgBGDWglxox2AyMIYDDMzghB",
 				"AzMDMDzYmBMYMTzMzMNjx2MmZmZmHYmZGwMmxYmZZmZgBGDWglxox2AyMIYDDMzghB",
 				"AzMDmZMzwMMmBDTzMzMZgxMzMMzMzMAzMjxMjZmBzAzYGYDsFMDTgtglhZAmZGG",
 				"Az8ADmZMzwMwMGjHYaGzMZMWGzMzw8AzMzAMzMGzMbzMDmBmxMwGYJYGmAbBLDzAMzMMA",
 				"AzMDmZMzwM8AzAjZaMzMZgxMzMMzMzMAjZmxMzyMzgZgZMDsBWCmhJwWwywMAzMDD",
 				"AzMDgZGmhxAjHYamZmpZY2mxMzMzMzMzAMzMzYmZbmZgBGDWglxox2AyMIYDDMzghB",
+				"AzMDmZMzwMMmBDTzMzMZgxMzMMzMzMAjZMmZWmZGMDMjZgNwWwMMB2CWGmBYmZYA",
 				"gZGjZmZmZGzMwMGjZaYmJjxywMzwYmZGwMzwYmxMzgZAjZgFwWwMMB2CWGmBYmZYA",
 				"gZmZgZ8AzwMwAjZaMzMNjx2MmZmZGzMzAmZmxYmZZmZgBGDWglxox2AyMIYDzgZGMMA",
 				"AzMDmZMzYmBmBDTzMzMZgxMzMMzMzMAzMjxMzyMzgZgZMDsB2CmhJwWwywMAzMDD",
@@ -36243,7 +36203,7 @@ ns.talentBuilds = {
 				["4813"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 36, 1, 38, nil, nil, nil, 19, 31, 9 },
+							{ 36, 1, 38, nil, nil, nil, 18, 31, 9 },
 						},
 					},
 					["10-99"] = {
@@ -36254,8 +36214,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 0.8261, 19, nil, nil, nil, 19, 19, 17 },
-							{ 37, 0.1739, 4, nil, nil, nil, 16, 4, 18 },
+							{ 36, 1, 12, nil, nil, nil, 18, 12, 17 },
 						},
 					},
 				},
@@ -36267,14 +36226,14 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.8364, 225, 4, 195, 13, 15, 30, 12 },
-							{ 37, 0.1636, 44, nil, nil, nil, 13, 19, 18, 20, 16, 18 },
+							{ 36, 0.8364, 225, 4, 195, 13, 14, 30, 12 },
+							{ 37, 0.1636, 44, nil, nil, nil, 19, 19, 18, 20, 16, 18 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
 							{ 36, 0.7857, 11, nil, nil, nil, 4, 11, 17 },
-							{ 37, 0.2143, 3, nil, nil, nil, 13, 3, 18 },
+							{ 37, 0.2143, 3, nil, nil, nil, 19, 3, 18 },
 						},
 					},
 				},
@@ -36287,13 +36246,13 @@ ns.talentBuilds = {
 					["10-99"] = {
 						["all"] = {
 							{ 36, 0.7899, 218, 4, 180, 13, 2, 28, 12 },
-							{ 37, 0.2101, 58, nil, nil, nil, 18, 7, 18, 10, 18, 13, 3, 15, 12 },
+							{ 37, 0.2101, 58, nil, nil, nil, 17, 7, 18, 10, 18, 13, 3, 15, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 0.8421, 16, nil, nil, nil, 19, 16, 18 },
-							{ 37, 0.1579, 3, nil, nil, nil, 3, 3, 16 },
+							{ 36, 0.7692, 10, nil, nil, nil, 18, 10, 18 },
+							{ 37, 0.2308, 3, nil, nil, nil, 3, 3, 16 },
 						},
 					},
 				},
@@ -36306,13 +36265,12 @@ ns.talentBuilds = {
 					["10-99"] = {
 						["all"] = {
 							{ 36, 0.8436, 232, 4, 194, 12, 11, 33, 14 },
-							{ 37, 0.1564, 43, nil, nil, nil, 17, 3, 17, 16, 24, 12, 3, 16, 12 },
+							{ 37, 0.1564, 43, nil, nil, nil, 16, 3, 17, 15, 24, 12, 3, 16, 12 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 0.8333, 15, nil, nil, nil, 4, 15, 16 },
-							{ 37, 0.1667, 3, nil, nil, nil, 16, 3, 18 },
+							{ 36, 1, 9, nil, nil, nil, 4, 9, 16 },
 						},
 					},
 				},
@@ -36330,8 +36288,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 0.7857, 11, nil, nil, nil, 4, 11, 17 },
-							{ 37, 0.2143, 3, nil, nil, nil, 10, 3, 18 },
+							{ 36, 0.8, 12, nil, nil, nil, 4, 12, 16 },
+							{ 37, 0.2, 3, nil, nil, nil, 10, 3, 18 },
 						},
 					},
 				},
@@ -36343,8 +36301,8 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.8571, 234, 4, 195, 13, 15, 26, 12 },
-							{ 37, 0.1429, 39, nil, nil, nil, 16, 14, 12, 3, 13, 12 },
+							{ 36, 0.8571, 234, 4, 195, 13, 14, 26, 12 },
+							{ 37, 0.1429, 39, nil, nil, nil, 15, 14, 12, 3, 13, 12 },
 						},
 					},
 					["15-99"] = {
@@ -36367,7 +36325,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 20, nil, nil, nil, 14, 20, 17 },
+							{ 36, 1, 18, nil, nil, nil, 13, 18, 17 },
 						},
 					},
 				},
@@ -36385,8 +36343,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 0.7273, 16, nil, nil, nil, 4, 16, 16 },
-							{ 37, 0.2727, 6, nil, nil, nil, 13, 6, 20 },
+							{ 36, 0.8125, 13, nil, nil, nil, 4, 13, 17 },
+							{ 37, 0.1875, 3, nil, nil, nil, 10, 3, 17 },
 						},
 					},
 				},
@@ -36417,7 +36375,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7939, 597, 15, 321, 412129, 23, 168, 422643, 24, 86, 386811 },
+									{ 36, 0.7939, 597, 14, 321, 412129, 23, 168, 422643, 24, 86, 386811 },
 									{ 37, 0.2061, 155, nil, nil, nil, 25, 128, 380694, 26, 27, 365995 },
 								},
 							},
@@ -36463,12 +36421,12 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 5, nil, nil, nil, 15, 5, 177626 },
+									{ 36, 1, 5, nil, nil, nil, 14, 5, 177626 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 10, nil, nil, nil, 15, 10, 235159 },
+									{ 36, 1, 10, nil, nil, nil, 14, 10, 235159 },
 								},
 							},
 						},
@@ -36477,7 +36435,7 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7939, 597, 15, 321, 412129, 23, 168, 422643, 24, 86, 386811 },
+									{ 36, 0.7939, 597, 14, 321, 412129, 23, 168, 422643, 24, 86, 386811 },
 									{ 37, 0.2061, 155, nil, nil, nil, 25, 128, 380694, 26, 27, 365995 },
 								},
 							},
@@ -36523,12 +36481,12 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 5, nil, nil, nil, 15, 5, 177626 },
+									{ 36, 1, 5, nil, nil, nil, 14, 5, 177626 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 10, nil, nil, nil, 15, 10, 235159 },
+									{ 36, 1, 10, nil, nil, nil, 14, 10, 235159 },
 								},
 							},
 						},
@@ -36565,7 +36523,7 @@ ns.talentBuilds = {
 							["fast"] = {
 								["all"] = {
 									{ 37, 0.5882, 20, nil, nil, nil, 40, 20, 123211 },
-									{ 36, 0.4118, 14, nil, nil, nil, 15, 11, 116892 },
+									{ 36, 0.4118, 14, nil, nil, nil, 14, 11, 116892 },
 								},
 							},
 							["median"] = {
@@ -36599,7 +36557,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 37, 0.9115, 237, nil, nil, nil, 29, 197, 203478, 34, 24, 260125, 35, 16, 227729 },
-									{ 36, 0.0885, 23, nil, nil, nil, 15, 16, 207677 },
+									{ 36, 0.0885, 23, nil, nil, nil, 14, 16, 207677 },
 								},
 							},
 							["fast"] = {
@@ -36695,18 +36653,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.9, 54, nil, nil, nil, 15, 43, 171876 },
+									{ 36, 0.9, 54, nil, nil, nil, 14, 43, 171876 },
 									{ 37, 0.1, 6, nil, nil, nil, 29, 6, 164205 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 13, nil, nil, nil, 15, 13, 156816 },
+									{ 36, 1, 13, nil, nil, nil, 14, 13, 156816 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 6, nil, nil, nil, 15, 6, 231195 },
+									{ 36, 1, 6, nil, nil, nil, 14, 6, 231195 },
 								},
 							},
 						},
@@ -36759,7 +36717,7 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.7, 7, nil, nil, nil, 15, 7, 124065 },
+									{ 36, 0.7, 7, nil, nil, nil, 14, 7, 124065 },
 									{ 37, 0.3, 3, nil, nil, nil, 29, 3, 127890 },
 								},
 							},
@@ -36810,17 +36768,17 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 1, 57, nil, nil, nil, 15, 45, 169904 },
+									{ 36, 1, 57, nil, nil, nil, 14, 45, 169904 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 12, nil, nil, nil, 15, 12, 165549 },
+									{ 36, 1, 12, nil, nil, nil, 14, 12, 165549 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 7, nil, nil, nil, 15, 7, 184802 },
+									{ 36, 1, 7, nil, nil, nil, 14, 7, 184802 },
 								},
 							},
 						},
@@ -36852,7 +36810,7 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6, 6, nil, nil, nil, 15, 6, 366938 },
+									{ 36, 0.6, 6, nil, nil, nil, 14, 6, 366938 },
 									{ 37, 0.4, 4, nil, nil, nil, 28, 4, 392791 },
 								},
 							},
@@ -36866,18 +36824,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.9333, 42, nil, nil, nil, 15, 38, 260064 },
+									{ 36, 0.9333, 42, nil, nil, nil, 14, 38, 260064 },
 									{ 37, 0.0667, 3, nil, nil, nil, 29, 3, 271267 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 13, nil, nil, nil, 15, 13, 252971 },
+									{ 36, 1, 13, nil, nil, nil, 14, 13, 252971 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 7, nil, nil, nil, 15, 7, 307337 },
+									{ 36, 1, 7, nil, nil, nil, 14, 7, 307337 },
 								},
 							},
 						},
@@ -36887,7 +36845,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 37, 0.8, 76, nil, nil, nil, 25, 59, 295086, 36, 14, 307826 },
-									{ 36, 0.2, 19, nil, nil, nil, 15, 16, 297321 },
+									{ 36, 0.2, 19, nil, nil, nil, 14, 16, 297321 },
 								},
 							},
 							["fast"] = {
@@ -36935,7 +36893,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 5, nil, nil, nil, 15, 5, 140539 },
+									{ 36, 1, 5, nil, nil, nil, 14, 5, 140539 },
 								},
 							},
 						},
@@ -36980,7 +36938,7 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8857, 31, nil, nil, nil, 15, 23, 425517 },
+									{ 36, 0.8857, 31, nil, nil, nil, 14, 23, 425517 },
 									{ 37, 0.1143, 4, nil, nil, nil, 29, 4, 383630 },
 								},
 							},
@@ -36991,7 +36949,7 @@ ns.talentBuilds = {
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 5, nil, nil, nil, 15, 5, 430711 },
+									{ 36, 1, 5, nil, nil, nil, 14, 5, 430711 },
 								},
 							},
 						},
@@ -37001,7 +36959,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 37, 0.8114, 185, nil, nil, nil, 25, 153, 263846, 26, 20, 136001 },
-									{ 36, 0.1886, 43, nil, nil, nil, 15, 40, 280668 },
+									{ 36, 0.1886, 43, nil, nil, nil, 14, 40, 280668 },
 								},
 							},
 							["fast"] = {
@@ -37024,7 +36982,7 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.7073, 29, nil, nil, nil, 15, 20, 199628 },
+									{ 36, 0.7073, 29, nil, nil, nil, 14, 20, 199628 },
 									{ 37, 0.2927, 12, nil, nil, nil, 28, 12, 139016 },
 								},
 							},
@@ -37038,18 +36996,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.875, 49, nil, nil, nil, 15, 36, 268709 },
+									{ 36, 0.875, 49, nil, nil, nil, 14, 36, 268709 },
 									{ 37, 0.125, 7, nil, nil, nil, 28, 7, 273029 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 7, nil, nil, nil, 15, 4, 154142 },
+									{ 36, 1, 7, nil, nil, nil, 14, 4, 154142 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 7, nil, nil, nil, 15, 7, 313083 },
+									{ 36, 1, 7, nil, nil, nil, 14, 7, 313083 },
 								},
 							},
 						},
@@ -37059,7 +37017,7 @@ ns.talentBuilds = {
 							["all"] = {
 								["all"] = {
 									{ 37, 0.6921, 1322, 29, 1048, 183721, 26, 153, 138435, 30, 86, 149434 },
-									{ 36, 0.3079, 588, 15, 454, 234904, 31, 59, 293386, 1, 30, 222907 },
+									{ 36, 0.3079, 588, 14, 454, 234904, 31, 59, 293386, 1, 30, 222907 },
 								},
 							},
 							["fast"] = {
@@ -37071,7 +37029,7 @@ ns.talentBuilds = {
 							["median"] = {
 								["all"] = {
 									{ 37, 0.7964, 223, nil, nil, nil, 25, 189, 225252, 26, 29, 232358 },
-									{ 36, 0.2036, 57, nil, nil, nil, 15, 37, 245723 },
+									{ 36, 0.2036, 57, nil, nil, nil, 14, 37, 245723 },
 								},
 							},
 						},
@@ -37104,13 +37062,13 @@ ns.talentBuilds = {
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.9174, 111, nil, nil, nil, 15, 83, 132407, 4, 21, 132995 },
+									{ 36, 0.9174, 111, nil, nil, nil, 14, 83, 132407, 4, 21, 132995 },
 									{ 37, 0.0826, 10, nil, nil, nil, 29, 10, 136039 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7928, 88, nil, nil, nil, 15, 64, 182131, 4, 16, 213139 },
+									{ 36, 0.7928, 88, nil, nil, nil, 14, 64, 182131, 4, 16, 213139 },
 									{ 37, 0.2072, 23, nil, nil, nil, 29, 23, 178431 },
 								},
 							},
@@ -37211,8 +37169,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 38, 0.6667, 12, nil, nil, nil, 1, 7, 16 },
-							{ 37, 0.3333, 6, nil, nil, nil, 11, 6, 17 },
+							{ 38, 0.625, 5, nil, nil, nil, 1, 5, 16 },
+							{ 37, 0.375, 3, nil, nil, nil, 11, 3, 17 },
 						},
 					},
 				},
@@ -37249,7 +37207,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 38, 1, 10, nil, nil, nil, 2, 7, 20 },
+							{ 38, 1, 7, nil, nil, nil, 2, 4, 20 },
 						},
 					},
 				},
@@ -37267,8 +37225,8 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 38, 0.5, 9, nil, nil, nil, 1, 9, 16 },
-							{ 37, 0.5, 9, nil, nil, nil, 6, 3, 22 },
+							{ 38, 0.7, 7, nil, nil, nil, 1, 7, 17 },
+							{ 37, 0.3, 3, nil, nil, nil, 6, 3, 22 },
 						},
 					},
 				},
@@ -37286,7 +37244,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 38, 1, 4, nil, nil, nil, 1, 4, 18 },
+							{ 38, 1, 10, nil, nil, nil, 1, 5, 17 },
 						},
 					},
 				},
@@ -37323,8 +37281,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 38, 0.8125, 13, nil, nil, nil, 1, 10, 17 },
-							{ 37, 0.1875, 3, nil, nil, nil, 11, 3, 17 },
+							{ 38, 1, 14, nil, nil, nil, 1, 11, 17 },
 						},
 					},
 				},
@@ -38109,10 +38066,10 @@ ns.talentBuilds = {
 				"MmZmZbmZmxyAzsMjxwMAAAAAAAAYmBmBjHoGzMzAAAAgZmZmxMz2YmBmZzYwCsMGN2GAzExGmZGMzAYA",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhHYGzYM1YmZGAAAAYmZmxMjxMDMzmxgFYZMasMAmJiNMmBzMAG",
 				"MmZmZbmZmxyAzsMjxwMAAAAAAAAYmBmBjHoGzMzAAAAgZmZmxMzyYmBmZzAjZswCZgZYoRsgZmZmBAG",
-				"MMzMbjZGMDzMLzYmZMzGAAAAAMAAwMMGYM1YmZGAAAAMzMjxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhx8AYM1YmZGAAAAYmZmxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwMMmHAjpGzMzAAAAAzMzMmZWGzMwMbzYwCsMGNWGAzExGGzgZGAD",
-				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhx8AYM1YmZGAAAAYmZmxMzyYmBmZzYwCsMGN2GAzExGGzgZGAD",
+				"MMzMbjZGMDzMLzYmZMzGAAAAAMAAwMMGYM1YmZGAAAAMzMjxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
+				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhxMYM1YmZGAAAAYMzMmZWGzMwMbGDWglxox2AYmI2wYGMzAYA",
 				"wMzMbzMzgBzMLzYMMzGAAAAAAAAmBzMYM1YmZGAAAAYmZmxMzyYmBmZbGDWglxoxyAYmI2wMzgZGAD",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAgBAAmhHYGYM1YmZGAAAAMzMjxMz2YmBmZbGDWglxoxyAYmI2wYGMzAYA",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwMMmBjpGzMzAAAAAjZmxMzyYmBmZbGDWglxox2AYmI2wYGMzAYA",
@@ -38122,18 +38079,21 @@ ns.talentBuilds = {
 				"MmZmZbmZmxyAzsNjxwMAAAAAAAAwM8AzwYM1YmZGAAAAYmZMmZWGzMwMbGDWglxox2AYmI2wMzgZGMYA",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwM8AzYGjpGzMzAAAAAzMjxMzyYmBmZbGDWglxoxyAYmI2wYGMzAYA",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhxYGjpGzMzAAAAAjZmxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
-				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwM8AmHwYM1YmZGAAAAYmZmxMzyYmBmZbGDWglxoxyAYmI2wYGMzAYA",
+				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwMMzwYM1YmZGAAAAYmZMmZWGzMwMbzYwCsMGNWGAzExGGzgZGAD",
+				"wMzMbzMzgBzMLzYMMzGAAAAAAAAmhHYmHAjpGzMzAAAAAzMzMmZWGzMwMbzYwCsMGNWGAzExGmZGMzAYA",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwM8AzwYM1YmZGAAAAYmZmxMz2YmBmZbGDWglxoxyAYmI2wYGMzAYA",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAMAAwMMGYM1YmZGAAAAMzMjxMz2YmBmZzYwCsMGNWGAzExGGzgZGAD",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwMMmBjpGzMzAAAAAjZmxMzyYmBmZbGDWglxoxyAYmI2wYgZGMYA",
+				"MMzMbjZGMDzMLzYmZMzGAAAAAMAAwMwMYM1YmZGAAAAMzMjxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
+				"MmZmZbmZGMYmZZGjhZ2AAAAAAAAwMMGGjpGzMzAAAAAzMzMmZWGzMwMbGDWglxoxyAYmI2wMzgZGAD",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAMAAwMMmBjpGzMzAAAAAjZmxMzyYmBmZzYwCsMGNWGAzExGGDMzAYA",
 				"gZmZbMzgZYmZZGzMjZ2AAAAAAAAwMMz8AYM1YmZGAAAAYMzMmZ2GzMwMbzYwCsMGNWGAzExGGzgZGAD",
 				"wMzMbzMzgBzMLzYMMzGAAAAAAAAmBzMzYoGzMzAAAAAzMjxMzyYmBmZbGDWglxoxyAYmI2wMzgZGMYA",
 				"wMzMbzMzgBzMLzYMMzGAAAAAMAAwMMzAjpGzMzAAAAAzMjxMzyYmBmZbGDWglxoxyAYmI2wMzgZGAD",
 				"MMzMbjZGMDzMLzYmZMzGAAAAAAAAmhHwMYM1YmZGAAAAYmZmxMzyYmBmZzYwCsMGNWGAzExGGzgZGAD",
 				"wMzMbzMzgBzMLzYMMzGAAAAAAAAmhZGzYM1YmZGAAAAYmZMmZWGzMwMbzYwCsMGNWGAzExGmZgZGAD",
-				"gZmZbMzgZYmZZGzMjZ2AAAAAgBAAmhxAjpGzMzAAAAgZmZMmZWGzMwMbzYwCsMGNWGAzExGGzgZGAD",
 				"gZmxYmZYGmZWmxMzYmNAAAAAAAAMDjZwYqxMzMAAAAwMzMjZmlxMDMz2MGsALjRjlBwMRshxAzMAG",
+				"gZmZbMzgZYmZZGzMjZ2AAAAAgBAAmhxAjpGzMzAAAAgZmZMmZWGzMwMbzYwCsMGNWGAzExGGzgZGAD",
 				"wMzMbzMzgBzMLzYMMzGAAAAAAAAmhZmHAjpGzMzAAAAAjZmxMzyYmBmZbGDWglxoxyAYmI2wMzgZGAD",
 				"MmZmZbmZmxyAzsMjxwMAAAAAgBAAzMDMYM1YmZGAAAAMjZmxMz2YmBmZzYwCsMGN2GAzExGmZgZGAD",
 				"MmZmZbmZGMYmZZmZMMDAAAAAYAAwMDYwYqZmZmBAAAAzYmZMzsNmZgZ2MGsALjRjtBwMRshZGYmBwA",
@@ -38191,64 +38151,64 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.9963, 4557, 19, 2939, 23, 17, 497, 21, 14, 619, 15 },
+							{ 36, 0.9963, 4557, 18, 2939, 23, 19, 497, 21, 14, 619, 15 },
 							{ 38, 0.0037, 17, nil, nil, nil, 4, 3, 15 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 3608, 19, 2775, 23, 17, 386, 21, 1, 149, 18 },
+							{ 36, 1, 2351, 18, 1893, 23, 1, 96, 18, 43, 15, 24 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 1732, 40, 1545, 23, 41, 12, 24, 42, 29, 23 },
+							{ 36, 1, 1732, 44, 1545, 23, 43, 12, 24, 45, 29, 23 },
 						},
 					},
 				},
 				["6988"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 36, 1, 50, nil, nil, nil, 1, 28, 9, 35, 17, 9 },
+							{ 36, 1, 50, nil, nil, nil, 1, 28, 9, 38, 17, 9 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.9971, 2739, 28, 1920, 23, 14, 352, 14, 36, 141, 23 },
+							{ 36, 0.9971, 2739, 28, 1920, 23, 14, 352, 14, 39, 141, 23 },
 							{ 38, 0.0029, 8, nil, nil, nil, 16, 8, 14 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 1689, 28, 1453, 23, 37, 81, 23, 38, 71, 21 },
+							{ 36, 1, 1689, 28, 1453, 23, 40, 81, 23, 41, 71, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 1220, 28, 1162, 23, 39, 47, 23 },
+							{ 36, 1, 1220, 28, 1162, 23, 42, 47, 23 },
 						},
 					},
 				},
 				["8910"] = {
 					["6-9"] = {
 						["all"] = {
-							{ 36, 1, 55, nil, nil, nil, 31, 10, 9, 1, 32, 8 },
+							{ 36, 1, 55, nil, nil, nil, 32, 10, 9, 1, 32, 8 },
 						},
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.997, 2332, 32, 624, 19, 2, 1121, 16, 1, 360, 13 },
+							{ 36, 0.997, 2332, 33, 624, 19, 2, 1121, 16, 1, 360, 13 },
 							{ 38, 0.003, 7, nil, nil, nil, 16, 7, 13 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 1978, 17, 707, 22, 1, 90, 17, 33, 1042, 24 },
+							{ 36, 1, 1267, nil, nil, nil, 34, 675, 24, 35, 479, 24, 36, 13, 22 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 796, nil, nil, nil, 33, 421, 24, 34, 361, 24 },
+							{ 36, 1, 796, nil, nil, nil, 34, 421, 24, 37, 361, 24 },
 						},
 					},
 				},
@@ -38266,12 +38226,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 2275, 6, 1038, 23, 1, 113, 17, 30, 870, 24 },
+							{ 36, 1, 1402, 6, 674, 23, 30, 571, 23, 31, 32, 22 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 866, 17, 503, 22, 19, 322, 23 },
+							{ 36, 1, 866, 19, 503, 22, 18, 322, 23 },
 						},
 					},
 				},
@@ -38289,7 +38249,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 2808, 28, 1987, 23, 1, 116, 18, 11, 63, 24 },
+							{ 36, 1, 1782, 28, 1294, 23, 1, 80, 18, 11, 44, 24 },
 						},
 					},
 					["20-99"] = {
@@ -38329,18 +38289,18 @@ ns.talentBuilds = {
 					},
 					["10-99"] = {
 						["all"] = {
-							{ 36, 0.9967, 3278, 19, 1953, 23, 17, 590, 22, 14, 427, 14 },
+							{ 36, 0.9967, 3278, 18, 1953, 23, 19, 590, 22, 14, 427, 14 },
 							{ 38, 0.0033, 11, nil, nil, nil, 16, 8, 14 },
 						},
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 2908, 19, 1898, 23, 17, 693, 22, 20, 31, 23 },
+							{ 36, 1, 1930, 18, 1340, 23, 19, 440, 22, 20, 17, 23 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 1394, 19, 1059, 23, 17, 311, 23, 21, 15, 21 },
+							{ 36, 1, 1394, 18, 1059, 23, 19, 311, 23, 21, 15, 21 },
 						},
 					},
 				},
@@ -38358,12 +38318,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 36, 1, 2661, 13, 1959, 23, 17, 403, 21, 1, 105, 18 },
+							{ 36, 1, 1714, 13, 1350, 23, 15, 244, 23, 7, 29, 23 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 36, 1, 1278, 13, 1112, 23, 18, 149, 22 },
+							{ 36, 1, 1278, 13, 1112, 23, 17, 149, 22 },
 						},
 					},
 				},
@@ -38398,19 +38358,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7825, 2699, 43, 1103, 433173, 44, 551, 417666, 45, 329, 417204 },
-									{ 38, 0.2175, 750, 4, 504, 423504, 46, 154, 362821, 47, 29, 457708 },
+									{ 36, 0.7825, 2699, 46, 1103, 433173, 47, 551, 417666, 48, 329, 417204 },
+									{ 38, 0.2175, 750, 4, 504, 423504, 49, 154, 362821, 50, 29, 457708 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6353, 439, 48, 188, 371314, 44, 117, 365154, 45, 54, 383383 },
-									{ 38, 0.3647, 252, nil, nil, nil, 9, 184, 354496, 46, 49, 353402 },
+									{ 36, 0.6353, 439, 51, 188, 371314, 47, 117, 365154, 48, 54, 383383 },
+									{ 38, 0.3647, 252, nil, nil, nil, 9, 184, 354496, 49, 49, 353402 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.8593, 397, 43, 190, 448111, 44, 108, 448114, 45, 41, 443690 },
+									{ 36, 0.8593, 397, 46, 190, 448111, 47, 108, 448114, 48, 41, 443690 },
 									{ 38, 0.1407, 65, nil, nil, nil, 9, 54, 450956 },
 								},
 							},
@@ -38418,19 +38378,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7793, 519, 43, 388, 333087, 44, 24, 336313, 49, 33, 337089 },
-									{ 38, 0.2207, 147, 4, 98, 336185, 50, 18, 268907, 47, 18, 321872 },
+									{ 36, 0.7793, 519, 46, 388, 333087, 47, 24, 336313, 52, 33, 337089 },
+									{ 38, 0.2207, 147, 4, 98, 336185, 53, 18, 268907, 50, 18, 321872 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6026, 94, 43, 79, 298109 },
-									{ 38, 0.3974, 62, nil, nil, nil, 9, 43, 278932, 50, 13, 268907 },
+									{ 36, 0.6026, 94, 46, 79, 298109 },
+									{ 38, 0.3974, 62, nil, nil, nil, 9, 43, 278932, 53, 13, 268907 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.837, 77, nil, nil, nil, 48, 74, 385938 },
+									{ 36, 0.837, 77, nil, nil, nil, 51, 74, 385938 },
 									{ 38, 0.163, 15, nil, nil, nil, 4, 15, 380221 },
 								},
 							},
@@ -38438,19 +38398,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.9137, 127, nil, nil, nil, 43, 104, 188970, 51, 20, 181711 },
+									{ 36, 0.9137, 127, nil, nil, nil, 46, 104, 188970, 54, 20, 181711 },
 									{ 38, 0.0863, 12, nil, nil, nil, 4, 12, 183515 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.875, 28, nil, nil, nil, 43, 28, 151955 },
+									{ 36, 0.875, 28, nil, nil, nil, 46, 28, 151955 },
 									{ 38, 0.125, 4, nil, nil, nil, 4, 4, 157490 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 15, nil, nil, nil, 43, 15, 244784 },
+									{ 36, 1, 15, nil, nil, nil, 46, 15, 244784 },
 								},
 							},
 						},
@@ -38459,19 +38419,19 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7825, 2699, 43, 1103, 433173, 44, 551, 417666, 45, 329, 417204 },
-									{ 38, 0.2175, 750, 4, 504, 423504, 46, 154, 362821, 47, 29, 457708 },
+									{ 36, 0.7825, 2699, 46, 1103, 433173, 47, 551, 417666, 48, 329, 417204 },
+									{ 38, 0.2175, 750, 4, 504, 423504, 49, 154, 362821, 50, 29, 457708 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6353, 439, 48, 188, 371314, 44, 117, 365154, 45, 54, 383383 },
-									{ 38, 0.3647, 252, nil, nil, nil, 9, 184, 354496, 46, 49, 353402 },
+									{ 36, 0.6353, 439, 51, 188, 371314, 47, 117, 365154, 48, 54, 383383 },
+									{ 38, 0.3647, 252, nil, nil, nil, 9, 184, 354496, 49, 49, 353402 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.8593, 397, 43, 190, 448111, 44, 108, 448114, 45, 41, 443690 },
+									{ 36, 0.8593, 397, 46, 190, 448111, 47, 108, 448114, 48, 41, 443690 },
 									{ 38, 0.1407, 65, nil, nil, nil, 9, 54, 450956 },
 								},
 							},
@@ -38479,19 +38439,19 @@ ns.talentBuilds = {
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7793, 519, 43, 388, 333087, 44, 24, 336313, 49, 33, 337089 },
-									{ 38, 0.2207, 147, 4, 98, 336185, 50, 18, 268907, 47, 18, 321872 },
+									{ 36, 0.7793, 519, 46, 388, 333087, 47, 24, 336313, 52, 33, 337089 },
+									{ 38, 0.2207, 147, 4, 98, 336185, 53, 18, 268907, 50, 18, 321872 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6026, 94, 43, 79, 298109 },
-									{ 38, 0.3974, 62, nil, nil, nil, 9, 43, 278932, 50, 13, 268907 },
+									{ 36, 0.6026, 94, 46, 79, 298109 },
+									{ 38, 0.3974, 62, nil, nil, nil, 9, 43, 278932, 53, 13, 268907 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.837, 77, nil, nil, nil, 48, 74, 385938 },
+									{ 36, 0.837, 77, nil, nil, nil, 51, 74, 385938 },
 									{ 38, 0.163, 15, nil, nil, nil, 4, 15, 380221 },
 								},
 							},
@@ -38499,19 +38459,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.9137, 127, nil, nil, nil, 43, 104, 188970, 51, 20, 181711 },
+									{ 36, 0.9137, 127, nil, nil, nil, 46, 104, 188970, 54, 20, 181711 },
 									{ 38, 0.0863, 12, nil, nil, nil, 4, 12, 183515 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.875, 28, nil, nil, nil, 43, 28, 151955 },
+									{ 36, 0.875, 28, nil, nil, nil, 46, 28, 151955 },
 									{ 38, 0.125, 4, nil, nil, nil, 4, 4, 157490 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 15, nil, nil, nil, 43, 15, 244784 },
+									{ 36, 1, 15, nil, nil, nil, 46, 15, 244784 },
 								},
 							},
 						},
@@ -38522,39 +38482,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.7999, 1223, 9, 677, 193230, 59, 404, 202742, 60, 29, 205719 },
-									{ 36, 0.2001, 306, 48, 194, 205939, 45, 29, 213509, 44, 13, 212186 },
+									{ 38, 0.7999, 1223, 9, 677, 193230, 62, 404, 202742, 63, 29, 205719 },
+									{ 36, 0.2001, 306, 51, 194, 205939, 48, 29, 213509, 47, 13, 212186 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.9386, 413, 9, 242, 179637, 61, 129, 179409 },
-									{ 36, 0.0614, 27, nil, nil, nil, 48, 23, 181567 },
+									{ 38, 0.9386, 413, 9, 242, 179637, 64, 129, 179409 },
+									{ 36, 0.0614, 27, nil, nil, nil, 51, 23, 181567 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.736, 145, nil, nil, nil, 9, 83, 216487, 59, 53, 220182 },
-									{ 36, 0.264, 52, nil, nil, nil, 48, 43, 222497 },
+									{ 38, 0.736, 145, nil, nil, nil, 9, 83, 216487, 62, 53, 220182 },
+									{ 36, 0.264, 52, nil, nil, nil, 51, 43, 222497 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.5957, 305, 43, 236, 148386, 49, 27, 165035, 26, 29, 141754 },
-									{ 38, 0.4043, 207, 4, 137, 144197, 52, 44, 105993, 47, 14, 154959 },
+									{ 36, 0.5957, 305, 46, 236, 148386, 52, 27, 165035, 26, 29, 141754 },
+									{ 38, 0.4043, 207, 4, 137, 144197, 55, 44, 105993, 50, 14, 154959 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.614, 70, nil, nil, nil, 9, 46, 107300, 52, 24, 98248 },
-									{ 36, 0.386, 44, nil, nil, nil, 43, 44, 118550 },
+									{ 38, 0.614, 70, nil, nil, nil, 9, 46, 107300, 55, 24, 98248 },
+									{ 36, 0.386, 44, nil, nil, nil, 46, 44, 118550 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7237, 55, nil, nil, nil, 48, 49, 164412 },
+									{ 36, 0.7237, 55, nil, nil, nil, 51, 49, 164412 },
 									{ 38, 0.2763, 21, nil, nil, nil, 4, 21, 170228 },
 								},
 							},
@@ -38562,19 +38522,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7864, 81, nil, nil, nil, 43, 72, 158752 },
+									{ 36, 0.7864, 81, nil, nil, nil, 46, 72, 158752 },
 									{ 38, 0.2136, 22, nil, nil, nil, 4, 19, 115132 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.65, 13, nil, nil, nil, 43, 13, 133614 },
+									{ 36, 0.65, 13, nil, nil, nil, 46, 13, 133614 },
 									{ 38, 0.35, 7, nil, nil, nil, 4, 7, 105821 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.5, 3, nil, nil, nil, 48, 3, 206116 },
+									{ 36, 0.5, 3, nil, nil, nil, 51, 3, 206116 },
 									{ 38, 0.5, 3, nil, nil, nil, 9, 3, 207295 },
 								},
 							},
@@ -38584,39 +38544,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.8412, 1213, 9, 710, 204933, 52, 364, 195874, 60, 27, 241450 },
-									{ 36, 0.1588, 229, 48, 163, 226695, 45, 23, 243462 },
+									{ 38, 0.8412, 1213, 9, 710, 204933, 55, 364, 195874, 63, 27, 241450 },
+									{ 36, 0.1588, 229, 51, 163, 226695, 48, 23, 243462 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.9607, 367, 9, 220, 190331, 52, 116, 183305 },
-									{ 36, 0.0393, 15, nil, nil, nil, 48, 15, 196798 },
+									{ 38, 0.9607, 367, 9, 220, 190331, 55, 116, 183305 },
+									{ 36, 0.0393, 15, nil, nil, nil, 51, 15, 196798 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.8042, 152, nil, nil, nil, 4, 93, 243385, 52, 55, 240365 },
-									{ 36, 0.1958, 37, nil, nil, nil, 48, 29, 247344 },
+									{ 38, 0.8042, 152, nil, nil, nil, 4, 93, 243385, 55, 55, 240365 },
+									{ 36, 0.1958, 37, nil, nil, nil, 51, 29, 247344 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.584, 299, 43, 226, 197930, 49, 27, 192798, 26, 28, 189608 },
-									{ 38, 0.416, 213, 4, 140, 182227, 52, 41, 161999, 47, 16, 187974 },
+									{ 36, 0.584, 299, 46, 226, 197930, 52, 27, 192798, 26, 28, 189608 },
+									{ 38, 0.416, 213, 4, 140, 182227, 55, 41, 161999, 50, 16, 187974 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.5929, 67, nil, nil, nil, 9, 43, 151007, 50, 18, 162494 },
-									{ 36, 0.4071, 46, nil, nil, nil, 43, 43, 170468 },
+									{ 38, 0.5929, 67, nil, nil, nil, 9, 43, 151007, 53, 18, 162494 },
+									{ 36, 0.4071, 46, nil, nil, nil, 46, 43, 170468 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7195, 59, nil, nil, nil, 43, 56, 233772 },
+									{ 36, 0.7195, 59, nil, nil, nil, 46, 56, 233772 },
 									{ 38, 0.2805, 23, nil, nil, nil, 4, 19, 223891 },
 								},
 							},
@@ -38624,19 +38584,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7412, 63, nil, nil, nil, 43, 60, 200380 },
+									{ 36, 0.7412, 63, nil, nil, nil, 46, 60, 200380 },
 									{ 38, 0.2588, 22, nil, nil, nil, 4, 19, 182853 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.76, 19, nil, nil, nil, 43, 19, 171793 },
+									{ 36, 0.76, 19, nil, nil, nil, 46, 19, 171793 },
 									{ 38, 0.24, 6, nil, nil, nil, 4, 6, 138919 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 8, nil, nil, nil, 43, 8, 287262 },
+									{ 36, 1, 8, nil, nil, nil, 46, 8, 287262 },
 								},
 							},
 						},
@@ -38645,39 +38605,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8019, 579, 48, 279, 284993, 45, 113, 284289, 64, 46, 283145 },
-									{ 38, 0.1981, 143, nil, nil, nil, 9, 111, 277482, 61, 18, 287937 },
+									{ 36, 0.8019, 579, 51, 279, 284993, 48, 113, 284289, 67, 46, 283145 },
+									{ 38, 0.1981, 143, nil, nil, nil, 9, 111, 277482, 64, 18, 287937 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.8672, 111, nil, nil, nil, 48, 57, 258582, 45, 20, 262096 },
+									{ 36, 0.8672, 111, nil, nil, nil, 51, 57, 258582, 48, 20, 262096 },
 									{ 38, 0.1328, 17, nil, nil, nil, 9, 14, 265606 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.85, 68, nil, nil, nil, 48, 41, 345626 },
-									{ 38, 0.15, 12, nil, nil, nil, 65, 12, 386434 },
+									{ 36, 0.85, 68, nil, nil, nil, 51, 41, 345626 },
+									{ 38, 0.15, 12, nil, nil, nil, 68, 12, 386434 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.6838, 279, 43, 194, 305976, 49, 19, 316933, 26, 29, 295754 },
-									{ 38, 0.3162, 129, 4, 93, 296622, 50, 20, 245129, 47, 13, 323159 },
+									{ 36, 0.6838, 279, 46, 194, 305976, 52, 19, 316933, 26, 29, 295754 },
+									{ 38, 0.3162, 129, 4, 93, 296622, 53, 20, 245129, 50, 13, 323159 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 38, 0.5057, 44, nil, nil, nil, 9, 34, 244419 },
-									{ 36, 0.4943, 43, nil, nil, nil, 43, 36, 278180 },
+									{ 36, 0.4943, 43, nil, nil, nil, 46, 36, 278180 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7069, 41, nil, nil, nil, 43, 35, 324231 },
+									{ 36, 0.7069, 41, nil, nil, nil, 46, 35, 324231 },
 									{ 38, 0.2931, 17, nil, nil, nil, 4, 14, 322980 },
 								},
 							},
@@ -38685,19 +38645,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7907, 68, nil, nil, nil, 43, 64, 184053 },
+									{ 36, 0.7907, 68, nil, nil, nil, 46, 64, 184053 },
 									{ 38, 0.2093, 18, nil, nil, nil, 4, 15, 231467 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.8235, 14, nil, nil, nil, 48, 14, 167018 },
+									{ 36, 0.8235, 14, nil, nil, nil, 51, 14, 167018 },
 									{ 38, 0.1765, 3, nil, nil, nil, 9, 3, 163170 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7778, 14, nil, nil, nil, 48, 14, 263064 },
+									{ 36, 0.7778, 14, nil, nil, nil, 51, 14, 263064 },
 									{ 38, 0.2222, 4, nil, nil, nil, 4, 4, 238220 },
 								},
 							},
@@ -38707,39 +38667,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.8754, 1019, 9, 640, 195781, 52, 285, 186044, 62, 15, 192564 },
-									{ 36, 0.1246, 145, 48, 103, 214548, 45, 17, 228862 },
+									{ 38, 0.8754, 1019, 9, 640, 195781, 55, 285, 186044, 65, 15, 192564 },
+									{ 36, 0.1246, 145, 51, 103, 214548, 48, 17, 228862 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.9535, 287, nil, nil, nil, 9, 174, 182353, 52, 91, 168876 },
-									{ 36, 0.0465, 14, nil, nil, nil, 48, 10, 179776 },
+									{ 38, 0.9535, 287, nil, nil, nil, 9, 174, 182353, 55, 91, 168876 },
+									{ 36, 0.0465, 14, nil, nil, nil, 51, 10, 179776 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.8306, 152, nil, nil, nil, 9, 99, 229689, 52, 42, 232559 },
-									{ 36, 0.1694, 31, nil, nil, nil, 48, 24, 232913 },
+									{ 38, 0.8306, 152, nil, nil, nil, 9, 99, 229689, 55, 42, 232559 },
+									{ 36, 0.1694, 31, nil, nil, nil, 51, 24, 232913 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.5632, 285, 43, 219, 209166, 49, 24, 212293, 2, 29, 224409 },
-									{ 38, 0.4368, 221, 4, 144, 208699, 52, 47, 156947, 47, 16, 229344 },
+									{ 36, 0.5632, 285, 46, 219, 209166, 52, 24, 212293, 2, 29, 224409 },
+									{ 38, 0.4368, 221, 4, 144, 208699, 55, 47, 156947, 50, 16, 229344 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.6446, 78, nil, nil, nil, 9, 52, 169440, 52, 23, 154168 },
-									{ 36, 0.3554, 43, nil, nil, nil, 43, 37, 174585 },
+									{ 38, 0.6446, 78, nil, nil, nil, 9, 52, 169440, 55, 23, 154168 },
+									{ 36, 0.3554, 43, nil, nil, nil, 46, 37, 174585 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.6579, 50, nil, nil, nil, 43, 46, 248814 },
+									{ 36, 0.6579, 50, nil, nil, nil, 46, 46, 248814 },
 									{ 38, 0.3421, 26, nil, nil, nil, 4, 20, 227636 },
 								},
 							},
@@ -38747,19 +38707,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.6778, 61, nil, nil, nil, 43, 61, 155653 },
+									{ 36, 0.6778, 61, nil, nil, nil, 46, 61, 155653 },
 									{ 38, 0.3222, 29, nil, nil, nil, 4, 22, 180606 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.7857, 11, nil, nil, nil, 43, 11, 127368 },
-									{ 38, 0.2143, 3, nil, nil, nil, 63, 3, 119454 },
+									{ 36, 0.7857, 11, nil, nil, nil, 46, 11, 127368 },
+									{ 38, 0.2143, 3, nil, nil, nil, 66, 3, 119454 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.75, 9, nil, nil, nil, 43, 9, 210898 },
+									{ 36, 0.75, 9, nil, nil, nil, 46, 9, 210898 },
 									{ 38, 0.25, 3, nil, nil, nil, 4, 3, 216702 },
 								},
 							},
@@ -38769,37 +38729,37 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.9769, 676, 48, 163, 336943, 45, 134, 341213, 66, 87, 337073 },
+									{ 36, 0.9769, 676, 51, 163, 336943, 48, 134, 341213, 69, 87, 337073 },
 									{ 38, 0.0231, 16, nil, nil, nil, 4, 13, 342706 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 96, nil, nil, nil, 48, 27, 299715, 66, 25, 287085 },
+									{ 36, 1, 96, nil, nil, nil, 51, 27, 299715, 69, 25, 287085 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 66, nil, nil, nil, 48, 24, 353374, 67, 13, 374925 },
+									{ 36, 1, 66, nil, nil, nil, 51, 24, 353374, 70, 13, 374925 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8669, 495, 43, 239, 206070, 68, 35, 207782, 26, 84, 222204 },
+									{ 36, 0.8669, 495, 46, 239, 206070, 71, 35, 207782, 26, 84, 222204 },
 									{ 38, 0.1331, 76, nil, nil, nil, 4, 64, 208771 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.7156, 78, nil, nil, nil, 48, 47, 176247 },
+									{ 36, 0.7156, 78, nil, nil, nil, 51, 47, 176247 },
 									{ 38, 0.2844, 31, nil, nil, nil, 9, 28, 156733 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.9195, 80, nil, nil, nil, 43, 49, 243127 },
+									{ 36, 0.9195, 80, nil, nil, nil, 46, 49, 243127 },
 									{ 38, 0.0805, 7, nil, nil, nil, 4, 7, 242400 },
 								},
 							},
@@ -38807,18 +38767,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7901, 64, nil, nil, nil, 48, 57, 174835 },
+									{ 36, 0.7901, 64, nil, nil, nil, 51, 57, 174835 },
 									{ 38, 0.2099, 17, nil, nil, nil, 4, 13, 180069 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 10, nil, nil, nil, 48, 10, 169678 },
+									{ 36, 1, 10, nil, nil, nil, 51, 10, 169678 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 4, nil, nil, nil, 43, 4, 188383 },
+									{ 36, 1, 4, nil, nil, nil, 46, 4, 188383 },
 								},
 							},
 						},
@@ -38827,39 +38787,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8384, 415, nil, nil, nil, 48, 94, 441510, 45, 91, 456382, 57, 57, 438290 },
-									{ 38, 0.1616, 80, nil, nil, nil, 69, 21, 492891, 9, 32, 431415, 70, 13, 421564 },
+									{ 36, 0.8384, 415, nil, nil, nil, 51, 94, 441510, 48, 91, 456382, 60, 57, 438290 },
+									{ 38, 0.1616, 80, nil, nil, nil, 72, 21, 492891, 9, 32, 431415, 73, 13, 421564 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.7755, 38, nil, nil, nil, 48, 19, 412232 },
-									{ 38, 0.2245, 11, nil, nil, nil, 70, 7, 420662 },
+									{ 36, 0.7755, 38, nil, nil, nil, 51, 19, 412232 },
+									{ 38, 0.2245, 11, nil, nil, nil, 73, 7, 420662 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7857, 33, nil, nil, nil, 48, 7, 462548, 45, 13, 460250 },
-									{ 38, 0.2143, 9, nil, nil, nil, 69, 6, 484648 },
+									{ 36, 0.7857, 33, nil, nil, nil, 51, 7, 462548, 48, 13, 460250 },
+									{ 38, 0.2143, 9, nil, nil, nil, 72, 6, 484648 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7594, 142, 43, 108, 423574, 45, 13, 456749 },
+									{ 36, 0.7594, 142, 46, 108, 423574, 48, 13, 456749 },
 									{ 38, 0.2406, 45, nil, nil, nil, 4, 35, 424145 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.5625, 18, nil, nil, nil, 48, 18, 352498 },
+									{ 36, 0.5625, 18, nil, nil, nil, 51, 18, 352498 },
 									{ 38, 0.4375, 14, nil, nil, nil, 9, 11, 343190 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.8462, 22, nil, nil, nil, 48, 22, 443319 },
+									{ 36, 0.8462, 22, nil, nil, nil, 51, 22, 443319 },
 									{ 38, 0.1538, 4, nil, nil, nil, 4, 4, 448572 },
 								},
 							},
@@ -38867,18 +38827,18 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8154, 53, nil, nil, nil, 43, 49, 282865 },
+									{ 36, 0.8154, 53, nil, nil, nil, 46, 49, 282865 },
 									{ 38, 0.1846, 12, nil, nil, nil, 4, 8, 291082 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 1, 13, nil, nil, nil, 43, 10, 261908 },
+									{ 36, 1, 13, nil, nil, nil, 46, 10, 261908 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 5, nil, nil, nil, 48, 5, 316874 },
+									{ 36, 1, 5, nil, nil, nil, 51, 5, 316874 },
 								},
 							},
 						},
@@ -38887,38 +38847,38 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.9787, 1515, 9, 1068, 268740, 52, 227, 276716, 53, 70, 318849 },
-									{ 36, 0.0213, 33, nil, nil, nil, 48, 25, 290046 },
+									{ 38, 0.9787, 1515, 9, 1068, 268740, 55, 227, 276716, 56, 70, 318849 },
+									{ 36, 0.0213, 33, nil, nil, nil, 51, 25, 290046 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 1, 300, 9, 233, 241289, 52, 62, 254411 },
+									{ 38, 1, 300, 9, 233, 241289, 55, 62, 254411 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.9871, 230, nil, nil, nil, 9, 195, 291669, 52, 22, 291573 },
-									{ 36, 0.0129, 3, nil, nil, nil, 48, 3, 290046 },
+									{ 38, 0.9871, 230, nil, nil, nil, 9, 195, 291669, 55, 22, 291573 },
+									{ 36, 0.0129, 3, nil, nil, nil, 51, 3, 290046 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.5784, 155, nil, nil, nil, 9, 94, 94763, 52, 42, 97280, 47, 19, 100744 },
-									{ 36, 0.4216, 113, 43, 102, 106131 },
+									{ 38, 0.5784, 155, nil, nil, nil, 9, 94, 94763, 55, 42, 97280, 50, 19, 100744 },
+									{ 36, 0.4216, 113, 46, 102, 106131 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.7042, 50, nil, nil, nil, 9, 30, 89284, 52, 17, 92159 },
-									{ 36, 0.2958, 21, nil, nil, nil, 48, 21, 91035 },
+									{ 38, 0.7042, 50, nil, nil, nil, 9, 30, 89284, 55, 17, 92159 },
+									{ 36, 0.2958, 21, nil, nil, nil, 51, 21, 91035 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7037, 19, nil, nil, nil, 43, 19, 115064 },
+									{ 36, 0.7037, 19, nil, nil, nil, 46, 19, 115064 },
 									{ 38, 0.2963, 8, nil, nil, nil, 4, 5, 123854 },
 								},
 							},
@@ -38926,19 +38886,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8387, 52, nil, nil, nil, 48, 52, 124301 },
+									{ 36, 0.8387, 52, nil, nil, nil, 51, 52, 124301 },
 									{ 38, 0.1613, 10, nil, nil, nil, 4, 10, 75182 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.8333, 15, nil, nil, nil, 48, 15, 94414 },
+									{ 36, 0.8333, 15, nil, nil, nil, 51, 15, 94414 },
 									{ 38, 0.1667, 3, nil, nil, nil, 4, 3, 75182 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 10, nil, nil, nil, 48, 10, 139352 },
+									{ 36, 1, 10, nil, nil, nil, 51, 10, 139352 },
 								},
 							},
 						},
@@ -38947,57 +38907,57 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.9903, 1626, 73, 1234, 501873, 53, 98, 556608, 52, 130, 498009 },
-									{ 36, 0.0097, 16, nil, nil, nil, 74, 11, 555018 },
+									{ 38, 0.9903, 1626, 76, 1234, 501873, 56, 98, 556608, 55, 130, 498009 },
+									{ 36, 0.0097, 16, nil, nil, nil, 77, 11, 555018 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 1, 279, nil, nil, nil, 9, 250, 492114, 52, 22, 491973 },
+									{ 38, 1, 279, nil, nil, nil, 9, 250, 492114, 55, 22, 491973 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 1, 247, nil, nil, nil, 73, 219, 512448 },
+									{ 38, 1, 247, nil, nil, nil, 76, 219, 512448 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.5417, 117, nil, nil, nil, 4, 66, 303584, 52, 32, 271675, 47, 15, 333790 },
-									{ 36, 0.4583, 99, nil, nil, nil, 43, 73, 330836, 45, 12, 299997 },
+									{ 38, 0.5417, 117, nil, nil, nil, 4, 66, 303584, 55, 32, 271675, 50, 15, 333790 },
+									{ 36, 0.4583, 99, nil, nil, nil, 46, 73, 330836, 48, 12, 299997 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 38, 0.5745, 27, nil, nil, nil, 4, 16, 288126 },
-									{ 36, 0.4255, 20, nil, nil, nil, 43, 15, 294340 },
+									{ 36, 0.4255, 20, nil, nil, nil, 46, 15, 294340 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.5714, 8, nil, nil, nil, 50, 4, 364382 },
-									{ 36, 0.4286, 6, nil, nil, nil, 48, 6, 366908 },
+									{ 38, 0.5714, 8, nil, nil, nil, 53, 4, 364382 },
+									{ 36, 0.4286, 6, nil, nil, nil, 51, 6, 366908 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.8182, 45, nil, nil, nil, 48, 45, 418341 },
+									{ 36, 0.8182, 45, nil, nil, nil, 51, 45, 418341 },
 									{ 38, 0.1818, 10, nil, nil, nil, 4, 10, 172966 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.75, 12, nil, nil, nil, 43, 12, 212654 },
+									{ 36, 0.75, 12, nil, nil, nil, 46, 12, 212654 },
 									{ 38, 0.25, 4, nil, nil, nil, 4, 4, 172966 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 9, nil, nil, nil, 48, 9, 430269 },
+									{ 36, 1, 9, nil, nil, nil, 51, 9, 430269 },
 								},
 							},
 						},
@@ -39006,39 +38966,39 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.7886, 992, 9, 557, 140362, 59, 327, 142905, 47, 20, 144164 },
-									{ 36, 0.2114, 266, 48, 189, 143794, 45, 27, 245952, 71, 20, 143813 },
+									{ 38, 0.7886, 992, 9, 557, 140362, 62, 327, 142905, 50, 20, 144164 },
+									{ 36, 0.2114, 266, 51, 189, 143794, 48, 27, 245952, 74, 20, 143813 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.9223, 344, nil, nil, nil, 9, 207, 135085, 52, 110, 134794 },
-									{ 36, 0.0777, 29, nil, nil, nil, 48, 29, 139129 },
+									{ 38, 0.9223, 344, nil, nil, nil, 9, 207, 135085, 55, 110, 134794 },
+									{ 36, 0.0777, 29, nil, nil, nil, 51, 29, 139129 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.753, 125, nil, nil, nil, 9, 82, 147717, 59, 40, 148632 },
-									{ 36, 0.247, 41, nil, nil, nil, 48, 37, 148330 },
+									{ 38, 0.753, 125, nil, nil, nil, 9, 82, 147717, 62, 40, 148632 },
+									{ 36, 0.247, 41, nil, nil, nil, 51, 37, 148330 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.6373, 297, 43, 219, 264408, 49, 29, 293415, 26, 36, 276421 },
-									{ 38, 0.3627, 169, 4, 101, 267059, 52, 45, 136651, 72, 12, 286208 },
+									{ 36, 0.6373, 297, 46, 219, 264408, 52, 29, 293415, 26, 36, 276421 },
+									{ 38, 0.3627, 169, 4, 101, 267059, 55, 45, 136651, 75, 12, 286208 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.5854, 72, nil, nil, nil, 9, 47, 132808, 50, 22, 234094 },
-									{ 36, 0.4146, 51, nil, nil, nil, 43, 48, 244378 },
+									{ 38, 0.5854, 72, nil, nil, nil, 9, 47, 132808, 53, 22, 234094 },
+									{ 36, 0.4146, 51, nil, nil, nil, 46, 48, 244378 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7719, 44, nil, nil, nil, 43, 44, 312420 },
+									{ 36, 0.7719, 44, nil, nil, nil, 46, 44, 312420 },
 									{ 38, 0.2281, 13, nil, nil, nil, 4, 9, 308151 },
 								},
 							},
@@ -39046,19 +39006,19 @@ ns.talentBuilds = {
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7143, 50, nil, nil, nil, 43, 50, 282744 },
+									{ 36, 0.7143, 50, nil, nil, nil, 46, 50, 282744 },
 									{ 38, 0.2857, 20, nil, nil, nil, 4, 17, 158712 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
 									{ 36, 0.7857, 11, nil, nil, nil, 1, 11, 152695 },
-									{ 38, 0.2143, 3, nil, nil, nil, 63, 3, 160956 },
+									{ 38, 0.2143, 3, nil, nil, nil, 66, 3, 160956 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 1, 12, nil, nil, nil, 48, 12, 310745 },
+									{ 36, 1, 12, nil, nil, nil, 51, 12, 310745 },
 								},
 							},
 						},
@@ -39067,59 +39027,59 @@ ns.talentBuilds = {
 						["mythic"] = {
 							["all"] = {
 								["all"] = {
-									{ 38, 0.721, 9032, 9, 5511, 181896, 52, 2082, 148533, 53, 274, 318047 },
-									{ 36, 0.279, 3495, 48, 1439, 215091, 45, 604, 279258, 54, 143, 252815 },
+									{ 38, 0.721, 9032, 9, 5511, 181896, 55, 2082, 148533, 56, 274, 318047 },
+									{ 36, 0.279, 3495, 51, 1439, 215091, 48, 604, 279258, 57, 143, 252815 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.8308, 2500, 9, 1561, 141861, 52, 698, 140391, 55, 72, 141229 },
-									{ 36, 0.1692, 509, 48, 226, 141711, 45, 72, 268705, 56, 18, 190791 },
+									{ 38, 0.8308, 2500, 9, 1561, 141861, 55, 698, 140391, 58, 72, 141229 },
+									{ 36, 0.1692, 509, 51, 226, 141711, 48, 72, 268705, 59, 18, 190791 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 38, 0.7353, 1411, 9, 952, 217924, 52, 316, 225824, 47, 30, 224871 },
-									{ 36, 0.2647, 508, 48, 259, 222256, 45, 103, 257483, 57, 18, 278774 },
+									{ 38, 0.7353, 1411, 9, 952, 217924, 55, 316, 225824, 50, 30, 224871 },
+									{ 36, 0.2647, 508, 51, 259, 222256, 48, 103, 257483, 60, 18, 278774 },
 								},
 							},
 						},
 						["heroic"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.6125, 2705, 43, 1689, 167909, 49, 201, 191991, 45, 115, 205570 },
-									{ 38, 0.3875, 1711, 4, 1015, 148212, 52, 391, 101323, 47, 158, 130946 },
+									{ 36, 0.6125, 2705, 46, 1689, 167909, 52, 201, 191991, 48, 115, 205570 },
+									{ 38, 0.3875, 1711, 4, 1015, 148212, 55, 391, 101323, 50, 158, 130946 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 38, 0.5631, 571, nil, nil, nil, 9, 353, 96153, 52, 161, 97280, 58, 40, 94486 },
-									{ 36, 0.4369, 443, 43, 324, 119337, 45, 31, 117863, 26, 38, 172019 },
+									{ 38, 0.5631, 571, nil, nil, nil, 9, 353, 96153, 55, 161, 97280, 61, 40, 94486 },
+									{ 36, 0.4369, 443, 46, 324, 119337, 48, 31, 117863, 26, 38, 172019 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7041, 495, 43, 340, 181027, 49, 47, 202478, 26, 69, 242690 },
-									{ 38, 0.2959, 208, 4, 127, 176058, 59, 47, 171971, 60, 13, 209318 },
+									{ 36, 0.7041, 495, 46, 340, 181027, 52, 47, 202478, 26, 69, 242690 },
+									{ 38, 0.2959, 208, 4, 127, 176058, 62, 47, 171971, 63, 13, 209318 },
 								},
 							},
 						},
 						["normal"] = {
 							["all"] = {
 								["all"] = {
-									{ 36, 0.7399, 620, 43, 510, 141345, 45, 24, 108642, 51, 26, 187739 },
-									{ 38, 0.2601, 218, nil, nil, nil, 4, 148, 159154, 60, 24, 155756, 47, 20, 119981 },
+									{ 36, 0.7399, 620, 46, 510, 141345, 48, 24, 108642, 54, 26, 187739 },
+									{ 38, 0.2601, 218, nil, nil, nil, 4, 148, 159154, 63, 24, 155756, 50, 20, 119981 },
 								},
 							},
 							["fast"] = {
 								["all"] = {
-									{ 36, 0.6842, 143, nil, nil, nil, 48, 132, 100189 },
+									{ 36, 0.6842, 143, nil, nil, nil, 51, 132, 100189 },
 									{ 38, 0.3158, 66, nil, nil, nil, 4, 44, 89268 },
 								},
 							},
 							["median"] = {
 								["all"] = {
-									{ 36, 0.7099, 93, nil, nil, nil, 48, 90, 198338 },
+									{ 36, 0.7099, 93, nil, nil, nil, 51, 90, 198338 },
 									{ 38, 0.2901, 38, nil, nil, nil, 4, 29, 204371 },
 								},
 							},
@@ -39148,7 +39108,7 @@ ns.talentBuilds = {
 				"2mxMzMzYmxwMAAAAAAAMmtxDYGAAAAAAAAmxMMzMzMzMzMDzsYGjFZhZmZmt2mZmBwwAQgZMYMD",
 				"2mxMzMzYmxwMAAAAAAAMmthZGAAAAAAAAmxMMzMzMzMzMDzsYGjFZhZmZmt2mZmBwwAQgZMYMD",
 				"MjZmZmxMjhZAAAAAAAYMbjxMAAAAAAAAMjZYmZmZmZmZGmZxMGLyCzMzMbtNzMDghBgAzYwYGA",
-				"WmxMzMzMzMGmBAAAAAAgxsNYGAAAAAAAAmxMMmZmZmZmZGzsYGjFtswMzMzWbzMzAYYAIwMGMmB",
+				"WmxMzMzMzMGmBAAAAAAgxsNYGAAAAAAAAmxMMzMzMzMzMDzsYGjFZhZmZmt2mZmBwwAQgZMYMD",
 				"2mxMzMzYmZGmBAAAAAAgxsNYGAAAAAAAAmxMMzMzMzMzMDzsYGjFZhZmZmtWmZmBwwAQgZMYMD",
 				"2MmZmxMzMGzMAAAAAAAegxsNYGAAAAAAAAmxMMmZmZmZmZGzsYGjFtsxMzMzWbzMzAYYAIwMGMmB",
 				"2MmZmZmZmBzMAAAAAAAbGz2gZAAAAAAAAYGzwMzMzMzMzMMziZMWkFmZmZWabmZGADDABmxgxMA",
@@ -39185,7 +39145,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 8525, 15, 8278, 23, 6, 97, 20 },
+							{ 124, 1, 5843, 15, 5690, 23, 6, 65, 21 },
 						},
 					},
 					["20-99"] = {
@@ -39233,12 +39193,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 5657, 17, 5487, 22, 19, 71, 21 },
+							{ 124, 1, 3906, 18, 3801, 22, 19, 47, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 124, 1, 3136, 17, 3093, 23, 6, 26, 21 },
+							{ 124, 1, 2257, 17, 2216, 23, 6, 22, 21 },
 						},
 					},
 				},
@@ -39256,7 +39216,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 5948, 17, 5774, 23, 6, 72, 20 },
+							{ 124, 1, 3997, 17, 3884, 22, 6, 48, 20 },
 						},
 					},
 					["20-99"] = {
@@ -39279,7 +39239,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 6746, 16, 6526, 22, 6, 77, 21, 18, 37, 21 },
+							{ 124, 1, 4625, 17, 4493, 23, 6, 51, 21 },
 						},
 					},
 					["20-99"] = {
@@ -39325,12 +39285,12 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 7030, 10, 6843, 23, 12, 95, 21 },
+							{ 124, 1, 4948, 5, 4824, 22, 12, 70, 21 },
 						},
 					},
 					["20-99"] = {
 						["all"] = {
-							{ 124, 1, 4555, 5, 4495, 23, 12, 43, 21 },
+							{ 124, 1, 3293, 5, 3244, 23, 12, 38, 22 },
 						},
 					},
 				},
@@ -39348,7 +39308,7 @@ ns.talentBuilds = {
 					},
 					["15-99"] = {
 						["all"] = {
-							{ 124, 1, 6641, 15, 6470, 23, 6, 60, 20 },
+							{ 124, 1, 4621, 15, 4500, 23, 6, 47, 21 },
 						},
 					},
 					["20-99"] = {
