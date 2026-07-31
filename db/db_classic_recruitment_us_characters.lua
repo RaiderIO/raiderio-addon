@@ -2,7 +2,7 @@
 -- Copyright (c) 2025 by RaiderIO, Inc.
 -- All rights reserved.
 --
-local provider={name=...,data=3,region="us",date="2026-07-30T08:04:50Z",numCharacters=15,db={}}
+local provider={name=...,data=3,region="us",date="2026-07-31T08:05:29Z",numCharacters=15,db={}}
 local F
 
 F = function() provider.db["Galakras"]={0,"Chillshot","Escolar","Gorac","Hirame","Jezzabell","Myhonor","Sazbrez"} end F()
