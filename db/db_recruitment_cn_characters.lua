@@ -2,7 +2,7 @@
 -- Copyright (c) 2026 by RaiderIO, Inc.
 -- All rights reserved.
 --
-local provider={name=...,data=3,region="cn",date="2026-08-01T07:49:25Z",numCharacters=29906,db={}}
+local provider={name=...,data=3,region="cn",date="2026-08-02T08:10:38Z",numCharacters=30078,db={}}
 local F
 
 F = function() provider.db["燃烧之刃"]={0,"心月不皈","秦君明月","秦明月"} end F()
