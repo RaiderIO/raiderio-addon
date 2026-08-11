@@ -9664,7 +9664,7 @@ if IS_RETAIL then
     ---@field public pulls number `1` the number of pulls that has been attempted
     ---@field public dead boolean indicates if the boss is dead
     ---@field public combat boolean indicates if the boss is engaged in combat
-    ---@field public combatStart? number `time()` if in combat this contains the time when combat started
+    ---@field public combatStart? number `timerMS` if in combat this contains the keystone time when combat started
     ---@field public killedStart? number `timerMS` when the boss was pulled for the kill
     ---@field public killed? number `timerMS` if dead this contains the timer when it happened
     ---@field public killedText? string `01:30` if dead this contains the timer as text
@@ -9673,7 +9673,7 @@ if IS_RETAIL then
     ---@field public level number `25` the level of the keystone
     ---@field public affixes number[] `{9}` table with numbers with the affix IDs
     ---@field public index number `117` the index of the event from the replay log that is currently the latest event displayed
-    ---@field public timer number `1995812` the timer (live provider also adds decimals from the OnUpdate handler)
+    ---@field public timer number `1995812` the current comparison position in milliseconds; for a replay summary this is the latest applied replay event timestamp
     ---@field public deaths number the total number of deaths
     ---@field public deathsBeforeOvertime? number the total number of deaths before the key was depleted
     ---@field public trash number `530` the amount of enemy forces defeated
@@ -12290,8 +12290,8 @@ if IS_RETAIL then
     ---@field public dungeon_name string?
 
     ---@class PublicReplayBossRow
-    ---@field public liveBoss ReplayBoss
-    ---@field public replayBoss ReplayBoss
+    ---@field public liveBoss? ReplayBoss
+    ---@field public replayBoss? ReplayBoss
 
     local currentReplay ---@type Replay?
     local currentLiveSummary ---@type ReplaySummary?
@@ -18951,8 +18951,10 @@ do
     ---@field public GetProfile fun(unit: string): profile: DataProviderCharacterProfile? Returns a table containing the characters profile and data from the different data providers like mythic keystones, raiding and pvp. Usage: `RaiderIO.GetProfile(name, realm[, region])` or `RaiderIO.GetProfile(unit)`
     ---@field public ShowProfile fun(tooltip: GameTooltip, ...): success: boolean Returns `true` or `false` depending if the profile could be drawn on the provided tooltip. `RaiderIO.ShowProfile(tooltip, name, realm[, region])` or `RaiderIO.ShowProfile(tooltip, unit[, region])`
     ---@field public GetScoreColor fun(score: number, isPreviousSeason?: boolean): r: number, g: number, b: number Returns the color `r, g, b` for a given score. `RaiderIO.GetScoreColor(score[, isPreviousSeason])`
-    ---@field public GetScoreForKeystone fun(level: number): base: number, average: number Returns the base and average scores for a given keystone level.
-    ---@field public GetCurrentReplay fun(): liveSummary: ReplaySummary, replaySummary: ReplaySummary Returns the current live and replay summaries for the ongoing keystone.
+    ---@field public GetScoreForKeystone fun(level: number): base: number?, average: number? Returns the base and average scores for a given keystone level when that data is available.
+    ---@field public GetCurrentReplay fun(): liveSummary: PublicReplaySummary?, replaySummary: PublicReplaySummary?, bossRows: PublicReplayBossRow[]? Returns snapshots of the current live run, selected replay, and paired boss rows for custom Mythic+ timer integrations.
+    ---@field public ReplayUI_Toggle fun() Toggles the built-in Raider.IO Replay UI when the Replay module is available.
+    ---@field public ReplayUI_SetTiming fun(timing: ReplayFrameTiming) Sets the built-in Replay UI timing mode to `BOSS` or `DUNGEON`.
 
     ---@type RaiderIOInterface
     _G.RaiderIO = setmetatable({}, {
