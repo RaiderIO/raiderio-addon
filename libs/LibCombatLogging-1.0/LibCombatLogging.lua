@@ -1,10 +1,22 @@
+-- SPDX-License-Identifier: MIT
+-- Copyright (c) 2021-2026 Vladinator
+
 local MAJOR, MINOR = "LibCombatLogging-1.0", 1
 assert(LibStub, MAJOR .. " requires LibStub")
 
----@class LibCombatLogging @The core library table accessible by the library users to start, stop or get logging states. Add `---@type LibCombatLogging` where you import it to enable annotations.
----@field public RegisterCallback fun(self: CallbackHandlerRegistry, event: string, callback: fun(event: string, ...))
+---@class LibCombatLoggingCallbackEvents
+---@field public STARTED_LOGGING "STARTED_LOGGING"
+---@field public STOPPED_LOGGING "STOPPED_LOGGING"
+---@field public ADDON_STARTED_LOGGING "ADDON_STARTED_LOGGING"
+---@field public ADDON_STOPPED_LOGGING "ADDON_STOPPED_LOGGING"
 
----@class LibCombatLogging_AddOn : string @The addon handle is a unique string used to track your addon and it's used when printing state changes.
+---@class LibCombatLogging @The core library table accessible by library users to start, stop, or query logging state. Add `---@type LibCombatLogging` where you import it to enable annotations.
+---@field public CallbackEvents LibCombatLoggingCallbackEvents
+---@field public RegisterCallback fun(self: table|string|thread, event: string, callback: string|fun(event: string, addon: LibCombatLogging_AddOn))
+---@field public UnregisterCallback fun(self: table|string|thread, event: string)
+---@field public UnregisterAllCallbacks fun(...: table|string|thread)
+
+---@class LibCombatLogging_AddOn : string @The addon handle is a unique string used to track your addon, and it is shown when printing state changes.
 
 ---@class LibCombatLogging
 local Lib, PrevMinor = LibStub:NewLibrary(MAJOR, MINOR)
@@ -45,8 +57,8 @@ local function GetNumLogging()
 end
 
 --- Returns a string of all the addon handles that are logging combat.
----@param excludeAddon LibCombatLogging_AddOn @Optional exception to exclude from the table, this would most likely be your own handle.
----@return string|nil @Example return could be `X`, or `X, Y and 2 undefined` or `nil` if nothing is currently logging combat.
+---@param excludeAddon? LibCombatLogging_AddOn @Optional exception to exclude from the table, this would most likely be your own handle.
+---@return string|nil @Example return values include `X`, `X, Y`, `X, +2 undefined`, or `nil` if nothing is currently logging combat.
 local function GetLoggingAddOns(excludeAddon)
 	local temp = {}
 	local i = 0
@@ -75,7 +87,7 @@ end
 
 --- Starts logging combat for the provided addon handle.
 ---@param addon LibCombatLogging_AddOn
----@return boolean @`true` indicates logging was successfully stopped, otherwise `false` if there is a queue issue and we need to retry.
+---@return boolean @`true` indicates logging was successfully started; `false` means World of Warcraft could not apply the state yet and the caller should retry later.
 local function StartLogging(addon)
 	assert(type(addon) == "string", "LibCombatLogging.StartLogging(addon) expects addon to be a string.")
 	local prev = Logging[addon]
@@ -101,7 +113,7 @@ end
 
 --- Stops logging combat for the provided addon handle.
 ---@param addon LibCombatLogging_AddOn
----@return boolean @`true` indicates logging was successfully stopped, otherwise `false` if there is a queue issue and we need to retry.
+---@return boolean @`true` indicates logging was successfully stopped; `false` means World of Warcraft could not apply the state yet and the caller should retry later.
 local function StopLogging(addon)
 	assert(type(addon) == "string", "LibCombatLogging.StopLogging(addon) expects addon to be a string.")
 	local prev = Logging[addon]
@@ -132,7 +144,7 @@ end
 --- local LoggingCombat = function(...) return LibCombatLogging.LoggingCombat(addonName, ...) end
 --- ```
 ---@param addon LibCombatLogging_AddOn
----@param newstate boolean|nil @`true` to enable logging, `false` to disable, and `nil` to not change the state and only return logging state for the addon handle.
+---@param newstate? boolean @`true` to enable logging, `false` to disable, and `nil` to not change the state and only return logging state for the addon handle.
 ---@return boolean|nil isLogging @`true` if the addon handle is logging, otherwise `false` if not. `nil` would mean that the start/stop state change was attempted, but the API is not in a state to apply it, so you need to retry again later.
 ---@return number numLoggers @Number of logging handles.
 local function LoggingCombat(addon, newstate)

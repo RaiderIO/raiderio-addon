@@ -23,8 +23,8 @@ $meta = @{
 }
 
 $meta.TOC = [ordered]@{
-	Title = "Raider.IO Mythic Plus, Raiding, and Recruitment"
-	Notes = "Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB."
+	Title = "@clientTitle@"
+	Notes = "@clientNotes@"
 	Author = "Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)"
 	Version = "@clientVersion@ (@project-version@)"
 	IconTexture = "Interface\AddOns\$($meta.AddOn)\icons\logo"
@@ -247,6 +247,8 @@ foreach ($clientKey in $clients.Keys)
 
 	$clientInfo = $clients[$clientKey]
 	$clientVersion = $clientInfo.Version # variable is indirectly used by EvalText
+	$clientTitle = if ($clientInfo.IsMainline) { "Raider.IO Mythic Plus, Raiding, Recruitment, and Talent Builds" } else { "Raider.IO Raiding and Recruitment" }
+	$clientNotes = if ($clientInfo.IsMainline) { "Shows Raider.IO Mythic+ Score, Raid Progress, Recruitment, Talent Builds, and more in-game. Make sure to load one or more region DB." } else { "Shows Raider.IO Raid Progress and Recruitment status in-game. Make sure to load one or more region DB." }
 
 	$clientTocFile = if ($clientInfo.IsMainline) { "$($meta.AddOn).toc" } else { "$($meta.AddOn)_$($clientKey).toc" }
 	$clientTocFilePath = Join-Path $rootPath $clientTocFile
