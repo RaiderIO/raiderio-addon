@@ -23,8 +23,8 @@ $meta = @{
 }
 
 $meta.TOC = [ordered]@{
-	Title = "Raider.IO Mythic Plus, Raiding, and Recruitment"
-	Notes = "Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB."
+	Title = "Raider.IO Mythic Plus and Raiding"
+	Notes = "Shows Raider.IO Mythic+ Score and Raid Progress in-game. Make sure to load one or more region DB."
 	Author = "Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)"
 	Version = "@clientVersion@ (@project-version@)"
 	IconTexture = "Interface\AddOns\$($meta.AddOn)\icons\logo"
@@ -59,8 +59,17 @@ $regions = @{
 $types = @{
 	M = "Mythic Plus"
 	R = "Raiding"
-	F = "Recruitment"
 }
+
+# db files shared by every client, so they are not covered by the per-client file prefix glob
+$sharedDbFiles = @(
+	"db_flair_catalog.lua"
+)
+
+# db types bundled into the main addon instead of shipping as separate region addons, listed after core.xml because they call the RaiderIO.AddProvider API that core.lua only defines once it has finished loading
+$bundledProviderTypes = @(
+	"flair"
+)
 
 $clientPlaceholderFiles = @(
 	"db_client_characters"
@@ -216,6 +225,28 @@ function ClientTocCanLoadFile
 	return $true
 }
 
+function IsBundledProviderFile
+{
+	param(
+		$clientInfo,
+		[string]$file
+	)
+	if ($sharedDbFiles.Contains($file))
+	{
+		return $false
+	}
+	$clientFilePrefix = ClientFilePrefix $clientInfo
+	foreach ($bundledType in $bundledProviderTypes)
+	{
+		$filePrefix = "$($clientFilePrefix)_$($bundledType)_"
+		if ($file.StartsWith($filePrefix))
+		{
+			return $true
+		}
+	}
+	return $false
+}
+
 foreach ($clientKey in $clients.Keys)
 {
 
@@ -253,14 +284,32 @@ foreach ($clientKey in $clients.Keys)
 	$clientFilePrefix = ClientFilePrefix $clientInfo
 	$clientFiles = Get-ChildItem $dbRootPath -Filter "$($clientFilePrefix)_*.lua"
 	$clientTocLines = BuildTocLines $meta.TOC $clientInfo.Interface
+	$bundledProviderTocLines = @()
 	foreach ($clientFile in $clientFiles)
 	{
-		if (ClientTocCanLoadFile $clientInfo $clientFile.Name)
+		if (-not (ClientTocCanLoadFile $clientInfo $clientFile.Name))
+		{
+			continue
+		}
+		if (IsBundledProviderFile $clientInfo $clientFile.Name)
+		{
+			$bundledProviderTocLines += "db/$($clientFile.Name)"
+		}
+		else
 		{
 			$clientTocLines += "db/$($clientFile.Name)"
 		}
 	}
+	foreach ($sharedDbFile in $sharedDbFiles)
+	{
+		$sharedDbLine = "db/$($sharedDbFile)"
+		if ((Test-Path (Join-Path $dbRootPath $sharedDbFile)) -and -not $clientTocLines.Contains($sharedDbLine))
+		{
+			$clientTocLines += $sharedDbLine
+		}
+	}
 	$clientTocLines += "core.xml"
+	$clientTocLines += $bundledProviderTocLines
 	$clientTocText = $clientTocLines -join "`r`n"
 	Set-Content $clientTocFilePath $clientTocText
 
