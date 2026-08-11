@@ -926,7 +926,7 @@ do
     ---@field public previousScoreTiers? table<number, ScoreColor> @DEPRECATED
     ---@field public SCORE_TIERS_SIMPLE_PREV table<number, ScoreTierSimple>
     ---@field public previousScoreTiersSimple table<number, ScoreTierSimple> @DEPRECATED
-    ---@field public CUSTOM_TITLES table<number, RecruitmentTitle>
+    ---@field public FLAIR_CATALOG FlairCatalog
     ---@field public talentBuilds? TalentBuilds
     ---@field public TALENT_BUILDS TalentBuilds
     ---@field public CLIENT_CHARACTERS table<string, CharacterCollection>
@@ -972,7 +972,7 @@ do
     ns.PLAYER_FACTION_TEXT = nil
     ns.OUTDATED_CUTOFF = 86400 * 3 -- number of seconds before we start warning about stale data (warning the user should update their addon)
     ns.OUTDATED_BLOCK_CUTOFF = 86400 * 7 -- number of seconds before we hide the data (block showing score as its most likely inaccurate)
-    ns.PROVIDER_DATA_TYPE = { MythicKeystone = 1, Raid = 2, Recruitment = 3, PvP = 4 }
+    ns.PROVIDER_DATA_TYPE = { MythicKeystone = 1, Raid = 2, Recruitment = 3, PvP = 4, Flair = 5 } -- `Recruitment = 3` is retired and only reserved so the id is never reused.
     ns.LOOKUP_MAX_SIZE = floor(2^18-1) -- the maximum index we can use in a table before we start to get errors
     ns.CURRENT_SEASON = 0 -- the current mythic keystone season. dynamically assigned once keystone data is loaded. 0-index based.
     ns.RAIDERIO_ADDON_DOWNLOAD_URL = "https://rio.gg/addon"
@@ -984,87 +984,6 @@ do
     elseif IS_CLASSIC then
         ns.RAIDERIO_DOMAIN = "classic.raider.io"
     end
-
-    ns.EASTER_EGG = {
-        ["eu"] = {
-            ["TarrenMill"] = {
-                ["Vladinator"] = "Raider.IO AddOn Author"
-            },
-            ["Ysondre"] = {
-                ["Isakem"] = "Raider.IO Developer"
-            },
-            ["TwistingNether"] = {
-                ["Piccoò"] = "Raider.IO Super Tato"
-            },
-            ["ArgentDawn"] = {
-                ["Kraytus"] = "Raider.IO RWF Team",
-                ["Archsar"] = "Raider.IO RWF Team"
-            },
-            ["Draenor"] = {
-                ["Xytrixz"] = "Raider.IO RWF Team",
-                ["Voidcultist"] = "Raider.IO RWF Team"
-            },
-            ["Silvermoon"] = {
-                ["Chamian"] = "Raider.IO RWF Team"
-            },
-            ["Sylvanas"] = {
-                ["Gnamethistle"] = "Raider.IO RWF Team"
-            }
-        },
-        ["us"] = {
-            ["Skullcrusher"] = {
-                ["Aspyrx"] = "Raider.IO Creator",
-                ["Ulsoga"] = "Raider.IO Creator",
-                ["Mccaffrey"] = "Killing Keys Since 1977!",
-                ["Oscassey"] = "Master of dis guys",
-                ["Rhoma"] = "Plays an MDI Champion on TV",
-                ["Infoxicated"] = "Pogged out of her mind",
-                ["Coaa"] = "King of The Bagels"
-            },
-            ["Stonemaul"] = {
-                ["Drexl"] = "The Voice of Raider.IO"
-            },
-            ["Thrall"] = {
-                ["Firstclass"] = "Author of mythicpl.us",
-                ["Hulahoops"] = "Raider.IO Cool Kid",
-                ["Ozrec"] = "Raider.IO RWF Team"
-            },
-            ["Tichondrius"] = {
-                ["Johnsamdi"] = "Raider.IO Developer",
-                ["Vitamiinp"] = "Raider.IO Multivitamin"
-            },
-            ["Mal'Ganis"] = {
-                ["Qbgosa"] = "Raider.IO Support Dragon"
-            },
-            ["BurningBlade"] = {
-                ["Pelinal"] = "Raider.IO Developer"
-            },
-            ["Illidan"] = {
-                ["Bunnyfluff"] = "Raider.IO Fluffy Bunny"
-            },
-            ["Blackhand"] = {
-                ["Starkind"] = "Raider.IO RWF Team"
-            },
-            ["Dalaran"] = {
-                ["Abbadorei"] = "Raider.IO RWF Team"
-            },
-            ["Hyjal"] = {
-                ["Truvillain"] = "Raider.IO RWF Team"
-            },
-            ["Kil'jaeden"] = {
-                ["Sparey"] = "Raider.IO RWF Team"
-            },
-            ["MoonGuard"] = {
-                ["Missfirebird"] = "Raider.IO RWF Team"
-            },
-            ["WyrmrestAccord"] = {
-                ["Qarmina"] = "Raider.IO RWF Team"
-            },
-            ["Zul'jin"] = {
-                ["Layria"] = "Raider.IO RWF Team"
-            }
-        }
-    }
 
     -- Special servers for keystones, PvP, etc. That we do not wish to consider a live server.
     ns.IGNORED_REALMS = {
@@ -1136,6 +1055,10 @@ do
             DEATH = { 256, 256, 0, 0, 192/256, 256/256, 0/256, 64/256, 0, 0 },
             COMBAT = { 256, 256, 0, 0, 0/256, 64/256, 64/256, 128/256, 0, 0 },
             ROUTE = { 256, 256, 0, 0, 64/256, 128/256, 64/256, 128/256, 0, 0 },
+        },
+        ---@class CustomIcons_Logo : CustomIcons
+        logo = {
+            RAIDERIO = { 32, 32, 0, 0, 0/32, 32/32, 0/32, 32/32, 0, 0 },
         },
         ---@class CustomIcons_Roles : CustomIcons
         roles = {
@@ -1244,6 +1167,12 @@ do
         end
 
     end
+
+    ---Texture markup strings addressable from the flair catalog by string key instead of a fileDataID.
+    ---@type table<string, string>
+    ns.FLAIR_CUSTOM_ICONS = {
+        rio_logo = ns.CUSTOM_ICONS.logo.RAIDERIO("TextureMarkup", 14, 14),
+    }
 
     ---@class MarkupIcons
     ---@field public markup? string
@@ -1489,45 +1418,6 @@ do
         ["normal"] = { 1, 12, 14, 38, 147, 150 },
         ["heroic"] = { 2, 5, 6, 11, 15, 39, 149, 230 },
         ["mythic"] = { 8, 16, 23, 40, 233 },
-    }
-
-    ---@class RecruitmentEntityTypes
-    ns.RECRUITMENT_ENTITY_TYPES = { -- Table over recruitment entity types.
-        character = 0,
-        guild = 1,
-        team = 2
-    }
-
-    ---@class RecruitmentEntityTypeUrlSuffix
-    ns.RECRUITMENT_ENTITY_TYPE_URL_SUFFIX = { -- Table over recruitment entity type profile url suffixes.
-        [ns.RECRUITMENT_ENTITY_TYPES.guild] = "guild-recruitment",
-        [ns.RECRUITMENT_ENTITY_TYPES.character] = "recruitment",
-        [ns.RECRUITMENT_ENTITY_TYPES.team] = "team-recruitment"
-    }
-
-    ---@class RecruitmentActivityTypes
-    ns.RECRUITMENT_ACTIVITY_TYPES = { -- Table over recruitment activity types.
-        guildraids = 0,
-        guildpvp = 1,
-        guildsocial = 2,
-        guildkeystone = 3,
-        teamkeystone = 4
-    }
-
-    ---@class RecruitmentActivityTypeIcons
-    ns.RECRUITMENT_ACTIVITY_TYPE_ICONS = { -- Table over recruitment activity type icons.
-        [ns.RECRUITMENT_ACTIVITY_TYPES.guildraids] = 4062765, -- achievement_raid_torghastraid
-        [ns.RECRUITMENT_ACTIVITY_TYPES.guildpvp] = 236329, -- achievement_arena_2v2_7
-        [ns.RECRUITMENT_ACTIVITY_TYPES.guildsocial] = 1495827, -- inv_7xp_inscription_talenttome01
-        [ns.RECRUITMENT_ACTIVITY_TYPES.guildkeystone] = 255346, -- achievement_dungeon_gloryoftheraider
-        [ns.RECRUITMENT_ACTIVITY_TYPES.teamkeystone] = 255345 -- achievement_dungeon_gloryofthehero
-    }
-
-    ---@class RecruitmentRoleIcons
-    ns.RECRUITMENT_ROLE_ICONS = { -- Table over recruitment role icons.
-        dps = "|T2202478:14:16:0:0:128:32:0:32:2:30|t",
-        healer = "|T2202478:14:16:0:0:128:32:33:65:2:30|t",
-        tank = "|T2202478:14:16:0:0:128:32:67:99:2:30|t"
     }
 
 end
@@ -1823,13 +1713,28 @@ do
         return SCORE_TIERS_SIMPLE_PREV
     end
 
-    ---@class RecruitmentTitle
-    ---@field public [1] string
-    ---@field public [2] number?
+    ---@class FlairCatalogTitle
+    ---@field public text string The fallback text used when there is no locale entry.
+    ---@field public localeKey? string Optional key into the locale table, falls back to `text` when the key is missing.
 
-    ---@return table<number, RecruitmentTitle>
-    function ns:GetRecruitmentTitles()
-        return ns.CUSTOM_TITLES
+    ---@class FlairCatalog
+    ---@field public titles table<number, FlairCatalogTitle>
+    ---@field public icons table<number, number|string> A fileDataID, or a string key into `ns.FLAIR_CUSTOM_ICONS`.
+    ---@field public colors table<number, string> Hex color without the alpha, such as `"FFD100"`.
+
+    ---@type FlairCatalog
+    local FLAIR_CATALOG_FALLBACK = { titles = {}, icons = {}, colors = {} }
+
+    ---@return FlairCatalog
+    function ns:GetFlairCatalog()
+        local catalog = ns.FLAIR_CATALOG
+        if type(catalog) ~= "table" then
+            return FLAIR_CATALOG_FALLBACK
+        end
+        catalog.titles = type(catalog.titles) == "table" and catalog.titles or FLAIR_CATALOG_FALLBACK.titles
+        catalog.icons = type(catalog.icons) == "table" and catalog.icons or FLAIR_CATALOG_FALLBACK.icons
+        catalog.colors = type(catalog.colors) == "table" and catalog.colors or FLAIR_CATALOG_FALLBACK.colors
+        return catalog
     end
 
     ---@alias TalentBuildsSpecID string The spec ID as a string. Such as `"62"` for `62` (Arcane Mage).
@@ -3610,21 +3515,6 @@ do
         return format("https://%s/characters/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, region, realmSlug, name), name, realm, realmSlug
     end
 
-    ---@param urlSuffix string
-    ---@param ... string
-    ---@return string? url, string? name, string? realm, string? realmSlug
-    function util:GetRaiderIORecruitmentProfileUrl(urlSuffix, ...)
-        local name, realm = util:GetNameRealm(...)
-        if not name then
-            return
-        end
-        local realmSlug = util:GetRealmSlug(realm, true)
-        if not realmSlug then
-            return
-        end
-        return format("https://%s/characters/%s/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, ns.PLAYER_REGION, realmSlug, name, urlSuffix), name, realm, realmSlug
-    end
-
     ---@class InternalStaticPopupFrameText : FontString
     ---@field public text_arg1? string
     ---@field public text_arg2? string
@@ -3706,21 +3596,6 @@ do
 
     function util:ShowCopyRaiderIOProfilePopup(...)
         local url, name, realm = util:GetRaiderIOProfileUrl(...)
-        if not url or not name or not realm then
-            return
-        end
-        if IsModifiedClick("CHATLINK") then
-            local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
-            editBox:HighlightText()
-        else
-            util:ShowStaticPopupDialog(COPY_TEXT_POPUP, format("%s (%s)", name, realm), url)
-        end
-    end
-
-    ---@param recruitmentEntityType number
-    function util:ShowCopyRaiderIORecruitmentProfilePopup(recruitmentEntityType, ...)
-        local recruitmentSuffix = ns.RECRUITMENT_ENTITY_TYPE_URL_SUFFIX[recruitmentEntityType]
-        local url, name, realm = util:GetRaiderIORecruitmentProfileUrl(recruitmentSuffix, ...)
         if not url or not name or not realm then
             return
         end
@@ -4613,7 +4488,7 @@ do
 
     ---@class DataProvider : DataProviderRaid
     ---@field public name string
-    ---@field public data number @1 (mythic_keystone), 2 (raid), 3 (recruitment), 4 (pvp)
+    ---@field public data number @1 (mythic_keystone), 2 (raid), 4 (pvp), 5 (flair)
     ---@field public region RegionString
     ---@field public date string @"2017-06-03T00:41:07Z"
     ---@field public db table<string, { [1]: number, [number]: string }> @The first table key is the realm name. The sub-table has an offset at the first position for the lookup table, then character names in the rest of the table.
@@ -4645,14 +4520,14 @@ do
         -- first available providers matching our faction and region
         local firstKeystoneProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.MythicKeystone, ns.PLAYER_REGION)
         local firstRaidProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.Raid, ns.PLAYER_REGION)
-        local firstRecruitmentProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.Recruitment, ns.PLAYER_REGION)
+        local firstFlairProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.Flair, ns.PLAYER_REGION)
         local firstPvpProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.PvP, ns.PLAYER_REGION)
         -- create and append proxy providers (fallback to false to avoid nil gaps in the table for the ipairs)
         local aliasRealm
         for _, aliasProvider in ipairs({
             firstKeystoneProvider or false,
             firstRaidProvider or false,
-            firstRecruitmentProvider or false,
+            firstFlairProvider or false,
             firstPvpProvider or false,
         }) do
             if aliasProvider then
@@ -4689,17 +4564,23 @@ do
             local provider = providers[i]
             if provider.queued then
                 provider.queued = false
-                if provider.desynced then
-                    desynced = true
-                end
-                if provider.blocked then
-                    blocked = true
-                elseif provider.outdated then
-                    outdated = outdated and max(outdated, provider.outdated) or provider.outdated
+                -- flair providers ship inside the main addon so every region always loads: the mismatched ones are dropped quietly, never disabling the addon they live in and never warning about their state
+                local isForeignFlair = provider.data == ns.PROVIDER_DATA_TYPE.Flair and provider.region ~= ns.PLAYER_REGION
+                if not isForeignFlair then
+                    if provider.desynced then
+                        desynced = true
+                    end
+                    if provider.blocked then
+                        blocked = true
+                    elseif provider.outdated then
+                        outdated = outdated and max(outdated, provider.outdated) or provider.outdated
+                    end
                 end
                 if not config:Get("debugMode") then
                     if provider.region ~= ns.PLAYER_REGION and not config:Get("disableCheckingRegion") then
-                        C_AddOns.DisableAddOn(provider.name)
+                        if not isForeignFlair then
+                            C_AddOns.DisableAddOn(provider.name)
+                        end
                         table.wipe(provider)
                         table.remove(providers, i)
                     elseif provider.blocked and provider.data == ns.PROVIDER_DATA_TYPE.MythicKeystone and false then -- TODO: do not purge the data just keep it labeled as blocked this way we can always lookup the players own data and still show the warning that its expired
@@ -4758,7 +4639,7 @@ do
     end
 
     function provider:GetProvidersDates()
-        local keystoneDate, raidDate, recruitmentDate, pvpDate
+        local keystoneDate, raidDate, flairDate, pvpDate
         for i = 1, #providers do
             local provider = providers[i]
             if provider.data == ns.PROVIDER_DATA_TYPE.MythicKeystone then
@@ -4769,9 +4650,9 @@ do
                 if not raidDate or raidDate < provider.date then
                     raidDate = provider.date
                 end
-            elseif provider.data == ns.PROVIDER_DATA_TYPE.Recruitment then
-                if not recruitmentDate or recruitmentDate < provider.date then
-                    recruitmentDate = provider.date
+            elseif provider.data == ns.PROVIDER_DATA_TYPE.Flair then
+                if not flairDate or flairDate < provider.date then
+                    flairDate = provider.date
                 end
             elseif provider.data == ns.PROVIDER_DATA_TYPE.PvP then
                 if not pvpDate or pvpDate < provider.date then
@@ -4779,7 +4660,7 @@ do
                 end
             end
         end
-        return keystoneDate, raidDate, recruitmentDate, pvpDate
+        return keystoneDate, raidDate, flairDate, pvpDate
     end
 
     ---@param dateString string @The date string from the provider
@@ -4900,19 +4781,11 @@ do
         WARBAND_PREVIOUS_ROLES = 16,    -- warband previous season roles
     }
 
-    ---@class EncoderRecruitmentFields
-    local ENCODER_RECRUITMENT_FIELDS = { -- TODO: can this be part of the provider? we can see if we can make a more dynamic system
-        TITLE                 = 0, -- custom recruitment title index
-        ENTITY_TYPE           = 1, -- character, guild, team
-        -- ACTIVITY_TYPE         = 2, -- guildraids, guildpvp, guildsocial, guildkeystones, teamkeystones
-        ROLES                 = 3, -- dps = 1, healer = 2, tank = 4 (see `ENCODER_RECRUITMENT_ROLES`)
-    }
-
-    ---@class EncoderRecruitmentRoles
-    local ENCODER_RECRUITMENT_ROLES = {
-        dps = 1,
-        healer = 2,
-        tank = 4,
+    ---@class EncoderFlairFields
+    local ENCODER_FLAIR_FIELDS = { -- TODO: can this be part of the provider? we can see if we can make a more dynamic system
+        TITLE_ID = 0, -- 12 bits, index into the flair catalog titles
+        ICON_ID  = 1, -- 8 bits, index into the flair catalog icons
+        COLOR_ID = 2, -- 8 bits, index into the flair catalog colors
     }
 
     ---@class EncoderRaidingFields
@@ -4961,7 +4834,7 @@ do
             bucket = lookup[bucketID]
             baseOffset = 1 + realmData[1] + (nameIndex - 2) * provider.recordSizeInBytes ---@type number
             guid = format("%d:%s:%d:%d", provider.data, provider.region, bucketID, baseOffset)
-        elseif provider.data == ns.PROVIDER_DATA_TYPE.Recruitment then
+        elseif provider.data == ns.PROVIDER_DATA_TYPE.Flair then
             local bucketID = 1
             bucket = lookup[bucketID]
             baseOffset = 1 + realmData[1] + (nameIndex - 2) * provider.recordSizeInBytes ---@type number
@@ -5794,40 +5667,78 @@ do
         return results
     end
 
-    ---@class DataProviderRecruitmentProfile : DataProviderProfile
-    ---@field public titleIndex number
-    ---@field public title RecruitmentTitle
-    ---@field public entityType number @`0` (character), `1` (guild), `2` (team) - use `ns.RECRUITMENT_ENTITY_TYPES` for lookups
-    ---@field public tank? boolean
-    ---@field public healer? boolean
-    ---@field public dps? boolean
+    ---@class DataProviderFlairProfile : DataProviderProfile
+    ---@field public titleId? number Catalog id, `nil` when the character has no title.
+    ---@field public title? string The resolved title text.
+    ---@field public iconId? number Catalog id, `nil` when the character has no icon.
+    ---@field public icon? string The resolved icon texture markup.
+    ---@field public colorId? number Catalog id, `nil` when the character has no color.
+    ---@field public color? string Hex color without the alpha, such as `"FFD100"`.
 
-    local RECRUITMENT_TITLES = ns:GetRecruitmentTitles()
+    ---@param titleId? number
+    ---@return string?
+    local function GetFlairTitle(titleId)
+        if not titleId then
+            return
+        end
+        local entry = ns:GetFlairCatalog().titles[titleId]
+        if type(entry) ~= "table" then
+            return
+        end
+        -- rawget because the locale metatable fabricates a `[enUS] KEY` string for any missing key, which has to fall through to the catalog text instead
+        return (entry.localeKey and rawget(L, entry.localeKey)) or entry.text
+    end
+
+    ---@param iconId? number
+    ---@return string?
+    local function GetFlairIcon(iconId)
+        if not iconId then
+            return
+        end
+        local entry = ns:GetFlairCatalog().icons[iconId]
+        if type(entry) == "number" then
+            return format("|T%d:14:14|t", entry)
+        elseif type(entry) == "string" then
+            return ns.FLAIR_CUSTOM_ICONS[entry] -- unknown custom key means we skip the icon entirely
+        end
+    end
+
+    ---@param colorId? number
+    ---@return string?
+    local function GetFlairColor(colorId)
+        if not colorId then
+            return
+        end
+        local entry = ns:GetFlairCatalog().colors[colorId]
+        if type(entry) == "string" then
+            return entry
+        end
+    end
 
     ---@param provider DataProvider
-    local function UnpackRecruitmentData(bucket, baseOffset, provider)
-        ---@type DataProviderRecruitmentProfile
+    local function UnpackFlairData(bucket, baseOffset, provider)
+        ---@type DataProviderFlairProfile
         local results = { outdated = provider.outdated, hasRenderableData = false } ---@diagnostic disable-line: missing-fields
         local encodingOrder = provider.encodingOrder
         local bitOffset = (baseOffset - 1) * 8
         local value
         for encoderIndex = 1, #encodingOrder do
             local field = encodingOrder[encoderIndex]
-            if field == ENCODER_RECRUITMENT_FIELDS.TITLE then
+            if field == ENCODER_FLAIR_FIELDS.TITLE_ID then
+                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 12)
+                results.titleId = value > 0 and value or nil
+                results.title = GetFlairTitle(results.titleId)
+            elseif field == ENCODER_FLAIR_FIELDS.ICON_ID then
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 8)
-                results.titleIndex = value
-                results.title = value and RECRUITMENT_TITLES[value]
-            elseif field == ENCODER_RECRUITMENT_FIELDS.ENTITY_TYPE then
-                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 2)
-                results.entityType = value
-            elseif field == ENCODER_RECRUITMENT_FIELDS.ROLES then
-                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 3)
-                results.dps = band(value, ENCODER_RECRUITMENT_ROLES.dps) == ENCODER_RECRUITMENT_ROLES.dps
-                results.healer = band(value, ENCODER_RECRUITMENT_ROLES.healer) == ENCODER_RECRUITMENT_ROLES.healer
-                results.tank = band(value, ENCODER_RECRUITMENT_ROLES.tank) == ENCODER_RECRUITMENT_ROLES.tank
+                results.iconId = value > 0 and value or nil
+                results.icon = GetFlairIcon(results.iconId)
+            elseif field == ENCODER_FLAIR_FIELDS.COLOR_ID then
+                value, bitOffset = ReadBitsFromString(bucket, bitOffset, 8)
+                results.colorId = value > 0 and value or nil
+                results.color = GetFlairColor(results.colorId)
             end
         end
-        results.hasRenderableData = results.title and results.entityType and true or false
+        results.hasRenderableData = (results.title or results.icon) and true or false
         return results
     end
 
@@ -5849,7 +5760,7 @@ do
     ---@field public region RegionString
     ---@field public mythicKeystoneProfile DataProviderMythicKeystoneProfile
     ---@field public raidProfile DataProviderRaidProfile
-    ---@field public recruitmentProfile DataProviderRecruitmentProfile
+    ---@field public flairProfile DataProviderFlairProfile
     ---@field public pvpProfile DataProviderPvpProfile
 
     -- cache mythic keystone profiles for re-use after first query
@@ -5860,9 +5771,9 @@ do
     ---@type DataProviderRaidProfile[]
     local raidProfileCache = {}
 
-    -- cache recruitment profiles for re-use after first query
-    ---@type DataProviderRecruitmentProfile[]
-    local recruitmentProfileCache = {}
+    -- cache flair profiles for re-use after first query
+    ---@type DataProviderFlairProfile[]
+    local flairProfileCache = {}
 
     -- cache pvp profiles for re-use after first query
     ---@type DataProviderPvpProfile[]
@@ -5915,17 +5826,17 @@ do
     end
 
     ---@param provider DataProvider
-    local function GetRecruitmentProfile(provider, ...)
+    local function GetFlairProfile(provider, ...)
         local bucket, baseOffset, guid = SearchForBucketByName(provider, ...)
         if not bucket or not baseOffset or not guid then
             return
         end
-        local cache = recruitmentProfileCache[guid]
+        local cache = flairProfileCache[guid]
         if cache then
             return cache
         end
-        local profile = UnpackRecruitmentData(bucket, baseOffset, provider)
-        recruitmentProfileCache[guid] = profile
+        local profile = UnpackFlairData(bucket, baseOffset, provider)
+        flairProfileCache[guid] = profile
         return profile
     end
 
@@ -6136,7 +6047,7 @@ do
         end
         local mythicKeystoneProfile ---@type DataProviderMythicKeystoneProfile|nil
         local raidProfile ---@type DataProviderRaidProfile|nil
-        local recruitmentProfile ---@type DataProviderRecruitmentProfile|nil
+        local flairProfile ---@type DataProviderFlairProfile|nil
         local pvpProfile ---@type DataProviderPvpProfile|nil
         for i = 1, #providers do
             local provider = providers[i]
@@ -6157,33 +6068,33 @@ do
                         if not raidProfile then
                             raidProfile = GetRaidProfile(provider, lookup, data, name, realm)
                         end
-                    elseif provider.data == ns.PROVIDER_DATA_TYPE.Recruitment then
-                        if not recruitmentProfile then
-                            recruitmentProfile = GetRecruitmentProfile(provider, lookup, data, name, realm)
+                    elseif provider.data == ns.PROVIDER_DATA_TYPE.Flair then
+                        if not flairProfile then
+                            flairProfile = GetFlairProfile(provider, lookup, data, name, realm)
                         end
                     elseif provider.data == ns.PROVIDER_DATA_TYPE.PvP then
                         if not pvpProfile then
                             pvpProfile = GetPvpProfile(provider, lookup, data, name, realm)
                         end
                     end
-                    if mythicKeystoneProfile and raidProfile and pvpProfile then
+                    if mythicKeystoneProfile and raidProfile and flairProfile and pvpProfile then
                         break
                     end
                 end
             end
         end
-        if mythicKeystoneProfile and (not mythicKeystoneProfile.hasRenderableData and mythicKeystoneProfile.blocked) and not raidProfile and not recruitmentProfile and not pvpProfile then -- TODO: if we don't use blockedPurged functionality we have to then purge when the data is blocked and no rendering is available instead of checking the blockedPurged property
+        if mythicKeystoneProfile and (not mythicKeystoneProfile.hasRenderableData and mythicKeystoneProfile.blocked) and not raidProfile and not flairProfile and not pvpProfile then -- TODO: if we don't use blockedPurged functionality we have to then purge when the data is blocked and no rendering is available instead of checking the blockedPurged property
             mythicKeystoneProfile = nil
         end
         cache = {
-            success = (mythicKeystoneProfile or raidProfile or recruitmentProfile or pvpProfile) and true or false,
+            success = (mythicKeystoneProfile or raidProfile or flairProfile or pvpProfile) and true or false,
             guid = guid,
             name = name,
             realm = realm,
             region = region,
             mythicKeystoneProfile = mythicKeystoneProfile,
             raidProfile = raidProfile,
-            recruitmentProfile = recruitmentProfile,
+            flairProfile = flairProfile,
             pvpProfile = pvpProfile
         }
         profileCache[guid] = cache
@@ -6203,6 +6114,7 @@ do
 
     local function OnPlayerEnteringWorld()
         table.wipe(raidProfileCache)
+        table.wipe(flairProfileCache)
         table.wipe(pvpProfileCache)
         table.wipe(profileCache)
         if IS_RETAIL then
@@ -6960,7 +6872,7 @@ do
             if profile then
                 local keystoneProfile = profile.mythicKeystoneProfile
                 local raidProfile = profile.raidProfile
-                local recruitmentProfile = profile.recruitmentProfile
+                local flairProfile = profile.flairProfile
                 local pvpProfile = profile.pvpProfile
                 local isExtendedProfile = Has(state.options, render.Flags.PROFILE_TOOLTIP)
                 local isKeystoneBlockShown = keystoneProfile and ((isExtendedProfile or keystoneProfile.hasRenderableData) and not keystoneProfile.blocked)
@@ -6968,9 +6880,8 @@ do
                 local isOutdated = keystoneProfile and keystoneProfile.outdated
                 local showRaidEncounters = config:Get("showRaidEncountersInProfile")
                 local isRaidBlockShown = raidProfile and ((isExtendedProfile and showRaidEncounters) or raidProfile.hasRenderableData) and (not isExtendedProfile or showRaidEncounters)
-                local isRecruitmentBlockShown = recruitmentProfile and recruitmentProfile.hasRenderableData
                 local isPvpBlockShown = pvpProfile and pvpProfile.hasRenderableData
-                local isAnyBlockShown = isKeystoneBlockShown or isRaidBlockShown or isRecruitmentBlockShown or isPvpBlockShown
+                local isAnyBlockShown = isKeystoneBlockShown or isRaidBlockShown or isPvpBlockShown
                 local isUnitTooltip = Has(state.options, render.Flags.UNIT_TOOLTIP)
                 local hasMod = Has(state.options, render.Flags.MOD)
                 local hasModSticky = Has(state.options, render.Flags.MOD_STICKY)
@@ -7159,17 +7070,8 @@ do
                         AppendRaidProgressToTooltip(tooltip, raidProfile, state, hasMod or hasModSticky, showLFD)
                     end
                 end
-                if isRecruitmentBlockShown then
-                    if showPadding and (isKeystoneBlockShown or isRaidBlockShown) then
-                        tooltip:AddLine(" ")
-                    end
-                    local titleLocale, titleOptionalArg = recruitmentProfile.title[1], recruitmentProfile.title[2]
-                    local titleText = format(L[titleLocale], titleOptionalArg)
-                    local icons = { recruitmentProfile.tank and ns.RECRUITMENT_ROLE_ICONS.tank or "", recruitmentProfile.healer and ns.RECRUITMENT_ROLE_ICONS.healer or "", recruitmentProfile.dps and ns.RECRUITMENT_ROLE_ICONS.dps or "" }
-                    tooltip:AddDoubleLine(titleText, table.concat(icons, ""), 0.9, 0.8, 0.5, 1, 1, 1)
-                end
                 if isPvpBlockShown then
-                    if showPadding and (isKeystoneBlockShown or isRaidBlockShown or isRecruitmentBlockShown) then
+                    if showPadding and (isKeystoneBlockShown or isRaidBlockShown) then
                         tooltip:AddLine(" ")
                     end
                     if showHeader then
@@ -7178,20 +7080,26 @@ do
                     -- TODO: NYI
                 end
                 if showFooter then
-                    local easterEgg = ns.EASTER_EGG[ns.PLAYER_REGION]
-                    if easterEgg then
-                        easterEgg = easterEgg[profile.realm]
-                        if easterEgg then
-                            easterEgg = easterEgg[profile.name] ---@diagnostic disable-line: cast-local-type
+                    local flairText ---@type string?
+                    if flairProfile and flairProfile.hasRenderableData then
+                        local title = flairProfile.title
+                        local color = flairProfile.color
+                        if title and color then
+                            title = format("|cff%s%s|r", color, title)
+                        end
+                        if flairProfile.icon and title then
+                            flairText = format("%s %s", flairProfile.icon, title)
+                        else
+                            flairText = flairProfile.icon or title
                         end
                     end
-                    if showPadding and (not showTopLinePadding or isAnyBlockShown) and (isBlocked or isOutdated or easterEgg) then
+                    if showPadding and (not showTopLinePadding or isAnyBlockShown) and (isBlocked or isOutdated or flairText) then
                         tooltip:AddLine(" ")
                     end
                     if isBlocked then
                         tooltip:AddLine(L.OUTDATED_EXPIRED_TITLE, 1, 0.85, 0)
                         tooltip:AddLine(format(L.OUTDATED_DOWNLOAD_LINK, ns.RAIDERIO_ADDON_DOWNLOAD_URL), 1, 1, 1)
-                        if showPadding and easterEgg then
+                        if showPadding and flairText then
                             tooltip:AddLine(" ")
                         end
                     elseif isOutdated then
@@ -7209,12 +7117,12 @@ do
                             tooltip:AddLine(L.OUTDATED_EXPIRED_TITLE, 1, 0.85, 0)
                         end
                         tooltip:AddLine(format(L.OUTDATED_DOWNLOAD_LINK, ns.RAIDERIO_ADDON_DOWNLOAD_URL), 1, 1, 1)
-                        if showPadding and easterEgg then
+                        if showPadding and flairText then
                             tooltip:AddLine(" ")
                         end
                     end
-                    if easterEgg then
-                        tooltip:AddLine(easterEgg, 0.9, 0.8, 0.5)
+                    if flairText then
+                        tooltip:AddLine(flairText, 0.9, 0.8, 0.5)
                     end
                 end
                 -- profile added to tooltip successfully
@@ -13252,26 +13160,12 @@ do
         return ShowSearchAndProfile()
     end
 
-    ---@return DataProviderCharacterProfile? profile, boolean? hasRecruitment
+    ---@return DataProviderCharacterProfile? profile
     local function GetProfileForDropDown()
         if issecretvalue(selected.name) or issecretvalue(selected.realm) then
             return
         end
-        local profile = provider:GetProfile(selected.name, selected.realm)
-        if not profile then
-            return
-        end
-        local hasRecruitment = profile.recruitmentProfile and profile.recruitmentProfile.hasRenderableData
-        return profile, hasRecruitment
-    end
-
-    ---@return DataProviderCharacterProfile? profile
-    local function GetRecruitmentProfileForDropDown()
-        local profile, hasRecruitment = GetProfileForDropDown()
-        if not hasRecruitment then
-            return
-        end
-        return profile
+        return provider:GetProfile(selected.name, selected.realm)
     end
 
     ---@type LibDropDownExtension?
@@ -13457,21 +13351,6 @@ do
                         return
                     end
                     util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
-                end
-            },
-            { ---@diagnostic disable-line: missing-fields
-                text = L.COPY_RAIDERIO_RECRUITMENT_URL,
-                func = function()
-                    if DropDownOptionModifiedClickHandler() then
-                        return
-                    end
-                    local profile = GetRecruitmentProfileForDropDown()
-                    if profile then
-                        util:ShowCopyRaiderIORecruitmentProfilePopup(profile.recruitmentProfile.entityType, selected.name, selected.realm)
-                    end
-                end,
-                show = function()
-                    return GetRecruitmentProfileForDropDown()
                 end
             }
         }
@@ -16767,14 +16646,6 @@ do
             check = "",
             addon = "",
         },
-        ---@type RaiderIOSettingsModuleColumn
-        F = {
-            module = "F",
-            icon = 442272, -- achievement_guildperk_everybodysfriend
-            text = L.DB_MODULES_HEADER_RECRUITMENT,
-            check = "",
-            addon = "",
-        },
     }
 
     ---@type RaiderIOSettingsModuleColumn[]
@@ -16783,10 +16654,8 @@ do
     if IS_RETAIL then
         databaseModuleColumns[1] = databaseModuleColumnsManifest.M
         databaseModuleColumns[2] = databaseModuleColumnsManifest.R
-        databaseModuleColumns[3] = databaseModuleColumnsManifest.F
     else
         databaseModuleColumns[1] = databaseModuleColumnsManifest.R
-        databaseModuleColumns[2] = databaseModuleColumnsManifest.F
     end
 
     for i = #databaseModuleColumns, 1, -1 do
@@ -17998,12 +17867,12 @@ do
             end
 
             ---@alias RaiderIODBModuleRegion "US"|"EU"|"KR"|"CN"|"TW"
-            ---@alias RaiderIODBModuleType "M"|"R"|"F"
+            ---@alias RaiderIODBModuleType "M"|"R"
 
             ---@class RaiderIODBModulesInfo
             local ModulesInfo = {
                 pattern = "RaiderIO_DB_%s_%s",
-                modules = {"M", "R", "F"}, ---@type RaiderIODBModuleType[]
+                modules = {"M", "R"}, ---@type RaiderIODBModuleType[]
                 ---@param module RaiderIODBModuleType
                 ---@return boolean
                 isSupported = function(module)

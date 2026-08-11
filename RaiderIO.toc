@@ -1,6 +1,6 @@
 ## Interface: 120007, 120100
-## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
-## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
+## Title: Raider.IO Mythic Plus and Raiding
+## Notes: Shows Raider.IO Mythic+ Score and Raid Progress in-game. Make sure to load one or more region DB.
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
 ## Version: 12.1.0 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
@@ -15,11 +15,11 @@ db/db_client_guilds.lua
 db/db_client_recent_characters.lua
 db/db_client_replays.lua
 db/db_dungeons.lua
+db/db_flair_catalog.lua
 db/db_realms.lua
 db/db_regions.lua
 db/db_score_stats.lua
 db/db_score_tiers_prev.lua
 db/db_score_tiers.lua
 db/db_talent_builds.lua
-db/db_titles.lua
 core.xml

@@ -2,19 +2,14 @@ package-as: RaiderIO
 enable-nolib-creation: no
 
 move-folders:
-  RaiderIO/db/RaiderIO_DB_EU_F: RaiderIO_DB_EU_F
   RaiderIO/db/RaiderIO_DB_EU_M: RaiderIO_DB_EU_M
   RaiderIO/db/RaiderIO_DB_EU_R: RaiderIO_DB_EU_R
-  RaiderIO/db/RaiderIO_DB_KR_F: RaiderIO_DB_KR_F
   RaiderIO/db/RaiderIO_DB_KR_M: RaiderIO_DB_KR_M
   RaiderIO/db/RaiderIO_DB_KR_R: RaiderIO_DB_KR_R
-  RaiderIO/db/RaiderIO_DB_TW_F: RaiderIO_DB_TW_F
   RaiderIO/db/RaiderIO_DB_TW_M: RaiderIO_DB_TW_M
   RaiderIO/db/RaiderIO_DB_TW_R: RaiderIO_DB_TW_R
-  RaiderIO/db/RaiderIO_DB_US_F: RaiderIO_DB_US_F
   RaiderIO/db/RaiderIO_DB_US_M: RaiderIO_DB_US_M
   RaiderIO/db/RaiderIO_DB_US_R: RaiderIO_DB_US_R
-  RaiderIO/db/RaiderIO_DB_CN_F: RaiderIO_DB_CN_F
   RaiderIO/db/RaiderIO_DB_CN_M: RaiderIO_DB_CN_M
   RaiderIO/db/RaiderIO_DB_CN_R: RaiderIO_DB_CN_R
 
