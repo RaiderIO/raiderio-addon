@@ -81,6 +81,7 @@
         "GameTooltipTextRight2",
         "GenerateClosure",
         "GetAppropriateTooltip",
+        "GetRightManagedFrameContainer",
         "GUILD_NEWS",
         "GUILD_NEWS_TITLE",
         "GuildListScrollFrame",
