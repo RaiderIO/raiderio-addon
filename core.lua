@@ -11089,7 +11089,7 @@ if IS_RETAIL then
             self.textHeight = self.textRowHeight * self.textRowCount + self.contentPaddingY * (self.textRowCount - 1) ---@type number
             self.bossesHeight = 0
 
-            self.trackerFrameParent = UIParentRightManagedFrameContainer ---@type Region
+            self.trackerFrameParent = UIParentRightManagedFrameContainer or GetRightManagedFrameContainer() ---@type Region
             self.trackerFramePoint = "TOPRIGHT"
             self.trackerFrame = ObjectiveTrackerFrame ---@type Region
             self.trackerFrameRelativePoint = "TOPLEFT"
