@@ -2476,8 +2476,8 @@ do
             return
         end
         local useEnglishAbbreviations = config:Get("useEnglishAbbreviations")
-        for i = 1, #DUNGEONS do
-            local dungeon = DUNGEONS[i]
+        for i = 1, #ALL_DUNGEONS do
+            local dungeon = ALL_DUNGEONS[i]
             if useEnglishAbbreviations then
                 dungeon.shortNameLocale = dungeon.shortName
             else
