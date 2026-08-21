@@ -2,7 +2,7 @@
 -- Copyright (c) 2026 by RaiderIO, Inc.
 -- All rights reserved.
 --
-local provider={name=...,data=3,region="cn",date="2026-08-20T14:36:29Z",numCharacters=38284,db={}}
+local provider={name=...,data=3,region="cn",date="2026-08-21T07:57:28Z",numCharacters=38282,db={}}
 local F
 
 F = function() provider.db["血环"]={0,"狄安娜王妃"} end F()
