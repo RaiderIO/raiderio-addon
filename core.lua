@@ -3950,8 +3950,9 @@ do
     ---@generic T
     ---@param tbl T[]
     ---@param func TableFilterFunc
+    ---@param max? number
     ---@return T[]
-    function util:TableFilter(tbl, func)
+    function util:TableFilter(tbl, func, max)
         local isArray = tbl[1] ~= nil
         local iter, curr, next
         if isArray then
@@ -3966,6 +3967,9 @@ do
                 if isArray then
                     i = i + 1
                     temp[i] = v
+                    if max and i >= max then
+                        return temp
+                    end
                 else
                     temp[k] = v
                 end
@@ -7655,16 +7659,23 @@ if IS_RETAIL then
         return text
     end
 
+    ---@param event WowEvent
+    ---@param text string
     local function EventFilter(self, event, text, ...)
         if event ~= "CHAT_MSG_SYSTEM" or not config:Get("enableWhoMessages") then
             return false
         end
+        if issecretvalue(text) then
+            return false
+        end
+        ---@type string?, string?, string?, string?, string?, string?, string?
         local nameLink, name, level, race, class, guild, zone = text:match(FORMAT_GUILD)
         if not nameLink then
             return false
         end
         if not zone then
             guild = nil
+            ---@type string?, string?, string?, string?, string?, string?
             nameLink, name, level, race, class, zone = text:match(FORMAT)
         end
         if not nameLink or not level or not util:IsMaxLevel(tonumber(level)) then
@@ -15225,27 +15236,39 @@ if IS_RETAIL then
     ---@class TalentBuildsMenuOption : DropDownUtilDynamicMenuOption
     ---@field public text string
 
+    ---@alias TalentBuildsMenuOptionForInstanceArg1InstanceType "raid"|"dungeon"
+    ---@alias TalentBuildsMenuOptionForInstanceArg2InstanceID "all"|number
+    ---@alias TalentBuildsMenuOptionForInstanceArg3EncounterID "all"|number
+
     ---@class TalentBuildsMenuOptionForInstance : TalentBuildsMenuOption
     ---@field public radiogroup? "instance"
-    ---@field public arg1? "raid"|"dungeon" instanceType
-    ---@field public arg2? "all"|number instanceID
-    ---@field public arg3? "all"|number encounterID
+    ---@field public arg1? TalentBuildsMenuOptionForInstanceArg1InstanceType
+    ---@field public arg2? TalentBuildsMenuOptionForInstanceArg2InstanceID
+    ---@field public arg3? TalentBuildsMenuOptionForInstanceArg3EncounterID
+
+    ---@alias TalentBuildsMenuOptionForDifficultyArg1DifficultyText TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey
+    ---@alias TalentBuildsMenuOptionForDifficultyArg2DifficultyIDs number[]
 
     ---@class TalentBuildsMenuOptionForDifficulty : TalentBuildsMenuOption
     ---@field public radiogroup "raid"|"dungeon"
-    ---@field public arg1 TalentBuildsRaidDifficultyKey|TalentBuildsDungeonDifficultyKey difficultyText
-    ---@field public arg2? number[] difficultyIDs
+    ---@field public arg1 TalentBuildsMenuOptionForDifficultyArg1DifficultyText
+    ---@field public arg2? TalentBuildsMenuOptionForDifficultyArg2DifficultyIDs
     ---@field public arg3? nil
+
+    ---@alias TalentBuildsMenuOptionForWeaponArg1WeaponKey TalentBuildsWeaponKey
+    ---@alias TalentBuildsMenuOptionForWeaponArg2WeaponSpecID number
 
     ---@class TalentBuildsMenuOptionForWeapon : TalentBuildsMenuOption
     ---@field public radiogroup "instance"
-    ---@field public arg1 TalentBuildsWeaponKey weaponKey
-    ---@field public arg2? number weaponSpecID
+    ---@field public arg1 TalentBuildsMenuOptionForWeaponArg1WeaponKey
+    ---@field public arg2? TalentBuildsMenuOptionForWeaponArg2WeaponSpecID
     ---@field public arg3? nil
+
+    ---@alias TalentBuildsMenuOptionForSpeedArg1SpeedText TalentBuildsRaidSpeedKey
 
     ---@class TalentBuildsMenuOptionForSpeed : TalentBuildsMenuOption
     ---@field public radiogroup "raid"
-    ---@field public arg1 TalentBuildsRaidSpeedKey speedText
+    ---@field public arg1 TalentBuildsMenuOptionForSpeedArg1SpeedText
     ---@field public arg2? nil
     ---@field public arg3? nil
 
@@ -15260,17 +15283,36 @@ if IS_RETAIL then
     local currentWeapon ---@type TalentBuildsMenuOptionForWeapon?
     local currentSpeed ---@type TalentBuildsMenuOptionForSpeed?
 
-    local function updateDataProvider()
-        dataProvider:Flush()
+    ---@class TalentBuildsCompiledProfileBuildQuery
+    ---@field public instanceType? TalentBuildsMenuOptionForInstanceArg1InstanceType
+    ---@field public instanceID? TalentBuildsMenuOptionForInstanceArg2InstanceID
+    ---@field public encounterID? TalentBuildsMenuOptionForInstanceArg3EncounterID
+    ---@field public difficulty? TalentBuildsMenuOptionForDifficultyArg1DifficultyText
+    ---@field public weapon? TalentBuildsMenuOptionForWeaponArg1WeaponKey
+    ---@field public weaponSpecID? TalentBuildsMenuOptionForWeaponArg2WeaponSpecID
+    ---@field public raidSpeed? TalentBuildsMenuOptionForSpeedArg1SpeedText
+    ---@field public specID? number
+
+    ---@type TalentBuildsCompiledProfileBuildQuery
+    local currentRelevantBuildQuery = {}
+
+    ---@param probeDifficulty? TalentBuildsMenuOptionForDifficultyArg1DifficultyText
+    ---@return TalentBuildsCompiledProfileBuild[]?, TalentBuildsCompiledProfileBuildQuery
+    local function getRelevantBuilds(probeDifficulty)
+        local updateBuildQuery = probeDifficulty == nil
+
+        if updateBuildQuery then
+            table.wipe(currentRelevantBuildQuery)
+        end
 
         if not compiledPlayerProfile or not currentInstance or not currentDifficulty then
-            return
+            return nil, currentRelevantBuildQuery
         end
 
         local instanceType = currentInstance.arg1
         local instanceID = currentInstance.arg2
         local encounterID = currentInstance.arg3
-        local difficulty = currentDifficulty.arg1
+        local difficulty = probeDifficulty or currentDifficulty.arg1
         local weapon = currentWeapon and currentWeapon.arg1
         local weaponSpecID = currentWeapon and currentWeapon.arg2
         local raidSpeed = currentSpeed and currentSpeed.arg1
@@ -15304,8 +15346,32 @@ if IS_RETAIL then
                     return difficulty == build.dungeonBracket
                 end
                 return false
-            end
+            end,
+            probeDifficulty and 1 or nil
         )
+
+        if updateBuildQuery then
+            currentRelevantBuildQuery.instanceType = instanceType
+            currentRelevantBuildQuery.instanceID = instanceID
+            currentRelevantBuildQuery.encounterID = encounterID
+            currentRelevantBuildQuery.difficulty = difficulty
+            currentRelevantBuildQuery.weapon = weapon
+            currentRelevantBuildQuery.weaponSpecID = weaponSpecID
+            currentRelevantBuildQuery.raidSpeed = raidSpeed
+            currentRelevantBuildQuery.specID = specID
+        end
+
+        return relevantBuilds, currentRelevantBuildQuery
+    end
+
+    local function updateDataProvider()
+        dataProvider:Flush()
+
+        local relevantBuilds, buildsQuery = getRelevantBuilds()
+
+        if not relevantBuilds then
+            return
+        end
 
         dataProvider:InsertTable(relevantBuilds)
 
@@ -15313,9 +15379,38 @@ if IS_RETAIL then
             return
         end
 
+        local difficulty = buildsQuery.difficulty
+        local weapon = buildsQuery.weapon
+        local raidSpeed = buildsQuery.raidSpeed
         local hasWeaponFilter = weapon ~= nil and weapon ~= "all"
         local hasRaidSpeedFilter = raidSpeed ~= nil and raidSpeed ~= "all"
-        frame:ResetWeaponAndRaidSpeedFilters(hasWeaponFilter, hasRaidSpeedFilter)
+
+        -- select the lower raid difficulty if the current one has no builds, but the lower one has, then we select the lower difficulty so we display something
+        if difficulty and not hasRaidSpeedFilter then
+            local probeNext = false
+            local setDifficulty ---@type TalentBuildsMenuOptionForDifficultyArg1DifficultyText?
+
+            for _, difficultyOrder in ipairs(relevantEncounterDifficulties) do
+                local difficultykey = difficultyOrder.key
+                if probeNext then
+                    local difficultyBuilds = getRelevantBuilds(difficultykey)
+                    if difficultyBuilds and difficultyBuilds[1] then
+                        setDifficulty = difficultykey
+                        break
+                    end
+                elseif difficultykey == difficulty then
+                    probeNext = true
+                end
+            end
+
+            if setDifficulty then
+                frame:ResetDropDownFilters(setDifficulty, false, false)
+                return
+            end
+        end
+
+        -- reset the weapon or speed filters back to "all" in hope that it will yield builds
+        frame:ResetDropDownFilters(nil, hasWeaponFilter, hasRaidSpeedFilter)
     end
 
     ---@param option DropDownUtilDynamicMenuOption
@@ -15942,16 +16037,24 @@ if IS_RETAIL then
             end
         end
 
-        ---@param option TalentBuildsMenuOptionForWeapon|TalentBuildsMenuOptionForSpeed
-        local function selectAllOptionPredicate(option)
-            return option.arg1 == "all" and DropDownUtil:IsDynamicMenuOptionShown(option)
+        ---@param option DropDownUtilDynamicMenuOption
+        local function selectOptionPredicate(option, arg1)
+            return option.arg1 == arg1 and DropDownUtil:IsDynamicMenuOptionShown(option)
         end
 
         ---@param menu WowStyle1DropdownTemplatePolyfill
-        ---@param resetToAllOption? boolean
-        local function updateMenu(menu, resetToAllOption)
-            if resetToAllOption and menu:DynamicMenuSelectOption(selectAllOptionPredicate) == 0 then
-                return
+        ---@param resetToAllOrSelectOption? boolean|TalentBuildsMenuOptionForDifficultyArg1DifficultyText|TalentBuildsMenuOptionForWeaponArg1WeaponKey|TalentBuildsMenuOptionForSpeedArg1SpeedText
+        local function updateMenu(menu, resetToAllOrSelectOption)
+            if resetToAllOrSelectOption then
+                local numUpdated = menu:DynamicMenuSelectOption(
+                    function(option)
+                        local arg1 = resetToAllOrSelectOption == true and "all" or resetToAllOrSelectOption
+                        return selectOptionPredicate(option, arg1)
+                    end
+                )
+                if numUpdated == 0 then
+                    return
+                end
             end
             menu:TriggerEvent(menu.Event.OnUpdate, menu:DynamicMenuCollectSelectionOptions())
             local function toggle()
@@ -15963,14 +16066,18 @@ if IS_RETAIL then
             C_Timer.After(0, toggle)
         end
 
-        ---@param resetWeapon? boolean Defaults as `true`. Must be `false` to skip resetting the weapon filter.
-        ---@param resetRaidSpeed? boolean Defaults as `true`. Must be `false` to skip resetting the raid speed filter.
-        function self:ResetWeaponAndRaidSpeedFilters(resetWeapon, resetRaidSpeed)
+        ---@param setDifficulty? TalentBuildsMenuOptionForDifficultyArg1DifficultyText Defaults as `nil` and skips changing the difficulty filter, unless set to a value.
+        ---@param resetWeapon? boolean|TalentBuildsMenuOptionForWeaponArg1WeaponKey Defaults as `true`. Must be `false` to skip resetting the weapon filter. Set to a specific value to set the filter to that value.
+        ---@param resetRaidSpeed? boolean|TalentBuildsMenuOptionForSpeedArg1SpeedText Defaults as `true`. Must be `false` to skip resetting the raid speed filter. Set to a specific value to set the filter to that value.
+        function self:ResetDropDownFilters(setDifficulty, resetWeapon, resetRaidSpeed)
+            if setDifficulty ~= nil then
+                updateMenu(self.DifficultyMenu, setDifficulty or true)
+            end
             if resetWeapon ~= false then
-                updateMenu(self.WeaponMenu, true)
+                updateMenu(self.WeaponMenu, resetWeapon or true)
             end
             if resetRaidSpeed ~= false then
-                updateMenu(self.SpeedMenu, true)
+                updateMenu(self.SpeedMenu, resetRaidSpeed or true)
             end
             updateMenu(self.InstanceMenu)
         end
@@ -16597,7 +16704,7 @@ if IS_RETAIL then
 
     local function OnPlayerSpecializationChange()
         if frame then
-            frame:ResetWeaponAndRaidSpeedFilters()
+            frame:ResetDropDownFilters()
         end
         compileTalentBuilds()
         updateDataProvider()
