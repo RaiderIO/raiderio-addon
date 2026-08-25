@@ -5328,12 +5328,12 @@ do
         }
         results.mplusWarbandCurrent = {
             score = results.warbandCurrentScore or 0,
-            roles = ORDERED_ROLES[results.warbandPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = ORDERED_ROLES[results.warbandCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusWarbandPrevious = {
             season = results.warbandPreviousScoreSeason,
             score = results.warbandPreviousScore or 0,
-            roles = ORDERED_ROLES[results.warbandCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = ORDERED_ROLES[results.warbandPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
     end
 
@@ -5454,7 +5454,7 @@ do
                 bitOffset = ReadDungeonLevelStats(results, bucket, bitOffset, true)
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_CURRENT_ROLES then
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
-                results.warbandPreviousRoleOrdinalIndex = 1 + value -- indexes are one-based
+                results.warbandCurrentRoleOrdinalIndex = 1 + value -- indexes are one-based
             elseif field == ENCODER_MYTHICPLUS_FIELDS.WARBAND_PREVIOUS_ROLES then
                 value, bitOffset = ReadBitsFromString(bucket, bitOffset, 7)
                 results.warbandPreviousRoleOrdinalIndex = 1 + value -- indexes are one-based
@@ -7032,28 +7032,30 @@ do
                             end
                         end
                     end
-                    local hasShownWarbandScore = false
+                    local hasShownWarbandCurrentScore = false
+                    local hasShownWarbandPreviousScore = false
                     local warbandText = format("%s %s", L.WARBAND_SCORE, ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND)
                     if config:Get("showWarbandScore") then
                         local warbandPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
-                        local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score
+                        local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusCurrent.score
                         local isWarbandCurrentScoreBetter = keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score
                         if isWarbandCurrentScoreBetter or isWarbandPreviousScoreRelevant then
-                            hasShownWarbandScore = true
                             if isWarbandPreviousScoreRelevant then
+                                hasShownWarbandPreviousScore = true
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.WARBAND_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusWarbandPrevious.season), GetScoreText(keystoneProfile.mplusWarbandPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandPrevious.score, true))
                             end
                             if keystoneProfile.mplusWarbandCurrent.score > 0 or hasMod or hasModSticky then
+                                hasShownWarbandCurrentScore = true
                                 tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
                             end
                         end
                     elseif keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score then
-                        hasShownWarbandScore = true
+                        hasShownWarbandCurrentScore = true
                         tooltip:AddDoubleLine(warbandText, GetScoreText(keystoneProfile.mplusWarbandCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusWarbandCurrent.score))
                     end
-                    if not hasShownWarbandScore and config:Get("showMainsScore") then
+                    if config:Get("showMainsScore") then
                         if not config:Get("showMainBestScore") then
-                            if keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score then
+                            if not hasShownWarbandCurrentScore and keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score then
                                 tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
                             end
                         else
@@ -7061,10 +7063,10 @@ do
                             local isMainPreviousScoreRelevant = mainPreviousScoreThreshold > keystoneProfile.mplusMainCurrent.score and mainPreviousScoreThreshold > keystoneProfile.mplusCurrent.score
                             local isMainCurrentScoreBetter = keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score
                             if isMainCurrentScoreBetter or isMainPreviousScoreRelevant then
-                                if isMainPreviousScoreRelevant then
+                                if not hasShownWarbandPreviousScore and isMainPreviousScoreRelevant then
                                     tooltip:AddDoubleLine(GetSeasonLabel(L.MAINS_BEST_SCORE_BEST_SEASON, keystoneProfile.mplusMainPrevious.season), GetScoreText(keystoneProfile.mplusMainPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainPrevious.score, true))
                                 end
-                                if keystoneProfile.mplusMainCurrent.score > 0 or hasMod or hasModSticky then
+                                if not hasShownWarbandCurrentScore and (keystoneProfile.mplusMainCurrent.score > 0 or hasMod or hasModSticky) then
                                     tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
                                 end
                             end
