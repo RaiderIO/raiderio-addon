@@ -15368,51 +15368,10 @@ if IS_RETAIL then
 
     local function updateDataProvider()
         dataProvider:Flush()
-
-        local relevantBuilds, buildsQuery = getRelevantBuilds()
-
-        if not relevantBuilds then
-            return
+        local relevantBuilds = getRelevantBuilds()
+        if relevantBuilds then
+            dataProvider:InsertTable(relevantBuilds)
         end
-
-        dataProvider:InsertTable(relevantBuilds)
-
-        if not frame or not dataProvider:IsEmpty() then
-            return
-        end
-
-        local difficulty = buildsQuery.difficulty
-        local weapon = buildsQuery.weapon
-        local raidSpeed = buildsQuery.raidSpeed
-        local hasWeaponFilter = weapon ~= nil and weapon ~= "all"
-        local hasRaidSpeedFilter = raidSpeed ~= nil and raidSpeed ~= "all"
-
-        -- select the lower raid difficulty if the current one has no builds, but the lower one has, then we select the lower difficulty so we display something
-        if difficulty and not hasRaidSpeedFilter then
-            local probeNext = false
-            local setDifficulty ---@type TalentBuildsMenuOptionForDifficultyArg1DifficultyText?
-
-            for _, difficultyOrder in ipairs(relevantEncounterDifficulties) do
-                local difficultykey = difficultyOrder.key
-                if probeNext then
-                    local difficultyBuilds = getRelevantBuilds(difficultykey)
-                    if difficultyBuilds and difficultyBuilds[1] then
-                        setDifficulty = difficultykey
-                        break
-                    end
-                elseif difficultykey == difficulty then
-                    probeNext = true
-                end
-            end
-
-            if setDifficulty then
-                frame:ResetDropDownFilters(setDifficulty, false, false)
-                return
-            end
-        end
-
-        -- reset the weapon or speed filters back to "all" in hope that it will yield builds
-        frame:ResetDropDownFilters(nil, hasWeaponFilter, hasRaidSpeedFilter)
     end
 
     ---@param option DropDownUtilDynamicMenuOption
@@ -16071,7 +16030,7 @@ if IS_RETAIL then
         ---@param setDifficulty? TalentBuildsMenuOptionForDifficultyArg1DifficultyText Defaults as `nil` and skips changing the difficulty filter, unless set to a value.
         ---@param resetWeapon? boolean|TalentBuildsMenuOptionForWeaponArg1WeaponKey Defaults as `true`. Must be `false` to skip resetting the weapon filter. Set to a specific value to set the filter to that value.
         ---@param resetRaidSpeed? boolean|TalentBuildsMenuOptionForSpeedArg1SpeedText Defaults as `true`. Must be `false` to skip resetting the raid speed filter. Set to a specific value to set the filter to that value.
-        function self:ResetDropDownFilters(setDifficulty, resetWeapon, resetRaidSpeed)
+        local function updateDropDownFilters(setDifficulty, resetWeapon, resetRaidSpeed)
             if setDifficulty ~= nil then
                 updateMenu(self.DifficultyMenu, setDifficulty or true)
             end
@@ -16082,6 +16041,42 @@ if IS_RETAIL then
                 updateMenu(self.SpeedMenu, resetRaidSpeed or true)
             end
             updateMenu(self.InstanceMenu)
+        end
+
+        ---@param specChanged? boolean
+        function self:UpdateDropDownFilters(specChanged)
+            if specChanged then
+                updateDropDownFilters()
+            end
+
+            if not self:IsShown() or not dataProvider:IsEmpty() then
+                return
+            end
+
+            local difficulty = currentRelevantBuildQuery.difficulty
+            local weapon = currentRelevantBuildQuery.weapon
+            local raidSpeed = currentRelevantBuildQuery.raidSpeed
+            local hasWeaponFilter = weapon ~= nil and weapon ~= "all"
+            local hasRaidSpeedFilter = raidSpeed ~= nil and raidSpeed ~= "all"
+
+            local setDifficulty ---@type TalentBuildsMenuOptionForDifficultyArg1DifficultyText?
+            if difficulty then
+                local probeNext = false
+                for _, difficultyOrder in ipairs(relevantEncounterDifficulties) do
+                    local difficultykey = difficultyOrder.key
+                    if probeNext then
+                        local difficultyBuilds = getRelevantBuilds(difficultykey)
+                        if difficultyBuilds and difficultyBuilds[1] then
+                            setDifficulty = difficultykey
+                            break
+                        end
+                    elseif difficultykey == difficulty then
+                        probeNext = true
+                    end
+                end
+            end
+
+            updateDropDownFilters(setDifficulty, hasWeaponFilter, hasRaidSpeedFilter)
         end
 
         self.CloseButton:HookScript("OnClick", function() talentbuilds:HideFrame() end)
@@ -16155,6 +16150,7 @@ if IS_RETAIL then
         end
 
         self:HookScript("OnShow", function()
+            self:UpdateDropDownFilters()
             forceUpdateDelayed()
             callback:RegisterEvent(forceUpdateDelayed, unpack(forceUpdateEvents))
         end)
@@ -16705,11 +16701,11 @@ if IS_RETAIL then
     end
 
     local function OnPlayerSpecializationChange()
-        if frame then
-            frame:ResetDropDownFilters()
-        end
         compileTalentBuilds()
         updateDataProvider()
+        if frame then
+            frame:UpdateDropDownFilters(true)
+        end
     end
 
     local onChangeHandler ---@type FunctionContainer?
