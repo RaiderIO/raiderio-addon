@@ -11311,7 +11311,11 @@ if IS_RETAIL then
         ---@return FramePoint point, Region relativeTo, FramePoint relativePoint, number offsetX, number offsetY
         function ReplayFrameMixin:GetTrackerPoint()
             if self.trackerFrame:GetParent() ~= self.trackerFrameParent or self.trackerFrame == self.trackerFrameParent then
-                local offsetX = -32 - self.trackerFrameParent:GetWidth()
+                local offsetX = self.trackerFrameOffsetX
+                local width = self.trackerFrameParent:GetWidth()
+                if not issecretvalue(width) then
+                    offsetX = -32 - width
+                end
                 self.trackerFramePoint, self.trackerFrame, self.trackerFrameRelativePoint, self.trackerFrameOffsetX, self.trackerFrameOffsetY = "TOPRIGHT", self.trackerFrameParent, "TOPRIGHT", offsetX, 0
             end
             return self.trackerFramePoint, self.trackerFrame, self.trackerFrameRelativePoint, self.trackerFrameOffsetX, self.trackerFrameOffsetY
