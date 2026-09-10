@@ -875,6 +875,7 @@ local function issecretvaluekey(tbl, ...)
 end
 
 -- `UnitTokenFromGUID` resolves interaction tokens such as `target` and `mouseover`, but returns nil for a party or raid member's guid while a unit tooltip is being built, so unit frames showing group members supply no token there.
+-- This routine will attempt to resolve the player, party and raid members by checking against their UnitGUID. If a match is found, we use that as the unit token for the return value.
 ---@param guid string
 ---@return UnitToken? unit
 local function GetGroupUnitTokenFromGUID(guid)
@@ -886,7 +887,7 @@ local function GetGroupUnitTokenFromGUID(guid)
         prefix, count = "raid", GetNumGroupMembers()
     end
     for i = 1, count do
-        local unit = prefix .. i
+        local unit = format("%s%d", prefix, i)
         local unitGuid = UnitGUID(unit)
         if not issecretvalue(unitGuid) and unitGuid == guid then
             return unit
@@ -895,7 +896,7 @@ local function GetGroupUnitTokenFromGUID(guid)
 end
 
 -- The `GameTooltip.IsTooltipType` doesn't exist in older flavors. In which case we will call the legacy `GetUnit` as those flavors don't have the secret value system.
----@param tooltip GameTooltip | { IsTooltipType: (fun(self: GameTooltip, type: Enum.TooltipDataType): boolean)?, GetPrimaryTooltipData: fun(self: GameTooltip): { guid: string? } }
+---@param tooltip GameTooltip | { IsTooltipType: (fun(self: GameTooltip, type: Enum.TooltipDataType): boolean)?, GetPrimaryTooltipData: fun(self: GameTooltip): { guid: string? }? }
 ---@return nil nil, UnitToken? unit, string? guid
 local function GetTooltipUnit(tooltip)
     if not tooltip.IsTooltipType then
@@ -905,6 +906,9 @@ local function GetTooltipUnit(tooltip)
         return
     end
     local tooltipData = tooltip:GetPrimaryTooltipData()
+    if not tooltipData then
+        return
+    end
     local guid = tooltipData.guid
     if issecretvalue(guid) or not guid then
         return
