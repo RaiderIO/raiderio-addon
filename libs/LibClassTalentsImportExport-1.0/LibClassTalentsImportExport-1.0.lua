@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibClassTalentsImportExport-1.0", 1
+local MAJOR, MINOR = "LibClassTalentsImportExport-1.0", 2
 assert(LibStub, MAJOR .. " requires LibStub")
 
 ---@class LibClassTalentsImportExport-1.0
@@ -9,14 +9,17 @@ if not LibClassTalentsImportExport then return end
 local IS_COMPATIBLE = C_ClassTalents and
     C_ClassTalents.CanChangeTalents and
     C_ClassTalents.CanCreateNewConfig and
+    C_ClassTalents.CommitConfig and
     C_ClassTalents.DeleteConfig and
     C_ClassTalents.GetActiveConfigID and
     C_ClassTalents.GetConfigIDsBySpecID and
     C_ClassTalents.GetLastSelectedSavedConfigID and
     C_ClassTalents.ImportLoadout and
+    C_ClassTalents.LoadConfig and
     C_ClassTalents.RenameConfig and
     C_ClassTalents.RequestNewConfig and
     C_ClassTalents.SetUsesSharedActionBars and
+    C_ClassTalents.UpdateLastSelectedSavedConfigID and
     C_SpecializationInfo and
     C_SpecializationInfo.GetSpecialization and
     C_SpecializationInfo.GetSpecializationInfo and
@@ -498,7 +501,8 @@ local maxIterationsPerCycle = 100
 ---@param treeID number
 ---@param loadoutEntryInfos ImportLoadoutEntryInfoPolyfill[]
 ---@param callback? fun(success: boolean, commiting: boolean)
-local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
+---@param savedConfigID? number If provided, the staged changes are committed into this saved loadout using `C_ClassTalents.CommitConfig` instead of only committing the active config.
+local function EditLoadout(configID, treeID, loadoutEntryInfos, callback, savedConfigID)
     globalUniqueApplyLoadoutID = globalUniqueApplyLoadoutID + 1
     local currentUniqueApplyLoadoutID = globalUniqueApplyLoadoutID
 
@@ -541,7 +545,8 @@ local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
                     if nodeInfo.type == Enum.TraitNodeType.Selection or nodeInfo.type == Enum.TraitNodeType.SubTreeSelection then
                         success = C_Traits.SetSelection(configID, loadoutEntryInfo.nodeID, loadoutEntryInfo.selectionEntryID)
                     elseif nodeInfo.type == Enum.TraitNodeType.Single or nodeInfo.type == Enum.TraitNodeType.Tiered then
-                        local numMissingRanks = loadoutEntryInfo.ranksPurchased - nodeInfo.ranksPurchased
+                        -- Tiered nodes are split into one entry per tier, but `nodeInfo.ranksPurchased` is the node total.
+                        local numMissingRanks = (loadoutEntryInfo.ranksPurchasedForTieredNode or loadoutEntryInfo.ranksPurchased) - nodeInfo.ranksPurchased
                         local numPendingRanks = numMissingRanks
                         for _ = 1, numMissingRanks do
                             if C_Traits.PurchaseRank(configID, loadoutEntryInfo.nodeID) then
@@ -576,7 +581,12 @@ local function EditLoadout(configID, treeID, loadoutEntryInfos, callback)
 
         local commiting = false
         if C_Traits.ConfigHasStagedChanges(configID) then
-            commiting = C_Traits.CommitConfig(configID)
+            if savedConfigID then
+                -- Committing into the saved loadout keeps it in sync, and avoids leaving the talent frame in the "Apply Changes" state.
+                commiting = C_ClassTalents.CommitConfig(savedConfigID)
+            else
+                commiting = C_Traits.CommitConfig(configID)
+            end
         end
 
         local success = #loadoutEntryInfos == 0
@@ -757,7 +767,23 @@ end
 --- If we upgraded, this ensures to clear the switch state.
 clearCurrentPersistentSwitchState()
 
---- Similar to `SwitchToLoadout` but is extra persistent to retry to switch if the cast is being cast as intended.
+--- Loads the saved loadout using a single `C_ClassTalents.LoadConfig` call.
+---@param configID number
+---@return Enum.LoadConfigResult result
+local function LoadSavedConfig(configID)
+    local result = C_ClassTalents.LoadConfig(configID, true)
+    if result ~= Enum.LoadConfigResult.Error then
+        local specID = LibClassTalentsImportExport.GetSpecialization()
+        if specID then
+            C_ClassTalents.UpdateLastSelectedSavedConfigID(specID, configID)
+        end
+    end
+    return result
+end
+
+--- Similar to `SwitchToLoadout` but is extra persistent to retry to switch if the game is busy.
+---
+--- ⚠️ Only retries while `C_ClassTalents.LoadConfig` returns an error. Repeatedly rolling back and re-selecting the loadout while the "Changing Talents" cast is in progress can cancel the switch.
 ---@param loadout LoadoutQuery Can be a loadout `object`, `index` or `name`.
 ---@param callback? fun(success: boolean, statusCode?: "invalidLoadout"|"changing"|"success"|"timeout")
 ---@param maxAttempts? number Defaults to `6` attempts.
@@ -773,36 +799,38 @@ function LibClassTalentsImportExport.PersistentSwitchToLoadout(loadout, callback
     end
     maxAttempts = maxAttempts or 6
     timeBetweenAttempts = timeBetweenAttempts or 0.5
-    local changing = false
-    LibClassTalentsImportExport._currentPersistentSwitchHandle = RegisterOnceFrameEventAndCallback(
-        "UNIT_SPELLCAST_START",
-        -- The callback flips the flag so we know that we're changing talents.
-        function() changing = true end,
-        -- The predicate ensures to only run the callback when the player is casting the "Changing Talents" spell.
-        ---@param unit UnitToken
-        ---@param spellID number
-        function(unit, _, spellID) return unit == "player" and spellID == 384255 end
-    )
     local remaining = maxAttempts
-    LibClassTalentsImportExport._currentPersistentSwitchTicker = C_Timer.NewTicker(timeBetweenAttempts, function()
+    local finished = false
+    local function attempt()
+        if finished then
+            return
+        end
         remaining = remaining - 1
-        info = LibClassTalentsImportExport.GetLoadoutInfo(loadout, true)
-        local isActive = info and info.ID == LibClassTalentsImportExport.GetActiveLoadoutConfigID() and true or false
-        local isSuccess = isActive or changing
-        if not info or isSuccess then
+        local activeConfigID = C_ClassTalents.GetActiveConfigID()
+        if activeConfigID and C_Traits.ConfigHasStagedChanges(activeConfigID) then
+            C_Traits.RollbackConfig(activeConfigID)
+        end
+        local result = LoadSavedConfig(info.ID)
+        if result ~= Enum.LoadConfigResult.Error then
+            finished = true
             clearCurrentPersistentSwitchState()
             if callback then
-                callback(isSuccess, changing and "changing" or "success")
+                callback(true, result == Enum.LoadConfigResult.LoadInProgress and "changing" or "success")
             end
             return
         end
-        LibClassTalentsImportExport.SwitchToLoadout(info)
         if remaining <= 0 then
+            finished = true
+            clearCurrentPersistentSwitchState()
             if callback then
                 callback(false, "timeout")
             end
         end
-    end, maxAttempts)
+    end
+    attempt()
+    if not finished then
+        LibClassTalentsImportExport._currentPersistentSwitchTicker = C_Timer.NewTicker(timeBetweenAttempts, attempt, remaining)
+    end
 end
 
 ---@param loadout LoadoutQuery Can be a loadout `object`, `index` or `name`.
@@ -955,6 +983,132 @@ function LibClassTalentsImportExport.EditActiveLoadoutTalents(importString, call
     end
 
     EditLoadout(configID, treeID, loadoutEntryInfos, callback)
+    return true
+end
+
+---@enum LibClassTalentsImportExportApplyLoadoutErrorTexts
+LibClassTalentsImportExport.ApplyLoadoutErrorTexts = {
+    UnableToChangeTalents = "Can't change talents.",
+    InvalidLoadout = "Invalid loadout.",
+    MissingTreeID = "Missing tree ID.",
+    UnableToLoadLoadout = "Unable to load the loadout.",
+}
+
+LibClassTalentsImportExport._currentApplyHandle = LibClassTalentsImportExport._currentApplyHandle or nil ---@type CallbackRegistryHandle
+
+local function clearCurrentApplyState()
+    if LibClassTalentsImportExport._currentApplyHandle then
+        LibClassTalentsImportExport._currentApplyHandle:Unregister()
+        LibClassTalentsImportExport._currentApplyHandle = nil
+    end
+end
+
+--- If we upgraded, this ensures to clear the apply state.
+clearCurrentApplyState()
+
+--- Rewrites the talents of an existing saved loadout in place, and makes it the active loadout.
+---
+--- Unlike deleting the loadout and importing a new one, the loadout keeps its config ID, so it also keeps its action bars.
+---@param loadout LoadoutQuery Can be a loadout `object`, `index` or `name`.
+---@param importString string
+---@param name? string If provided, the loadout is renamed once the talents have been applied.
+---@param callback? fun(success: boolean, info: LoadoutExtendedInfo)
+---@return boolean? accepted, LibClassTalentsImportExportApplyLoadoutErrorTexts|string? errorText
+function LibClassTalentsImportExport.ApplyLoadout(loadout, importString, name, callback)
+    local canChange, _, changeError = C_ClassTalents.CanChangeTalents()
+    if not canChange then
+        return nil, changeError or LibClassTalentsImportExport.ApplyLoadoutErrorTexts.UnableToChangeTalents
+    end
+
+    local info = LibClassTalentsImportExport.GetLoadoutInfo(loadout)
+    if not info then
+        return nil, LibClassTalentsImportExport.ApplyLoadoutErrorTexts.InvalidLoadout
+    end
+
+    local activeConfigID = C_ClassTalents.GetActiveConfigID()
+    local treeID = activeConfigID and LibClassTalentsImportExport.GetSpecializationTreeID(activeConfigID)
+    if not treeID then
+        return nil, LibClassTalentsImportExport.ApplyLoadoutErrorTexts.MissingTreeID
+    end
+
+    -- Validate the import string before touching any loadouts.
+    local specID = LibClassTalentsImportExport.GetSpecialization()
+    local _, unpackErrorText = UnpackImportString(importString, treeID, specID, activeConfigID)
+    if unpackErrorText then
+        return nil, unpackErrorText
+    end
+
+    clearCurrentApplyState()
+
+    ---@param success boolean
+    local function finish(success)
+        clearCurrentApplyState()
+        if callback then
+            callback(success, info)
+        end
+    end
+
+    local function rename()
+        if name and info.name ~= name and LibClassTalentsImportExport.RenameLoadout(info, name) then
+            info.name = name
+        end
+    end
+
+    local function apply()
+        local configID = C_ClassTalents.GetActiveConfigID()
+        local loadoutEntryInfos, errorText = UnpackImportString(importString, treeID, specID, configID)
+        if not configID or not loadoutEntryInfos or errorText then
+            finish(false)
+            return
+        end
+        EditLoadout(configID, treeID, loadoutEntryInfos, function(success, commiting)
+            if commiting then
+                -- The rename is done inside the commit's own event; deferring it can get it rejected.
+                LibClassTalentsImportExport._currentApplyHandle = RegisterOnceFrameEventAndCallback(
+                    "TRAIT_CONFIG_UPDATED",
+                    function()
+                        rename()
+                        finish(success)
+                    end,
+                    ---@param updatedConfigID number
+                    function(updatedConfigID) return updatedConfigID == configID end
+                )
+                return
+            end
+            if C_Traits.ConfigHasStagedChanges(configID) then
+                -- The commit was refused, so don't leave the talent frame with pending changes.
+                C_Traits.RollbackConfig(configID)
+                finish(false)
+                return
+            end
+            -- Nothing was staged, meaning the loadout already had the desired talents.
+            rename()
+            finish(success)
+        end, info.ID)
+    end
+
+    if LibClassTalentsImportExport.GetActiveLoadoutConfigID() == info.ID then
+        apply()
+        return true
+    end
+
+    local result = LoadSavedConfig(info.ID)
+    if result == Enum.LoadConfigResult.Error then
+        return nil, LibClassTalentsImportExport.ApplyLoadoutErrorTexts.UnableToLoadLoadout
+    end
+
+    if result == Enum.LoadConfigResult.LoadInProgress then
+        -- Only touch the talent tree once the loadout has finished loading.
+        LibClassTalentsImportExport._currentApplyHandle = RegisterOnceFrameEventAndCallback(
+            "TRAIT_CONFIG_UPDATED",
+            function() RunNextFrame(apply) end,
+            ---@param updatedConfigID number
+            function(updatedConfigID) return updatedConfigID == C_ClassTalents.GetActiveConfigID() end
+        )
+    else
+        apply()
+    end
+
     return true
 end
 
