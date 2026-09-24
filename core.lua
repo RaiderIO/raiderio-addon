@@ -16486,7 +16486,7 @@ if IS_RETAIL then
         return talentbuilds:IsBuildAndImportStringEqual(build, importString)
     end
 
-    ---@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts, string?>
+    ---@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts|LibClassTalentsImportExportApplyLoadoutErrorTexts, string?>
     local createLoadoutTranslations = {
         [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
         [LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
@@ -16498,6 +16498,8 @@ if IS_RETAIL then
         [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
         [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
         [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.ApplyLoadoutErrorTexts.InvalidLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.ApplyLoadoutErrorTexts.UnableToLoadLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
     }
 
     ---@param loadoutName string
@@ -16549,63 +16551,36 @@ if IS_RETAIL then
             end
         end
 
-        -- If the loadout exists by our name, then we ensure to clean it up and import the new desired build.
+        -- If the loadout exists by our name, then we update its talents in place with the desired build.
+        -- We don't delete and re-create it: deleting the loadout you're on and swapping to a brand new one can leave the action bars empty.
         local existingLoadout = util:TableFind(loadouts, function(loadout) return loadout.name == loadoutName end)
         if existingLoadout then
-
-            if talentbuilds:IsBuildActiveAsLoadout(build, existingLoadout.ID) then
-                LibClassTalentsImportExport.PersistentSwitchToLoadout(existingLoadout)
-                respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_LOADOUT, existingLoadout.name))
-                return
-            end
-
-            -- TODO: needs additional scaffolding to edit an existing loadout without the state getting stuck in "apply changes" mode (commenting out so the regular delete+create routine completes the import)
-            -- if activeLoadout and activeLoadout.ID == existingLoadout.ID then
-            --     local accepted, errorText = LibClassTalentsImportExport.EditActiveLoadoutTalents(
-            --         build.importString,
-            --         function(success, commiting)
-            --             respond(success, success and format(L.BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT, existingLoadout.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
-            --         end
-            --     )
-            --     if not accepted then
-            --         respond(false, errorText)
-            --     end
-            --     return
-            -- end
-
-            if not LibClassTalentsImportExport.DeleteLoadout(existingLoadout) then
-                respond(false, format(L.BUILDS_PROFILE_UNABLE_TO_DELETE_LOADOUT, existingLoadout.name))
-                return
-            end
-
-            -- TODO: this should work, but it doesn't, adding a comment and for now forcing the build to use the shared action bars for the re-usable loadout
-            -- if existingLoadout.usesSharedActionBars ~= nil then
-            --     usesSharedActionBars = existingLoadout.usesSharedActionBars
-            -- end
-
-        end
-
-        -- This will import a new loadout with the desired build, then switch to it.
-        local function createLoadout()
-            local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
+            local accepted, errorText = LibClassTalentsImportExport.ApplyLoadout(
+                existingLoadout,
                 build.importString,
-                loadoutName,
-                usesSharedActionBars,
-                function(info, success)
-                    LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
-                    respond(success, success and format(L.BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
+                nil,
+                function(success, info)
+                    respond(success, success and format(L.BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
                 end
             )
             if not accepted then
                 respond(false, errorText)
             end
+            return
         end
 
-        -- We can create the loadout right away, or if we have to wait for the delete event, we do so first.
-        if not existingLoadout then
-            createLoadout()
-        else
-            util:RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_DELETED", createLoadout)
+        -- This will import a new loadout with the desired build, then switch to it.
+        local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
+            build.importString,
+            loadoutName,
+            usesSharedActionBars,
+            function(info, success)
+                LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
+                respond(success, success and format(L.BUILDS_PROFILE_IMPORTED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
+            end
+        )
+        if not accepted then
+            respond(false, errorText)
         end
     end
 
