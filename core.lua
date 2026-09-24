@@ -16502,7 +16502,42 @@ if IS_RETAIL then
         [LibClassTalentsImportExport.ApplyLoadoutErrorTexts.UnableToLoadLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
     }
 
-    ---@param loadoutName string
+    -- Keeps the name short enough to be readable in the loadout dropdown.
+    local MAX_BUILD_LOADOUT_NAME_LENGTH = 30
+
+    ---@param name? string
+    ---@return boolean isBuildLoadoutName
+    local function isBuildLoadoutName(name)
+        local prefix = L.BUILDS_PROFILE_LOADOUT_NAME_PREFIX
+        return name ~= nil and name:sub(1, #prefix) == prefix
+    end
+
+    ---@param build TalentBuildsCompiledProfileBuild
+    ---@return string? loadoutName A loadout name for the dungeon, raid or boss the build is for, if known.
+    function talentbuilds:GetBuildLoadoutName(build)
+        local longName ---@type string?
+        local shortName ---@type string?
+        if build.encounterJournalID and build.encounterID ~= "all" and EJ_GetEncounterInfo then
+            longName = EJ_GetEncounterInfo(build.encounterJournalID)
+        elseif build.raid then
+            longName = format(L.BUILDS_PROFILE_LOADOUT_NAME_ALL_ENCOUNTERS_FORMAT, build.raid.name)
+            shortName = format(L.BUILDS_PROFILE_LOADOUT_NAME_ALL_ENCOUNTERS_FORMAT, build.raid.shortNameLocale or build.raid.shortName)
+        elseif build.dungeon then
+            longName = build.dungeon.name
+            shortName = build.dungeon.shortNameLocale or build.dungeon.shortName
+        elseif build.dungeonID == "all" then
+            longName = L.BUILDS_PROFILE_LOADOUT_NAME_ALL_DUNGEONS
+        end
+        local prefix = L.BUILDS_PROFILE_LOADOUT_NAME_PREFIX
+        if longName and strlenutf8(prefix .. longName) <= MAX_BUILD_LOADOUT_NAME_LENGTH then
+            return prefix .. longName
+        end
+        if shortName and strlenutf8(prefix .. shortName) <= MAX_BUILD_LOADOUT_NAME_LENGTH then
+            return prefix .. shortName
+        end
+    end
+
+    ---@param loadoutName string The fallback loadout name, and the name used by older versions for the reusable loadout.
     ---@param usesSharedActionBars? boolean
     ---@param build TalentBuildsCompiledProfileBuild
     ---@param callback? fun(success: boolean, resultText?: string): boolean?
@@ -16531,9 +16566,25 @@ if IS_RETAIL then
             C_Traits.RollbackConfig(activeConfigID)
         end
 
+        -- Name our loadout after the dungeon or boss the build is for, so it's clear which build is loaded.
+        local buildLoadoutName = talentbuilds:GetBuildLoadoutName(build) or loadoutName
+
+        ---@param loadout LoadoutExtendedInfo
+        local function isOurLoadout(loadout)
+            return loadout.name == loadoutName or loadout.name == buildLoadoutName or isBuildLoadoutName(loadout.name)
+        end
+
+        ---@param loadout LoadoutExtendedInfo
+        local function renameOurLoadout(loadout)
+            if isOurLoadout(loadout) and loadout.name ~= buildLoadoutName and LibClassTalentsImportExport.RenameLoadout(loadout, buildLoadoutName) then
+                loadout.name = buildLoadoutName
+            end
+        end
+
         -- Find the real active loadout, and if it matches the desired build, ensure to swap to it in case we're in some weird state.
         local activeLoadout = LibClassTalentsImportExport.GetActiveLoadout()
         if activeLoadout and talentbuilds:IsBuildActiveAsLoadout(build, activeLoadout.ID) then
+            renameOurLoadout(activeLoadout)
             LibClassTalentsImportExport.PersistentSwitchToLoadout(activeLoadout)
             respond(true, L.BUILDS_PROFILE_LOADOUT_IS_ALREADY_ACTIVE)
             return
@@ -16545,20 +16596,21 @@ if IS_RETAIL then
         local loadouts = LibClassTalentsImportExport.GetLoadouts()
         for _, loadout in ipairs(loadouts) do
             if talentbuilds:IsBuildActiveAsLoadout(build, loadout.ID) then
+                renameOurLoadout(loadout)
                 LibClassTalentsImportExport.PersistentSwitchToLoadout(loadout)
                 respond(true, format(L.BUILDS_PROFILE_SWITCHING_TO_EXISTING_LOADOUT, loadout.name))
                 return
             end
         end
 
-        -- If the loadout exists by our name, then we update its talents in place with the desired build.
+        -- If our loadout exists, then we update its talents in place with the desired build.
         -- We don't delete and re-create it: deleting the loadout you're on and swapping to a brand new one can leave the action bars empty.
-        local existingLoadout = util:TableFind(loadouts, function(loadout) return loadout.name == loadoutName end)
+        local existingLoadout = util:TableFind(loadouts, isOurLoadout)
         if existingLoadout then
             local accepted, errorText = LibClassTalentsImportExport.ApplyLoadout(
                 existingLoadout,
                 build.importString,
-                nil,
+                buildLoadoutName,
                 function(success, info)
                     respond(success, success and format(L.BUILDS_PROFILE_UPDATED_BUILD_TO_LOADOUT, info.name) or L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD)
                 end
@@ -16572,7 +16624,7 @@ if IS_RETAIL then
         -- This will import a new loadout with the desired build, then switch to it.
         local accepted, errorText = LibClassTalentsImportExport.CreateLoadout(
             build.importString,
-            loadoutName,
+            buildLoadoutName,
             usesSharedActionBars,
             function(info, success)
                 LibClassTalentsImportExport.PersistentSwitchToLoadout(info)
