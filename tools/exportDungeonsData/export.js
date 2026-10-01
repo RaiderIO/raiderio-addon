@@ -99,8 +99,7 @@ const config = {
     ], (oldItem, newItem) => (
         db.equalOrIncluded(oldItem.ExpansionID, newItem.ExpansionID) ||
         db.equalOrIncluded(oldItem.SeasonID, newItem.SeasonID) ||
-        db.equalOrIncluded(oldItem.Season, newItem.Season) ||
-        db.equalOrIncluded(oldItem.ChallengeMapID, newItem.ChallengeMapID)
+        db.equalOrIncluded(oldItem.Season, newItem.Season)
     ));
 
     const [instanceData, instanceFileRows] = await db.processRows([
