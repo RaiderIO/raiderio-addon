@@ -2535,12 +2535,12 @@ do
         return SORTED_DUNGEONS
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByIndex(index)
         return DUNGEONS[index]
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByLFDActivityID(id)
         for i = 1, #ALL_DUNGEONS do
             local dungeon = ALL_DUNGEONS[i]
@@ -2553,7 +2553,7 @@ do
         end
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByKeyValue(key, value)
         for i = 1, #ALL_DUNGEONS do
             local dungeon = ALL_DUNGEONS[i]
@@ -2563,12 +2563,12 @@ do
         end
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByID(id)
         return util:GetDungeonByKeyValue("id", id)
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByInstanceMapID(id)
         for i = 1, #ALL_DUNGEONS do
             local dungeon = ALL_DUNGEONS[i]
@@ -2580,17 +2580,17 @@ do
         end
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByKeystoneID(id)
         return util:GetDungeonByKeyValue("keystone_instance", id)
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByName(name)
         return util:GetDungeonByKeyValue("name", name)
     end
 
-    ---@return Dungeon|nil
+    ---@return Dungeon?
     function util:GetDungeonByShortName(name)
         return util:GetDungeonByKeyValue("shortName", name) or util:GetDungeonByKeyValue("shortNameLocale", name)
     end
@@ -2600,12 +2600,12 @@ do
         return SORTED_RAIDS
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByIndex(index)
         return RAIDS[index]
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByLFDActivityID(id)
         for i = 1, #RAIDS do
             local raid = RAIDS[i]
@@ -2618,7 +2618,7 @@ do
         end
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByKeyValue(key, value)
         for i = 1, #RAIDS do
             local raid = RAIDS[i]
@@ -2628,12 +2628,12 @@ do
         end
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByID(id)
         return util:GetRaidByKeyValue("id", id)
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByInstanceMapID(id)
         for i = 1, #RAIDS do
             local raid = RAIDS[i]
@@ -2645,19 +2645,19 @@ do
         end
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByName(name)
         return util:GetRaidByKeyValue("name", name)
     end
 
-    ---@return DungeonRaid|nil
+    ---@return DungeonRaid?
     function util:GetRaidByShortName(name)
         return util:GetRaidByKeyValue("shortName", name) or util:GetRaidByKeyValue("shortNameLocale", name)
     end
 
     ---@param object Frame|ScriptRegion @Any interface widget object that supports the methods GetScript.
     ---@param handler string @The script handler like OnEnter, OnClick, etc.
-    ---@return boolean|nil @If successfully executed returns true, otherwise false if nothing has been called. nil if the widget had no handler to execute.
+    ---@return boolean? @If successfully executed returns true, otherwise false if nothing has been called. nil if the widget had no handler to execute.
     function util:ExecuteWidgetHandler(object, handler, ...)
         if type(object) ~= "table" or type(object.GetScript) ~= "function" then
             return false
@@ -2692,7 +2692,7 @@ do
 
     ---@param frame Frame|ScriptRegion @Any interface widget object that supports the methods GetScript.
     ---@param onEnter fun() @Any function originating from the OnEnter handler.
-    ---@return boolean|nil @If the provided object is not a region or has no function we return `nil`, otherwise `true` that it is safe to call, and `false` that it is unsafe to call its function.
+    ---@return boolean? @If the provided object is not a region or has no function we return `nil`, otherwise `true` that it is safe to call, and `false` that it is unsafe to call its function.
     local function IsOnEnterSafe(frame, onEnter)
         if type(frame) ~= "table" or type(frame.GetScript) ~= "function" or type(onEnter) ~= "function" then
             return
@@ -2814,7 +2814,7 @@ do
     ---@param anchor string @`ANCHOR_TOPLEFT`, `ANCHOR_NONE`, `ANCHOR_CURSOR`, etc.
     ---@param offsetX? number @Optional offset X for some of the anchors.
     ---@param offsetY? number @Optional offset Y for some of the anchors.
-    ---@return boolean|nil, boolean|nil, boolean|nil @If owner was set arg1 is true. If owner was updated arg2 is true. Otherwise both will be set to face to indicate we did not update the Owner of the widget. If the owner is set to the preferred owner arg3 is true.
+    ---@return boolean?, boolean?, boolean? @If owner was set arg1 is true. If owner was updated arg2 is true. Otherwise both will be set to face to indicate we did not update the Owner of the widget. If the owner is set to the preferred owner arg3 is true.
     function util:SetOwnerSafely(object, owner, anchor, offsetX, offsetY)
         if type(object) ~= "table" or type(object.GetOwner) ~= "function" then
             return
@@ -2835,7 +2835,7 @@ do
     end
 
     ---@param text string @The format string like "Greetings %s! How are you?"
-    ---@return string|nil @Returns a pattern like "Greetings (.-)%! How are you%?"
+    ---@return string? @Returns a pattern like "Greetings (.-)%! How are you%?"
     function util:FormatToPattern(text)
         if type(text) ~= "string" then
             return
@@ -3213,7 +3213,7 @@ do
 
     ---@param text string @The text that might contain the keystone level
     ---@param fallback? number @The fallback value in case we can't read the keystone level
-    ---@return number|nil @The keystone level we think is detected or nil if we don't know
+    ---@return number? @The keystone level we think is detected or nil if we don't know
     function util:GetKeystoneLevelFromText(text, fallback)
         if type(text) ~= "string" then
             return
@@ -4488,6 +4488,7 @@ do
         if hasGroupMembers then
             return true
         end
+        ---@type _, number
         local _, numApplicants = C_LFGList.GetNumApplications()
         return numApplicants > 0
     end
@@ -4626,7 +4627,7 @@ do
     ---@field public name string
     ---@field public shortName string
     ---@field public bossCount number
-    ---@field public dungeon? DungeonRaid
+    ---@field public dungeon DungeonRaid Assigned when the provider loads the data. We assume it exist, otherwise we'll need several nil-checks which shouldn't be needed as long the database is properly created.
 
     ---@class DataProviderMythicKeystone
     ---@field public currentSeasonId number 0-index based
@@ -4956,7 +4957,7 @@ do
 
     ---@param provider DataProvider
     ---@param lookup string[]
-    ---@param data table<string, string[]|nil>
+    ---@param data table<string, string[]?>
     ---@param name string
     ---@param realm string
     ---@return string? bucket, number? baseOffset, string? guid, string? internalName, string? internalRealm
@@ -5182,32 +5183,32 @@ do
     ---@field public hasRenderableData boolean @`true` if we have any actual data to render in the tooltip without the profile appearing incomplete or empty
 
     ---@class DataProviderMythicKeystoneProfile : DataProviderProfile
-    ---@field public hasOverrideScore boolean @True if we override the score shown using in-game score data for the profile tooltip.
-    ---@field public hasOverrideDungeonRuns boolean @True if we override the dungeon runs shown using in-game data for the profile tooltip.
-    ---@field public blocked number|nil @number or nil
-    ---@field public blockedPurged boolean|nil @True if the provider has been blocked and purged
-    ---@field public softBlocked number|nil @number or nil - Only defined when the profile looked up is the players own profile
-    ---@field public isEnhanced boolean|nil @true if client enhanced data (fractionalTime and .dungeonTimes are 1 for timed and 3 for depleted, but when enhanced it's the actual time fraction)
+    ---@field public hasOverrideScore? boolean @`true` if we override the score shown using in-game score data for the profile tooltip.
+    ---@field public hasOverrideDungeonRuns? boolean @`true` if we override the dungeon runs shown using in-game data for the profile tooltip.
+    ---@field public blocked? number
+    ---@field public blockedPurged? boolean @`true` if the provider has been blocked and purged
+    ---@field public softBlocked? number @only defined when the profile looked up is the players own profile
+    ---@field public isEnhanced? boolean @`true` if client enhanced data (fractionalTime and .dungeonTimes are 1 for timed and 3 for depleted, but when enhanced it's the actual time fraction)
     ---@field public currentScore number
-    ---@field public originalCurrentScore number @If set to a number, it means we did override the score but kept a backup of the original here
-    ---@field public currentRoleOrdinalIndex number
-    ---@field public previousScore number
-    ---@field public previousScoreSeason number
-    ---@field public previousRoleOrdinalIndex number
-    ---@field public mainCurrentScore number
-    ---@field public mainCurrentRoleOrdinalIndex number
-    ---@field public mainPreviousScore number
-    ---@field public mainPreviousScoreSeason number
-    ---@field public mainPreviousRoleOrdinalIndex number
-    ---@field public warbandPreviousRoleOrdinalIndex number
-    ---@field public warbandCurrentRoleOrdinalIndex number
-    ---@field public dungeons number[] 
+    ---@field public originalCurrentScore? number @if set it means we did override the score but kept a backup of the original here
+    ---@field public currentRoleOrdinalIndex? number
+    ---@field public previousScore? number
+    ---@field public previousScoreSeason? number
+    ---@field public previousRoleOrdinalIndex? number
+    ---@field public mainCurrentScore? number
+    ---@field public mainCurrentRoleOrdinalIndex? number
+    ---@field public mainPreviousScore? number
+    ---@field public mainPreviousScoreSeason? number
+    ---@field public mainPreviousRoleOrdinalIndex? number
+    ---@field public warbandPreviousRoleOrdinalIndex? number
+    ---@field public warbandCurrentRoleOrdinalIndex? number
+    ---@field public dungeons number[]
     ---@field public dungeonUpgrades number[]
     ---@field public dungeonTimes number[]
-    ---@field public warbandCurrentScore number
-    ---@field public warbandPreviousScore number
-    ---@field public warbandPreviousScoreSeason number
-    ---@field public warbandDungeons number[] 
+    ---@field public warbandCurrentScore? number
+    ---@field public warbandPreviousScore? number
+    ---@field public warbandPreviousScoreSeason? number
+    ---@field public warbandDungeons number[]
     ---@field public warbandDungeonUpgrades number[]
     ---@field public warbandDungeonTimes number[]
     ---@field public maxDungeonIndex number
@@ -5878,10 +5879,10 @@ do
     ---@field public name string
     ---@field public realm string
     ---@field public region RegionString
-    ---@field public mythicKeystoneProfile DataProviderMythicKeystoneProfile
-    ---@field public raidProfile DataProviderRaidProfile
-    ---@field public recruitmentProfile DataProviderRecruitmentProfile
-    ---@field public pvpProfile DataProviderPvpProfile
+    ---@field public mythicKeystoneProfile? DataProviderMythicKeystoneProfile
+    ---@field public raidProfile? DataProviderRaidProfile
+    ---@field public recruitmentProfile? DataProviderRecruitmentProfile
+    ---@field public pvpProfile? DataProviderPvpProfile
 
     -- cache mythic keystone profiles for re-use after first query
     ---@type DataProviderMythicKeystoneProfile[]
@@ -5977,43 +5978,27 @@ do
 
     local function CreateEmptyMythicKeystoneData()
         ---@type DataProviderMythicKeystoneProfile
-        local results = { ---@diagnostic disable-line: missing-fields
+        local results = {
+            hasRenderableData = false,
             currentScore = 0,
-            mplusCurrent = {
-                score = 0,
-                roles = {}
-            },
-            mplusPrevious = {
-                score = 0,
-                roles = {}
-            },
-            mplusMainCurrent = {
-                score = 0,
-                roles = {}
-            },
-            mplusMainPrevious = {
-                score = 0,
-                roles = {}
-            },
             dungeons = {},
             dungeonUpgrades = {},
             dungeonTimes = {},
-            mplusWarbandCurrent = {
-                score = 0,
-                roles = {}
-            },
-            mplusWarbandPrevious = {
-                score = 0,
-                roles = {}
-            },
             warbandDungeons = {},
             warbandDungeonUpgrades = {},
             warbandDungeonTimes = {},
             maxDungeonIndex = 1,
             maxDungeonLevel = 0,
-            maxDungeon = nil,
+            maxDungeon = DUNGEONS[1],
             maxDungeonUpgrades = 0,
+            sortedDungeons = {},
             sortedMilestones = {},
+            mplusCurrent = { score = 0, roles = {} },
+            mplusPrevious = { score = 0, roles = {} },
+            mplusMainCurrent = { score = 0, roles = {} },
+            mplusMainPrevious = { score = 0, roles = {} },
+            mplusWarbandCurrent = { score = 0, roles = {} },
+            mplusWarbandPrevious = { score = 0, roles = {} },
         }
         for i = 1, #DUNGEONS do
             results.dungeons[i] = 0
@@ -6135,11 +6120,13 @@ do
             mythicKeystoneProfile.hasRenderableData = true
         end
         if not cache then
-            cache = { ---@diagnostic disable-line: missing-fields
+            cache = {
+                success = true,
                 guid = guid,
                 name = name,
                 realm = realm,
-                region = region
+                region = region,
+                mythicKeystoneProfile = mythicKeystoneProfile,
             }
         end
         cache.success = true
@@ -6165,10 +6152,10 @@ do
             end
             return cache
         end
-        local mythicKeystoneProfile ---@type DataProviderMythicKeystoneProfile|nil
-        local raidProfile ---@type DataProviderRaidProfile|nil
-        local recruitmentProfile ---@type DataProviderRecruitmentProfile|nil
-        local pvpProfile ---@type DataProviderPvpProfile|nil
+        local mythicKeystoneProfile ---@type DataProviderMythicKeystoneProfile?
+        local raidProfile ---@type DataProviderRaidProfile?
+        local recruitmentProfile ---@type DataProviderRecruitmentProfile?
+        local pvpProfile ---@type DataProviderPvpProfile?
         for i = 1, #providers do
             local provider = providers[i]
             if provider.region == region then
@@ -6575,20 +6562,23 @@ do
     end
 
     ---@class BestRun
-    ---@field public dungeon Dungeon|nil @The dungeon.
+    ---@field public dungeon? Dungeon @The dungeon.
     ---@field public level number @The keystone level.
     ---@field public chests number @The amount of chests/medals earned.
+
+    ---@class OverallBestRun : BestRun
+    ---@field public dungeon Dungeon @The dungeon.
 
     ---@param tooltip GameTooltip
     ---@param keystoneProfile DataProviderMythicKeystoneProfile
     ---@param state TooltipState
     ---@param isHeader? boolean
-    ---@return boolean|nil @Returns true if this is a header and it has added data to the tooltip, otherwise false, or nil if it's not a header request.
+    ---@return boolean? @Returns true if this is a header and it has added data to the tooltip, otherwise false, or nil if it's not a header request.
     local function AppendBestRunToTooltip(tooltip, keystoneProfile, state, isHeader)
         local options = state.options
         local showLFD = Has(options, render.Flags.SHOW_LFD)
         local best = { dungeon = nil, level = 0, chests = 0 } ---@type BestRun
-        local overallBest = { dungeon = nil, level = 0, chests = 0 } ---@type BestRun
+        local overallBest = { dungeon = nil, level = 0, chests = 0 } ---@type OverallBestRun
         overallBest.dungeon = keystoneProfile.maxDungeon
         overallBest.level = keystoneProfile.maxDungeonLevel
         overallBest.chests = keystoneProfile.dungeonUpgrades[keystoneProfile.maxDungeonIndex]
@@ -6771,10 +6761,10 @@ do
         return lines, lineWidth, maxWidth
     end
 
-    ---@type table<DungeonRaid, string>|nil
+    ---@type table<DungeonRaid, string>?
     local CACHED_FATED_RAIDS_MAP
 
-    ---@return table<DungeonRaid, string>|nil
+    ---@return table<DungeonRaid, string>?
     local function InitCachedFatedRaidsMap()
         local cache = CACHED_FATED_RAIDS_MAP
         if cache then
@@ -6932,7 +6922,7 @@ do
         ProcessFatedRaids(raidProgress)
         local focusDungeon = showLFD and util:GetLFDStatusForCurrentActivity(state.args and state.args.activityID)
         local raidGroups = {} ---@type RaidProgressExtended[]
-        local hasShown = false ---@type boolean|nil
+        local hasShown = false ---@type boolean?
         for i = 1, #raidProgress do
             local progress = raidProgress[i]
             ---@type RaidProgressExtended
@@ -7029,7 +7019,7 @@ do
                         end
                     end
                 end
-                if isKeystoneBlockShown then
+                if keystoneProfile and isKeystoneBlockShown then
                     local headlineMode = config:Get("mplusHeadlineMode")
                     if showHeader then
                         if headlineMode == ns.HEADLINE_MODE.BEST_SEASON then
@@ -7192,7 +7182,7 @@ do
                         AppendRaidProgressToTooltip(tooltip, raidProfile, state, hasMod or hasModSticky, showLFD)
                     end
                 end
-                if isRecruitmentBlockShown then
+                if recruitmentProfile and isRecruitmentBlockShown then
                     if showPadding and (isKeystoneBlockShown or isRaidBlockShown) then
                         tooltip:AddLine(" ")
                     end
@@ -7836,8 +7826,12 @@ if IS_RETAIL then
     ---@param member DataProviderCharacterProfile
     ---@param dungeon Dungeon
     local function GetSortedDungeonForMember(member, dungeon)
-        for i = 1, #member.mythicKeystoneProfile.sortedDungeons do
-            local sortedDungeon = member.mythicKeystoneProfile.sortedDungeons[i]
+        local profile = member.mythicKeystoneProfile
+        if not profile then
+            return
+        end
+        for i = 1, #profile.sortedDungeons do
+            local sortedDungeon = profile.sortedDungeons[i]
             if sortedDungeon.dungeon == dungeon then
                 if sortedDungeon.level > 0 then
                     return sortedDungeon
@@ -8357,9 +8351,9 @@ do
     end
 
     ---@class ConfigProfilePoint
-    ---@field public point string|nil
-    ---@field public x number|nil
-    ---@field public y number|nil
+    ---@field public point string?
+    ---@field public x number?
+    ---@field public y number?
 
     ---@return Frame frame, string FrameStrata Returns the used frame and strata after logical checks have been performed on the provided frame and strata values.
     local function SetUserAnchor()
@@ -11261,9 +11255,9 @@ if IS_RETAIL then
                 self.MDI:SetBackdropColor(0, 0, 0, 0.25)
             end
 
-            ---@param previous Region|nil
-            ---@param middlePadding number|nil
-            ---@param fontObject FontObject|nil
+            ---@param previous Region?
+            ---@param middlePadding number?
+            ---@param fontObject FontObject?
             local function CreateTextRowMDI(previous, middlePadding, fontObject)
                 middlePadding = middlePadding or 0
                 fontObject = fontObject or "GameFontNormalHuge4"
@@ -11512,7 +11506,7 @@ if IS_RETAIL then
                 return
             end
             self.timerID = timerID
-            self.elapsedTime = elapsedTime
+            self.elapsedTime = elapsedTime or 0
             self.isActive = isActive
             if isActive then
                 self.elapsedTimer = 0
@@ -13510,7 +13504,7 @@ do
                         return
                     end
                     local profile = GetRecruitmentProfileForDropDown()
-                    if profile then
+                    if profile and profile.recruitmentProfile then
                         util:ShowCopyRaiderIORecruitmentProfilePopup(profile.recruitmentProfile.entityType, selected.name, selected.realm)
                     end
                 end,
@@ -15504,8 +15498,8 @@ if IS_RETAIL then
         end
         local buildIndex = build.buildIndex
         local index = dataProvider:FindIndex(build)
-        local prevBuild = dataProvider:Find(index - 1)
-        local nextBuild = dataProvider:Find(index + 1)
+        local prevBuild = index and dataProvider:Find(index - 1)
+        local nextBuild = index and dataProvider:Find(index + 1)
         local isPrevBuildSame = buildIndex == (prevBuild and prevBuild.buildIndex)
         local isNextBuildSame = buildIndex == (nextBuild and nextBuild.buildIndex)
         local isBothBuildSame = isPrevBuildSame and isNextBuildSame
