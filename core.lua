@@ -852,30 +852,47 @@ local StaticPopupUtil do
 end
 
 -- clients have API naming variants and this helps bridge that gap (this will require revisions/deletion as the clients unify their API's)
-local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo or C_Item.GetDetailedItemLevelInfo ---@diagnostic disable-line: deprecated
-local GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic disable-line: deprecated
-local GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic disable-line: deprecated
-local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic disable-line: deprecated
+local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo or C_Item.GetDetailedItemLevelInfo ---@diagnostic expect-line: deprecated
+local GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic expect-line: deprecated
+local GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic expect-line: deprecated
+local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic expect-line: deprecated
 local ReloadUI = ReloadUI or C_UI.Reload
-local issecretvalue = issecretvalue or function(value) return false end ---@type fun(value: any): boolean
 
----@param tbl table
----@param ... string
-local function issecretvaluekey(tbl, ...)
-    if issecretvalue(tbl) then
+local issecretvalue
+local canaccesstablekey
+do
+
+    local _issecretvalue = _G.issecretvalue
+
+    ---@secret-guard value is-secret
+    ---@param value any
+    ---@return boolean
+    function issecretvalue(value)
+        return _issecretvalue and _issecretvalue(value) and true or false
+    end
+
+    ---@secret-guard tbl accessible
+    ---@generic T: table
+    ---@param tbl T
+    ---@param ... keyof T
+    function canaccesstablekey(tbl, ...)
+        if issecretvalue(tbl) then
+            return false
+        end
+        for _, key in ipairs({...}) do
+            local value = tbl[key]
+            if issecretvalue(value) then
+                return false
+            end
+        end
         return true
     end
-    for _, key in ipairs({...}) do
-        local value = tbl[key]
-        if issecretvalue(value) then
-            return true
-        end
-    end
-    return false
+
 end
 
 -- `UnitTokenFromGUID` resolves interaction tokens such as `target` and `mouseover`, but returns nil for a party or raid member's guid while a unit tooltip is being built, so unit frames showing group members supply no token there.
 -- This routine will attempt to resolve the player, party and raid members by checking against their UnitGUID. If a match is found, we use that as the unit token for the return value.
+---@secret-args none guid
 ---@param guid string
 ---@return UnitToken? unit
 local function GetGroupUnitTokenFromGUID(guid)
@@ -888,6 +905,7 @@ local function GetGroupUnitTokenFromGUID(guid)
     end
     for i = 1, count do
         local unit = format("%s%d", prefix, i)
+        ---@type secret<string>
         local unitGuid = UnitGUID(unit)
         if not issecretvalue(unitGuid) and unitGuid == guid then
             return unit
@@ -896,8 +914,8 @@ local function GetGroupUnitTokenFromGUID(guid)
 end
 
 -- The `GameTooltip.IsTooltipType` doesn't exist in older flavors. In which case we will call the legacy `GetUnit` as those flavors don't have the secret value system.
----@param tooltip GameTooltip | { IsTooltipType: (fun(self: GameTooltip, type: Enum.TooltipDataType): boolean)?, GetPrimaryTooltipData: fun(self: GameTooltip): { guid: string? }? }
----@return nil nil, UnitToken? unit, string? guid
+---@param tooltip GameTooltip | { IsTooltipType: (fun(self: GameTooltip, type: Enum.TooltipDataType): boolean)?, GetPrimaryTooltipData: fun(self: GameTooltip): { guid?: secret<string> }? }
+---@return nil nil, secret<UnitToken?> unit, secret<string?> guid
 local function GetTooltipUnit(tooltip)
     if not tooltip.IsTooltipType then
         return tooltip:GetUnit()
@@ -913,6 +931,7 @@ local function GetTooltipUnit(tooltip)
     if issecretvalue(guid) or not guid then
         return
     end
+    ---@type secret<UnitToken?>
     local unit = UnitTokenFromGUID(guid)
     if issecretvalue(unit) or not unit then
         unit = GetGroupUnitTokenFromGUID(guid)
@@ -1877,14 +1896,14 @@ do
     ---@class TalentBuildsRoutes
     ---@field public season string `season-mn-1`
     ---@field public specPageSlugs table<string, string> `{ ["62"] = "arcane-mage", ... }`
-    ---@field public dungeonOrder "all"|string[] `{ "all", "16573", ... }`
+    ---@field public dungeonOrder ("all"|string)[] `{ "all", "16573", ... }`
     ---@field public dungeons table<string, string> `{ ["4813"] = "pit-of-saron", ["6988"] = "skyreach", ... }`
     ---@field public bracketOrder TalentBuildsDungeonDifficultyKey[] `{ "6-9", "10-99", ... }`
     ---@field public raidOrder string[] `{ "8062", "16340", ... }`
     ---@field public raids table<string, string> `{ ["16340"] = "tier-mn-1", ... }`
     ---@field public encounters table<string, string> `{ ["3159"] = "rotmire", ["3176"] = "imperator-averzian", ... }`
     ---@field public encounterJournalIds table<string, number> `{ ["3159"] = 2711, ["3176"] = 2733, ... }`
-    ---@field public encounterOrder table<string, "all"|string[]> `{ ["16340"] = { "all", "3176", "3177", ... }, ... }`
+    ---@field public encounterOrder table<string, ("all"|string)[]> `{ ["16340"] = { "all", "3176", "3177", ... }, ... }`
     ---@field public difficultyOrder TalentBuildsRaidDifficultyKey[] `{ "mythic", "heroic", ... }`
     ---@field public raidKillSpeedOrder TalentBuildsRaidSpeedKey[] `{ "all", "fast", "median", ... }`
 
@@ -1960,7 +1979,7 @@ do
     ---@field public OnDisable fun(self: Module) @This function is executed when the module is set to disabled state. Use this for cleanup purposes.
 
     ---@type Module
-    local module = {} ---@diagnostic disable-line: missing-fields
+    local module = {} ---@diagnostic expect-line: missing-fields
 
     ---@return nil
     function module:SetLoaded(state)
@@ -2056,7 +2075,7 @@ do
         return not self:IsLoaded()
     end
 
-    ---@vararg Module
+    ---@param ... Module
     ---@return nil
     function module:OnLoad(...)
         self:Enable()
@@ -2076,7 +2095,7 @@ do
         assert(type(id) == "string", "Raider.IO Module expects NewModule(id[, data]) where id is a string, data is optional table.")
         assert(not modules[id], "Raider.IO Module expects NewModule(id[, data]) where id is a string, that is unique and not already taken.")
         ---@type Module
-        local m = {} ---@diagnostic disable-line: missing-fields
+        local m = {} ---@diagnostic expect-line: missing-fields
         for k, v in pairs(module) do
             m[k] = v
         end
@@ -2141,7 +2160,7 @@ do
 
     handler:SetScript("OnEvent", function(handler, event, ...)
         if event == "COMBAT_LOG_EVENT_UNFILTERED" or event == "COMBAT_LOG_EVENT" then
-            callback:SendEvent(event, CombatLogGetCurrentEventInfo()) ---@diagnostic disable-line: undefined-global
+            callback:SendEvent(event, CombatLogGetCurrentEventInfo()) ---@diagnostic expect-line: undefined-global
         else
             callback:SendEvent(event, ...)
         end
@@ -2680,7 +2699,6 @@ do
         end
         local current = frame ---@type Region?
         while current do
-            ---@diagnostic disable-next-line: need-check-nil
             current = current:GetParent() ---@type Region?
             if not current then
                 return false
@@ -2760,7 +2778,7 @@ do
         return 2
     end
 
-    ---@diagnostic disable-next-line: undefined-global
+    ---@diagnostic expect-next-line: undefined-global
     local GetMouseFocus = GetMouseFocus ---@type (fun(): ScriptRegion?)?
 
     ---@return Frame|ScriptRegion? focus
@@ -2861,14 +2879,14 @@ do
         local utc = date("!*t", ts)
         local loc = date("*t", ts)
         loc.isdst = false
-        return difftime(time(loc), time(utc)) ---@diagnostic disable-line: param-type-mismatch
+        return difftime(time(loc), time(utc)) ---@diagnostic expect-line: param-type-mismatch
     end
 
     ---@param dateString string @A date like "2017-06-03T00:41:07Z"
     ---@return number @A time() number
     function util:GetTimeFromDateString(dateString)
         local year, month, day, hours, minutes, seconds = dateString:match("^(%d+)%-(%d+)%-(%d+)T(%d+):(%d+):(%d+).*Z$")
-        return time({ year = year, month = month, day = day, hour = hours, min = minutes, sec = seconds }) ---@diagnostic disable-line: missing-fields
+        return time({ year = year, month = month, day = day, hour = hours, min = minutes, sec = seconds })
     end
 
     -- Servers that are **not** `IsOnTournamentRealm`, `IsTestBuild`, or part of `ns.IGNORED_REALMS` are considered retail realms.
@@ -3234,7 +3252,7 @@ do
     ---@return number? activityID
     function util:GetLFDActivityID(data)
         -- TODO `pre-11.0.7`
-        ---@diagnostic disable-next-line: undefined-field
+        ---@diagnostic expect-next-line: undefined-field
         local activityID = data.activityID ---@type number?
         -- TODO `11.0.7`
         if type(activityID) ~= "number" and type(data.activityIDs) == "table" and not issecretvalue(data.activityIDs) then
@@ -3670,13 +3688,16 @@ do
     ---@field public button1? Button Deprecated in 11.2 (Used as fallback strategy in case other clients are using the older variant.)
     ---@field public button2? Button Deprecated in 11.2 (Used as fallback strategy in case other clients are using the older variant.)
 
+    ---@class InternalStaticPopupFrameEditBox : EditBox
+    ---@field public GetParent fun(self: InternalStaticPopupFrameEditBox): InternalStaticPopupFrame
+
     ---@class InternalStaticPopupDialog
     ---@field public id string
     ---@field public which? string
     ---@field public text string|fun(): string
     ---@field public button1? string
     ---@field public button2? string
-    ---@field public EditBoxOnEscapePressed? fun(self: InternalStaticPopupFrame)
+    ---@field public EditBoxOnEscapePressed? fun(self: InternalStaticPopupFrameEditBox)
     ---@field public editBoxWidth? number
     ---@field public hasEditBox? boolean
     ---@field public hasWideEditBox? boolean
@@ -3723,9 +3744,7 @@ do
             button:SetWidth(200)
             button:SetPoint("CENTER", editBox, "CENTER", 0, -30)
         end,
-        EditBoxOnEscapePressed = function(self)
-            self:GetParent():Hide() ---@diagnostic disable-line: undefined-field
-        end,
+        EditBoxOnEscapePressed = function(self) self:GetParent():Hide() end,
         OnHide = nil,
         OnAccept = nil,
         OnCancel = nil
@@ -4130,16 +4149,16 @@ do
         group.Scale1:SetSmoothing("IN_OUT")
         group.Scale1:SetStartDelay(0)
         group.Scale1:SetDuration(duration)
-        group.Scale1:SetScaleFrom(0, 0) ---@diagnostic disable-line: undefined-field
-        group.Scale1:SetScaleTo(1, 1) ---@diagnostic disable-line: undefined-field
+        group.Scale1:SetScaleFrom(0, 0)
+        group.Scale1:SetScaleTo(1, 1)
         group.Scale2 = group:CreateAnimation("Scale")
         group.Scale2:SetTarget(target)
         group.Scale2:SetOrder(2)
         group.Scale2:SetSmoothing("IN_OUT")
         group.Scale2:SetStartDelay(duration)
         group.Scale2:SetDuration(duration)
-        group.Scale2:SetScaleFrom(1, 1) ---@diagnostic disable-line: undefined-field
-        group.Scale2:SetScaleTo(0, 0) ---@diagnostic disable-line: undefined-field
+        group.Scale2:SetScaleFrom(1, 1)
+        group.Scale2:SetScaleTo(0, 0)
         group:HookScript("OnPlay", function() target:Show() end)
         group:HookScript("OnStop", function() group.SkipPause = false target:Hide() end)
         group.Alpha1:HookScript("OnFinished", function() if not group.SkipPause then group:Pause() end end)
@@ -4350,7 +4369,7 @@ do
         OnHide = function() json:CloseCopyDialog() end,
         OnAccept = nil,
         OnCancel = nil,
-        EditBoxOnEscapePressed = function(self) self:GetParent():Hide() end ---@diagnostic disable-line: undefined-field
+        EditBoxOnEscapePressed = function(self) self:GetParent():Hide() end
     }
 
     ---@type RaiderIOExportButton
@@ -5416,7 +5435,7 @@ do
     ---@param region? RegionString
     local function UnpackMythicKeystoneData(bucket, baseOffset, encodingOrder, keystoneMilestoneLevels, providerOutdated, providerBlocked, name, realm, region)
         ---@type DataProviderMythicKeystoneProfile
-        local results = { outdated = providerOutdated, hasRenderableData = false } ---@diagnostic disable-line: missing-fields
+        local results = { outdated = providerOutdated, hasRenderableData = false } ---@diagnostic expect-line: missing-fields
         if providerBlocked then
             if name and util:IsUnitPlayer(name, realm, region) then
                 results.softBlocked = providerBlocked
@@ -5677,7 +5696,7 @@ do
     ---@param field DataProviderRaidProgressFields
     local function UnpackSummaryRaidProgress(bucket, raid, offset, results, field)
         ---@type DataProviderRaidProgress
-        local prog = { raid = raid } ---@diagnostic disable-line: missing-fields
+        local prog = { raid = raid } ---@diagnostic expect-line: missing-fields
         local bitOffset = offset
         prog.difficulty, bitOffset = ReadBitsFromString(bucket, bitOffset, 2)
         prog.difficulty = prog.difficulty + 1
@@ -5699,7 +5718,7 @@ do
     ---@param results DataProviderRaidProfile
     local function UnpackFullRaidProgress(bucket, raid, offset, results)
         ---@type DataProviderRaidProgress
-        local prog = { raid = raid, progressCount = 0 } ---@diagnostic disable-line: missing-fields
+        local prog = { raid = raid, progressCount = 0 } ---@diagnostic expect-line: missing-fields
         local bitOffset = offset
         local value
         prog.difficulty, bitOffset = ReadBitsFromString(bucket, bitOffset, 2)
@@ -5839,7 +5858,7 @@ do
     ---@param provider DataProvider
     local function UnpackRecruitmentData(bucket, baseOffset, provider)
         ---@type DataProviderRecruitmentProfile
-        local results = { outdated = provider.outdated, hasRenderableData = false } ---@diagnostic disable-line: missing-fields
+        local results = { outdated = provider.outdated, hasRenderableData = false } ---@diagnostic expect-line: missing-fields
         local encodingOrder = provider.encodingOrder
         local bitOffset = (baseOffset - 1) * 8
         local value
@@ -5913,7 +5932,7 @@ do
             if cache then
                 return cache
             end
-            local profile = UnpackMythicKeystoneData(nil, nil, nil, nil, true, true, name, realm, provider.region) ---@diagnostic disable-line: param-type-mismatch
+            local profile = UnpackMythicKeystoneData(nil, nil, nil, nil, true, true, name, realm, provider.region) ---@diagnostic expect-line: param-type-mismatch
             profile.blockedPurged = true
             mythicKeystoneProfileCache[guid] = profile
             return profile
@@ -6415,13 +6434,13 @@ do
     ---@field public UnitSmartPadding function @same as Unit, but if arg1 is set, padding flag is added, otherwise removed.
 
     ---@type RenderPreset
-    render.Preset = { ---@diagnostic disable-line: missing-fields
+    render.Preset = { ---@diagnostic expect-line: missing-fields
         Unit = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.UNIT_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_LFD),
         Profile = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.PROFILE_TOOLTIP, render.Flags.MOD_STICKY, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_NAME, render.Flags.SHOW_LFD),
         Keystone = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.KEYSTONE_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_LFD),
     }
 
-    render.Preset.UnitNoPadding = bxor(render.Preset.Unit, render.Flags.SHOW_PADDING) ---@diagnostic disable-line: param-type-mismatch
+    render.Preset.UnitNoPadding = bxor(render.Preset.Unit, render.Flags.SHOW_PADDING) ---@diagnostic expect-line: param-type-mismatch
 
     local function IsModifierKeyDownOrAlwaysExtend()
         return IsModifierKeyDown() or config:Get("alwaysExtendTooltip")
@@ -6473,7 +6492,7 @@ do
         ---@type TooltipState
         local state = tooltipStates[tooltip]
         if not state then
-            state = {} ---@diagnostic disable-line: missing-fields
+            state = {} ---@diagnostic expect-line: missing-fields
             tooltipStates[tooltip] = state
         end
         return state
@@ -6604,7 +6623,7 @@ do
         end
         if best.dungeon and best.level > 0 then
             local label, r, g, b = L.BEST_FOR_DUNGEON, 1, 1, 1
-            hasHeaderData = isHeader ---@diagnostic disable-line: cast-local-type
+            hasHeaderData = isHeader
             if best.dungeon == keystoneProfile.maxDungeon then
                 if isHeader then
                     label, r, g, b = L.RAIDERIO_BEST_RUN, 1, 0.85, 0
@@ -6712,7 +6731,7 @@ do
                     members[index] = {
                         unit = unit,
                         level = level,
-                        name = UnitNameUnmodified(unit), ---@diagnostic disable-line: assign-type-mismatch
+                        name = UnitNameUnmodified(unit), ---@diagnostic expect-line: assign-type-mismatch
                         chests = profile.mythicKeystoneProfile.dungeonUpgrades[dungeon.index]
                     }
                 end
@@ -6926,7 +6945,7 @@ do
         for i = 1, #raidProgress do
             local progress = raidProgress[i]
             ---@type RaidProgressExtended
-            local raidGroup = { ---@diagnostic disable-line: missing-fields
+            local raidGroup = { ---@diagnostic expect-line: missing-fields
                 progress = progress,
             }
             raidGroups[i] = raidGroup
@@ -7205,7 +7224,7 @@ do
                     if easterEgg then
                         easterEgg = easterEgg[profile.realm]
                         if easterEgg then
-                            easterEgg = easterEgg[profile.name] ---@diagnostic disable-line: cast-local-type
+                            easterEgg = easterEgg[profile.name] ---@diagnostic expect-line: cast-local-type
                         end
                     end
                     if showPadding and (not showTopLinePadding or isAnyBlockShown) and (isBlocked or isOutdated or easterEgg) then
@@ -7276,10 +7295,9 @@ do
     ---@param state TooltipState
     local function UpdateTooltip(tooltip, state)
         -- if unit simply refresh the unit and the original hook will force update the tooltip with the desired behavior
-        ---@type _, string?
         local _, tooltipUnit = GetTooltipUnit(tooltip)
         if tooltipUnit then
-            ---@diagnostic disable-next-line: undefined-field
+            ---@diagnostic expect-next-line: undefined-field
             local refreshData = tooltip.RefreshData ---@type fun(self: GameTooltip)?
             if refreshData then
                 refreshData(tooltip)
@@ -7317,10 +7335,10 @@ do
         if o1 then
             o2 = a1
             if p4 then
-                o3 = p4 ---@diagnostic disable-line: cast-local-type
+                o3 = p4
             end
             if p5 then
-                o4 = p5 ---@diagnostic disable-line: cast-local-type
+                o4 = p5
             end
             tooltip:SetOwner(o1, o2, o3, o4)
         end
@@ -7376,7 +7394,6 @@ do
         if (config:Get("showScoreModifier") and not IsModifierKeyDown()) or (not config:Get("showScoreModifier") and not config:Get("showScoreInCombat") and InCombatLockdown()) then
             return
         end
-        ---@type _, string?
         local _, unit = GetTooltipUnit(self)
         -- HOTFIX: UnitIsPlayer will error if unit is a secret value and tainted (we can't check if it's tainted or not, so this aborts the routine to be on the safe side)
         if not unit or issecretvalue(unit) or not UnitIsPlayer(unit) or not util:IsUnitMaxLevel(unit) then
@@ -7451,10 +7468,10 @@ do
     ---@field public accountInfo BNetAccountInfo
 
     ---@type FriendsTooltipPolyfill
-    local FriendsTooltip = _G.FriendsTooltip ---@diagnostic disable-line: undefined-field
+    local FriendsTooltip = _G.FriendsTooltip ---@diagnostic expect-line: undefined-field
 
     ---@type SocialUIFrameFriendsListScrollBoxPolyfill
-    local SocialUIFrameFriendsListScrollBox = _G.SocialUIFrame and _G.SocialUIFrame.FriendsList and _G.SocialUIFrame.FriendsList.ScrollBox ---@diagnostic disable-line: undefined-field
+    local SocialUIFrameFriendsListScrollBox = _G.SocialUIFrame and _G.SocialUIFrame.FriendsList and _G.SocialUIFrame.FriendsList.ScrollBox ---@diagnostic expect-line: undefined-field
 
     ---@param self FriendsTooltipPolyfill
     local function FriendsTooltip_Show(self)
@@ -7787,7 +7804,7 @@ if IS_RETAIL then
         end
         local side, _, _, confidence = CompareLevelAndFractionalTime(run.level, currentRun.level, run.fractionalTime, currentRun.fractionalTime)
         ---@type DungeonDifference
-        local diff = {} ---@diagnostic disable-line: missing-fields
+        local diff = {} ---@diagnostic expect-line: missing-fields
         diff.confidence = confidence
         diff.levelDiff = 0
         diff.fractionalTimeDiff = 0
@@ -7880,7 +7897,7 @@ if IS_RETAIL then
         if not bestRun or not bestRun.level then
             bestIsCurrentRun = true
             bestRun = CopyRun(currentRun)
-            bestUpgrade = {} ---@diagnostic disable-line: missing-fields
+            bestUpgrade = {} ---@diagnostic expect-line: missing-fields
         elseif bestRun == dbRun then
             bestRun = CopyRun(dbRun)
         end
@@ -7895,12 +7912,12 @@ if IS_RETAIL then
                 bestUpgrade.levelDiff = currentRun.level - bestRun.level
                 bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
             end
-            bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0) ---@diagnostic disable-line: need-check-nil
+            bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0) ---@diagnostic expect-line: need-check-nil
             bestRun.chests = currentRun.chests
             bestRun.level = currentRun.level
             bestRun.fractionalTime = currentRun.fractionalTime
         end
-        return bestRun, bestUpgrade ---@diagnostic disable-line: return-type-mismatch
+        return bestRun, bestUpgrade
     end
 
     ---@param members DataProviderCharacterProfile[] @Table of group member profiles
@@ -8104,7 +8121,7 @@ if IS_RETAIL then
     ---@param dungeon Dungeon
     local function GetCurrentRun(dungeon, level, fractionalTime, keystoneUpgradeLevels)
         ---@type SortedDungeon
-        local run = {} ---@diagnostic disable-line: missing-fields
+        local run = {} ---@diagnostic expect-line: missing-fields
         run.chests = keystoneUpgradeLevels
         run.dungeon = dungeon
         run.fractionalTime = fractionalTime
@@ -8173,7 +8190,7 @@ if IS_RETAIL then
             local info = C_ChallengeMode.GetChallengeCompletionInfo()
             mapID, level, time, onTime, keystoneUpgradeLevels, practiceRun, oldDungeonScore, newDungeonScore, isAffixRecord, isMapRecord, primaryAffix, isEligibleForScore, upgradeMembers = info.mapChallengeModeID, info.level, info.time, info.onTime, info.keystoneUpgradeLevels, info.practiceRun, info.oldOverallDungeonScore, info.newOverallDungeonScore, info.isAffixRecord, info.isMapRecord, 0, info.isEligibleForScore, info.members
         else
-            mapID, level, time, onTime, keystoneUpgradeLevels, practiceRun, oldDungeonScore, newDungeonScore, isAffixRecord, isMapRecord, primaryAffix, isEligibleForScore, upgradeMembers = C_ChallengeMode.GetCompletionInfo() ---@diagnostic disable-line: deprecated
+            mapID, level, time, onTime, keystoneUpgradeLevels, practiceRun, oldDungeonScore, newDungeonScore, isAffixRecord, isMapRecord, primaryAffix, isEligibleForScore, upgradeMembers = C_ChallengeMode.GetCompletionInfo() ---@diagnostic expect-line: deprecated
         end
         if not practiceRun then
             local bannerData = { mapID = mapID, level = level, time = time, onTime = onTime, keystoneUpgradeLevels = keystoneUpgradeLevels or 0, oldDungeonScore = oldDungeonScore, newDungeonScore = newDungeonScore, isAffixRecord = isAffixRecord, isMapRecord = isMapRecord, primaryAffix = primaryAffix, isEligibleForScore = isEligibleForScore, upgradeMembers = upgradeMembers } ---@type ChallengeModeCompleteBannerData
@@ -8533,7 +8550,7 @@ do
     ---@return boolean
     function profile:ShowProfile(anchor, ...)
         if not profile:IsEnabled() or not config:Get("showRaiderIOProfile") then
-            return ---@diagnostic disable-line: missing-return-value
+            return ---@diagnostic expect-line: missing-return-value
         end
         showProfileArgs = { anchor, ... }
         tooltipAnchorPriority[1].name = anchor
@@ -8544,7 +8561,7 @@ do
         local isPlayer = IsPlayer(unit, name, realm, region)
         if not isPlayer and config:Get("enableProfileModifier") and band(options, render.Flags.IGNORE_MOD) ~= render.Flags.IGNORE_MOD then
             if config:Get("inverseProfileModifier") == (config:Get("alwaysExtendTooltip") or band(options, render.Flags.MOD) == render.Flags.MOD) then
-                unit, name, realm = "player", nil, nil ---@diagnostic disable-line: cast-local-type
+                unit, name, realm = "player", nil, nil ---@diagnostic expect-line: cast-local-type
             end
         end
         tooltip:SetOwner(tooltipAnchor, "ANCHOR_NONE")
@@ -8625,7 +8642,7 @@ if not IS_CLASSIC_ERA then
     ---@field public keystoneLevel number
 
     ---@type LfgResult
-    local currentResult = {} ---@diagnostic disable-line: missing-fields
+    local currentResult = {} ---@diagnostic expect-line: missing-fields
 
     ---@type table<LFGListFrameWildcardFrame|GameTooltip, boolean?>
     local hooked = {}
@@ -8647,7 +8664,7 @@ if not IS_CLASSIC_ERA then
             return
         end
         local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-        if not searchResultInfo or issecretvaluekey(searchResultInfo, "leaderName", "leaderFactionGroup", "isWarMode", "leaderOverallDungeonScore", "name", "comment") or not searchResultInfo.leaderName then
+        if not searchResultInfo or not canaccesstablekey(searchResultInfo, "leaderName", "leaderFactionGroup", "isWarMode", "leaderOverallDungeonScore", "name", "comment") or not searchResultInfo.leaderName then
             table.wipe(currentResult)
             return
         end
@@ -9074,7 +9091,7 @@ if IS_RETAIL then
         end
         local keystone = currentKeystone[self]
         if not keystone then
-            keystone = {} ---@diagnostic disable-line: missing-fields
+            keystone = {} ---@diagnostic expect-line: missing-fields
             currentKeystone[self] = keystone
         end
         if not UpdateKeystoneInfo(keystone, link) then
@@ -9140,7 +9157,7 @@ if IS_RETAIL then
     local function ConvertRunData(runInfo)
         local dungeon = util:GetDungeonByKeystoneID(runInfo.mapChallengeModeID)
         ---@type GuildMythicKeystoneRun
-        local runData = { ---@diagnostic disable-line: missing-fields
+        local runData = { ---@diagnostic expect-line: missing-fields
             dungeon = dungeon,
             zone_id = dungeon and dungeon.id or 0,
             level = runInfo.keystoneLevel or 0,
@@ -9149,7 +9166,7 @@ if IS_RETAIL then
         }
         for i = 1, #runInfo.members do
             local member = runInfo.members[i]
-            runData.party[i] = { ---@diagnostic disable-line: missing-fields
+            runData.party[i] = { ---@diagnostic expect-line: missing-fields
                 name = member.name,
                 class_id = CLASS_FILENAME_TO_ID[member.classFileName] or 0
             }
@@ -9215,7 +9232,7 @@ if IS_RETAIL then
     local frame
 
     ---@type GuildWeeklyFrame
-    local GuildWeeklyRunMixin = {} ---@diagnostic disable-line: missing-fields
+    local GuildWeeklyRunMixin = {} ---@diagnostic expect-line: missing-fields
 
     ---@param runInfo GuildMythicKeystoneRun
     ---@return boolean? @true if successfull, otherwise false if we can't display this run
@@ -9312,7 +9329,7 @@ if IS_RETAIL then
     end
 
     ---@type GuildWeeklyFrame
-    local GuildWeeklyFrameMixin = {} ---@diagnostic disable-line: missing-fields
+    local GuildWeeklyFrameMixin = {} ---@diagnostic expect-line: missing-fields
 
     function GuildWeeklyFrameMixin:Refresh()
         local guildName = GetGuildFullName("player")
@@ -9393,18 +9410,23 @@ if IS_RETAIL then
         self:Refresh()
     end
 
+    ---@param self GuildWeeklyFrame
+    ---@param delta number
     local function GuildWeeklyFrame_OnMouseWheel(self, delta)
         self.offset = max(0, min(self.maxVisible, delta > 0 and -1 or 1))
         self:Refresh()
     end
 
+    ---@param self UICheckButtonTemplatePolyfill
     local function GuildWeeklyFrameSwitch_OnShow(self)
         self:SetChecked(config:Get("displayWeeklyGuildBest"))
     end
 
+    ---@param self UICheckButtonTemplatePolyfill
     local function GuildWeeklyFrameSwitch_OnClick(self)
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-        self:GetParent():SwitchBestRun()
+        local parent = self:GetParent() ---@type GuildWeeklyFrame
+        parent:SwitchBestRun()
     end
 
     local function CreateGuildWeeklyFrame()
@@ -9697,7 +9719,7 @@ if IS_RETAIL then
             return replayEvent._replayEventInfo
         end
         ---@type ReplayEventInfo
-        local replayEventInfo = {} ---@diagnostic disable-line: missing-fields
+        local replayEventInfo = {} ---@diagnostic expect-line: missing-fields
         local anyBossesInCombat = false
         replayEventInfo.timer = replayEvent[1]
         replayEventInfo.event = replayEvent[2]
@@ -9707,7 +9729,7 @@ if IS_RETAIL then
             replayEventInfo.forces = replayEvent[3]
         elseif replayEventInfo.event == 3 or replayEventInfo.event == 4 then
             ---@type ReplayBossInfo
-            local bossInfo = {} ---@diagnostic disable-line: missing-fields
+            local bossInfo = {} ---@diagnostic expect-line: missing-fields
             bossInfo.index = replayEvent[3] + 1 -- convert to 1-based index
             bossInfo.pulls = replayEvent[4]
             bossInfo.combat = replayEvent[5]
@@ -9859,7 +9881,7 @@ if IS_RETAIL then
         function BossFrameMixin:Setup(bossRows, index)
             self.bossRows = bossRows
             self.index = index
-            self.Name:SetText(self.index) ---@diagnostic disable-line: param-type-mismatch
+            self.Name:SetText(self.index) ---@diagnostic expect-line: param-type-mismatch
             self.InfoL:SetText("")
             self.InfoR:SetText("")
             self:SetBackgroundColor(replayFrame:GetBackgroundColor())
@@ -9927,7 +9949,7 @@ if IS_RETAIL then
             end
             local bossRow = self.bossRows[index]
             if not bossRow then
-                return ---@diagnostic disable-line: missing-return-value
+                return ---@diagnostic expect-line: missing-return-value
             end
             return bossRow.liveBoss, bossRow.replayBoss
         end
@@ -10230,7 +10252,7 @@ if IS_RETAIL then
             end
             for index, encounter in ipairs(replay.encounters) do
                 ---@type ReplayBoss
-                local boss = {} ---@diagnostic disable-line: missing-fields
+                local boss = {} ---@diagnostic expect-line: missing-fields
                 boss.encounter = encounter
                 boss.index = index
                 boss.order = index
@@ -10420,7 +10442,7 @@ if IS_RETAIL then
                             local boss = liveSummary.bosses[index]
                             if not boss then
                                 ---@type ReplayBoss
-                                boss = setmetatable({}, ReplayBossLiveMetatable) ---@diagnostic disable-line: missing-fields
+                                boss = setmetatable({}, ReplayBossLiveMetatable)
                                 boss.index = i
                                 boss.order = i
                                 boss.combat = false
@@ -11648,7 +11670,7 @@ if IS_RETAIL then
                     local boss = liveSummary.bosses[i]
                     if not boss then
                         ---@type ReplayBoss
-                        boss = {} ---@diagnostic disable-line: missing-fields
+                        boss = {} ---@diagnostic expect-line: missing-fields
                         boss.encounter = encounter
                         boss.index = i
                         boss.order = encounter.ordinal + 1
@@ -13014,7 +13036,7 @@ do
         end
         local pattern = config:Get("debugMode") and "^(%S+)%s*(%S*)%s*(%S*)$" or "^(%S+)%s*(%S*)$"
         local arg1, arg2, arg3 = query:match(pattern)
-        arg1, arg2, arg3 = (arg1 or ""):trim(), (arg2 or ""):trim(), (arg3 or ""):trim() ---@diagnostic disable-line: undefined-field
+        arg1, arg2, arg3 = (arg1 or ""):trim(), (arg2 or ""):trim(), (arg3 or ""):trim()
         arg2 = arg2 ~= "" and arg2 or GetNormalizedRealmName()
         arg3 = arg3 ~= "" and arg3 or ns.PLAYER_REGION
         local arg3q = GetRegions(arg3, 1, 0, true)
@@ -13051,7 +13073,7 @@ do
     ---@return boolean hasProfile, string region, string realm, string name
     function search:SearchHasProfile()
         if not self:IsEnabled() then
-            return ---@diagnostic disable-line: missing-return-value
+            return ---@diagnostic expect-line: missing-return-value
         end
         return searchTooltip.hasProfile, searchRegionBox:GetText(), searchRealmBox:GetText(), searchNameBox:GetText()
     end
@@ -13374,7 +13396,7 @@ do
         local resultID = owner.resultID
         if resultID then
             local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
-            if searchResultInfo and not issecretvaluekey(searchResultInfo, "leaderName", "leaderFactionGroup") then
+            if searchResultInfo and canaccesstablekey(searchResultInfo, "leaderName", "leaderFactionGroup") then
                 local name, realm = util:GetNameRealm(searchResultInfo.leaderName)
                 local faction = searchResultInfo.leaderFactionGroup
                 return name, realm, nil, nil, faction
@@ -13479,7 +13501,7 @@ do
     function dropdown:OnLoad()
         self:Enable()
         unitOptions = {
-            { ---@diagnostic disable-line: missing-fields
+            { ---@diagnostic expect-line: missing-fields
                 text = L.SHOW_RAIDERIO_PROFILE_OPTION,
                 func = function()
                     ShowSearchAndProfile()
@@ -13488,7 +13510,7 @@ do
                     return util:ProfileHasRenderableData(GetProfileForDropDown())
                 end
             },
-            { ---@diagnostic disable-line: missing-fields
+            { ---@diagnostic expect-line: missing-fields
                 text = L.COPY_RAIDERIO_PROFILE_URL,
                 func = function()
                     if DropDownOptionModifiedClickHandler() then
@@ -13497,7 +13519,7 @@ do
                     util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
                 end
             },
-            { ---@diagnostic disable-line: missing-fields
+            { ---@diagnostic expect-line: missing-fields
                 text = L.COPY_RAIDERIO_RECRUITMENT_URL,
                 func = function()
                     if DropDownOptionModifiedClickHandler() then
@@ -13857,7 +13879,7 @@ if IS_RETAIL then
             newsInfo.year = newsInfo.year + 2000
             newsInfo.month = newsInfo.month + 1
             newsInfo.day = newsInfo.day + 1
-            local timestamp = time(newsInfo) ---@diagnostic disable-line: param-type-mismatch
+            local timestamp = time(newsInfo) ---@diagnostic expect-line: param-type-mismatch
             if now - timestamp <= LOG_ITEM_LOG_IF_NEWER then
                 HandleLootEntry(LogItemLink(LOG_TYPE.News, itemType, itemID, itemLink, itemCount or 1, nil, timestamp, { who = newsInfo.whoText }))
                 return true
@@ -13915,8 +13937,8 @@ if IS_RETAIL then
         end)
     end
 
-    local LOOT_SLOT_ITEM = LOOT_SLOT_ITEM or Enum.LootSlotType.Item ---@diagnostic disable-line: undefined-global
-    local LOOT_SLOT_CURRENCY = LOOT_SLOT_CURRENCY or Enum.LootSlotType.Currency ---@diagnostic disable-line: undefined-global
+    local LOOT_SLOT_ITEM = LOOT_SLOT_ITEM or Enum.LootSlotType.Item ---@diagnostic expect-line: undefined-global
+    local LOOT_SLOT_CURRENCY = LOOT_SLOT_CURRENCY or Enum.LootSlotType.Currency ---@diagnostic expect-line: undefined-global
 
     local function OnEvent(event, ...)
         if event == "LOOT_READY" then
@@ -14767,10 +14789,10 @@ do
         "UNIT_TARGET",
     }
 
-    local COMBATLOG_OBJECT_AFFILIATION_MINE = _G.COMBATLOG_OBJECT_AFFILIATION_MINE or 0x00000001 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = _G.COMBATLOG_OBJECT_AFFILIATION_OUTSIDER or 0x00000008 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER or 0x00000100 ---@diagnostic disable-line: undefined-field
-    local COMBATLOG_OBJECT_TYPE_PLAYER = _G.COMBATLOG_OBJECT_TYPE_PLAYER or 0x00000400 ---@diagnostic disable-line: undefined-field
+    local COMBATLOG_OBJECT_AFFILIATION_MINE = _G.COMBATLOG_OBJECT_AFFILIATION_MINE or 0x00000001 ---@diagnostic expect-line: undefined-field
+    local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = _G.COMBATLOG_OBJECT_AFFILIATION_OUTSIDER or 0x00000008 ---@diagnostic expect-line: undefined-field
+    local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER or 0x00000100 ---@diagnostic expect-line: undefined-field
+    local COMBATLOG_OBJECT_TYPE_PLAYER = _G.COMBATLOG_OBJECT_TYPE_PLAYER or 0x00000400 ---@diagnostic expect-line: undefined-field
 
     local MINE = bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_CONTROL_PLAYER)
     local OTHER_PLAYER = bor(COMBATLOG_OBJECT_AFFILIATION_OUTSIDER, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PLAYER)
@@ -16970,15 +16992,26 @@ do
         configSliderFrame.scrollStep = 50
         configSliderFrame:SetValue(0)
         configSliderFrame:SetWidth(16)
-        configSliderFrame:SetScript("OnValueChanged", function (self, value)
-            self:GetParent():SetVerticalScroll(value)
-        end)
 
-        configScrollFrame:HookScript("OnMouseWheel", function(self, delta)
-            local currentValue = configSliderFrame:GetValue()
-            local changes = -delta * 50
-            configSliderFrame:SetValue(currentValue + changes)
-        end)
+        configSliderFrame:SetScript(
+            "OnValueChanged",
+            ---@param self RaiderIOSettingsFrameSliderFrame
+            ---@param value number
+            function (self, value)
+                configScrollFrame:SetVerticalScroll(value)
+            end
+        )
+
+        configScrollFrame:HookScript(
+            "OnMouseWheel",
+            ---@param self RaiderIOSettingsFrameSliderFrame
+            ---@param delta number
+            function(self, delta)
+                local currentValue = configSliderFrame:GetValue()
+                local changes = -delta * 50
+                configSliderFrame:SetValue(currentValue + changes)
+            end
+        )
 
         local configFrame = CreateFrame("Frame", nil, configScrollFrame)
         configFrame:SetSize(400, 600) -- resized to proper value below
