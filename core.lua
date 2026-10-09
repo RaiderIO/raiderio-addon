@@ -34,7 +34,7 @@ local ScrollBoxUtil do
     ---@field public update? fun()
 
     ---@param scrollBox ScrollBoxBaseMixin
-    ---@param callback fun(frames: Button[], scrollBox: ScrollBoxBaseMixin)
+    ---@param callback fun(frames: Frame[], scrollBox: ScrollBoxBaseMixin)
     function ScrollBoxUtil:OnViewFramesChanged(scrollBox, callback)
         if not scrollBox then
             return
@@ -8889,16 +8889,24 @@ do
     local util = ns:GetModule("Util") ---@type UtilModule
     local render = ns:GetModule("Render") ---@type RenderModule
 
-    local hooked = {}
-    local completed
+    ---@class CommunityButtonPolyfill : Button
+    ---@field public OnEnter? function
+    ---@field public OnLeave? function
+    ---@field public GetMemberInfo? fun(self: CommunityButtonPolyfill): ClubMemberInfo?
+    ---@field public cardInfo? RecruitingClubInfo
+    ---@field public GetLastPosterGUID? fun(self: CommunityButtonPolyfill): string?
 
+    local hooked = {} ---@type table<CommunityButtonPolyfill, true?>
+    local completed = false
+
+    ---@param self CommunityButtonPolyfill
     local function OnEnter(self)
         if not config:Get("enableGuildTooltips") then
             return
         end
-        local clubType ---@type Enum.ClubType?
-        local nameAndRealm ---@type string?
-        local level ---@type number?
+        local clubType ---@type secret<Enum.ClubType?>
+        local nameAndRealm ---@type secret<string?>
+        local level ---@type secret<number?>
         local faction = ns.PLAYER_FACTION
         if type(self.GetMemberInfo) == "function" then
             local info = self:GetMemberInfo()
@@ -8941,6 +8949,7 @@ do
         end
     end
 
+    ---@param self CommunityButtonPolyfill
     local function OnLeave(self)
         if not config:Get("enableGuildTooltips") then
             return
@@ -8948,6 +8957,7 @@ do
         GameTooltip:Hide()
     end
 
+    ---@param buttons? CommunityButtonPolyfill[]
     local function SmartHookButtons(buttons)
         if not buttons then
             return
@@ -12450,7 +12460,7 @@ if IS_RETAIL then
     ---@field public dungeon_short_name string?
     ---@field public dungeon_name string?
 
-    ---@class PublicReplayBossRow
+    ---@class PublicReplayBossRow : ReplayBossRow
     ---@field public liveBoss ReplayBoss
     ---@field public replayBoss ReplayBoss
 
@@ -12493,7 +12503,7 @@ if IS_RETAIL then
         if not privateBossRows then
             return
         end
-        publicBossRows = util:TableCopy(privateBossRows)
+        publicBossRows = util:TableCopy(privateBossRows) ---@type PublicReplayBossRow[]
         for _, bossRow in ipairs(publicBossRows) do
             bossRow.liveBoss = util:TableCopy(bossRow.liveBoss)
             bossRow.replayBoss = util:TableCopy(bossRow.replayBoss)
