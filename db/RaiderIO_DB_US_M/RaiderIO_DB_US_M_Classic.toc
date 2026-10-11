@@ -1,7 +1,7 @@
-## Interface: 50503
+## Interface: 50504
 ## Title: Raider.IO |cffFFFFFFMythic Plus|r (Americas)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 5.5.3 (@project-version@)
+## Version: 5.5.4 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
