@@ -1,4 +1,4 @@
-## Interface: 120007, 120100
+## Interface: 120100
 ## Title: Raider.IO |cffFFFFFFRaiding|r (Americas)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
 ## Version: 12.1.0 (@project-version@)
