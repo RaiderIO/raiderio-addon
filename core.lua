@@ -405,11 +405,12 @@ local DropDownUtil do
     ---@return number numUpdated
     local function dynamicMenuSelectOption(menu, optionOrPredicate)
         local changed = 0
+        local options = menu.DynamicMenuOptions
         local args = menu.DynamicMenuArgs
-        if not args then
+        if not options or not args then
             return changed
         end
-        for _, option in ipairs(menu.DynamicMenuOptions) do
+        for _, option in ipairs(options) do
             if option == optionOrPredicate or (type(optionOrPredicate) == "function" and optionOrPredicate(option, menu)) then
                 changed = changed + 1
                 if option.checkable then
@@ -3051,12 +3052,13 @@ do
         end
     end
 
+    ---@param unit? UnitToken|string
     ---@return boolean @If the unit provided is a unit token this returns true, otherwise false
     function util:IsUnitToken(unit)
         return type(unit) == "string" and UNIT_TOKENS[unit]
     end
 
-    ---@param arg1 string|UnitToken @"unit", "name", or "name-realm"
+    ---@param arg1? string|UnitToken @"unit", "name", or "name-realm"
     ---@param arg2? string|true @"realm" or nil
     ---@return boolean isUnit
     ---@return boolean? unitExists
@@ -3075,11 +3077,11 @@ do
         return true, UnitExists(arg1), UnitIsPlayer(arg1)
     end
 
-    ---@param arg1 string|UnitToken @"unit", "name", or "name-realm"
+    ---@param arg1? string|UnitToken @"unit", "name", or "name-realm"
     ---@param arg2? string @"realm" or nil
     ---@return string? name, string? realm, string? unit
     function util:GetNameRealm(arg1, arg2)
-        if issecretvalue(arg1) then
+        if issecretvalue(arg1) or not arg1 then
             return
         end
         local unit, name, realm ---@type UnitToken?, string?, string?
@@ -3736,7 +3738,7 @@ do
             self:SetWidth(420)
             local textFontString = StaticPopupUtil:GetTextFontString(self)
             local editBox = StaticPopupUtil:GetEditBox(self)
-            editBox:SetText(textFontString.text_arg2)
+            editBox:SetText(textFontString.text_arg2 or "")
             editBox:SetFocus()
             editBox:HighlightText()
             local button = StaticPopupUtil:GetButton(self, 2)
@@ -5357,30 +5359,30 @@ do
         end
         results.mplusCurrent = {
             score = results.currentScore or 0,
-            roles = ORDERED_ROLES[results.currentRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.currentRoleOrdinalIndex and ORDERED_ROLES[results.currentRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusPrevious = {
             season = results.previousScoreSeason,
             score = results.previousScore or 0,
-            roles = ORDERED_ROLES[results.previousRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.previousRoleOrdinalIndex and ORDERED_ROLES[results.previousRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusMainCurrent = {
             score = results.mainCurrentScore or 0,
-            roles = ORDERED_ROLES[results.mainCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.mainCurrentRoleOrdinalIndex and ORDERED_ROLES[results.mainCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusMainPrevious = {
             season = results.mainPreviousScoreSeason,
             score = results.mainPreviousScore or 0,
-            roles = ORDERED_ROLES[results.mainPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.mainPreviousRoleOrdinalIndex and ORDERED_ROLES[results.mainPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusWarbandCurrent = {
             score = results.warbandCurrentScore or 0,
-            roles = ORDERED_ROLES[results.warbandCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.warbandCurrentRoleOrdinalIndex and ORDERED_ROLES[results.warbandCurrentRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
         results.mplusWarbandPrevious = {
             season = results.warbandPreviousScoreSeason,
             score = results.warbandPreviousScore or 0,
-            roles = ORDERED_ROLES[results.warbandPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
+            roles = results.warbandPreviousRoleOrdinalIndex and ORDERED_ROLES[results.warbandPreviousRoleOrdinalIndex] or ORDERED_ROLES[1]
         }
     end
 
@@ -8758,15 +8760,17 @@ if not IS_CLASSIC_ERA then
             HookApplicantButtons(self.Members)
         elseif self.memberIdx then
             local parent = self:GetParent() ---@type LFGListFrameSearchFramePolyfill
-            local shown, fullName = ShowApplicantProfile(self, parent.applicantID, self.memberIdx)
-            local success
-            if shown then
-                success = profile:ShowProfile(GameTooltip, fullName, currentResult)
-            else
-                success = profile:ShowProfile(false, "player", currentResult)
-            end
-            if not success then
-                profile:HideProfile()
+            if parent.applicantID then
+                local shown, fullName = ShowApplicantProfile(self, parent.applicantID, self.memberIdx)
+                local success
+                if shown then
+                    success = profile:ShowProfile(GameTooltip, fullName, currentResult)
+                else
+                    success = profile:ShowProfile(false, "player", currentResult)
+                end
+                if not success then
+                    profile:HideProfile()
+                end
             end
         end
     end
@@ -13068,8 +13072,8 @@ do
     end
 
     ---@param region RegionString
-    ---@param realm string
-    ---@param name string
+    ---@param realm? string
+    ---@param name? string
     function search:SearchAndShowProfile(region, realm, name)
         if not self:IsEnabled() then
             return
@@ -13225,7 +13229,7 @@ do
         if not name and menuList then
             for i = 1, #menuList do
                 local whisperButton = menuList[i]
-                if whisperButton and (whisperButton.text == WHISPER_LEADER or whisperButton.text == WHISPER) then
+                if whisperButton and (whisperButton.text == WHISPER_LEADER or whisperButton.text == WHISPER) and whisperButton.arg1 then
                     name, realm = util:GetNameRealm(whisperButton.arg1)
                     faction = ns.PLAYER_FACTION
                     break
@@ -14310,7 +14314,7 @@ if IS_RETAIL then
             -- self:SetEnabled(numItems > 0)
             if not self.isGlowing and numItems >= config:Get("rwfBackgroundRemindAt") then
                 self.isGlowing = true
-                ActionButton_ShowOverlayGlow(self)
+                ActionButtonSpellAlertManager:ShowAlert(self)
                 if not self.arrow1 then
                     self.arrow1 = CreateArrow(self)
                     self.arrow2 = CreateArrow(self)
@@ -15184,7 +15188,7 @@ if IS_RETAIL then
                         build.raidID = instanceID
                         build.raid = util:GetRaidByID(instanceID)
                         build.encounterID = encounterID
-                        build.encounterJournalID = encounterIDToJournalEncounterID[encounterID]
+                        build.encounterJournalID = encounterID and encounterIDToJournalEncounterID[encounterID]
                         build.encounterDiff = difficultyKey
                         build.encounterDifficultyID = ns.TALENT_BUILDS_RAID_DIFFICULTY_KEY_TO_DIFFICULTY_IDS[difficultyKey]
                         build.raidSpeed = raidSpeedKey
@@ -15509,7 +15513,7 @@ if IS_RETAIL then
     local function updateBuildButton(button)
         local build = button.elementData
         local info = util:GetSpecializationSubTreeInfo(build.heroID)
-        if info then
+        if info and info.iconElementID then
             button.HeroTexture:Show()
             button.HeroTexture:SetAtlas(info.iconElementID)
             button.HeroTitle:SetText(info.name)
@@ -16440,7 +16444,7 @@ if IS_RETAIL then
                         end
                         return false
                     end
-                    local _journalEncounterID = encounterIDToJournalEncounterID[encounterID]
+                    local _journalEncounterID = encounterID and encounterIDToJournalEncounterID[encounterID]
                     if _journalEncounterID and _journalEncounterID == journalEncounterID then
                         return true
                     end
@@ -17489,7 +17493,7 @@ do
                 frame[column.addon] = moduleAddonName
                 local check = frame[column.check]
                 if check then
-                    check:SetShown(moduleAddonName)
+                    check:SetShown(not not moduleAddonName)
                 end
             end
             self.modules[#self.modules + 1] = frame
@@ -18267,7 +18271,7 @@ do
                 headline:ClearAllPoints()
                 headline:SetPoint("BOTTOM", check, "TOP", 2, -5)
                 headline:SetSize(32, 32)
-                headline:SetShown(addon)
+                headline:SetShown(not not addon)
                 if column.text then
                     headline.tooltip = column.text
                     headline.help.tooltip = column.text

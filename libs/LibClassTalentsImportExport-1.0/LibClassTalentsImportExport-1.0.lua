@@ -177,7 +177,7 @@ end
 ---@field public isChoiceNode boolean
 ---@field public choiceNodeSelection number
 
----@class ImportLoadoutEntryInfoPolyfill
+---@class ImportLoadoutEntryInfoPolyfill : ImportLoadoutEntryInfo
 ---@field public nodeID number
 ---@field public ranksGranted number
 ---@field public ranksPurchased number
