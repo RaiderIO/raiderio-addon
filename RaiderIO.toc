@@ -1,4 +1,4 @@
-## Interface: 120100
+## Interface: 120100, 120105
 ## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
 ## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)

@@ -2,7 +2,7 @@
 
 $clients = [ordered]@{
 	Mainline = @{
-		Interface = "120100"
+		Interface = "120100, 120105"
 		Version = "12.1.0"
 		Name = "mainline"
 	}
@@ -262,7 +262,7 @@ foreach ($clientKey in $clients.Keys)
 	}
 	$clientTocLines += "core.xml"
 	$clientTocText = $clientTocLines -join "`r`n"
-	Set-Content $clientTocFilePath $clientTocText
+	Set-Content $clientTocFilePath ($clientTocText + "`r`n") -NoNewline
 
 	foreach ($regionKey in $regions.Keys)
 	{
@@ -304,7 +304,7 @@ foreach ($clientKey in $clients.Keys)
 			}
 
 			$tocText = $tocLines -join "`r`n"
-			Set-Content $tocFilePath $tocText
+			Set-Content $tocFilePath ($tocText + "`r`n") -NoNewline
 
 		}
 
