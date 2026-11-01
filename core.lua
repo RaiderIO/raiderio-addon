@@ -164,7 +164,7 @@ local HookUtil do
     ---@param scrollFrame Frame
     ---@param namePattern string
     ---@param hookMap table<string, fun()>
-    ---@param onScroll? fun()
+    ---@param onScroll? fun(frame: Frame)
     ---@param maxIndex? number
     ---@param minIndex? number
     function HookUtil:ClassicScrollFrame(scrollFrame, namePattern, hookMap, onScroll, maxIndex, minIndex)
@@ -1652,7 +1652,11 @@ do
     ---@field public season_best GuildMythicKeystoneRun[]
     ---@field public weekly_best GuildMythicKeystoneRun[]
 
-    ---@return table<string, GuildCollection>
+    ---@class GuildCollectionFromScoreboard : GuildCollection
+    ---@field public profile nil
+    ---@field public season_best nil
+
+    ---@return table<string, GuildCollection?>
     function ns:GetClientGuildData()
         return ns.GUILD_BEST_DATA
     end
@@ -3436,8 +3440,10 @@ do
     end
 
     ---@param asMap? boolean
+    ---@return DungeonRaid[]
+    ---@overload fun(self: UtilModule, asMap: true): table<DungeonRaid, string?>
     function util:GetFatedRaids(asMap)
-        local raids = {} ---@type DungeonRaid[]
+        local raids = {} ---@type DungeonRaid[]|table<DungeonRaid, string?>
         local index = 0
         for i = 1, #RAIDS do
             local raid = RAIDS[i]
@@ -5902,23 +5908,23 @@ do
     ---@field public pvpProfile? DataProviderPvpProfile
 
     -- cache mythic keystone profiles for re-use after first query
-    ---@type DataProviderMythicKeystoneProfile[]
+    ---@type table<string, DataProviderMythicKeystoneProfile?>
     local mythicKeystoneProfileCache = {}
 
     -- cache raid profiles for re-use after first query
-    ---@type DataProviderRaidProfile[]
+    ---@type table<string, DataProviderRaidProfile?>
     local raidProfileCache = {}
 
     -- cache recruitment profiles for re-use after first query
-    ---@type DataProviderRecruitmentProfile[]
+    ---@type table<string, DataProviderRecruitmentProfile?>
     local recruitmentProfileCache = {}
 
     -- cache pvp profiles for re-use after first query
-    ---@type DataProviderPvpProfile[]
+    ---@type table<string, DataProviderPvpProfile?>
     local pvpProfileCache = {}
 
     -- cache profiles for re-use after first query
-    ---@type DataProviderCharacterProfile[]
+    ---@type table<string, DataProviderCharacterProfile?>
     local profileCache = {}
 
     ---@param provider DataProvider
@@ -7902,15 +7908,17 @@ if IS_RETAIL then
         memberCachedRuns[currentRun.dungeon.index] = bestRun
         local side = CompareLevelAndFractionalTime(bestRun.level, currentRun.level, bestRun.fractionalTime, currentRun.fractionalTime)
         if bestIsCurrentRun or side == 2 then
-            bestUpgrade.confidence = 1
-            if bestIsCurrentRun then
-                bestUpgrade.levelDiff = currentRun.level
-                bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
-            else
-                bestUpgrade.levelDiff = currentRun.level - bestRun.level
-                bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
+            if bestUpgrade then
+                bestUpgrade.confidence = 1
+                if bestIsCurrentRun then
+                    bestUpgrade.levelDiff = currentRun.level
+                    bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
+                else
+                    bestUpgrade.levelDiff = currentRun.level - bestRun.level
+                    bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
+                end
+                bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0)
             end
-            bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0) ---@diagnostic expect-line: need-check-nil
             bestRun.chests = currentRun.chests
             bestRun.level = currentRun.level
             bestRun.fractionalTime = currentRun.fractionalTime
@@ -8251,7 +8259,7 @@ do
         return type(widget) == "table" and type(widget.GetObjectType) == "function" and widget
     end
 
-    ---@type table<FrameStrata, number>
+    ---@type FrameStrata[]|table<FrameStrata, number>
     local STRATA_MAP = {
         "TOOLTIP",
         "FULLSCREEN_DIALOG",
@@ -9184,10 +9192,10 @@ if IS_RETAIL then
         return runData
     end
 
-    ---@return GuildCollection
+    ---@return GuildCollectionFromScoreboard
     local function GetGuildScoreboard()
         local scoreboard = C_ChallengeMode.GetGuildLeaders()
-        local data = {}
+        local data = {} ---@type GuildMythicKeystoneRun[]
         for i = 1, #scoreboard do
             data[#data + 1] = ConvertRunData(scoreboard[i])
         end
@@ -9352,11 +9360,12 @@ if IS_RETAIL then
         self:SetUp(guildName)
     end
 
+    ---@param guildName string
     function GuildWeeklyFrameMixin:SetUp(guildName)
         self:Reset()
 
         local guildsData = ns:GetClientGuildData()
-        local guildData = guildsData and guildsData[guildName] ---@type GuildCollection
+        local guildData = guildsData and guildsData[guildName] ---@type (GuildCollection|GuildCollectionFromScoreboard)?
 
         local keyBest = "season_best"
         local title = L.GUILD_BEST_SEASON
@@ -9365,7 +9374,7 @@ if IS_RETAIL then
         if not guildData or config:Get("displayWeeklyGuildBest") then
             if not guildData then
                 blizzScoreboard = true
-                guildData = GetGuildScoreboard() ---@type GuildCollection
+                guildData = GetGuildScoreboard()
             end
             keyBest = "weekly_best"
             title = L.GUILD_BEST_WEEKLY
@@ -9377,7 +9386,7 @@ if IS_RETAIL then
         local switchShown = self.SwitchGuildBest:IsShown()
         local switchHeight = self.SwitchGuildBest:GetHeight()
         local switchRealHeight = switchShown and switchHeight or 0
-        local currentRuns = guildData and guildData[keyBest] ---@type GuildMythicKeystoneRun[]
+        local currentRuns = guildData and guildData[keyBest]
 
         if not currentRuns or not currentRuns[1] then
             self.GuildBestNoRun:Show()
@@ -9565,6 +9574,9 @@ if IS_RETAIL then
     local callback = ns:GetModule("Callback") ---@type CallbackModule
     local config = ns:GetModule("Config") ---@type ConfigModule
     local util = ns:GetModule("Util") ---@type UtilModule
+
+    -- In addition to the required debug mode, setting this also ensures to display the replay frame anywhere.
+    local ReplayDebug = false
 
     ---@alias ReplayFrameStyle "MODERN"|"MODERN_COMPACT"|"MODERN_SPLITS"|"MDI"
 
@@ -10538,6 +10550,7 @@ if IS_RETAIL then
         ---@alias ReplayFrameDropDownPositionOption "lock"|"unlock"|"dock"|"undock"
 
         ---@class ReplayFrameDropDownMenuInfoPolyfill : UIDropDownMenuInfoPolyfill
+        ---@diagnostic expect-next-line: incompatible-override
         ---@field public menuList ReplayFrameDropDownMenuList
         ---@field public func? fun(self: ReplayFrameDropDownMenuInfoPolyfill)
         ---@field public arg1 ReplayFrameConfigButton
@@ -11084,7 +11097,7 @@ if IS_RETAIL then
             local sortedLiveBosses = util:TableCopy(liveBosses)
             local sortedReplayBosses = util:TableCopy(replayBosses)
             table.sort(sortedReplayBosses, SortBosses)
-            local encounterOrder = {} ---@type table<ReplayEncounter, number>
+            local encounterOrder = {} ---@type table<ReplayEncounter, number>|table<number, number>
             for index, boss in ipairs(sortedReplayBosses) do
                 boss.order = index
                 local encounter = boss.encounter
@@ -12160,9 +12173,9 @@ if IS_RETAIL then
                 return timerID, elapsedTime, not stopTimer or stopTimerID ~= timerID
             end
         end
-        -- if config:Get("debugMode") then
-        --     return 1, 0, true
-        -- end
+        if ReplayDebug and config:Get("debugMode") then
+            return 1, 0, true
+        end
     end
 
     ---@return number? mapID, number? timeLimit
@@ -12220,11 +12233,11 @@ if IS_RETAIL then
                 end
             end
         end
-        -- if not mapID and config:Get("debugMode") then
-        --     local dungeons = ns:GetDungeonData()
-        --     local dungeon = dungeons[1]
-        --     mapID, timeLimit = dungeon.instance_map_ids[1], dungeon.timers[3]
-        -- end
+        if ReplayDebug and (not mapID and config:Get("debugMode")) then
+            local dungeons = ns:GetDungeonData()
+            local dungeon = dungeons[1]
+            mapID, timeLimit = dungeon.instance_map_ids[1], dungeon.timers[3]
+        end
         return mapID, timeLimit, mapIDs
     end
 
@@ -12301,9 +12314,9 @@ if IS_RETAIL then
                 return relevantReplays[1]
             end
         end
-        -- if config:Get("debugMode") then
-        --     return replays[1]
-        -- end
+        if ReplayDebug and config:Get("debugMode") then
+            return replays[1]
+        end
     end
 
     ---@param event? WowEvent
@@ -13266,8 +13279,10 @@ do
     ---@type CustomDropDownOption[]
     local unitOptions
 
-    ---@param bdropdown DropDownListPolyfill
+    ---@param bdropdown DropDownListPolyfill|CustomDropDown
+    ---@param event "OnShow"|"OnHide"
     ---@param options CustomDropDownOption[]
+    ---@return CustomDropDownOption[]?
     local function OnToggle(bdropdown, event, options, level, data)
         if event == "OnShow" then
             if not config:Get("showDropDownCopyURL") then
@@ -13289,14 +13304,14 @@ do
                         options[index] = option
                     end
                 end
-                return true
+                return options
             end
         elseif event == "OnHide" then
             if options[1] then
                 for i = #options, 1, -1 do
                     options[i] = nil
                 end
-                return true
+                return options
             end
         end
     end
@@ -13374,7 +13389,7 @@ do
     ---@field public contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
     ---@field public CreateDivider fun(self: ModifyMenuCallbackRootDescriptionPolyfill)
     ---@field public CreateTitle fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string)
-    ---@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun())
+    ---@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun(button: Button, arg1: any, arg2: any, checked: boolean))
 
     ---@class ModifyMenuReturnPolyfill
     ---@field public Unregister fun(self: ModifyMenuReturnPolyfill)
@@ -15031,7 +15046,7 @@ if IS_RETAIL then
             Speed = "BUILDS_SPEED_%s",
         }
 
-        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]|table<string, true?>
         ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsRaidSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
         ---@param localeFormat TalentBuildsTranslationFormats
         ---@param specID? number

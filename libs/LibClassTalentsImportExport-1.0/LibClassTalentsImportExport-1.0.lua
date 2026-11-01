@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibClassTalentsImportExport-1.0", 1
+local MAJOR, MINOR = "LibClassTalentsImportExport-1.0", 2
 assert(LibStub, MAJOR .. " requires LibStub")
 
 ---@class LibClassTalentsImportExport-1.0
@@ -757,6 +757,9 @@ end
 --- If we upgraded, this ensures to clear the switch state.
 clearCurrentPersistentSwitchState()
 
+--- "Changing Talents" spell used when switching loadouts.
+local CHANGING_TALENTS_SPELL_ID = 384255
+
 --- Similar to `SwitchToLoadout` but is extra persistent to retry to switch if the cast is being cast as intended.
 ---@param loadout LoadoutQuery Can be a loadout `object`, `index` or `name`.
 ---@param callback? fun(success: boolean, statusCode?: "invalidLoadout"|"changing"|"success"|"timeout")
@@ -781,7 +784,7 @@ function LibClassTalentsImportExport.PersistentSwitchToLoadout(loadout, callback
         -- The predicate ensures to only run the callback when the player is casting the "Changing Talents" spell.
         ---@param unit UnitToken
         ---@param spellID number
-        function(unit, _, spellID) return unit == "player" and spellID == 384255 end
+        function(unit, _, spellID) return unit == "player" and spellID == CHANGING_TALENTS_SPELL_ID end
     )
     local remaining = maxAttempts
     LibClassTalentsImportExport._currentPersistentSwitchTicker = C_Timer.NewTicker(timeBetweenAttempts, function()
@@ -839,9 +842,86 @@ LibClassTalentsImportExport.CreateLoadoutErrorTexts = {
     ErrorImportingLoadout = "Unable to import loadout.",
 }
 
+---@class LibClassTalentsImportExport-1.0_SharedActionBarsState
+---@field public cast? CallbackRegistryHandle
+---@field public update? CallbackRegistryHandle
+---@field public timeout? FunctionContainer
+
+LibClassTalentsImportExport._currentCreateLoadoutHandle = LibClassTalentsImportExport._currentCreateLoadoutHandle or nil ---@type CallbackRegistryHandle?
+LibClassTalentsImportExport._currentSharedActionBarsState = LibClassTalentsImportExport._currentSharedActionBarsState or nil ---@type LibClassTalentsImportExport-1.0_SharedActionBarsState?
+
+local function clearCurrentCreateLoadoutState()
+    if LibClassTalentsImportExport._currentCreateLoadoutHandle then
+        LibClassTalentsImportExport._currentCreateLoadoutHandle:Unregister()
+        LibClassTalentsImportExport._currentCreateLoadoutHandle = nil
+    end
+end
+
+---@param state LibClassTalentsImportExport-1.0_SharedActionBarsState
+local function releaseSharedActionBarsState(state)
+    if state.cast then
+        state.cast:Unregister()
+        state.cast = nil
+    end
+    if state.update then
+        state.update:Unregister()
+        state.update = nil
+    end
+    if state.timeout then
+        state.timeout:Cancel()
+        state.timeout = nil
+    end
+    if LibClassTalentsImportExport._currentSharedActionBarsState == state then
+        LibClassTalentsImportExport._currentSharedActionBarsState = nil
+    end
+end
+
+local function clearCurrentSharedActionBarsState()
+    local state = LibClassTalentsImportExport._currentSharedActionBarsState
+    if state then
+        releaseSharedActionBarsState(state)
+    end
+end
+
+--- If we upgraded, this ensures to clear the pending create loadout state.
+clearCurrentCreateLoadoutState()
+
+--- If we upgraded, this ensures to clear the pending shared action bar change.
+clearCurrentSharedActionBarsState()
+
+---@param loadout LoadoutQuery
+---@param usesSharedActionBars boolean
+---@return boolean? accepted
+local function ApplySharedActionBarsAfterSwitch(loadout, usesSharedActionBars)
+    clearCurrentSharedActionBarsState()
+    local state = {} ---@type LibClassTalentsImportExport-1.0_SharedActionBarsState
+    local function cleanup()
+        releaseSharedActionBarsState(state)
+    end
+    LibClassTalentsImportExport._currentSharedActionBarsState = state
+    state.cast = RegisterOnceFrameEventAndCallback(
+        "UNIT_SPELLCAST_SUCCEEDED",
+        function()
+            state.update = RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_UPDATED", function()
+                cleanup()
+                LibClassTalentsImportExport.UpdateLoadoutSharedActionBars(loadout, usesSharedActionBars)
+            end)
+        end,
+        ---@param unit UnitToken
+        ---@param spellID number
+        function(unit, _, spellID) return unit == "player" and spellID == CHANGING_TALENTS_SPELL_ID end
+    )
+    state.timeout = C_Timer.NewTimer(10, cleanup)
+    return true
+end
+
 --- ⚠️ TODO: This will currently not update an existing loadout, but simply delete it and create a new one with the desired importString.
 ---
+--- Only one pending create exists at a time: calling this again before the previous `TRAIT_CONFIG_CREATED` arrived cancels the previous callback.
+---
 --- This can either create a new loadout which is empty, or one where the import string gets automatically handled.
+---
+--- Note that the `usesSharedActionBars` flag is applied later once the new loadout switch has occured using the player cast success event as indicator when to set this flag.
 ---@param importString string
 ---@param name string
 ---@param usesSharedActionBars boolean
@@ -879,8 +959,11 @@ function LibClassTalentsImportExport.CreateLoadout(importString, name, usesShare
         return false, LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout
     end
 
+    clearCurrentCreateLoadoutState()
+
     ---@param info TraitConfigInfo
-    RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_CREATED", function(info)
+    LibClassTalentsImportExport._currentCreateLoadoutHandle = RegisterOnceFrameEventAndCallback("TRAIT_CONFIG_CREATED", function(info)
+        LibClassTalentsImportExport._currentCreateLoadoutHandle = nil
         info = GetLoadoutsExtendedByQuery(info) ---@type LoadoutExtendedInfo
         local nameSuccess = true
         local usesSharedActionBarsSuccess = true
@@ -891,7 +974,9 @@ function LibClassTalentsImportExport.CreateLoadout(importString, name, usesShare
             end
         end
         if info.usesSharedActionBars ~= usesSharedActionBars then
-            usesSharedActionBarsSuccess = LibClassTalentsImportExport.UpdateLoadoutSharedActionBars(info, usesSharedActionBars)
+            -- This queues the change for after we swap to the loadout to minimize the risk of empty actionbars when doing it beforehand.
+            -- Technically this means that we're assuming the shared actionbars flag change will succeed later on, and return the future value right now.
+            usesSharedActionBarsSuccess = ApplySharedActionBarsAfterSwitch(info, usesSharedActionBars)
             if usesSharedActionBarsSuccess then
                 info.usesSharedActionBars = usesSharedActionBars
             end
@@ -905,13 +990,14 @@ end
 
 ---@param loadout LoadoutQuery Can be a loadout `object`, `index` or `name`.
 ---@param usesSharedActionBars boolean
+---@return boolean? success
 function LibClassTalentsImportExport.UpdateLoadoutSharedActionBars(loadout, usesSharedActionBars)
     if usesSharedActionBars == nil then
         return
     end
     local info = LibClassTalentsImportExport.GetLoadoutInfo(loadout)
     if not info then
-        return
+        return false
     end
     usesSharedActionBars = not not usesSharedActionBars
     C_ClassTalents.SetUsesSharedActionBars(info.ID, usesSharedActionBars)
