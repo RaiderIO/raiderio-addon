@@ -1,0 +1,3 @@
+local _, ns = ...
+-- Supplied per installation by the desktop; never a bundled fallback.
+ns.CLIENT_JOURNEY_CATALOG = nil

@@ -164,7 +164,7 @@ local HookUtil do
     ---@param scrollFrame Frame
     ---@param namePattern string
     ---@param hookMap table<string, fun()>
-    ---@param onScroll? fun(frame: Frame)
+    ---@param onScroll? fun()
     ---@param maxIndex? number
     ---@param minIndex? number
     function HookUtil:ClassicScrollFrame(scrollFrame, namePattern, hookMap, onScroll, maxIndex, minIndex)
@@ -1009,8 +1009,15 @@ do
         ns.Print(format("|cffFFFFFF%s|r: %s", L.RAIDERIO, tostring(text)), r, g, b)
     end
 
+    -- Forever (expansion 0) validates the range and rejects -1; other clients keep their existing result.
+    ---@param expansion number
+    function ns.GetExpansionMaxLevel(expansion)
+        local hasMaxLevel, maxLevel = pcall(GetMaxLevelForExpansionLevel, expansion)
+        return hasMaxLevel and maxLevel or GetMaxLevelForExpansionLevel(max(0, expansion))
+    end
+
     ns.EXPANSION = max(GetServerExpansionLevel(), GetMinimumExpansionLevel(), GetExpansionLevel()) - 1
-    ns.MAX_LEVEL = GetMaxLevelForExpansionLevel(ns.EXPANSION)
+    ns.MAX_LEVEL = ns.GetExpansionMaxLevel(ns.EXPANSION)
     ns.REGION_TO_LTD = { "us", "kr", "eu", "tw", "cn" }
     ns.FACTION_TO_ID = { Alliance = 1, Horde = 2, Neutral = 3 }
     ns.PLAYER_REGION = nil
@@ -1136,6 +1143,10 @@ do
 
     local PREVIOUS_SEASON_NUM_DUNGEONS = 8
     local DUNGEONS = ns.DUNGEONS or ns.dungeons or {} -- DEPRECATED: ns.dungeons + FALLBACK
+
+    -- threshold for comparing current character's previous season score to current score
+    -- meaning: once current score exceeds this fraction of previous season, then show current season
+    ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD = min((#DUNGEONS / PREVIOUS_SEASON_NUM_DUNGEONS) * 0.9, 0.9)
 
     -- threshold for comparing the main character's previous season score to current. This establishes
     -- when to prioritize showing the main's current score over their previous score. With Dragonflight
@@ -1652,11 +1663,7 @@ do
     ---@field public season_best GuildMythicKeystoneRun[]
     ---@field public weekly_best GuildMythicKeystoneRun[]
 
-    ---@class GuildCollectionFromScoreboard : GuildCollection
-    ---@field public profile nil
-    ---@field public season_best nil
-
-    ---@return table<string, GuildCollection?>
+    ---@return table<string, GuildCollection>
     function ns:GetClientGuildData()
         return ns.GUILD_BEST_DATA
     end
@@ -1664,6 +1671,13 @@ do
     ---@class ClientConfig
     ---@field public lastModified string @A date like "2017-06-03T00:41:07Z"
     ---@field public enableCombatLogTracking boolean
+    ---@field public enableGameDataCollection? boolean
+    ---@field public enableAlwaysOnCombatLogging? boolean
+    ---@field public enableWorldActivityTracking? boolean
+    ---@field public enableDelveActivityTracking? boolean
+    ---@field public activityTelemetryBuilds? string[]
+    ---@field public activityTelemetryOutdoorMapIds? number[]
+    ---@field public activityTelemetryDelveMapIds? number[]
     ---@field public syncMode string @"all"
     ---@field public syncAmericasHorde boolean
     ---@field public syncEuropeHorde boolean
@@ -1673,6 +1687,13 @@ do
     ---@field public syncEuropeAlliance boolean
     ---@field public syncKoreaAlliance boolean
     ---@field public syncTaiwanAlliance boolean
+    ---@field public enableClientBeacon? boolean
+    ---@field public beaconPlacement? "top-left"|"top"|"top-right"|"left"|"right"|"bottom-left"|"bottom"|"bottom-right" @Defaults to `"bottom-right"`.
+    ---@field public beaconConfigMarker? number @Public nonzero 16-bit configuration marker.
+    ---@field public enableDuelTracking? boolean @Enables duel snapshots and combat logging when client control is allowed.
+    ---@field public beaconTransport? table @Immutable optical transport definition, applied on reload.
+    ---@field public beaconDebug? boolean @Passive, bounded sender journal; applied on reload.
+    ---@field public beaconDiagnostics? table @Explicit, bounded diagnostic plan; requires a slash-command request.
 
     ---@return ClientConfig
     function ns:GetClientConfig()
@@ -2156,6 +2177,8 @@ do
 
     local callbacks = {}
     local callbackOnce = {}
+    local unitCallbacks = {}
+    local unitFrames = {}
 
     local handler = CreateFrame("Frame")
 
@@ -2166,6 +2189,82 @@ do
             callback:SendEvent(event, ...)
         end
     end)
+
+    --- The message handler for code that must keep going after one of its handlers or modules fails.
+    ---@param message any
+    function callback.ReportError(message)
+        if ns.Safety then
+            return ns.Safety.Report("core", message)
+        end
+        return geterrorhandler()(message)
+    end
+
+    -- The game's xpcall forwards extra arguments. Plain Lua 5.1, which runs the regression suite, does not.
+    local VARARG_XPCALL = select(2, xpcall(function(value) return value end, function() end, true)) == true
+
+    --- One failing handler must not stop the remaining handlers or leave a one-shot handler registered.
+    ---@param callbackFunc CallbackModuleFunction
+    ---@param event CallbackModuleEvent
+    ---@param ... any
+    local function CallHandler(callbackFunc, event, ...)
+        if VARARG_XPCALL then
+            xpcall(callbackFunc, callback.ReportError, event, ...)
+            return
+        end
+        local count, args = select("#", ...), { ... }
+        xpcall(function() callbackFunc(event, (unpack or table.unpack)(args, 1, count)) end, callback.ReportError)
+    end
+
+    ---@param eventCallbacks CallbackModuleFunction[]?
+    ---@param event CallbackModuleEvent
+    ---@param ... any
+    local function Dispatch(eventCallbacks, event, ...)
+        if not eventCallbacks then
+            return
+        end
+
+        -- A handler may unregister itself or another handler while the event is being sent.
+        local pending = {}
+        for i = 1, #eventCallbacks do
+            pending[i] = eventCallbacks[i]
+        end
+
+        local remove = {}
+        for _, callbackFunc in ipairs(pending) do
+            CallHandler(callbackFunc, event, ...)
+            if callbackOnce[callbackFunc] then
+                callbackOnce[callbackFunc] = nil
+                remove[callbackFunc] = true
+            end
+        end
+
+        -- Registrations may have shifted, so remove completed one-shot handlers by identity.
+        for i = #eventCallbacks, 1, -1 do
+            if remove[eventCallbacks[i]] then
+                table.remove(eventCallbacks, i)
+            end
+        end
+    end
+
+    ---@param _ Frame
+    ---@param event WowEvent
+    ---@param ... any
+    local function OnUnitEvent(_, event, ...)
+        Dispatch(unitCallbacks[event], event, ...)
+    end
+
+    ---@param eventCallbacks CallbackModuleFunction[]
+    ---@param callbackFunc CallbackModuleFunction
+    ---@return boolean empty
+    local function RemoveCallback(eventCallbacks, callbackFunc)
+        for i = #eventCallbacks, 1, -1 do
+            if eventCallbacks[i] == callbackFunc then
+                table.remove(eventCallbacks, i)
+            end
+        end
+
+        return eventCallbacks[1] == nil
+    end
 
     ---@alias CallbackModuleEvent WowEvent
     ---|"RAIDERIO_CONFIG_READY"
@@ -2193,11 +2292,18 @@ do
     ---@param event WowEvent
     function callback:RegisterUnitEvent(callbackFunc, event, ...)
         assert(type(callbackFunc) == "function" and type(event) == "string", "Raider.IO Callback expects RegisterUnitEvent(callback, event, ...units)")
-        if not callbacks[event] then
-            callbacks[event] = {}
+        if not unitCallbacks[event] then
+            unitCallbacks[event] = {}
         end
-        table.insert(callbacks[event], callbackFunc)
-        handler:RegisterUnitEvent(event, ...)
+        table.insert(unitCallbacks[event], callbackFunc)
+        -- A unit filter on the shared frame would narrow every plain registration of the event.
+        local frame = unitFrames[event]
+        if not frame then
+            frame = CreateFrame("Frame")
+            frame:SetScript("OnEvent", OnUnitEvent)
+            unitFrames[event] = frame
+        end
+        frame:RegisterUnitEvent(event, ...)
     end
 
     ---@param callbackFunc CallbackModuleFunction
@@ -2207,15 +2313,11 @@ do
         local events = {...}
         callbackOnce[callbackFunc] = nil
         for _, event in ipairs(events) do
-            local eventCallbacks = callbacks[event]
-            for i = #eventCallbacks, 1, -1 do
-                local eventCallback = eventCallbacks[i]
-                if eventCallback == callbackFunc then
-                    table.remove(eventCallbacks, i)
-                end
-            end
-            if not eventCallbacks[1] then
+            if callbacks[event] and RemoveCallback(callbacks[event], callbackFunc) then
                 pcall(handler.UnregisterEvent, handler, event)
+            end
+            if unitCallbacks[event] and RemoveCallback(unitCallbacks[event], callbackFunc) then
+                unitFrames[event]:UnregisterEvent(event)
             end
         end
     end
@@ -2226,35 +2328,16 @@ do
         for event, _ in pairs(callbacks) do
             self:UnregisterEvent(callbackFunc, event)
         end
+        for event, _ in pairs(unitCallbacks) do
+            self:UnregisterEvent(callbackFunc, event)
+        end
     end
 
     ---@param event CallbackModuleEvent
     ---@param ... any
     function callback:SendEvent(event, ...)
         assert(type(event) == "string", "Raider.IO Callback expects SendEvent(event[, ...args])")
-        local eventCallbacks = callbacks[event]
-        if not eventCallbacks then
-            return
-        end
-        -- execute in correct sequence but note if any are to be removed later
-        local remove
-        for i = 1, #eventCallbacks do
-            local callbackFunc = eventCallbacks[i]
-            callbackFunc(event, ...)
-            if callbackOnce[callbackFunc] then
-                callbackOnce[callbackFunc] = nil
-                if not remove then
-                    remove = {}
-                end
-                table.insert(remove, i)
-            end
-        end
-        -- if we have callbacks to remove iterate backwards and remove those indices
-        if remove then
-            for i = #remove, 1, -1 do
-                table.remove(eventCallbacks, remove[i])
-            end
-        end
+        Dispatch(callbacks[event], event, ...)
     end
 
     ---@param callbackFunc CallbackModuleFunction
@@ -2277,7 +2360,7 @@ do
     local callback = ns:GetModule("Callback") ---@type CallbackModule
 
     ---@class FallbackConfig
-    ---@field public mplusHeadlineMode HeadlineMode Defaults to `ns.HEADLINE_MODE.CURRENT_SEASON` (`0`)
+    ---@field public mplusHeadlineMode HeadlineMode Defaults to `ns.HEADLINE_MODE.BEST_SEASON` (`1`)
     ---@field public replayStyle ReplayFrameStyle Defaults to `MODERN`
     ---@field public replayTiming ReplayFrameTiming Defaults to `BOSS`
     ---@field public replaySelection ReplayFrameSelections Defaults to `user_best_replay`
@@ -3440,10 +3523,8 @@ do
     end
 
     ---@param asMap? boolean
-    ---@return DungeonRaid[]
-    ---@overload fun(self: UtilModule, asMap: true): table<DungeonRaid, string?>
     function util:GetFatedRaids(asMap)
-        local raids = {} ---@type DungeonRaid[]|table<DungeonRaid, string?>
+        local raids = {} ---@type DungeonRaid[]
         local index = 0
         for i = 1, #RAIDS do
             local raid = RAIDS[i]
@@ -4280,25 +4361,26 @@ do
     local util = ns:GetModule("Util") ---@type UtilModule
 
     local function IsArray(o)
-        if not o[1] then
-            return false
-        end
-        local i
-        for k = 1, #o do
-            local v = o[k]
-            if type(k) ~= "number" then
+        local count = 0
+        for key in pairs(o) do
+            if type(key) ~= "number" or key < 1 or key ~= math.floor(key) then
                 return false
             end
-            if i and i ~= k - 1 then
-                return false
-            end
-            i = k
+            count = count + 1
         end
-        return true
+        return count == #o
     end
 
     local function IsMap(o)
-        return not not (not IsArray(o) and next(o))
+        return not IsArray(o)
+    end
+
+    local function QuoteJSON(value)
+        local escapes = { ['"'] = '\\"', ['\\'] = '\\\\', ['\b'] = '\\b', ['\f'] = '\\f',
+            ['\n'] = '\\n', ['\r'] = '\\r', ['\t'] = '\\t' }
+        return '"' .. value:gsub('[%z\1-\31\\"]', function(char)
+            return escapes[char] or format("\\u%04x", char:byte())
+        end) .. '"'
     end
 
     ---@type fun(o: any): string
@@ -4310,13 +4392,16 @@ do
         if t == "nil" then
             s = "null"
         elseif t == "number" then
+            assert(o == o and math.abs(o) ~= math.huge, "JSON number must be finite")
             s = tostring(o)
         elseif t == "boolean" then
             s = o and "true" or "false"
         elseif t == "table" then
             s = TableToJSON(o)
+        elseif t == "string" then
+            s = QuoteJSON(o)
         else
-            s = format("\"%s\"", tostring(o))
+            error("unsupported JSON value")
         end
         return s
     end
@@ -4328,9 +4413,14 @@ do
             if IsMap(o) then
                 i = i + 1
                 s[i] = "{"
-                for k, v in pairs(o) do
+                local keys = {}
+                for key in pairs(o) do
+                    keys[#keys + 1] = key
+                end
+                table.sort(keys, function(a, b) return tostring(a) < tostring(b) end)
+                for _, key in ipairs(keys) do
                     i = i + 1
-                    s[i] = format("\"%s\":%s,", tostring(k), WrapValue(v))
+                    s[i] = QuoteJSON(tostring(key)) .. ":" .. WrapValue(o[key]) .. ","
                 end
                 if s[i]:sub(-1) == "," then
                     s[i] = s[i]:sub(1, -2)
@@ -5908,23 +5998,23 @@ do
     ---@field public pvpProfile? DataProviderPvpProfile
 
     -- cache mythic keystone profiles for re-use after first query
-    ---@type table<string, DataProviderMythicKeystoneProfile?>
+    ---@type DataProviderMythicKeystoneProfile[]
     local mythicKeystoneProfileCache = {}
 
     -- cache raid profiles for re-use after first query
-    ---@type table<string, DataProviderRaidProfile?>
+    ---@type DataProviderRaidProfile[]
     local raidProfileCache = {}
 
     -- cache recruitment profiles for re-use after first query
-    ---@type table<string, DataProviderRecruitmentProfile?>
+    ---@type DataProviderRecruitmentProfile[]
     local recruitmentProfileCache = {}
 
     -- cache pvp profiles for re-use after first query
-    ---@type table<string, DataProviderPvpProfile?>
+    ---@type DataProviderPvpProfile[]
     local pvpProfileCache = {}
 
     -- cache profiles for re-use after first query
-    ---@type table<string, DataProviderCharacterProfile?>
+    ---@type DataProviderCharacterProfile[]
     local profileCache = {}
 
     ---@param provider DataProvider
@@ -6283,7 +6373,8 @@ do
             if not module:IsLoaded() and module:CanLoad() then
                 if module:HasDependencies() then
                     numLoaded = numLoaded + 1
-                    module:Load()
+                    -- One module failing to start must not stop the modules after it.
+                    xpcall(function() module:Load() end, callback.ReportError)
                 else
                     numPending = numPending + 1
                 end
@@ -6330,7 +6421,7 @@ do
 
     local function OnExpansionChanged()
         ns.EXPANSION = max(GetServerExpansionLevel(), GetMinimumExpansionLevel(), GetExpansionLevel()) - 1
-        ns.MAX_LEVEL = GetMaxLevelForExpansionLevel(ns.EXPANSION)
+        ns.MAX_LEVEL = ns.GetExpansionMaxLevel(ns.EXPANSION)
     end
 
     callback:RegisterEvent(OnExpansionChanged, "UPDATE_EXPANSION_LEVEL")
@@ -7046,7 +7137,7 @@ do
                     local headlineMode = config:Get("mplusHeadlineMode")
                     if showHeader then
                         if headlineMode == ns.HEADLINE_MODE.BEST_SEASON then
-                            if keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
+                            if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.RAIDERIO_MP_BEST_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), 1, 0.85, 0, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                                 if keystoneProfile.mplusCurrent.score > 0 then
                                     tooltip:AddDoubleLine(GetSeasonLabel(L.CURRENT_SCORE), GetScoreText(keystoneProfile.mplusCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
@@ -7062,12 +7153,12 @@ do
                             if keystoneProfile.mplusCurrent.score > 0 then
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.CURRENT_SCORE), GetScoreText(keystoneProfile.mplusCurrent), r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
                             end
-                            if keystoneProfile.mplusPrevious.score > 0 then
+                            if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.PREVIOUS_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), r, g, b, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                             end
                         else -- if headlineMode == ns.HEADLINE_MODE.CURRENT_SEASON then
                             tooltip:AddDoubleLine(GetSeasonLabel(L.RAIDERIO_MP_SCORE), GetScoreText(keystoneProfile.mplusCurrent), 1, 0.85, 0, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
-                            if keystoneProfile.mplusPrevious.score > 0 then
+                            if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.PREVIOUS_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                             end
                         end
@@ -7431,9 +7522,10 @@ do
 
     function tooltip:OnLoad()
         self:Enable()
-        if IS_RETAIL and TooltipDataProcessor then -- TODO: DF
+        -- Modern non-Retail clients also use TooltipDataProcessor instead of OnTooltipSetUnit.
+        if TooltipDataProcessor then
             TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, OnTooltipSetUnit)
-        else -- Classic
+        else
             GameTooltip:HookScript("OnTooltipSetUnit", OnTooltipSetUnit)
         end
         GameTooltip:HookScript("OnTooltipCleared", OnTooltipCleared)
@@ -7908,17 +8000,15 @@ if IS_RETAIL then
         memberCachedRuns[currentRun.dungeon.index] = bestRun
         local side = CompareLevelAndFractionalTime(bestRun.level, currentRun.level, bestRun.fractionalTime, currentRun.fractionalTime)
         if bestIsCurrentRun or side == 2 then
-            if bestUpgrade then
-                bestUpgrade.confidence = 1
-                if bestIsCurrentRun then
-                    bestUpgrade.levelDiff = currentRun.level
-                    bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
-                else
-                    bestUpgrade.levelDiff = currentRun.level - bestRun.level
-                    bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
-                end
-                bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0)
+            bestUpgrade.confidence = 1
+            if bestIsCurrentRun then
+                bestUpgrade.levelDiff = currentRun.level
+                bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
+            else
+                bestUpgrade.levelDiff = currentRun.level - bestRun.level
+                bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
             end
+            bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0) ---@diagnostic expect-line: need-check-nil
             bestRun.chests = currentRun.chests
             bestRun.level = currentRun.level
             bestRun.fractionalTime = currentRun.fractionalTime
@@ -8259,7 +8349,7 @@ do
         return type(widget) == "table" and type(widget.GetObjectType) == "function" and widget
     end
 
-    ---@type FrameStrata[]|table<FrameStrata, number>
+    ---@type table<FrameStrata, number>
     local STRATA_MAP = {
         "TOOLTIP",
         "FULLSCREEN_DIALOG",
@@ -9192,10 +9282,10 @@ if IS_RETAIL then
         return runData
     end
 
-    ---@return GuildCollectionFromScoreboard
+    ---@return GuildCollection
     local function GetGuildScoreboard()
         local scoreboard = C_ChallengeMode.GetGuildLeaders()
-        local data = {} ---@type GuildMythicKeystoneRun[]
+        local data = {}
         for i = 1, #scoreboard do
             data[#data + 1] = ConvertRunData(scoreboard[i])
         end
@@ -9360,12 +9450,11 @@ if IS_RETAIL then
         self:SetUp(guildName)
     end
 
-    ---@param guildName string
     function GuildWeeklyFrameMixin:SetUp(guildName)
         self:Reset()
 
         local guildsData = ns:GetClientGuildData()
-        local guildData = guildsData and guildsData[guildName] ---@type (GuildCollection|GuildCollectionFromScoreboard)?
+        local guildData = guildsData and guildsData[guildName] ---@type GuildCollection
 
         local keyBest = "season_best"
         local title = L.GUILD_BEST_SEASON
@@ -9374,7 +9463,7 @@ if IS_RETAIL then
         if not guildData or config:Get("displayWeeklyGuildBest") then
             if not guildData then
                 blizzScoreboard = true
-                guildData = GetGuildScoreboard()
+                guildData = GetGuildScoreboard() ---@type GuildCollection
             end
             keyBest = "weekly_best"
             title = L.GUILD_BEST_WEEKLY
@@ -9386,7 +9475,7 @@ if IS_RETAIL then
         local switchShown = self.SwitchGuildBest:IsShown()
         local switchHeight = self.SwitchGuildBest:GetHeight()
         local switchRealHeight = switchShown and switchHeight or 0
-        local currentRuns = guildData and guildData[keyBest]
+        local currentRuns = guildData and guildData[keyBest] ---@type GuildMythicKeystoneRun[]
 
         if not currentRuns or not currentRuns[1] then
             self.GuildBestNoRun:Show()
@@ -9574,9 +9663,6 @@ if IS_RETAIL then
     local callback = ns:GetModule("Callback") ---@type CallbackModule
     local config = ns:GetModule("Config") ---@type ConfigModule
     local util = ns:GetModule("Util") ---@type UtilModule
-
-    -- In addition to the required debug mode, setting this also ensures to display the replay frame anywhere.
-    local ReplayDebug = false
 
     ---@alias ReplayFrameStyle "MODERN"|"MODERN_COMPACT"|"MODERN_SPLITS"|"MDI"
 
@@ -10550,7 +10636,6 @@ if IS_RETAIL then
         ---@alias ReplayFrameDropDownPositionOption "lock"|"unlock"|"dock"|"undock"
 
         ---@class ReplayFrameDropDownMenuInfoPolyfill : UIDropDownMenuInfoPolyfill
-        ---@diagnostic expect-next-line: incompatible-override
         ---@field public menuList ReplayFrameDropDownMenuList
         ---@field public func? fun(self: ReplayFrameDropDownMenuInfoPolyfill)
         ---@field public arg1 ReplayFrameConfigButton
@@ -11097,7 +11182,7 @@ if IS_RETAIL then
             local sortedLiveBosses = util:TableCopy(liveBosses)
             local sortedReplayBosses = util:TableCopy(replayBosses)
             table.sort(sortedReplayBosses, SortBosses)
-            local encounterOrder = {} ---@type table<ReplayEncounter, number>|table<number, number>
+            local encounterOrder = {} ---@type table<ReplayEncounter, number>
             for index, boss in ipairs(sortedReplayBosses) do
                 boss.order = index
                 local encounter = boss.encounter
@@ -12173,9 +12258,9 @@ if IS_RETAIL then
                 return timerID, elapsedTime, not stopTimer or stopTimerID ~= timerID
             end
         end
-        if ReplayDebug and config:Get("debugMode") then
-            return 1, 0, true
-        end
+        -- if config:Get("debugMode") then
+        --     return 1, 0, true
+        -- end
     end
 
     ---@return number? mapID, number? timeLimit
@@ -12233,11 +12318,11 @@ if IS_RETAIL then
                 end
             end
         end
-        if ReplayDebug and (not mapID and config:Get("debugMode")) then
-            local dungeons = ns:GetDungeonData()
-            local dungeon = dungeons[1]
-            mapID, timeLimit = dungeon.instance_map_ids[1], dungeon.timers[3]
-        end
+        -- if not mapID and config:Get("debugMode") then
+        --     local dungeons = ns:GetDungeonData()
+        --     local dungeon = dungeons[1]
+        --     mapID, timeLimit = dungeon.instance_map_ids[1], dungeon.timers[3]
+        -- end
         return mapID, timeLimit, mapIDs
     end
 
@@ -12314,9 +12399,9 @@ if IS_RETAIL then
                 return relevantReplays[1]
             end
         end
-        if ReplayDebug and config:Get("debugMode") then
-            return replays[1]
-        end
+        -- if config:Get("debugMode") then
+        --     return replays[1]
+        -- end
     end
 
     ---@param event? WowEvent
@@ -13279,10 +13364,8 @@ do
     ---@type CustomDropDownOption[]
     local unitOptions
 
-    ---@param bdropdown DropDownListPolyfill|CustomDropDown
-    ---@param event "OnShow"|"OnHide"
+    ---@param bdropdown DropDownListPolyfill
     ---@param options CustomDropDownOption[]
-    ---@return CustomDropDownOption[]?
     local function OnToggle(bdropdown, event, options, level, data)
         if event == "OnShow" then
             if not config:Get("showDropDownCopyURL") then
@@ -13304,14 +13387,14 @@ do
                         options[index] = option
                     end
                 end
-                return options
+                return true
             end
         elseif event == "OnHide" then
             if options[1] then
                 for i = #options, 1, -1 do
                     options[i] = nil
                 end
-                return options
+                return true
             end
         end
     end
@@ -13389,7 +13472,7 @@ do
     ---@field public contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
     ---@field public CreateDivider fun(self: ModifyMenuCallbackRootDescriptionPolyfill)
     ---@field public CreateTitle fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string)
-    ---@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun(button: Button, arg1: any, arg2: any, checked: boolean))
+    ---@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun())
 
     ---@class ModifyMenuReturnPolyfill
     ---@field public Unregister fun(self: ModifyMenuReturnPolyfill)
@@ -14682,8 +14765,32 @@ do
     local config = ns:GetModule("Config") ---@type ConfigModule
 
     local clientConfig = ns:GetClientConfig()
+    local enableInstanceTracking
+    local CheckInstance
+    local activity = ns.CreateActivityTelemetry(config, callback)
 
-    local function UpdateModuleState()
+    local function IsAlwaysOnTrackingEnabled()
+        return enableInstanceTracking
+            and config:Get("allowClientToControlCombatLog")
+            and type(clientConfig) == "table"
+            and clientConfig.enableAlwaysOnCombatLogging == true
+    end
+
+    local duelLoggingRequested = false
+
+    -- Requested by the duel tracker; like the other client modes it needs client control of the combat log.
+    local function IsDuelLoggingActive()
+        return duelLoggingRequested and config:Get("allowClientToControlCombatLog")
+    end
+
+    local UpdateModuleState
+    -- A separate function, because one-shot registration applies to every event a function is registered for.
+    local function RetryModuleState()
+        UpdateModuleState()
+    end
+
+    function UpdateModuleState()
+        activity.Update()
         local enableCombatLogTracking
         if config:Get("allowClientToControlCombatLog") then
             enableCombatLogTracking = clientConfig and clientConfig.enableCombatLogTracking
@@ -14691,27 +14798,62 @@ do
         if enableCombatLogTracking == nil then
             enableCombatLogTracking = config:Get("enableCombatLogTracking")
         end
-        if enableCombatLogTracking then
-            C_CVar.SetCVar("advancedCombatLogging", "1")
-            combatlog:Enable()
-        else
-            combatlog:Disable()
+        enableInstanceTracking = not not enableCombatLogTracking
+        if enableInstanceTracking or IsDuelLoggingActive() or activity.IsEnabled() then
+            if C_CVar.GetCVar("advancedCombatLogging") ~= "1" then
+                if not InCombatLockdown() then
+                    C_CVar.SetCVar("advancedCombatLogging", "1")
+                else
+                    callback:UnregisterEvent(RetryModuleState, "PLAYER_REGEN_ENABLED")
+                    callback:RegisterEventOnce(RetryModuleState, "PLAYER_REGEN_ENABLED")
+                end
+            end
+            if not combatlog:Enable() then
+                CheckInstance()
+            end
+        elseif not combatlog:Disable() then
+            CheckInstance(false)
         end
     end
 
-    function combatlog:CanLoad()
-        return config:IsEnabled()
-    end
+    --- Called by the duel tracker; logging follows location rules again once the request ends.
+    ---@param requested boolean
+    function combatlog:SetDuelLoggingRequested(requested)
+        requested = requested == true
+        if not self:IsLoaded() or duelLoggingRequested == requested then
+            return
+        end
 
-    function combatlog:OnLoad()
+        duelLoggingRequested = requested
         UpdateModuleState()
-        callback:RegisterEvent(UpdateModuleState, "RAIDERIO_SETTINGS_SAVED")
     end
 
     local LibCombatLogging = LibStub and LibStub:GetLibrary("LibCombatLogging-1.0", true) ---@type LibCombatLogging
-    local LoggingCombat = LibCombatLogging and function(...) return LibCombatLogging.LoggingCombat(L.RAIDERIO, ...) end or _G.LoggingCombat
+    local LoggingCombat = LibCombatLogging and function(...)
+        return LibCombatLogging.LoggingCombat(L.RAIDERIO, ...)
+    end or _G.LoggingCombat
 
-    local autoLogFromMapID do
+    --- Read-only diagnostics for /rio beacon duel.
+    function combatlog:GetDuelLoggingStatus()
+        local client = ns:GetClientConfig()
+        local flag
+        if type(client) == "table" then
+            flag = client.enableDuelTracking
+        end
+
+        return {
+            flag = type(flag) == "boolean" and tostring(flag) or "missing",
+            allowed = not not config:Get("allowClientToControlCombatLog"),
+            requested = duelLoggingRequested,
+            library = not not LibCombatLogging,
+            owned = not not (LibCombatLogging and LoggingCombat()),
+            logging = not not _G.LoggingCombat(),
+        }
+    end
+
+    local autoLogFromMapID
+    do
+
         ---@param instances DungeonInstance[]
         local function getLowestMapIdForInstances(instances)
             local mapID
@@ -14737,57 +14879,117 @@ do
         end
     end
 
-    local lastActive
     local previouslyEnabledLogging
-    local function CheckInstance(newModuleState)
+
+    function CheckInstance(newModuleState)
         local _, _, difficultyID, _, _, _, _, instanceMapID = GetInstanceInfo()
-        if not difficultyID or not instanceMapID then
+        local duelActive = IsDuelLoggingActive()
+        local alwaysOn = IsAlwaysOnTrackingEnabled()
+        if (not difficultyID or not instanceMapID) and newModuleState ~= false and not duelActive and not alwaysOn then
             return
         end
-        local isActive = not not (ns.COMBATLOG_DIFFICULTY_ID_ALWAYS[difficultyID] or (instanceMapID >= autoLogFromMapID and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID]))
-        if isActive == lastActive then
-            return
-        end
-        lastActive = isActive
+        -- Activity modes request logging; the desktop derives boundaries from the disk log.
+        local isActive = newModuleState ~= false
+            and not not (
+                duelActive
+                or alwaysOn
+                or activity.IsMap(instanceMapID)
+                or (
+                    enableInstanceTracking
+                    and (
+                        ns.COMBATLOG_DIFFICULTY_ID_ALWAYS[difficultyID]
+                        or (instanceMapID >= autoLogFromMapID and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID])
+                    )
+                )
+            )
         local isLogging = LoggingCombat()
         local setLogging
-        if isActive and isLogging and newModuleState == true then
-            setLogging = true
-        elseif isActive and isLogging and newModuleState == false then
-            setLogging = false
-        elseif isActive and not isLogging then
+        if isActive and not isLogging then
+            -- A raw /combatlog request made before the library loaded has no library handle.
+            -- Preserve it rather than acquire ownership and later turn someone else's log off.
+            if not previouslyEnabledLogging
+                and LibCombatLogging
+                and LibCombatLogging.GetNumLogging
+                and LibCombatLogging.GetNumLogging() == 0
+                and _G.LoggingCombat() then
+                return
+            end
             setLogging = true
         elseif not isActive and isLogging then
             setLogging = false
         end
         if setLogging == nil then
+            if not isLogging and previouslyEnabledLogging then
+                -- Another logger may have reclaimed the physical log before this addon loaded.
+                previouslyEnabledLogging = false
+                config:Set("previouslyEnabledLogging", false)
+            end
             return
         end
         if not setLogging and not previouslyEnabledLogging then
             return
         end
-        previouslyEnabledLogging = setLogging
-        config:Set("previouslyEnabledLogging", setLogging)
-        LoggingCombat(setLogging)
+        local updatedLogging = LoggingCombat(setLogging)
+        if updatedLogging ~= setLogging then
+            return -- retry on the next location/settings event if the game rejected the change
+        end
+
+        previouslyEnabledLogging = updatedLogging
+        config:Set("previouslyEnabledLogging", updatedLogging)
         if not LibCombatLogging then
             local info = ChatTypeInfo.SYSTEM
-            DEFAULT_CHAT_FRAME:AddMessage(format("|cffFFFFFFRaider.IO|r: %s", setLogging and COMBATLOGENABLED or COMBATLOGDISABLED), info.r, info.g, info.b, info.id)
+            DEFAULT_CHAT_FRAME:AddMessage(
+                format("|cffFFFFFFRaider.IO|r: %s", setLogging and COMBATLOGENABLED or COMBATLOGDISABLED),
+                info.r,
+                info.g,
+                info.b,
+                info.id
+            )
         end
     end
 
+    function combatlog:CanLoad()
+        return config:IsEnabled()
+    end
+
+    function combatlog:OnLoad()
+        -- A /reload resets library handles but not the game's log. Take back the one this addon left
+        -- running before the current settings decide whether to keep it.
+        local persisted = config:Get("previouslyEnabledLogging") == true
+        previouslyEnabledLogging = persisted and _G.LoggingCombat() == true
+        if persisted and not previouslyEnabledLogging then
+            config:Set("previouslyEnabledLogging", false)
+        end
+
+        if previouslyEnabledLogging and LibCombatLogging and LibCombatLogging.GetNumLogging and LibCombatLogging.GetNumLogging() == 0 then
+            LoggingCombat(true)
+        end
+
+        UpdateModuleState()
+        callback:RegisterEvent(UpdateModuleState, "RAIDERIO_SETTINGS_SAVED")
+        -- Without this, logging requested only for activity would stay on until the next zone change.
+        if ns.Safety then
+            ns.Safety.OnTrip("activity", UpdateModuleState)
+        end
+        activity.Start()
+    end
+
     function combatlog:OnEnable()
-        previouslyEnabledLogging = config:Get("previouslyEnabledLogging")
         CheckInstance(true)
-        callback:RegisterEvent(CheckInstance, "PLAYER_ENTERING_WORLD", "ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS", "RAID_INSTANCE_WELCOME")
+        callback:RegisterEvent(
+            CheckInstance,
+            "PLAYER_ENTERING_WORLD",
+            "ZONE_CHANGED",
+            "ZONE_CHANGED_NEW_AREA",
+            "ZONE_CHANGED_INDOORS",
+            "RAID_INSTANCE_WELCOME"
+        )
     end
 
     function combatlog:OnDisable()
-        lastActive = nil
         CheckInstance(false)
         callback:UnregisterCallback(CheckInstance)
-        lastActive = nil
     end
-
 end
 
 -- serverlog.lua (requires debug mode)
@@ -15046,7 +15248,7 @@ if IS_RETAIL then
             Speed = "BUILDS_SPEED_%s",
         }
 
-        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]|table<string, true?>
+        ---@param difficulties TalentBuildsRaidDifficultyTranslation[]|TalentBuildsRaidSpeedTranslation[]|TalentBuildsDungeonDifficultyTranslation[]|TalentBuildsWeaponTranslation[]
         ---@param key TalentBuildsRaidDifficultyKey|TalentBuildsRaidSpeedKey|TalentBuildsDungeonDifficultyKey|TalentBuildsWeaponKey
         ---@param localeFormat TalentBuildsTranslationFormats
         ---@param specID? number
@@ -16825,7 +17027,7 @@ if IS_RETAIL then
 end
 
 -- settings.lua
--- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog, talentbuilds?
+-- dependencies: module, callback, json, config, util, profile, search, rwf?, combatlog, clientbeacon?, talentbuilds?
 do
 
     ---@class SettingsModule : Module
@@ -16838,6 +17040,7 @@ do
     local search = ns:GetModule("Search") ---@type SearchModule
     local rwf = ns:GetModule("RaceWorldFirst", true) ---@type RaceWorldFirstModule?
     local combatlog = ns:GetModule("CombatLog") ---@type CombatLogModule
+    local clientbeacon ---@type ClientBeaconModule?
     local talentbuilds = ns:GetModule("TalentBuilds", true) ---@type TalentBuildsModule?
 
     ---@type InternalStaticPopupDialog
@@ -18384,6 +18587,133 @@ do
                     return
                 end
 
+                -- Errors contained by the tracking error boundary, which are otherwise silent.
+                if text:find("^%s*[Ss][Aa][Ff][Ee][Tt][Yy]%s*$") and ns.Safety then
+                    local records, summary = ns.Safety.GetDiagnostics()
+                    local anyErrors = false
+                    for name, state in pairs(summary) do
+                        if state.errors > 0 then
+                            anyErrors = true
+                            ns.PrintWithAddonPrefix(format("%s: %d errors%s", name, state.errors, state.tripped and ", stopped for this session" or ""))
+                        end
+                    end
+                    for _, record in ipairs(records) do
+                        ns.PrintWithAddonPrefix(format("%s x%d: %s", record.module, record.count, record.message))
+                    end
+                    if not anyErrors then
+                        ns.PrintWithAddonPrefix("No tracking errors this session.")
+                    end
+                    return
+                end
+
+                -- Journey diagnostics use the same consent and beacon gates as real facts.
+                local journeyArgument, journeyAction, journeyKind = text:match("^%s*[Jj][Oo][Uu][Rr][Nn][Ee][Yy]%s*(%S*)%s*(%S*)%s*(%S*)%s*$")
+                if journeyArgument and ns.JourneyJournal then
+                    if journeyArgument:lower() == "test" then
+                        local accepted, reason = ns.JourneyJournal.Test()
+                        ns.PrintWithAddonPrefix(accepted and "Journey test sent to the beacon queue; check the desktop app for receipt."
+                            or ("Journey test blocked: " .. tostring(reason)))
+                    elseif journeyArgument:lower() == "probe" and ns.JourneyEvidenceProbe then
+                        local action = journeyAction and journeyAction:lower()
+                        local accepted, result = ns.JourneyEvidenceProbe.Command(action, journeyKind and journeyKind:lower())
+                        if action == "status" then
+                            local status = result
+                            ns.PrintWithAddonPrefix(format("Journey evidence probe %s (%s), %d/%d events, limit %ds, trade-success constant=%s, stopped=%s",
+                                status.active and "active" or "inactive", tostring(status.kind or "none"), status.count,
+                                status.maxEvents, status.maxSeconds, tostring(status.tradeSuccessConstantAvailable), tostring(status.stopReason or "none")))
+                        else
+                            ns.PrintWithAddonPrefix(accepted and "Journey evidence probe updated." or ("Journey evidence probe: " .. tostring(result)))
+                        end
+                    else
+                        local status = ns.JourneyJournal.GetStatus()
+                        local probe = ns.JourneyEvidenceProbe and ns.JourneyEvidenceProbe.GetStatus()
+                        ns.PrintWithAddonPrefix(format("Journey catalog %s revision %s, client %s compatible=%s; collection=%s scope=%s; live transport armed=%s; %d pending facts; observations=%s %d pending checkpoints; %d beacon streams; evidence probe=%s %d/%d; issue=%s",
+                            tostring(status.catalogGame or "missing"), tostring(status.catalogRevision or "missing"), tostring(status.clientVersion or "unknown"), tostring(status.compatible),
+                            tostring(status.collection), tostring(status.scopeId or "none"), tostring(status.armed), status.pending,
+                            tostring(status.observations), status.pendingObservations, status.streamPending,
+                            probe and (probe.active and "active" or "inactive") or "unavailable", probe and probe.count or 0,
+                            probe and probe.maxEvents or 0, tostring(status.issue or "none")))
+                    end
+                    return
+                end
+
+                -- beacon
+                local beaconArgument, beaconOption = text:match("^%s*[Bb][Ee][Aa][Cc][Oo][Nn]%s*(%S*)%s*(%S*)")
+                if beaconArgument and clientbeacon then
+                    -- TODO: localization? (diagnostic output, like the status line below)
+                    local BEACON_STOPPED = "The Client Beacon stopped after repeated errors. Use /reload to start it again."
+                    if beaconArgument:lower() == "diagnose" then
+                        local accepted, issue = clientbeacon:Diagnose(beaconOption:lower())
+                        if not accepted then
+                            ns.PrintWithAddonPrefix("Beacon diagnostics: " .. tostring(issue))
+                        end
+                        return
+                    end
+                    if beaconArgument:lower() == "duel" then
+                        local status = clientbeacon:GetStatus()
+                        local logging = combatlog:GetDuelLoggingStatus()
+                        ns.PrintWithAddonPrefix(format("Duel %s: enableDuelTracking=%s, client control=%s, request=%s, library=%s, Raider.IO handle=%s, combat log=%s, opponent inspect=%s",
+                            status.duelState, logging.flag, tostring(logging.allowed),
+                            tostring(logging.requested), tostring(logging.library), tostring(logging.owned), tostring(logging.logging),
+                            status.opponentInspectStatus))
+                        return
+                    end
+                    if beaconArgument:lower() == "test" and beaconOption:lower() == "stream" then
+                        local started, reason = clientbeacon:TestStream()
+                        -- TODO: localization? (diagnostic output, like the status line below)
+                        if started then
+                            local transportVersion = clientbeacon:GetStatus().transportVersion
+                            if transportVersion == 1 or transportVersion == 2 or transportVersion == 3 then
+                                ns.PrintWithAddonPrefix("Sending three test messages with the configured beacon geometry and hold timing.")
+                            else
+                                ns.PrintWithAddonPrefix("Showing the test stream. The Raider.IO Client reports how many symbols it received at each speed.")
+                            end
+                        elseif reason == "busy" then
+                            ns.PrintWithAddonPrefix("A test stream is already being shown.")
+                        elseif reason == "stopped" then
+                            ns.PrintWithAddonPrefix(BEACON_STOPPED)
+                        else
+                            ns.PrintWithAddonPrefix(L.CLIENT_BEACON_UNSUPPORTED)
+                        end
+                        return
+                    end
+                    if beaconArgument:lower() == "test" then
+                        local shown, reason = clientbeacon:Test()
+                        if shown then
+                            ns.PrintWithAddonPrefix(L.CLIENT_BEACON_TEST_SENT)
+                        elseif reason == "busy" then
+                            ns.PrintWithAddonPrefix(L.CLIENT_BEACON_TEST_BUSY)
+                        elseif reason == "stopped" then
+                            ns.PrintWithAddonPrefix(BEACON_STOPPED)
+                        else
+                            ns.PrintWithAddonPrefix(L.CLIENT_BEACON_UNSUPPORTED)
+                        end
+                        return
+                    end
+                    local status = clientbeacon:GetStatus()
+                    if status.stopped then
+                        ns.PrintWithAddonPrefix(BEACON_STOPPED)
+                        return
+                    end
+                    if not status.supported or not status.width then
+                        ns.PrintWithAddonPrefix(L.CLIENT_BEACON_UNSUPPORTED)
+                        return
+                    end
+                    -- TODO: localization? (diagnostic output, like the help text below)
+                    local lastShown = "never shown"
+                    if status.lastEmitAt then
+                        lastShown = format("last shown %d s ago", math.floor(GetTime() - status.lastEmitAt))
+                    end
+                    ns.PrintWithAddonPrefix(format("Beacon v%d %s (controlled by the Raider.IO Client), placed %s, %d px cells at %dx%d, next sequence %d, %d queued, %s, %s, combatant snapshots %s",
+                        status.version, status.enabled and "on" or "off", status.placement, status.cellPx,
+                        status.width, status.height, status.nextSequence, status.queued, lastShown,
+                        status.markerConfigured and "marker configured" or "no marker", status.combatantSnapshots and "on" or "off"))
+                    local serverTime, localTime = GetServerTime(), time()
+                    ns.PrintWithAddonPrefix(format("Beacon clock: server %d, local %d, server-local %+d s", serverTime, localTime, serverTime - localTime))
+                    ns.PrintWithAddonPrefix(status.lastEncounter)
+                    return
+                end
+
                 -- search
                 local searchQuery = text:match("^%s*[Ss][Ee][Aa][Rr][Cc][Hh]%s*(.-)$")
                 if searchQuery then
@@ -18418,6 +18748,9 @@ do
                         ns.Print("  |cffFFFFFF/rio search [name[ realm]]|r")
                     end
                         ns.Print("  |cffFFFFFF/rio group|r     Export Group JSON data")
+                    if clientbeacon then
+                        ns.Print("  |cffFFFFFF/rio beacon [duel|test [stream]|diagnose [status|stop]]|r Beacon status, tests, or desktop diagnostic plan")
+                    end
                     if debugMode then
                         ns.Print("  |cffFFFFFF/rio rwf|r       Toggle RWF mode")
                         ns.Print("  |cffFFFFFF/rio debug|r     Toggle Debug mode")
@@ -18441,6 +18774,7 @@ do
     end
 
     function settings:OnLoad()
+        clientbeacon = ns:GetModule("ClientBeacon", true)
         self:Enable()
     end
 

@@ -1,7 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 	..\FrameXML\UI.xsd">
 
+	<Script file="safety.lua" />
 	<Script file="libs/LibStub/LibStub.lua" />
+	<Script file="libs/LibClientBeacon-1.0/LibClientBeacon-1.0.lua" />
+	<Script file="libs/LibClientBeacon-1.0/PacketTransport.lua" />
 	<Script file="libs/LibDropDownExtension-1.0/LibDropDownExtension.lua" />
 	<Script file="libs/LibClassTalentsImportExport-1.0/LibClassTalentsImportExport-1.0.lua" />
 	<Script file="libs/CallbackHandler-1.0/CallbackHandler-1.0.lua" />
@@ -22,6 +25,33 @@
 	<Script file="locale/zhTW.lua" />
 
 	<Script file="utf8.lua" />
+	<Script file="beacon-diagnostic-graphics.lua" />
+	<Script file="beacon-diagnostics.lua" />
+	<Script file="character-observations.lua" />
+	<Script file="beacon-debug.lua" />
+	<Script file="beacon-summary.lua" />
+	<Script file="activity-telemetry.lua" />
 	<Script file="core.lua" />
+	<Script file="beacon.lua" />
+	<Script file="db/db_client_journey_catalog.lua" />
+	<Script file="db/db_client_journey_receipts.lua" />
+	<Script file="journeys-memory-policy.lua" />
+	<Script file="journeys-evidence.lua" />
+	<Script file="journeys-erasure.lua" />
+	<Script file="journeys-group-loot.lua" />
+	<Script file="journeys-boss-attempts.lua" />
+	<Script file="journeys-kills.lua" />
+	<Script file="journeys.lua" />
+	<Script file="journeys-doll.lua" />
+	<Script file="journeys-close-call-episodes.lua" />
+	<Script file="journeys-encounter-episodes.lua" />
+	<Script file="journeys-roster-episodes.lua" />
+	<Script file="journeys-roster-reader.lua" />
+	<Script file="journeys-clutch.lua" />
+	<Script file="journeys-memory-observation.lua" />
+	<Script file="journeys-encounter-adapter.lua" />
+	<Script file="journeys-roaming-threat.lua" />
+	<Script file="journeys-evidence-probe.lua" />
+	<Script file="gamedata.lua" />
 
 </Ui>
