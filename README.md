@@ -47,6 +47,70 @@ To qualify for inclusion in a snapshot, players must meet specific criteria base
 
 ## Detailed Addon Usage
 
+### Optional duel combat logging
+
+The desktop recorder writes `ns.CLIENT_CONFIG.enableDuelTracking` for duel capture and
+combatant snapshots. With client control of combat logging allowed and the client beacon enabled, the addon
+requests logging through `LibCombatLogging-1.0` when the duel countdown begins, or at
+fight start if no countdown signal was observed. It releases its request five seconds after the
+duel result to preserve the combat-log tail; cancellation and world resets release it immediately.
+Other logging owners and active instance logging remain active. Missing or false means
+duel logging is off, regardless of normal automatic combat logging.
+Use `/rio beacon duel` before, during, and after a duel to inspect the loaded flag, client-control
+permission, logging request, library ownership, and WoW's actual logging state without changing them.
+After the desktop updates the file, `/reload` is needed to load its new values.
+
+Opponent gear is read again every 0.2 seconds for up to two seconds after fight
+start because item links can still be loading after `INSPECT_READY`. Each read
+checks the opponent GUID and preserves slots already observed. One snapshot is
+queued at the deadline, or immediately with the available gear if the duel ends
+sooner. Disabling capture, world resets, or changing opponents cancels the old retries. The
+diagnostic reports the number of captured gear slots; it does not claim the gear
+is complete. Missing inspect data never delays the duel or its result.
+
+Combatant snapshots (beacon message kind 1, format 6) of this player and the inspected
+opponent are sent in every game when `ns.CLIENT_CONFIG.enableDuelTracking` is true and a
+configuration marker is set. Format 6's talent section
+names how the game identifies talents: trait nodes (Forever, Retail), talent tab, tier and
+column (Era, including Hardcore and Season of Discovery) or tier spell IDs plus glyph spell IDs
+(Mists).
+Stats use the sparse list wherever a game leaves a position unanswered. The desktop
+client owns the layout.
+
+### Optional game-data collection
+
+The desktop's `enableGameDataCollection` setting enables bounded, local quest, NPC and loot
+observations in `RaiderIO_GameData`. Collection is off by default and requires a recognized client.
+WoW writes these observations on logout or `/reload`; the addon does not upload them itself.
+On Forever, the same setting can also enable beacon-based character observations.
+
+### Activity telemetry
+
+`activity-telemetry.lua` owns bounded own-character context and the outdoor/delve eligibility
+checks. The existing `CombatLog` module in `core.lua` owns the logging requests. Activity telemetry
+does not require the beacon library, duel tracker, Journey journal, or quest/loot collector. The desktop telemetry worker consumes the disk log and character context for
+source-time enrichment. Character context is not a Journey progression journal.
+
+World/delve collection requires client control plus the corresponding enable flag and
+configured build/map allowlists (`activityTelemetryBuilds`, `activityTelemetryOutdoorMapIds`,
+`activityTelemetryDelveMapIds`). Always-on logging is an independent logging request; it does
+not grant telemetry consent or enable character history on its own.
+
+### Optional continuous combat logging
+
+The separate `ns.CLIENT_CONFIG.enableAlwaysOnCombatLogging` flag keeps the existing combat-log
+owner active outdoors as well as in instances. It requires the existing live-tracking setting and
+permission for the desktop client to control combat logging. Turning it off restores the normal
+instance rules. The addon releases only logging it owns and preserves another logger's library
+handle or preexisting manual logging. A `/reload` does not interrupt an owned log: the next load
+takes the handle back and then applies the current settings, releasing the log if they no longer
+call for it.
+
+Activity character context keeps at most seven days and 2,048 entries, preserving milestones
+before periodic samples. Addon load, login, logout and settings changes prune expired known-version
+history even when activity collection is off or the character is at max level. Opt-out never
+appends new context; recent context remains available until its retention window expires.
+
 Our intent with this AddOn is to provide an easy way for people to get some information at a glance when forming groups. There is no substitute for talking with your fellow players, so be a pal and listen if an applicant whispers you. These are the fields we show, and when we show them:
 
 ### Character Raid & Mythic+ Tooltips

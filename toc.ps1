@@ -28,11 +28,17 @@ $meta.TOC = [ordered]@{
 	Author = "Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)"
 	Version = "@clientVersion@ (@project-version@)"
 	IconTexture = "Interface\AddOns\$($meta.AddOn)\icons\logo"
-	SavedVariables = "RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays"
+	SavedVariables = "RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays, RaiderIO_GameData, RaiderIO_ActivityCharacterContext, RaiderIO_BeaconDebug, RaiderIO_BeaconSummary, RaiderIO_BeaconSummaryExport, RaiderIO_SafetyLog, RaiderIO_JourneyEvidenceProbe"
 	"X-Website" = "https://raider.io"
 	"X-AddonProvider" = "github"
 	"X-Curse-Project-ID" = "279257"
 	"X-Wago-ID" = "b6mb0XKP"
+	"X-Beacon-Protocol" = "8"
+	"X-Beacon-Formats" = "cells-v1,cells-v2,cells-v3"
+	"X-Journey-Protocol" = "3"
+	"X-Journey-Catalog" = "3"
+	"X-RaiderIO-Capabilities" = "beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1"
+	SavedVariablesPerCharacter = "RaiderIO_Journeys, RaiderIO_JourneyExport"
 }
 
 $meta.DBTOC = [ordered]@{
@@ -66,6 +72,8 @@ $clientPlaceholderFiles = @(
 	"db_client_characters"
 	"db_client_recent_characters"
 	"db_client_config"
+	"db_client_journey_catalog"
+	"db_client_journey_receipts"
 	"db_client_guilds"
 	"db_client_replays"
 	"db_dungeons"
@@ -74,6 +82,9 @@ $clientPlaceholderFiles = @(
 	"db_score_tiers_prev"
 	"db_talent_builds"
 )
+
+# The desktop client writes this into each installation's own AddOns folder, so every client loads the one file.
+$sharedClientConfigFile = "db_client_config"
 
 $clientPlaceholderFilesClientSpecific = @{
 	"db_client_recent_characters" = "mainline"
@@ -229,6 +240,10 @@ foreach ($clientKey in $clients.Keys)
 		{
 			continue
 		}
+		if (-not $clientInfo.IsMainline -and ($clientPlaceholderFile -eq $sharedClientConfigFile -or $sharedClientFiles.Contains("$clientPlaceholderFile.lua")))
+		{
+			continue
+		}
 		$clientPlaceholderFile = "db/$($clientPlaceholderFile).lua"
 		if (-not $clientInfo.IsMainline)
 		{
@@ -253,6 +268,10 @@ foreach ($clientKey in $clients.Keys)
 	$clientFilePrefix = ClientFilePrefix $clientInfo
 	$clientFiles = Get-ChildItem $dbRootPath -Filter "$($clientFilePrefix)_*.lua"
 	$clientTocLines = BuildTocLines $meta.TOC $clientInfo.Interface
+	if (-not $clientInfo.IsMainline)
+	{
+		$clientTocLines += "db/$($sharedClientConfigFile).lua"
+	}
 	foreach ($clientFile in $clientFiles)
 	{
 		if (ClientTocCanLoadFile $clientInfo $clientFile.Name)
@@ -311,3 +330,14 @@ foreach ($clientKey in $clients.Keys)
 	}
 
 }
+
+# Forever's client uses the Camelot TOC flavor and the same base data file names
+# as the mainline addon. Keep this generated alongside the other TOCs.
+$mainlineTocPath = Join-Path $rootPath "$($meta.AddOn).toc"
+$foreverTocPath = Join-Path $rootPath "$($meta.AddOn)_Camelot.toc"
+$foreverLines = @(Get-Content $mainlineTocPath) | ForEach-Object {
+	if ($_ -match '^## Interface:') { '## Interface: 16001' }
+	elseif ($_ -match '^## Version:') { '## Version: 1.60.1 (@project-version@)' }
+	else { $_ }
+}
+Set-Content $foreverTocPath (($foreverLines -join "`r`n") + "`r`n") -NoNewline

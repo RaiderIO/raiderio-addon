@@ -4,11 +4,17 @@
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
 ## Version: 12.1.0 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
-## SavedVariables: RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays
+## SavedVariables: RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays, RaiderIO_GameData, RaiderIO_ActivityCharacterContext, RaiderIO_BeaconDebug, RaiderIO_BeaconSummary, RaiderIO_BeaconSummaryExport, RaiderIO_SafetyLog, RaiderIO_JourneyEvidenceProbe
 ## X-Website: https://raider.io
 ## X-AddonProvider: github
 ## X-Curse-Project-ID: 279257
 ## X-Wago-ID: b6mb0XKP
+## X-Beacon-Protocol: 8
+## X-Beacon-Formats: cells-v1,cells-v2,cells-v3
+## X-Journey-Protocol: 3
+## X-Journey-Catalog: 3
+## X-RaiderIO-Capabilities: beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1
+## SavedVariablesPerCharacter: RaiderIO_Journeys, RaiderIO_JourneyExport
 db/db_client_characters.lua
 db/db_client_config.lua
 db/db_client_guilds.lua
