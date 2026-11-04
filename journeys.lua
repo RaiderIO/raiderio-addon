@@ -3082,6 +3082,8 @@ function journal.Heartbeat(force)
         journal.PumpHeartbeats(current)
         -- Only a new sample delivers, never a backlog drain: zone time stays current between milestones.
         journal.DeliverObservations(current)
+        -- A forced sample marks a transition, where the activation was just sent or is closing.
+        if not force then journal.ResendActivation() end
     end
 end
 
@@ -3193,7 +3195,10 @@ function journal.ReleaseCreation(logout)
     end
 
     evidence.heldCreation = nil
-    current:Observe("journal_created", 0, played, Context())
+    local context = Context()
+    -- The desktop requires the fact's played time to match its context, and the intro has since advanced the clock.
+    context.playedSeconds = played
+    current:Observe("journal_created", 0, played, context)
     return true
 end
 
@@ -4310,9 +4315,17 @@ local function DeliverActivation(echo, terminal)
     local body=JSON(packet)
     if #body>MAX_ENVELOPE_BYTES then journal.error="Journey activation envelope exceeds transport budget";return end
     echo[attempts]=echo[attempts]+1
-    local key="activation:"..echo.ticketId..":"..echo.nonce..":"..IdentityNumber(echo.worldCycle)..(terminal and ":closed" or ":ready")
+    local key="activation:"..echo.ticketId..":"..echo.nonce..":"..IdentityNumber(echo.worldCycle)..(terminal and ":closed" or ":ready")..(not terminal and echo.resends and ":"..echo.resends or "")
     local ok,accepted=pcall(owner.QueueMessage,owner,JOURNEY_MESSAGE_KIND,body,key,true)
     if ok and accepted==true then echo[sent]=true end
+end
+-- A lost frame has no other retry, and the desktop refuses compact moments until this proof lands. Repeats are harmless.
+journal.ResendActivation=function()
+    local echo=journal.activationEcho
+    if echo and echo.sent and not echo.closed then
+        echo.sent,echo.attempts,echo.resends=nil,0,(echo.resends or 0)+1
+        DeliverActivation(echo,false)
+    end
 end
 journal.CloseActivation=function()
     local echo=journal.activationEcho
