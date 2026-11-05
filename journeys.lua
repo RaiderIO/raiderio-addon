@@ -3091,6 +3091,8 @@ end
 local OPERATION_SECONDS, MAX_RARE_TARGETS, MAX_TAXI_NODES = 60, 256, 4096
 journal.groupLeaveIntentSeconds = 5
 local MAX_GATHER_LOOT_SLOTS, MAX_SUBJECT_NAME_BYTES = 32, 128
+-- A held join still reaches the desktop well inside its guild clip's 15 s post-roll.
+journal.guildNameWaitSeconds = 5
 local FIRST_PVP_RANK, LAST_PVP_RANK = 5, 18
 -- Tame Beast shares its spell ID. The channel alone proves nothing: 12.1.5 combat logs show a successful tame
 -- ending in the separate completion spell, while an interrupted one does not.
@@ -3199,6 +3201,25 @@ function journal.ReleaseCreation(logout)
     -- The desktop requires the fact's played time to match its context, and the intro has since advanced the clock.
     context.playedSeconds = played
     current:Observe("journal_created", 0, played, context)
+    return true
+end
+
+-- IsInGuild turns true before GetGuildInfo names the guild, so a join waits for its name with its original context.
+---@param logout? boolean
+---@return boolean? released
+function journal.ReleaseGuildJoin(logout)
+    local held = evidence.heldGuildJoin
+    if not held or not current then
+        return
+    end
+
+    local name = Read(GetGuildInfo, "player")
+    if not name and not logout and Read(GetTime) - held.at < journal.guildNameWaitSeconds then
+        return
+    end
+
+    evidence.heldGuildJoin = nil
+    current:Observe("guild_joined", 0, 0, held.context, false, nil, Label(name))
     return true
 end
 
@@ -3360,9 +3381,15 @@ local function Membership(baseline)
             end
             local previous = evidence[source]
             evidence[source] = active
-            if active and (baseline or previous == nil or previous == false) then
-                Emit(source, 0, 0, source == "guild_joined" and Read(GetGuildInfo, "player") or nil,
-                    baseline or previous == nil)
+            if active and source == "guild_joined" and not baseline and previous == false then
+                -- A rejoin during the wait records the earlier join first, named or not.
+                journal.ReleaseGuildJoin(true)
+                evidence.heldGuildJoin = { context = Context(), at = Read(GetTime) }
+                -- The roster reply is what fills GetGuildInfo after a join.
+                Read(C_GuildInfo and C_GuildInfo.GuildRoster or GuildRoster)
+                journal.ReleaseGuildJoin()
+            elseif active and (baseline or previous == nil or previous == false) then
+                Emit(source, 0, 0, nil, baseline or previous == nil)
             end
         else
             evidence[source] = nil
@@ -5451,6 +5478,9 @@ if frame then
         if journal.ReleaseCreation() then
             Export()
         end
+        if journal.ReleaseGuildJoin() then
+            Export()
+        end
 
         sampleElapsed = (sampleElapsed or 0) + elapsed
         if sampleElapsed >= SAMPLE_INTERVAL_SECONDS then
@@ -5560,6 +5590,7 @@ if frame then
 
         if event == "PLAYER_LOGOUT" then
             journal.ReleaseCreation(true)
+            journal.ReleaseGuildJoin(true)
             journal.Logout()
             return
         end
