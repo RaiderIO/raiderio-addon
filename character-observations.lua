@@ -6,7 +6,7 @@ end
 
 -- Application collector only. The beacon owner supplies its shared inspection lock and stream queue.
 function ns.CreateCharacterObservations(options)
-    local SCHEMA_VERSION, MESSAGE_KIND = 1, 3
+    local SCHEMA_VERSION, MESSAGE_KIND = 2, 3
     local MAX_BODY_BYTES, MAX_ITEM_BYTES = 8192, 1024
     local MAX_CACHE, MAX_PENDING = 512, 32
     local REFRESH_SECONDS, INSPECT_RETRY_SECONDS = 900, 60
@@ -130,7 +130,11 @@ function ns.CreateCharacterObservations(options)
         local realmId = RealmID(guid)
         local home, homeGUID = HomeRealm()
         local nameAPI = type(UnitNameUnmodified) == "function" and UnitNameUnmodified or UnitName
-        local name = Text(Read(nameAPI, token), 48)
+        local rawName, rawSurname = Read(nameAPI, token)
+        local name = Text(rawName, 48)
+        -- Forever's second value is the surname. An unreadable one rejects the sighting: the first name alone is another character.
+        local hasSurname = issecretvalue(rawSurname) or (rawSurname ~= nil and rawSurname ~= "")
+        local surname = hasSurname and Text(rawSurname, 48) or nil
         local classId = Integer(select(3, Read(UnitClass, token)), 64)
         local raceId = Integer(select(3, Read(UnitRace, token)), 1000)
         local level = Integer(Read(UnitLevel, token), 255)
@@ -140,7 +144,9 @@ function ns.CreateCharacterObservations(options)
         if not realmId
             or not home
             or not name
+            or name == UNKNOWNOBJECT
             or name:find("[%s:%-]")
+            or (hasSurname and (not surname or surname:find("[%s:%-]")))
             or not classId
             or not raceId
             or not level
@@ -156,6 +162,7 @@ function ns.CreateCharacterObservations(options)
             source = guid == homeGUID and "self" or "observed",
             guid = guid,
             name = name,
+            surname = surname,
             realmName = realmId == home.guidRealmId and home.name or nil,
             classId = classId,
             raceId = raceId,
