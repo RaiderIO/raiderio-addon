@@ -3777,8 +3777,9 @@ do
     ---@param key string
     ---@param priority? boolean @Retained for callers; queued facts have priority over observations.
     ---@param observation? { key: string, revision: number, heartbeat?: boolean }
+    ---@param sourceControl? boolean @A source activation echo, which qualifies this source before collection can turn on.
     ---@return boolean accepted, string? reason
-    function clientbeacon:QueueMessage(kind, body, key, priority, observation)
+    function clientbeacon:QueueMessage(kind, body, key, priority, observation, sourceControl)
         beaconSummary("attempted", nil, kind)
         if kind ~= JOURNEY_MESSAGE_KIND then
             return Reject(kind, "unsupported message kind")
@@ -3788,8 +3789,10 @@ do
         if not self:IsEnabled()
             or type(clientConfig) ~= "table"
             or clientConfig.enableClientBeacon ~= true
-            or clientConfig.enableJourneys ~= true
-            or clientConfig.enableJourneyMetadata ~= true then
+            or not (
+                sourceControl == true and type(clientConfig.journeySourceActivationTicket) == "string"
+                or clientConfig.enableJourneys == true and clientConfig.enableJourneyMetadata == true
+            ) then
             return Reject(kind, "beacon disabled")
         end
 

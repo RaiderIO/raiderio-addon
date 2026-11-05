@@ -4316,7 +4316,7 @@ local function DeliverActivation(echo, terminal)
     if #body>MAX_ENVELOPE_BYTES then journal.error="Journey activation envelope exceeds transport budget";return end
     echo[attempts]=echo[attempts]+1
     local key="activation:"..echo.ticketId..":"..echo.nonce..":"..IdentityNumber(echo.worldCycle)..(terminal and ":closed" or ":ready")..(not terminal and echo.resends and ":"..echo.resends or "")
-    local ok,accepted=pcall(owner.QueueMessage,owner,JOURNEY_MESSAGE_KIND,body,key,true)
+    local ok,accepted=pcall(owner.QueueMessage,owner,JOURNEY_MESSAGE_KIND,body,key,true,nil,true)
     if ok and accepted==true then echo[sent]=true end
 end
 -- A lost frame has no other retry, and the desktop refuses compact moments until this proof lands. Repeats are harmless.
