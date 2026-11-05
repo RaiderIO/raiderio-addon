@@ -15,11 +15,11 @@
 ## X-Journey-Catalog: 3
 ## X-RaiderIO-Capabilities: beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1
 ## SavedVariablesPerCharacter: RaiderIO_Journeys, RaiderIO_JourneyExport
-db/db_client_characters.lua
+db/db_forever_client_characters.lua
 db/db_client_config.lua
-db/db_client_guilds.lua
+db/db_forever_client_guilds.lua
 db/db_client_recent_characters.lua
-db/db_client_replays.lua
+db/db_forever_client_replays.lua
 db/db_dungeons.lua
 db/db_realms.lua
 db/db_regions.lua
