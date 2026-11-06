@@ -1628,19 +1628,8 @@ function talentbuilds:IsBuildActiveAsLoadout(build, configID)
     return talentbuilds:IsBuildAndImportStringEqual(build, importString)
 end
 
----@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts, string?>
-local createLoadoutTranslations = {
-    [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    -- [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorCreatingNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
-    [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToChangeTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
-    [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
-    [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
-}
+---@type table<LibClassTalentsImportExportCreateLoadoutErrorTexts|LibClassTalentsImportExportEditActiveLoadoutTalentsErrorTexts, string?>?
+local createLoadoutTranslations
 
 ---@param loadoutName string
 ---@param usesSharedActionBars? boolean
@@ -1651,7 +1640,7 @@ function talentbuilds:LoadBuild(loadoutName, usesSharedActionBars, build, callba
     ---@param resultText? string
     local function respond(success, resultText)
         if resultText then
-            resultText = createLoadoutTranslations[resultText] or resultText
+            resultText = createLoadoutTranslations and createLoadoutTranslations[resultText] or resultText
         end
         if callback then
             if callback(success, resultText) then
@@ -1904,6 +1893,18 @@ local function OnSettingsChanged()
 end
 
 function talentbuilds:OnLoad()
+    createLoadoutTranslations = {
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingRequiredCallback] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.UnableToCreateNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        -- [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorCreatingNewLoadout] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.CreateLoadoutErrorTexts.ErrorImportingLoadout] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToChangeTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingConfigID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.MissingTreeID] = L.BUILDS_PROFILE_ERROR_CREATING_LOADOUT,
+        [LibClassTalentsImportExport.EditActiveLoadoutTalentsErrorTexts.UnableToImportTalents] = L.BUILDS_PROFILE_FAILED_IMPORTING_BUILD,
+    }
     self:Enable()
 end
 

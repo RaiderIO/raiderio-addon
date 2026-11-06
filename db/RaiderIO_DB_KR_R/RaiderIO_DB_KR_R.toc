@@ -1,7 +1,7 @@
-## Interface: 120100, 120105
+## Interface: 20506, 30405, 40402, 50504, 120105, 120107
 ## Title: Raider.IO |cffFFFFFFRaiding|r (Korea)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 12.1.0 (@project-version@)
+## Version: 12.1.5 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
@@ -9,5 +9,7 @@
 ## X-Region: Korea
 ## X-Faction: Both
 ## X-Website: https://raider.io
-../RaiderIO/db/db_raiding_kr_characters.lua
-../RaiderIO/db/db_raiding_kr_lookup.lua
+../RaiderIO/db/db_classic_raiding_kr_characters.lua [ExcludeLoadGameType mainline, vanilla]
+../RaiderIO/db/db_classic_raiding_kr_lookup.lua [ExcludeLoadGameType mainline, vanilla]
+../RaiderIO/db/db_raiding_kr_characters.lua [AllowLoadGameType standard]
+../RaiderIO/db/db_raiding_kr_lookup.lua [AllowLoadGameType standard]

@@ -168,15 +168,14 @@ local function CreateOptions()
 
     ---@class RaiderIOSettingsFrameHeaderFrame : Frame
     local configHeaderFrame = CreateFrame("Frame", nil, configParentFrame)
-    configHeaderFrame:SetPoint("TOPLEFT", 00, -30)
-    configHeaderFrame:SetPoint("TOPRIGHT", 00, 30)
+    configHeaderFrame:SetPoint("TOPLEFT", 0, -30)
+    configHeaderFrame:SetPoint("TOPRIGHT", 0, 30)
     configHeaderFrame:SetHeight(40)
 
     ---@class RaiderIOSettingsFrameScrollFrame : ScrollFrame
     local configScrollFrame = CreateFrame("ScrollFrame", nil, configParentFrame)
-    configScrollFrame:SetPoint("TOPLEFT", configHeaderFrame, "BOTTOMLEFT")
-    configScrollFrame:SetPoint("TOPRIGHT", configHeaderFrame, "BOTTOMRIGHT")
-    configScrollFrame:SetHeight(475)
+    configScrollFrame:SetPoint("TOPLEFT", configHeaderFrame, "BOTTOMLEFT", 5, 0)
+    configScrollFrame:SetPoint("BOTTOMRIGHT", configParentFrame, "BOTTOMRIGHT", -5, 55)
     configScrollFrame:EnableMouseWheel(true)
     configScrollFrame:SetClampedToScreen(true)
     configScrollFrame:SetClipsChildren(true)
@@ -189,8 +188,8 @@ local function CreateOptions()
 
     ---@class RaiderIOSettingsFrameSliderFrame : Slider
     local configSliderFrame = CreateFrame("Slider", nil, configScrollFrame, "UIPanelScrollBarTemplate")
-    configSliderFrame:SetPoint("TOPLEFT", configScrollFrame, "TOPRIGHT", -35, -18)
-    configSliderFrame:SetPoint("BOTTOMLEFT", configScrollFrame, "BOTTOMRIGHT", -35, 18)
+    configSliderFrame:SetPoint("TOPRIGHT", configScrollFrame, "TOPRIGHT", -10, -20)
+    configSliderFrame:SetPoint("BOTTOMRIGHT", configScrollFrame, "BOTTOMRIGHT", 10, 20)
     configSliderFrame:SetMinMaxValues(1, 1)
     configSliderFrame:SetValueStep(50)
     configSliderFrame.scrollStep = 50
@@ -218,7 +217,6 @@ local function CreateOptions()
     )
 
     local configFrame = CreateFrame("Frame", nil, configScrollFrame)
-    configFrame:SetSize(400, 600) -- resized to proper value below
     configParentFrame.scrollframe = configScrollFrame
     configParentFrame.scrollbar = configSliderFrame
     configScrollFrame.content = configFrame
@@ -493,9 +491,11 @@ local function CreateOptions()
                 for _, column in ipairs(databaseModuleColumns) do
                     local check = f[column.check]
                     local addon = f[column.addon]
-                    check:SetChecked(C_AddOns.IsAddOnLoaded(addon))
+                    local checked = C_AddOns.IsAddOnLoaded(addon)
+                    check:SetChecked(checked)
                     local _, addonTitle = C_AddOns.GetAddOnInfo(addon)
-                    check:SetShown(addonTitle ~= nil)
+                    local addonExists = addonTitle ~= nil
+                    check:SetShown(addonExists)
                 end
             end
         end
@@ -681,12 +681,7 @@ local function CreateOptions()
         frame.text:SetText(name)
         local moduleAddonNames = {...}
         for i, column in ipairs(databaseModuleColumns) do
-            local moduleAddonName = moduleAddonNames[i] or ""
-            frame[column.addon] = moduleAddonName
-            local check = frame[column.check]
-            if check then
-                check:SetShown(not not moduleAddonName)
-            end
+            frame[column.addon] = moduleAddonNames[i] or ""
         end
         self.modules[#self.modules + 1] = frame
         return frame
@@ -1444,15 +1439,17 @@ local function CreateOptions()
         configFrame:SetHeight(height)
 
         -- adjust frame width dynamically (add padding based on the largest option label string)
-        local maxWidth = 0
+        local maxLabelWidth = 0
         for i = 1, #configOptions.options do
             local option = configOptions.options[i]
             if option.text and option.text:GetObjectType() == "FontString" then
-                maxWidth = max(maxWidth, option.text:GetStringWidth())
+                maxLabelWidth = max(maxLabelWidth, option.text:GetStringWidth())
             end
         end
-        configFrame:SetWidth(160 + maxWidth)
-        configParentFrame:SetWidth(160 + maxWidth)
+
+        local maxWidth = maxLabelWidth + 200
+        configFrame:SetWidth(maxWidth)
+        configParentFrame:SetWidth(maxWidth)
 
         -- add type indicator headers over the database modules
         for _, column in ipairs(databaseModuleColumns) do
