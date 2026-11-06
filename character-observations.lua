@@ -6,16 +6,18 @@ end
 
 -- Application collector only. The beacon owner supplies its shared inspection lock and stream queue.
 function ns.CreateCharacterObservations(options)
-    local SCHEMA_VERSION, MESSAGE_KIND = 2, 3
+    local SCHEMA_VERSION, WHO_SCHEMA_VERSION, MESSAGE_KIND = 2, 3, 3
     local MAX_BODY_BYTES, MAX_ITEM_BYTES = 8192, 1024
-    local MAX_CACHE, MAX_PENDING = 512, 32
+    local MAX_CACHE, MAX_PENDING, MAX_WHO_PENDING = 512, 32, 128
+    local WHO_SENDS_PER_TICK, MAX_CLASS_ID = 4, 64
     local REFRESH_SECONDS, INSPECT_RETRY_SECONDS = 900, 60
     local TICK_SECONDS, SCAN_SECONDS, INSPECT_SECONDS, GEAR_SECONDS = 0.5, 1, 3, 2
     local MAX_INTEGER, MAX_TIMESTAMP = 2147483647, 4294967295
     local GENDERS, FACTIONS = { [2] = 1, [3] = 2 }, { Alliance = 1, Horde = 2 }
     local cache, pending, pendingGUIDs = {}, {}, {}
+    local whoPending, whoOrder, classIds, whoPatterns = {}, {}, nil, nil
     local cacheCount, generation, scanIndex, nextScan = 0, 0, 1, 0
-    local active, inspection = false, nil
+    local active, inspection, whoScheduled = false, nil, false
     local api = {}
     local scanUnits = { "player", "target", "mouseover" }
     for i = 1, 4 do
@@ -245,9 +247,9 @@ function ns.CreateCharacterObservations(options)
         end
     end
 
-    local function Queue(data)
+    local function Queue(data, key)
         local body = Encode(data)
-        return body and options.Queue(MESSAGE_KIND, body, data.guid) or false
+        return body and options.Queue(MESSAGE_KIND, body, key or data.guid) or false
     end
 
     local function Enrich(token, expectedGUID, talents)
@@ -276,8 +278,9 @@ function ns.CreateCharacterObservations(options)
         end
     end
 
-    local function Remember(data)
-        if not cache[data.guid] then
+    local function Remember(data, key)
+        key = key or data.guid
+        if not cache[key] then
             if cacheCount >= MAX_CACHE then
                 local oldestGUID, oldestAt
                 for guid, entry in pairs(cache) do
@@ -291,7 +294,7 @@ function ns.CreateCharacterObservations(options)
             cacheCount = cacheCount + 1
         end
         local entry = { level = data.level, at = GetTime() }
-        cache[data.guid] = entry
+        cache[key] = entry
         return entry
     end
 
@@ -325,6 +328,92 @@ function ns.CreateCharacterObservations(options)
         end
     end
 
+    -- Read structured results for both the Who window and localized chat-only replies.
+    function api.ObserveWhoResults()
+        if not active or not options.IsArmed() or not IsTrue(Read(RegionalUniqueNamesEnabled)) then
+            return
+        end
+        local friendList = type(C_FriendList) == "table" and C_FriendList
+        local count = friendList and Integer(Read(friendList.GetNumWhoResults), MAX_WHO_PENDING)
+        local regionId = Integer(Read(GetCurrentRegion), 5)
+        local observedAt = Integer(Read(GetServerTime), MAX_TIMESTAMP)
+        local _, build = Read(GetBuildInfo)
+        build = not issecretvalue(build) and Integer(tonumber(build), 10000000)
+        if not count or not regionId or not observedAt or not build then
+            return
+        end
+        if not classIds then
+            classIds = {}
+            for id = 1, MAX_CLASS_ID do
+                local _, filename = Read(GetClassInfo, id)
+                filename = Text(filename, 64)
+                if filename then
+                    classIds[filename] = id
+                end
+            end
+        end
+        for index = 1, count do
+            local info = Read(friendList.GetWhoInfo, index)
+            if not issecretvalue(info) and type(info) == "table" then
+                local fullName = Text(info.fullName, 97)
+                local name, surname
+                if fullName then
+                    name, surname = fullName:match("^([^%s:%-]+) ([^%s:%-]+)$")
+                    name = name or (not fullName:find("[%s:%-]") and fullName or nil)
+                end
+                local hasSurname = surname ~= nil
+                name, surname = Text(name, 48), surname and Text(surname, 48) or nil
+                local filename = Text(info.filename, 64)
+                local classId = filename and classIds[filename]
+                local level = Integer(info.level, 255)
+                if name and (not hasSurname or surname) and classId and level then
+                    local key = "who:" .. regionId .. ":" .. fullName
+                    local entry, waiting = cache[key], whoPending[key]
+                    if (not entry or level > entry.level or (level == entry.level and GetTime() - entry.at >= REFRESH_SECONDS))
+                        and (not waiting or level >= waiting.level)
+                        and (waiting or #whoOrder < MAX_WHO_PENDING) then
+                        if not waiting then
+                            whoOrder[#whoOrder + 1] = key
+                        end
+                        whoPending[key] = {
+                            schemaVersion = WHO_SCHEMA_VERSION,
+                            source = "who",
+                            build = build,
+                            observedAt = observedAt,
+                            regionId = regionId,
+                            name = name,
+                            surname = surname,
+                            classId = classId,
+                            level = level,
+                        }
+                    end
+                end
+            end
+        end
+    end
+
+    local function IsWhoMessage(message)
+        if issecretvalue(message) or type(message) ~= "string" then
+            return false
+        end
+        if not whoPatterns then
+            whoPatterns = {}
+            local util = ns:GetModule("Util")
+            for _, text in ipairs({ WHO_LIST_FORMAT, WHO_LIST_GUILD_FORMAT }) do
+                local pattern = util:FormatToPattern(text)
+                if pattern then
+                    whoPatterns[#whoPatterns + 1] = "^" .. pattern .. "$"
+                end
+            end
+        end
+        for _, pattern in ipairs(whoPatterns) do
+            if message:match(pattern) then
+                return true
+            end
+        end
+        return false
+    end
+
     function api.Preempt()
         -- A duel replaces the outstanding background request. Its late INSPECT_READY cannot enrich another subject.
         inspection = nil
@@ -343,8 +432,27 @@ function ns.CreateCharacterObservations(options)
         current.readyAt = GetTime()
     end
 
+    local function ScheduleWhoResults()
+        if whoScheduled then
+            return
+        end
+        whoScheduled = true
+        local ownGeneration = generation
+        -- Chat replies update the shared result cache one row at a time. Read after the batch.
+        C_Timer.After(0, function()
+            if active and generation == ownGeneration then
+                whoScheduled = false
+                api.ObserveWhoResults()
+            end
+        end)
+    end
+
     local function OnEvent(event, token)
-        if event == "NAME_PLATE_UNIT_ADDED" then
+        if event == "WHO_LIST_UPDATE" or (event == "CHAT_MSG_SYSTEM" and IsWhoMessage(token)) then
+            ScheduleWhoResults()
+        elseif event == "CHAT_MSG_SYSTEM" then
+            return
+        elseif event == "NAME_PLATE_UNIT_ADDED" then
             api.Observe(token)
         elseif event == "UPDATE_MOUSEOVER_UNIT" then
             api.Observe("mouseover")
@@ -367,6 +475,16 @@ function ns.CreateCharacterObservations(options)
             return
         end
         local now = GetTime()
+        for _ = 1, WHO_SENDS_PER_TICK do
+            local key = whoOrder[1]
+            local data = key and whoPending[key]
+            if not data or not Queue(data, key) then
+                break
+            end
+            Remember(data, key)
+            whoPending[key] = nil
+            table.remove(whoOrder, 1)
+        end
         if inspection then
             if options.IsInspectBusy() or not MatchesGUID(inspection.token, inspection.guid) then
                 inspection = nil
@@ -405,10 +523,11 @@ function ns.CreateCharacterObservations(options)
     end
 
     function api.Stop()
-        active, inspection = false, nil
+        active, inspection, whoScheduled = false, nil, false
         generation = generation + 1
         options.Callback:UnregisterCallback(OnEvent)
         cache, pending, pendingGUIDs, cacheCount = {}, {}, {}, 0
+        whoPending, whoOrder = {}, {}
         options.CancelQueued()
     end
 
@@ -423,6 +542,8 @@ function ns.CreateCharacterObservations(options)
             options.Callback:RegisterEvent(
                 OnEvent,
                 "NAME_PLATE_UNIT_ADDED",
+                "WHO_LIST_UPDATE",
+                "CHAT_MSG_SYSTEM",
                 "UPDATE_MOUSEOVER_UNIT",
                 "PLAYER_TARGET_CHANGED",
                 "GROUP_ROSTER_UPDATE",
