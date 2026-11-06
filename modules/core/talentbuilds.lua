@@ -1,10 +1,10 @@
 -- dependencies: module, callback, config, util + LibClassTalentsImportExport
--- flavor: mainline
+-- flavor: retail
 
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local DropDownUtil = ns.gameutil.DropDownUtil
+local DropDownUtil = ns.coreutil.DropDownUtil
 
 ---@class TalentBuildsModule : Module
 local talentbuilds = ns:NewModule("TalentBuilds") ---@type TalentBuildsModule
@@ -587,10 +587,14 @@ local function updateMenuAndDataProvider(owner, _, _, selections)
     local prevDifficulty = currentDifficulty
     local prevWeapon = currentWeapon
     local prevSpeed = currentSpeed
-    currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForInstance?
-    currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForDifficulty?
-    currentWeapon = frame.WeaponMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForWeapon?
-    currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@type TalentBuildsMenuOptionForSpeed?
+    ---@type TalentBuildsMenuOptionForInstance?
+    currentInstance = frame.InstanceMenu:DynamicMenuCollectSelectionOption() ---@diagnostic expect-line: assign-type-mismatch
+    ---@type TalentBuildsMenuOptionForDifficulty?
+    currentDifficulty = frame.DifficultyMenu:DynamicMenuCollectSelectionOption() ---@diagnostic expect-line: assign-type-mismatch
+    ---@type TalentBuildsMenuOptionForWeapon?
+    currentWeapon = frame.WeaponMenu:DynamicMenuCollectSelectionOption() ---@diagnostic expect-line: assign-type-mismatch
+    ---@type TalentBuildsMenuOptionForSpeed?
+    currentSpeed = frame.SpeedMenu:DynamicMenuCollectSelectionOption() ---@diagnostic expect-line: assign-type-mismatch
     if prevInstance ~= currentInstance or prevDifficulty ~= currentDifficulty or prevWeapon ~= currentWeapon or prevSpeed ~= currentSpeed then
         updateDataProvider()
     end

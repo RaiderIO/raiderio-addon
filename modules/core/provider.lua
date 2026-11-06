@@ -3,7 +3,7 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local IS_RETAIL = ns.gameutil.IS_RETAIL
+local IS_RETAIL = ns.coreutil.IS_RETAIL
 
 local band = bit.band
 local rshift = bit.rshift
@@ -48,7 +48,7 @@ local util = ns:GetModule("Util") ---@type UtilModule
 ---@field public queued boolean @Added dynamically in AddProvider - true when added, later set to false once past the queue check
 ---@field public desynced boolean @Added dynamically in AddProvider - nil or true if provider tables are desynced
 ---@field public outdated number @Added dynamically in AddProvider - nil or number of seconds past our time()
----@field public blocked number @Added dynamically in AddProvider - nil or number of seconds past our time()
+---@field public blocked boolean @Added dynamically in AddProvider - nil or true if the provider is blocked
 ---@field public blockedPurged boolean @Added dynamically in AddProvider - if true it means the provider is just an empty shell without any data
 
 ---@type DataProvider[]
@@ -75,13 +75,13 @@ local function InjectTestBuildData()
     local firstRecruitmentProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.Recruitment, ns.PLAYER_REGION)
     local firstPvpProvider = provider:GetProviderByType(ns.PROVIDER_DATA_TYPE.PvP, ns.PLAYER_REGION)
     -- create and append proxy providers (fallback to false to avoid nil gaps in the table for the ipairs)
-    local aliasRealm
+    local aliasRealm ---@type string?
     for _, aliasProvider in ipairs({
         firstKeystoneProvider or false,
         firstRaidProvider or false,
         firstRecruitmentProvider or false,
         firstPvpProvider or false,
-    }) do
+    }--[[@as table<number, DataProvider|false>]]) do
         if aliasProvider then
             if not aliasRealm and aliasProvider.db then
                 local names = {}
@@ -580,9 +580,9 @@ local ORDERED_ROLES = {
 ---@class DataProviderMythicKeystoneProfile : DataProviderProfile
 ---@field public hasOverrideScore? boolean @`true` if we override the score shown using in-game score data for the profile tooltip.
 ---@field public hasOverrideDungeonRuns? boolean @`true` if we override the dungeon runs shown using in-game data for the profile tooltip.
----@field public blocked? number
+---@field public blocked? boolean
 ---@field public blockedPurged? boolean @`true` if the provider has been blocked and purged
----@field public softBlocked? number @only defined when the profile looked up is the players own profile
+---@field public softBlocked? boolean @only defined when the profile looked up is the players own profile
 ---@field public isEnhanced? boolean @`true` if client enhanced data (fractionalTime and .dungeonTimes are 1 for timed and 3 for depleted, but when enhanced it's the actual time fraction)
 ---@field public currentScore number
 ---@field public originalCurrentScore? number @if set it means we did override the score but kept a backup of the original here
@@ -805,7 +805,7 @@ end
 ---@param encodingOrder number[]
 ---@param keystoneMilestoneLevels number[]
 ---@param providerOutdated number
----@param providerBlocked number
+---@param providerBlocked boolean
 ---@param name? string
 ---@param realm? string
 ---@param region? RegionString

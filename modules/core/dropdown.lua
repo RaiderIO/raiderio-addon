@@ -3,7 +3,8 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local canaccesstablekey = ns.gameutil.canaccesstablekey
+local canaccesstablekey = ns.coreutil.canaccesstablekey
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class DropDownModule : Module
 local dropdown = ns:NewModule("DropDown") ---@type DropDownModule
@@ -145,7 +146,7 @@ local selected = {} ---@type { name: string?, realm: string?, level: number?, un
 ---@type CustomDropDownOption[]
 local unitOptions
 
----@param bdropdown DropDownListPolyfill
+---@param bdropdown DropDownListPolyfill|CustomDropDown
 ---@param options CustomDropDownOption[]
 local function OnToggle(bdropdown, event, options, level, data)
     if event == "OnShow" then
@@ -168,14 +169,14 @@ local function OnToggle(bdropdown, event, options, level, data)
                     options[index] = option
                 end
             end
-            return true
+            return options
         end
     elseif event == "OnHide" then
         if options[1] then
             for i = #options, 1, -1 do
                 options[i] = nil
             end
-            return true
+            return options
         end
     end
 end
@@ -248,22 +249,22 @@ local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtensio
 ---@field public playerLocation? PlayerLocationPolyfill
 ---@field public friendsList? number
 
----@class ModifyMenuCallbackRootDescriptionPolyfill
+---@class ModifyMenuCallbackRootDescriptionPolyfill : RootMenuDescriptionProxy
 ---@field public tag string
 ---@field public contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 ---@field public CreateDivider fun(self: ModifyMenuCallbackRootDescriptionPolyfill)
 ---@field public CreateTitle fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string)
----@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun())
+---@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun(button: Button, arg1: any, arg2: any, checked: boolean))
 
 ---@class ModifyMenuReturnPolyfill
 ---@field public Unregister fun(self: ModifyMenuReturnPolyfill)
 
----@alias ModifyMenuCallbackFuncPolyfill fun(owner: Frame, rootDescription: ModifyMenuCallbackRootDescriptionPolyfill, contextData: ModifyMenuCallbackRootDescriptionContextDataPolyfill)
+---@alias ModifyMenuCallbackFuncPolyfill fun(owner: Region, rootDescription: ModifyMenuCallbackRootDescriptionPolyfill, contextData: ModifyMenuCallbackRootDescriptionContextDataPolyfill)
 
 ---@alias ModifyMenu fun(tag: string, callback: ModifyMenuCallbackFuncPolyfill): ModifyMenuReturnPolyfill
 
 ---@type ModifyMenu?
-local ModifyMenu = Menu and Menu.ModifyMenu
+local ModifyMenu = Menu and Menu.ModifyMenu ---@diagnostic expect-line: assign-type-mismatch
 
 ---@type MenuManagerProxy?
 local MenuGetManager = Menu and Menu.GetManager and Menu.GetManager()

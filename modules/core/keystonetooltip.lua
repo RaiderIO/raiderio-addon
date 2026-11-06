@@ -1,9 +1,7 @@
 -- dependencies: module, config, render
--- flavor: mainline
+-- flavor: retail
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@class KeystoneTooltipModule : Module
 local tooltip = ns:NewModule("KeystoneTooltip") ---@type KeystoneTooltipModule

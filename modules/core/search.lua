@@ -4,8 +4,6 @@ local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
 
-local bor = bit.bor
-
 ---@class SearchModule : Module
 local search = ns:NewModule("Search") ---@type SearchModule
 local config = ns:GetModule("Config") ---@type ConfigModule
@@ -450,7 +448,7 @@ function search:ShowProfile(region, realm, name)
     local playerProfile = provider:GetProfile(name, realm, region)
     local shown
     if playerProfile then
-        shown = render:ShowProfile(searchTooltip, name, realm, bor(render.Preset.UnitNoPadding(), render.Flags.MOD_STICKY), region)
+        shown = render:ShowProfile(searchTooltip, name, realm, bit.bor(render.Preset.UnitNoPadding(), render.Flags.MOD_STICKY), region)
     end
     if not shown then
         render:ShowProfile(searchTooltip)

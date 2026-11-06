@@ -1,5 +1,5 @@
 -- dependencies: module, callback, config, util
--- flavor: mainline
+-- flavor: retail
 
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
@@ -93,12 +93,15 @@ end
 ---@field public CharacterName FontString
 ---@field public Level FontString
 
+---@class GuildWeeklySwitchGuildBest : UICheckButtonTemplatePolyfill
+---@field public GetParent fun(self: GuildWeeklySwitchGuildBest): GuildWeeklyFrame
+
 ---@class GuildWeeklyFrame : GuildWeeklyFrameMixin, GuildWeeklyRun, BackdropTemplate
 ---@field public maxVisible number
 ---@field public Title FontString
 ---@field public SubTitle FontString
 ---@field public GuildBestNoRun GuildWeeklyBestNoRun
----@field public SwitchGuildBest UICheckButtonTemplatePolyfill
+---@field public SwitchGuildBest GuildWeeklySwitchGuildBest
 ---@field public GuildBests GuildWeeklyRun[]
 
 ---@type GuildWeeklyFrame
@@ -290,15 +293,15 @@ local function GuildWeeklyFrame_OnMouseWheel(self, delta)
     self:Refresh()
 end
 
----@param self UICheckButtonTemplatePolyfill
+---@param self GuildWeeklySwitchGuildBest
 local function GuildWeeklyFrameSwitch_OnShow(self)
     self:SetChecked(config:Get("displayWeeklyGuildBest"))
 end
 
----@param self UICheckButtonTemplatePolyfill
+---@param self GuildWeeklySwitchGuildBest
 local function GuildWeeklyFrameSwitch_OnClick(self)
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-    local parent = self:GetParent() ---@type GuildWeeklyFrame
+    local parent = self:GetParent()
     parent:SwitchBestRun()
 end
 
@@ -342,7 +345,7 @@ local function CreateGuildWeeklyFrame()
     end
     -- toggle between weekly and season best
     do
-        frame.SwitchGuildBest = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate") ---@type UICheckButtonTemplatePolyfill
+        frame.SwitchGuildBest = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate") ---@type GuildWeeklySwitchGuildBest
         frame.SwitchGuildBest:SetSize(15, 15)
         frame.SwitchGuildBest:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 8, 5)
         frame.SwitchGuildBest:SetScript("OnShow", GuildWeeklyFrameSwitch_OnShow)

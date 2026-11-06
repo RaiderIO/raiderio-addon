@@ -1,12 +1,10 @@
 -- dependencies: module, config, util, render, profile
 -- flavor: not classic_era
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-local ScrollBoxUtil = ns.gameutil.ScrollBoxUtil
-local HookUtil = ns.gameutil.HookUtil
-local canaccesstablekey = ns.gameutil.canaccesstablekey
+local ScrollBoxUtil = ns.coreutil.ScrollBoxUtil
+local HookUtil = ns.coreutil.HookUtil
+local canaccesstablekey = ns.coreutil.canaccesstablekey
 
 ---@class LfgTooltipModule : Module
 local tooltip = ns:NewModule("LfgTooltip") ---@type LfgTooltipModule
@@ -19,9 +17,11 @@ local provider = ns:GetModule("Provider") ---@type ProviderModule
 ---@class LFGListFrameSearchFramePolyfill : Frame
 ---@field public applicantID? number
 ---@field public Members? LFGListFrameApplicationFramePolyfill[]
+---@field public GetParent fun(self: LFGListFrameSearchFramePolyfill): LFGListFrameSearchFramePolyfill
 
 ---@class LFGListFrameApplicationFramePolyfill : Frame
 ---@field public memberIdx? number
+---@field public GetParent fun(self: LFGListFrameApplicationFramePolyfill): LFGListFrameApplicationFramePolyfill
 
 ---@alias LFGListFrameWildcardFrame LFGListFrameSearchFramePolyfill|LFGListFrameApplicationFramePolyfill
 
@@ -123,7 +123,7 @@ local function ShowApplicantProfile(parent, applicantID, memberIdx)
     return false
 end
 
----@param frame ScrollBoxBaseMixin
+---@param frame ScrollBoxBaseMixinPolyfill
 local function OnScroll(frame)
     if not frame:IsMouseOver() then
         return
@@ -147,7 +147,7 @@ function OnEnter(self)
     if self.applicantID and self.Members then
         HookApplicantButtons(self.Members)
     elseif self.memberIdx then
-        local parent = self:GetParent() ---@type LFGListFrameSearchFramePolyfill
+        local parent = self:GetParent()
         if parent.applicantID then
             local shown, fullName = ShowApplicantProfile(self, parent.applicantID, self.memberIdx)
             local success

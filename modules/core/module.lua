@@ -1,8 +1,6 @@
 -- dependencies: none
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@type table<string, Module>
 local modules = {}

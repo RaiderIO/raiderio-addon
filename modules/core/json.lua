@@ -3,10 +3,8 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local StaticPopupUtil = ns.gameutil.StaticPopupUtil
-
-local band = bit.band
-local bor = bit.bor
+local StaticPopupUtil = ns.coreutil.StaticPopupUtil
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class JSONModule : Module
 local json = ns:NewModule("JSON") ---@type JSONModule
@@ -145,18 +143,18 @@ local function GetQueuedRole(tank, heal, dps)
     local role3 = tank and heal and dps and "DAMAGER"
     local role = RoleNameToBit.NONE
     if role1 == "TANK" or role2 == "TANK" or role3 == "TANK" then
-        if band(role, RoleNameToBit.TANK) ~= RoleNameToBit.TANK then
-            role = bor(role, RoleNameToBit.TANK)
+        if bit.band(role, RoleNameToBit.TANK) ~= RoleNameToBit.TANK then
+            role = bit.bor(role, RoleNameToBit.TANK)
         end
     end
     if role1 == "HEALER" or role2 == "HEALER" or role3 == "HEALER" then
-        if band(role, RoleNameToBit.HEALER) ~= RoleNameToBit.HEALER then
-            role = bor(role, RoleNameToBit.HEALER)
+        if bit.band(role, RoleNameToBit.HEALER) ~= RoleNameToBit.HEALER then
+            role = bit.bor(role, RoleNameToBit.HEALER)
         end
     end
     if role1 == "DAMAGER" or role2 == "DAMAGER" or role3 == "DAMAGER" then
-        if band(role, RoleNameToBit.DAMAGER) ~= RoleNameToBit.DAMAGER then
-            role = bor(role, RoleNameToBit.DAMAGER)
+        if bit.band(role, RoleNameToBit.DAMAGER) ~= RoleNameToBit.DAMAGER then
+            role = bit.bor(role, RoleNameToBit.DAMAGER)
         end
     end
     return role
@@ -255,9 +253,9 @@ local function CanShowCopyDialog()
     if hasGroupMembers then
         return true
     end
-    ---@type _, number
+    ---@type _, number?
     local _, numApplicants = C_LFGList.GetNumApplications()
-    return numApplicants > 0
+    return numApplicants and numApplicants > 0
 end
 
 local function CanShowButton()

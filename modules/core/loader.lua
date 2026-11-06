@@ -2,7 +2,6 @@
 
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 local callback = ns:GetModule("Callback") ---@type CallbackModule
 local config = ns:GetModule("Config") ---@type ConfigModule

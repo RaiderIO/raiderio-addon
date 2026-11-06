@@ -1,10 +1,8 @@
 -- dependencies: module, config, util, render
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-local ScrollBoxUtil = ns.gameutil.ScrollBoxUtil
-local HookUtil = ns.gameutil.HookUtil
+local ScrollBoxUtil = ns.coreutil.ScrollBoxUtil
+local HookUtil = ns.coreutil.HookUtil
 
 ---@class WhoTooltipModule : Module
 local tooltip = ns:NewModule("WhoTooltip") ---@type WhoTooltipModule
@@ -13,7 +11,7 @@ local util = ns:GetModule("Util") ---@type UtilModule
 local render = ns:GetModule("Render") ---@type RenderModule
 
 ---@class WhoFrameButtonPolyfill : Button
----@field public index? number @Used on Mainline
+---@field public index? number @Used on Retail
 ---@field public whoIndex? number @Used on Classic
 
 ---@param self WhoFrameButtonPolyfill

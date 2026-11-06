@@ -1,8 +1,6 @@
 -- dependencies: module, config, util, render
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@class FriendTooltipModule : Module
 local tooltip = ns:NewModule("FriendTooltip") ---@type FriendTooltipModule

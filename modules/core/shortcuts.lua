@@ -3,7 +3,7 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local DropDownUtil = ns.gameutil.DropDownUtil
+local DropDownUtil = ns.coreutil.DropDownUtil
 
 ---@class ShortcutsModule : Module
 local shortcuts = ns:NewModule("Shortcuts") ---@type ShortcutsModule

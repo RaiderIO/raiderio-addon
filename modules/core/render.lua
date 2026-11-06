@@ -1,12 +1,7 @@
 -- dependencies: module, callback, config, util, provider
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-
-local bor = bit.bor
-local bxor = bit.bxor
-local band = bit.band
 
 ---@class RenderModule : Module
 local render = ns:NewModule("Render") ---@type RenderModule
@@ -104,10 +99,10 @@ render.Flags = {
 ---@class RenderPreset
 render.Preset = {}
 
-render.Preset.Unit = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.UNIT_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
-render.Preset.Profile = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.PROFILE_TOOLTIP, render.Flags.MOD_STICKY, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_NAME, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
-render.Preset.Keystone = bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.KEYSTONE_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
-render.Preset.UnitNoPadding = bxor(render.Preset.Unit, render.Flags.SHOW_PADDING) ---@diagnostic expect-line: assign-type-mismatch, param-type-mismatch
+render.Preset.Unit = bit.bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.UNIT_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
+render.Preset.Profile = bit.bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.RAID, render.Flags.PROFILE_TOOLTIP, render.Flags.MOD_STICKY, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_FOOTER, render.Flags.SHOW_NAME, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
+render.Preset.Keystone = bit.bor(render.Flags.MYTHIC_KEYSTONE, render.Flags.KEYSTONE_TOOLTIP, render.Flags.SHOW_PADDING, render.Flags.SHOW_HEADER, render.Flags.SHOW_LFD) ---@diagnostic expect-line: assign-type-mismatch
+render.Preset.UnitNoPadding = bit.bxor(render.Preset.Unit, render.Flags.SHOW_PADDING) ---@diagnostic expect-line: assign-type-mismatch, param-type-mismatch
 
 local function IsModifierKeyDownOrAlwaysExtend()
     return IsModifierKeyDown() or config:Get("alwaysExtendTooltip")
@@ -121,16 +116,16 @@ for k, v in pairs(render.Preset) do
         end
         if type(additional) == "number" then
             if additional < 0 then
-                additional = bxor(v, -additional)
+                additional = bit.bxor(v, -additional)
             end
-            return bor(v, additional, IsModKeyDown() and render.Flags.MOD or 0)
+            return bit.bor(v, additional, IsModKeyDown() and render.Flags.MOD or 0)
         end
-        return bor(v, IsModKeyDown() and render.Flags.MOD or 0)
+        return bit.bor(v, IsModKeyDown() and render.Flags.MOD or 0)
     end
 end
 
 render.Preset.UnitSmartPadding = function(ownerExisted)
-    return bxor(render.Preset.Unit(), not ownerExisted and render.Flags.SHOW_PADDING or 0)
+    return bit.bxor(render.Preset.Unit(), not ownerExisted and render.Flags.SHOW_PADDING or 0)
 end
 
 local StateType = {
@@ -220,7 +215,7 @@ end
 ---@param flag number
 ---@param mask number
 local function Has(flag, mask)
-    return band(flag, mask) == mask
+    return bit.band(flag, mask) == mask
 end
 
 ---@param label string
@@ -976,9 +971,9 @@ local function UpdateTooltip(tooltip, state)
     -- backup the state and update the modifier state in the options flag
     local stateType, unit, name, realm, faction, options, args, region = state.type, state.unit, state.name, state.realm, state.faction, state.options, state.args, state.region
     if IsModifierKeyDown() then
-        options = bor(options, render.Flags.MOD)
+        options = bit.bor(options, render.Flags.MOD)
     else
-        options = bxor(options, render.Flags.MOD)
+        options = bit.bxor(options, render.Flags.MOD)
     end
     -- get the current tooltip owner, position and anchor
     local o1, o2, o3, o4 = tooltip:GetOwner()

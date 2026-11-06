@@ -1,9 +1,8 @@
 -- dependencies: module, config, util, provider, render
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-local IS_RETAIL = ns.gameutil.IS_RETAIL
+local IS_RETAIL = ns.coreutil.IS_RETAIL
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class GameTooltipModule : Module
 local tooltip = ns:NewModule("GameTooltip") ---@type GameTooltipModule

@@ -1,13 +1,13 @@
 -- dependencies: module, callback, config, util
--- flavor: mainline
+-- flavor: retail
 -- requires: rwf mode
 
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local GetDetailedItemLevelInfo = ns.gameutil.GetDetailedItemLevelInfo
-local GetItemInfoInstant = ns.gameutil.GetItemInfoInstant
-local GetItemInfo = ns.gameutil.GetItemInfo
+local GetDetailedItemLevelInfo = ns.coreutil.GetDetailedItemLevelInfo
+local GetItemInfoInstant = ns.coreutil.GetItemInfoInstant
+local GetItemInfo = ns.coreutil.GetItemInfo
 
 ---@class RaceWorldFirstModule : Module
 local rwf = ns:NewModule("RaceWorldFirst") ---@type RaceWorldFirstModule
@@ -428,7 +428,7 @@ end
 ---@field public OnLoad fun(self: PanelDragBarTemplatePolyfill)
 ---@field public Init fun(self: PanelDragBarTemplatePolyfill, frame: Frame)
 
----@class WowScrollBoxListPolyfill : Frame, CallbackRegistryMixin
+---@class WowScrollBoxListPolyfill : Frame, CallbackRegistryMixinPolyfill
 ---@field public OnLoad fun(self: WowScrollBoxListPolyfill)
 ---@field public IsAtEnd fun(self: WowScrollBoxListPolyfill): boolean
 ---@field public HasScrollableExtent fun(self: WowScrollBoxListPolyfill): boolean

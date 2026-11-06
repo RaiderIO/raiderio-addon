@@ -1,11 +1,9 @@
 -- dependencies: module, config, util, render
 -- flavor: classic_era
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-local ScrollBoxUtil = ns.gameutil.ScrollBoxUtil
-local HookUtil = ns.gameutil.HookUtil
+local ScrollBoxUtil = ns.coreutil.ScrollBoxUtil
+local HookUtil = ns.coreutil.HookUtil
 
 ---@class GuildTooltipModule : Module
 local tooltip = ns:NewModule("GuildTooltip") ---@type GuildTooltipModule
@@ -14,7 +12,7 @@ local util = ns:GetModule("Util") ---@type UtilModule
 local render = ns:GetModule("Render") ---@type RenderModule
 
 ---@class GuildFrameButtonPolyfill : Button
----@field public index? number @Used on Mainline
+---@field public index? number @Used on Retail
 ---@field public guildIndex? number @Used on Classic
 
 ---@param self GuildFrameButtonPolyfill

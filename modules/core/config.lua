@@ -13,7 +13,7 @@ local callback = ns:GetModule("Callback") ---@type CallbackModule
 ---@field public mplusHeadlineMode HeadlineMode Defaults to `ns.HEADLINE_MODE.BEST_SEASON` (`1`)
 ---@field public replayStyle ReplayFrameStyle Defaults to `MODERN`
 ---@field public replayTiming ReplayFrameTiming Defaults to `BOSS`
----@field public replaySelection ReplayFrameSelections Defaults to `user_best_replay`
+---@field public replaySelection ReplayFrameSelection Defaults to `user_best_replay`
 ---@field public replayPoint ConfigProfilePoint Defaults to `{ point = nil, x = 0, y = 0 }`
 ---@field public profilePoint ConfigProfilePoint Defaults to `{ point = nil, x = 0, y = 0 }`
 ---@field public rwfMiniPoint ConfigProfilePoint Defaults to `{ point = nil, x = 0, y = 0 }`
@@ -106,7 +106,7 @@ local fallbackConfig = {
     enableGuildTooltips = true,
     enableKeystoneTooltips = true,
     showAverageScore = false,
-    mplusHeadlineMode = 0,
+    mplusHeadlineMode = ns.HEADLINE_MODE.CURRENT_SEASON,
     useEnglishAbbreviations = false,
     showMainsScore = true,
     showMainBestScore = true,

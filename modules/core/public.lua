@@ -1,8 +1,7 @@
 -- dependencies: module, util, provider, render, replay?
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
+local issecretvalue = ns.coreutil.issecretvalue
 
 local util = ns:GetModule("Util") ---@type UtilModule
 local provider = ns:GetModule("Provider") ---@type ProviderModule

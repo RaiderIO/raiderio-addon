@@ -3,8 +3,7 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-
-local band = bit.band
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class ProfileModule : Module
 local profile = ns:NewModule("Profile") ---@type ProfileModule
@@ -322,8 +321,8 @@ function profile:ShowProfile(anchor, ...)
     local unit, name, realm, _, options, args, region = render.GetQuery(...)
     options = options or render.Preset.Profile()
     local isPlayer = IsPlayer(unit, name, realm, region)
-    if not isPlayer and config:Get("enableProfileModifier") and band(options, render.Flags.IGNORE_MOD) ~= render.Flags.IGNORE_MOD then
-        if config:Get("inverseProfileModifier") == (config:Get("alwaysExtendTooltip") or band(options, render.Flags.MOD) == render.Flags.MOD) then
+    if not isPlayer and config:Get("enableProfileModifier") and bit.band(options, render.Flags.IGNORE_MOD) ~= render.Flags.IGNORE_MOD then
+        if config:Get("inverseProfileModifier") == (config:Get("alwaysExtendTooltip") or bit.band(options, render.Flags.MOD) == render.Flags.MOD) then
             unit, name, realm = "player", nil, nil ---@diagnostic expect-line: cast-local-type
         end
     end

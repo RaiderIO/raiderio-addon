@@ -3,8 +3,8 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local IS_RETAIL = ns.gameutil.IS_RETAIL
-local DropDownUtil = ns.gameutil.DropDownUtil
+local IS_RETAIL = ns.coreutil.IS_RETAIL
+local DropDownUtil = ns.coreutil.DropDownUtil
 
 ---@class SettingsModule : Module
 local settings = ns:NewModule("Settings") ---@type SettingsModule
@@ -1376,7 +1376,7 @@ local function CreateOptions()
             ---@param module RaiderIODBModuleType
             ---@return boolean
             isSupported = function(module)
-                return IS_RETAIL or module ~= "M" -- Mythic+ is not available on other clients except mainline
+                return IS_RETAIL or module ~= "M" -- Mythic+ is not available on other clients except retail
             end,
         }
 

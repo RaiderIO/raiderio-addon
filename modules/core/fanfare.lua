@@ -1,9 +1,7 @@
 -- dependencies: module, config, util, provider
--- flavor: mainline
+-- flavor: retail
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@class FanfareModule : Module
 local fanfare = ns:NewModule("Fanfare") ---@type FanfareModule
@@ -165,15 +163,17 @@ local function GetCachedRunAndUpgrade(member, currentRun)
     memberCachedRuns[currentRun.dungeon.index] = bestRun
     local side = CompareLevelAndFractionalTime(bestRun.level, currentRun.level, bestRun.fractionalTime, currentRun.fractionalTime)
     if bestIsCurrentRun or side == 2 then
-        bestUpgrade.confidence = 1
-        if bestIsCurrentRun then
-            bestUpgrade.levelDiff = currentRun.level
-            bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
-        else
-            bestUpgrade.levelDiff = currentRun.level - bestRun.level
-            bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
+        if bestUpgrade then
+            bestUpgrade.confidence = 1
+            if bestIsCurrentRun then
+                bestUpgrade.levelDiff = currentRun.level
+                bestUpgrade.fractionalTimeDiff = -currentRun.fractionalTime
+            else
+                bestUpgrade.levelDiff = currentRun.level - bestRun.level
+                bestUpgrade.fractionalTimeDiff = currentRun.fractionalTime - bestRun.fractionalTime
+            end
+            bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0)
         end
-        bestUpgrade.isUpgrade = bestIsCurrentRun or bestUpgrade.levelDiff > 0 or (bestUpgrade.levelDiff == 0 and bestUpgrade.fractionalTimeDiff < 0) ---@diagnostic expect-line: need-check-nil
         bestRun.chests = currentRun.chests
         bestRun.level = currentRun.level
         bestRun.fractionalTime = currentRun.fractionalTime
@@ -394,7 +394,7 @@ end
 ---@field public mapID number @Keystone instance ID
 ---@field public level number @Keystone level
 ---@field public time number @Run duration in seconds
----@field public onTime number @true if on time, otherwise false if depleted
+---@field public onTime boolean @true if on time, otherwise false if depleted
 ---@field public keystoneUpgradeLevels number @The amount of chests/level upgrades
 ---@field public oldDungeonScore number
 ---@field public newDungeonScore number

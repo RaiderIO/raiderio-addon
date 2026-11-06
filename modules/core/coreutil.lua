@@ -2,13 +2,13 @@
 
 local ns = select(2, ...) ---@class ns @The addon namespace.
 
----@class GameUtilNS
-local gameutil = {}
-ns.gameutil = gameutil
+---@class CoreUtilNS
+local coreutil = {}
+ns.coreutil = coreutil
 
-gameutil.IS_RETAIL = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
-gameutil.IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
-gameutil.IS_CLASSIC = not gameutil.IS_RETAIL and not gameutil.IS_CLASSIC_ERA
+coreutil.IS_RETAIL = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+coreutil.IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+coreutil.IS_CLASSIC = not coreutil.IS_RETAIL and not coreutil.IS_CLASSIC_ERA
 
 local ScrollBoxUtil do
 
@@ -18,19 +18,19 @@ local ScrollBoxUtil do
     ---@field public Unregister fun()|fun(self: CallbackRegistryHandle)
 
     ---@generic T
-    ---@class CallbackRegistryMixin
+    ---@class CallbackRegistryMixinPolyfill<T> : CallbackRegistryMixin
     ---@field public Event table<string, string>
-    ---@field public RegisterCallback fun(self: CallbackRegistryMixin, event: string|any, callback: fun(...: T), ...: T)
-    ---@field public RegisterFrameEventAndCallbackWithHandle fun(self: CallbackRegistryMixin, event: WowEvent): CallbackRegistryHandle
+    ---@field public RegisterCallback fun(self: CallbackRegistryMixinPolyfill, event: string|any, callback: fun(...: T), ...: T)
+    ---@field public RegisterFrameEventAndCallbackWithHandle fun(self: CallbackRegistryMixinPolyfill, event: WowEvent): CallbackRegistryHandle
 
-    ---@class ScrollBoxBaseMixin : CallbackRegistryMixin, Frame
+    ---@class ScrollBoxBaseMixinPolyfill : CallbackRegistryMixinPolyfill, Frame
     ---@field public GetFrames fun(): Frame[]
     ---@field public Update fun()
     ---@field public buttons? Button[]
     ---@field public update? fun()
 
-    ---@param scrollBox ScrollBoxBaseMixin
-    ---@param callback fun(frames: Frame[], scrollBox: ScrollBoxBaseMixin)
+    ---@param scrollBox ScrollBoxBaseMixinPolyfill
+    ---@param callback fun(frames: Frame[], scrollBox: ScrollBoxBaseMixinPolyfill)
     function ScrollBoxUtil:OnViewFramesChanged(scrollBox, callback)
         if not scrollBox then
             return
@@ -53,8 +53,8 @@ local ScrollBoxUtil do
         return false
     end
 
-    ---@param scrollBox ScrollBoxBaseMixin
-    ---@param callback fun(self: ScrollBoxBaseMixin)
+    ---@param scrollBox ScrollBoxBaseMixinPolyfill
+    ---@param callback fun(self: ScrollBoxBaseMixinPolyfill)
     function ScrollBoxUtil:OnViewScrollChanged(scrollBox, callback)
         if not scrollBox then
             return
@@ -850,11 +850,11 @@ local StaticPopupUtil do
 end
 
 -- clients have API naming variants and this helps bridge that gap (this will require revisions/deletion as the clients unify their API's)
-gameutil.GetDetailedItemLevelInfo = GetDetailedItemLevelInfo or C_Item.GetDetailedItemLevelInfo ---@diagnostic expect-line: deprecated
-gameutil.GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic expect-line: deprecated
-gameutil.GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic expect-line: deprecated
-gameutil.GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic expect-line: deprecated
-gameutil.ReloadUI = ReloadUI or C_UI.Reload
+coreutil.GetDetailedItemLevelInfo = GetDetailedItemLevelInfo or C_Item.GetDetailedItemLevelInfo ---@diagnostic expect-line: deprecated
+coreutil.GetItemInfo = GetItemInfo or C_Item.GetItemInfo ---@diagnostic expect-line: deprecated
+coreutil.GetItemInfoInstant = GetItemInfoInstant or C_Item.GetItemInfoInstant ---@diagnostic expect-line: deprecated
+coreutil.GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor ---@diagnostic expect-line: deprecated
+coreutil.ReloadUI = ReloadUI or C_UI.Reload
 
 local issecretvalue
 local canaccesstablekey
@@ -888,10 +888,10 @@ do
 
 end
 
-gameutil.ScrollBoxUtil = ScrollBoxUtil
-gameutil.HookUtil = HookUtil
-gameutil.DropDownUtil = DropDownUtil
-gameutil.StaticPopupUtil = StaticPopupUtil
+coreutil.ScrollBoxUtil = ScrollBoxUtil
+coreutil.HookUtil = HookUtil
+coreutil.DropDownUtil = DropDownUtil
+coreutil.StaticPopupUtil = StaticPopupUtil
 
-gameutil.issecretvalue = issecretvalue
-gameutil.canaccesstablekey = canaccesstablekey
+coreutil.issecretvalue = issecretvalue
+coreutil.canaccesstablekey = canaccesstablekey

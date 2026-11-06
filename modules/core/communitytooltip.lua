@@ -1,10 +1,8 @@
--- dependencies: gameutil, module, config, util, render
+-- dependencies: coreutil, module, config, util, render
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-local ScrollBoxUtil = ns.gameutil.ScrollBoxUtil
-local issecretvalue = ns.gameutil.issecretvalue
+local ScrollBoxUtil = ns.coreutil.ScrollBoxUtil
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class CommunityTooltipModule : Module
 local tooltip = ns:NewModule("CommunityTooltip") ---@type CommunityTooltipModule
@@ -111,7 +109,7 @@ local function OnRefreshApplyHooks()
     return true
 end
 
----@param frame ScrollBoxBaseMixin
+---@param frame ScrollBoxBaseMixinPolyfill
 local function OnScroll(frame)
     if not config:Get("enableGuildTooltips") then
         return

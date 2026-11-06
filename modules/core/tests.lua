@@ -1,9 +1,7 @@
--- dependencies: module, config, provider
+-- dependencies: module, config, provider, utf8
 -- requires: debug mode
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@class TestsModule : Module
 local tests = ns:NewModule("Tests") ---@type TestsModule
@@ -22,8 +20,8 @@ local provider = ns:GetModule("Provider") ---@type ProviderModule
 ---@field public status? boolean @Private. Set internally to `true` if the test passed, otherwise `false` if something went wrong.
 ---@field public explanation? string @Private. Set internally to describe what went wrong, or what went right depending on the test.
 
----@param guid1 any
----@param guid2 any
+---@param guid1 unknown
+---@param guid2 unknown
 ---@return boolean? @If the GUID strings match (strcmputf8i) we return `true` otherwise `false`, if `nil` it means one GUID is missing from the call.
 local function CompareProfileGUIDs(guid1, guid2)
     if type(guid1) ~= "string" or type(guid2) ~= "string" then
@@ -42,12 +40,15 @@ local function CompareProfiles(profile1, profile2)
     return profile1 == profile2 or (profile1.mythicKeystoneProfile and profile1.mythicKeystoneProfile == profile2.mythicKeystoneProfile) or (profile1.raidProfile and profile1.raidProfile == profile2.raidProfile) or (profile1.pvpProfile and profile1.pvpProfile == profile2.pvpProfile)
 end
 
----@param collection TestData[]
+---@type TestDataFunction
 local function CheckBothTestsAboveForSameProfiles(collection, id)
     local id1 = id - 2
     local id2 = id - 1
     local test1 = collection[id1]
     local test2 = collection[id2]
+    if type(test1) == "function" or type(test2) == "function" then
+        return nil, format("Test#%d/#%d are functions.", id1, id2)
+    end
     if not test1 or not test2 then
         return nil, format("Test#%d/#%d missing.", id1, id2)
     elseif test1.skip or test2.skip then
@@ -64,7 +65,11 @@ local function CheckBothTestsAboveForSameProfiles(collection, id)
     return false, format("Unhandled logic branch.", id)
 end
 
----@type TestData[]
+---@alias TestDataFunctionCollection TestData[]|table<number, TestDataFunction>
+
+---@alias TestDataFunction fun(collection: TestDataFunctionCollection, id: number): status: boolean?, explanation: string
+
+---@type TestDataFunctionCollection
 local collection = {
     -- { region = "eu", realm = "TarrenMill", name = "Vladinator", success = true },
     -- { region = "eu", realm = "tArReNmIlL", name = "vLaDiNaToR", success = true },
@@ -102,6 +107,8 @@ local function AppendTestsFromProviders(callback, progress)
 
     local index = #collection
 
+    ---@param region RegionString
+    ---@param db table<string, string[]>
     local function CreateTestFromDB(_, region, db)
         if not db then
             return
@@ -118,7 +125,7 @@ local function AppendTestsFromProviders(callback, progress)
                 for i = 2, #realmData do
                     local characterName = realmData[i]
                     local characterNameLC = utf8lower(characterName)
-                    local characterNameUC
+                    local characterNameUC ---@type string?
                     if strcmputf8i(characterNameLC, characterName) == 0 then
                         characterNameUC = utf8upper(characterName)
                     else
@@ -133,11 +140,12 @@ local function AppendTestsFromProviders(callback, progress)
         end
     end
 
-    local function RunQueuedTest(self)
+    ---@param queue table[]
+    local function RunQueuedTest(queue)
         wipe(collection)
         index = 0
-        for i = #self, #self - (3 * 1000) + 1, -1 do
-            local task = table.remove(self, i)
+        for i = #queue, #queue - (3 * 1000) + 1, -1 do
+            local task = table.remove(queue, i)
             if not task then
                 break
             end
@@ -149,11 +157,12 @@ local function AppendTestsFromProviders(callback, progress)
         return index > 0
     end
 
-    local frame = CreateFrame("Frame")
-    local co, cq, ch, cc, cp
-    local queue, qindex = {}, 0
-    local testqueue, tqindex = {}, 0
+    local frame = CreateFrame("Frame") ---@class TestRunnerFrame : Frame
+    local co, cq, ch, cc, cp ---@type thread?, table?, fun(queue: table, ...: any)?, fun()?, fun(queue: table, ...: any)?
+    local queue, qindex = {}, 0 ---@type table[], number
+    local testqueue, tqindex = {}, 0 ---@type table, number
 
+    ---@param frame TestRunnerFrame
     frame:SetScript("OnUpdate", function(frame)
         frame:Hide()
         if co then
@@ -161,21 +170,22 @@ local function AppendTestsFromProviders(callback, progress)
         end
     end)
 
-    local function OnUpdate(self, ...)
-        while 1 do
+    ---@param queue table[]
+    local function OnUpdate(queue)
+        while ch do
             if ch == CreateTestFromDB then
-                local args = table.remove(self, 1)
+                local args = table.remove(queue, 1) ---@type table?
                 if not args then
                     break
                 end
-                ch(self, args[1], args[2])
+                ch(queue, args[1], args[2])
                 if cp then
-                    cp(self, args)
+                    cp(queue, args)
                 end
             else
-                local continue = ch(self)
+                local continue = ch(queue)
                 if cp then
-                    cp(self)
+                    cp(queue)
                 end
                 if not continue then
                     break
@@ -314,5 +324,5 @@ function tests:OnLoad()
     self:Enable()
     self:RunTests(true)
     provider:WipeCache()
-    -- AppendTestsFromProviders(OnAppendProviderTestsCompleted, OnAppendProviderTestsProgress) -- DEBUG: excessive testing so we might wanna comment this out when it's not required
+    AppendTestsFromProviders(OnAppendProviderTestsCompleted, OnAppendProviderTestsProgress) -- DEBUG: excessive testing so we might wanna comment this out when it's not required
 end

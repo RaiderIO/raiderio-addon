@@ -1,10 +1,11 @@
 -- dependencies: module, callback, config, util
--- flavor: mainline
+-- flavor: retail
 
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local DropDownUtil = ns.gameutil.DropDownUtil
+local DropDownUtil = ns.coreutil.DropDownUtil
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class ReplayModule : Module
 local replay = ns:NewModule("Replay") ---@type ReplayModule
@@ -28,7 +29,7 @@ local ReplayFrameStyles = {
 
 ---@alias ReplayFrameTiming "BOSS"|"DUNGEON"
 
----@class ReplayFrameTimings
+---@enum ReplayFrameTimings
 local ReplayFrameTimings = {
     BOSS = "BOSS",
     DUNGEON = "DUNGEON",
@@ -262,7 +263,7 @@ end
 ---@param timerID number
 ---@return number? elapsedTime
 local function GetWorldElapsedTimerForKeystone(timerID)
-    ---@type number, number, number
+    ---@type _, number, number
     local _, elapsedTime, timerType = GetWorldElapsedTime(timerID)
     if timerType ~= LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE then
         return
@@ -513,7 +514,7 @@ local function BossFrameOnInit(obj)
     obj.InfoR:SetPoint("BOTTOMLEFT", obj.Name, "BOTTOMRIGHT", 4, 0)
     obj.InfoR:SetJustifyH("LEFT")
     obj.InfoR:SetJustifyV("MIDDLE")
-    obj.Background = obj:CreateTexture(nil, "BACKGROUND")
+    obj.Background = obj:CreateTexture(nil, "BACKGROUND") ---@class BossFrameBackgroundTexture
     obj.Background:SetAllPoints()
     obj.Background:SetColorTexture(1, 1, 1, 1)
     obj:SetBackgroundColor(replayFrame:GetBackgroundColor())
@@ -951,6 +952,9 @@ do
 end
 
 ---@class ReplayFrameConfigButton : Button
+---@field public GetParent fun(self: ReplayFrameConfigButton): ReplayFrame
+
+---@class ReplayFrameConfigButton
 local ReplayFrameConfigButtonMixin = {}
 
 do
@@ -988,10 +992,10 @@ do
     ---@field public menuList ReplayFrameDropDownMenuList
     ---@field public func? fun(self: ReplayFrameDropDownMenuInfoPolyfill)
     ---@field public arg1 ReplayFrameConfigButton
-    ---@field public arg2 Replay|ReplayFrameStyle|ReplayFrameDropDownPositionOption
+    ---@field public arg2 Replay|ReplayFrameStyle|ReplayFrameDropDownPositionOption|ReplayFrameTimings
 
     function ReplayFrameConfigButtonMixin:OnLoad()
-        local parent = self:GetParent() ---@type ReplayFrame
+        local parent = self:GetParent()
         self:SetSize(16, 16)
         self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, 0)
         self:RegisterForClicks("LeftButtonUp")
@@ -1146,11 +1150,14 @@ do
         self:Close()
     end
 
-    ---@param self UIDropDownMenuTemplatePolyfill
+    ---@class ReplayFrameDropDownMenu : UIDropDownMenuTemplatePolyfill
+    ---@field public GetParent fun(self): ReplayFrameConfigButton
+
+    ---@param self ReplayFrameDropDownMenu
     ---@param level number
     ---@param menuList? ReplayFrameDropDownMenuList
-    function ReplayFrameConfigButtonMixin:InitializeDropDown(level, menuList)
-        local parent = self:GetParent() ---@type ReplayFrameConfigButton
+    function ReplayFrameConfigButtonMixin.InitializeDropDown(self, level, menuList)
+        local parent = self:GetParent()
         local info = UIDropDownMenu_CreateInfo() ---@type ReplayFrameDropDownMenuInfoPolyfill
         if level == 1 then
             info.notCheckable = true
@@ -1374,35 +1381,35 @@ do
 
     ---@class UIWidgetBaseTextMixin : FontString
 
-    ---@class UIWidgetBaseStatusBarTemplateMixin
+    ---@class UIWidgetBaseStatusBarTemplateMixinPolyfill
     ---@field public value? number
-    ---@field public SanitizeAndSetStatusBarValues fun(self: UIWidgetBaseStatusBarTemplateMixin, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
-    ---@field public Setup fun(self: UIWidgetBaseStatusBarTemplateMixin, widgetContainer: Region, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
-    ---@field public UpdateBar fun(self: UIWidgetBaseStatusBarTemplateMixin, elapsed: number)
-    ---@field public DisplayBarValue fun(self: UIWidgetBaseStatusBarTemplateMixin)
-    ---@field public SetBarText fun(self: UIWidgetBaseStatusBarTemplateMixin, barValue: number)
-    ---@field public GetMaxTimeCount fun(self: UIWidgetBaseStatusBarTemplateMixin): number
-    ---@field public OnEnter fun(self: UIWidgetBaseStatusBarTemplateMixin)
-    ---@field public OnLeave fun(self: UIWidgetBaseStatusBarTemplateMixin)
-    ---@field public UpdateLabel fun(self: UIWidgetBaseStatusBarTemplateMixin)
-    ---@field public SetMouse fun(self: UIWidgetBaseStatusBarTemplateMixin, disableMouse: boolean)
-    ---@field public InitPartitions fun(self: UIWidgetBaseStatusBarTemplateMixin, partitionValues: number[], textureKit: string|number)
-    ---@field public UpdatePartitions fun(self: UIWidgetBaseStatusBarTemplateMixin, barValue: number)
-    ---@field public OnReset fun(self: UIWidgetBaseStatusBarTemplateMixin)
+    ---@field public SanitizeAndSetStatusBarValues fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
+    ---@field public Setup fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, widgetContainer: Region, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
+    ---@field public UpdateBar fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, elapsed: number)
+    ---@field public DisplayBarValue fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill)
+    ---@field public SetBarText fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, barValue: number)
+    ---@field public GetMaxTimeCount fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill): number
+    ---@field public OnEnter fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill)
+    ---@field public OnLeave fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill)
+    ---@field public UpdateLabel fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill)
+    ---@field public SetMouse fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, disableMouse: boolean)
+    ---@field public InitPartitions fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, partitionValues: number[], textureKit: string|number)
+    ---@field public UpdatePartitions fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill, barValue: number)
+    ---@field public OnReset fun(self: UIWidgetBaseStatusBarTemplateMixinPolyfill)
 
-    ---@class UIWidgetTemplateStatusBarMixin
-    ---@field public SanitizeTextureKits fun(self: UIWidgetTemplateStatusBarMixin, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
-    ---@field public Setup fun(self: UIWidgetTemplateStatusBarMixin, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill, widgetContainer: Region)
-    ---@field public EvaluateTutorials fun(self: UIWidgetTemplateStatusBarMixin)
-    ---@field public OnReset fun(self: UIWidgetTemplateStatusBarMixin)
+    ---@class UIWidgetTemplateStatusBarMixinPolyfill
+    ---@field public SanitizeTextureKits fun(self: UIWidgetTemplateStatusBarMixinPolyfill, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill)
+    ---@field public Setup fun(self: UIWidgetTemplateStatusBarMixinPolyfill, widgetInfo: StatusBarWidgetVisualizationInfoPolyfill, widgetContainer: Region)
+    ---@field public EvaluateTutorials fun(self: UIWidgetTemplateStatusBarMixinPolyfill)
+    ---@field public OnReset fun(self: UIWidgetTemplateStatusBarMixinPolyfill)
 
-    ---@class UIWidgetBaseStatusBarTemplate : StatusBar
+    ---@class UIWidgetBaseStatusBarTemplatePolyfill : StatusBar
     ---@field public value number
 
-    ---@class UIWidgetTemplateStatusBar : Frame, UIWidgetTemplateStatusBarMixin
+    ---@class UIWidgetTemplateStatusBarPolyfill : UIWidgetTemplateStatusBarMixinPolyfill, Frame
     ---@field public widgetContainer Region @Custom property assigned to be the same as the object used when calling `Setup`.
-    ---@field public Bar UIWidgetBaseStatusBarTemplate
-    ---@field public SetBarValue fun(self: UIWidgetTemplateStatusBar, barValue: number, barMin?: number, barMax?: number, forceUpdate?: boolean) @Custom function assigned to wrap around `Setup` for updating the bar widget.
+    ---@field public Bar UIWidgetBaseStatusBarTemplatePolyfill
+    ---@field public SetBarValue fun(self: UIWidgetTemplateStatusBarPolyfill, barValue: number, barMin?: number, barMax?: number, forceUpdate?: boolean) @Custom function assigned to wrap around `Setup` for updating the bar widget.
 
     ---@type StatusBarWidgetVisualizationInfoPolyfill
     local STATUSBAR_WIDGET_DEFAULT = {
@@ -1473,7 +1480,7 @@ do
         return STATUSBAR_WIDGET_DEFAULT
     end
 
-    ---@param self UIWidgetTemplateStatusBar
+    ---@param self UIWidgetTemplateStatusBarPolyfill
     ---@param barValue number
     ---@param barMin? number
     ---@param barMax? number
@@ -1486,7 +1493,7 @@ do
         self:Setup(barWidgetInfo, self.widgetContainer)
     end
 
-    ---@param self UIWidgetTemplateStatusBar
+    ---@param self UIWidgetTemplateStatusBarPolyfill
     ---@param widgetContainer Region
     local function InitBar(self, widgetContainer)
         self.widgetContainer = widgetContainer
@@ -1785,13 +1792,13 @@ do
         self.MDI.BossCombat:Hide()
         self.MDI.Spacer2L:SetHeight(20)
         self.MDI.Spacer2R:SetHeight(20)
-        self.MDI.TrashLBar = CreateFrame("Frame", nil, self.MDI, "UIWidgetTemplateStatusBar") ---@type UIWidgetTemplateStatusBar
+        self.MDI.TrashLBar = CreateFrame("Frame", nil, self.MDI, "UIWidgetTemplateStatusBar") ---@type UIWidgetTemplateStatusBarPolyfill
         InitBar(self.MDI.TrashLBar, self.MDI)
         self.MDI.TrashLBar:SetAllPoints(self.MDI.TrashL)
-        self.MDI.TrashRBar = CreateFrame("Frame", nil, self.MDI, "UIWidgetTemplateStatusBar") ---@type UIWidgetTemplateStatusBar
+        self.MDI.TrashRBar = CreateFrame("Frame", nil, self.MDI, "UIWidgetTemplateStatusBar") ---@type UIWidgetTemplateStatusBarPolyfill
         InitBar(self.MDI.TrashRBar, self.MDI)
         self.MDI.TrashRBar:SetAllPoints(self.MDI.TrashR)
-        self.MDI.DeathPenL, self.MDI.DeathPenR = CreateTextRowMDI(nil, 120, "GameFontHighlightLarge2")
+        self.MDI.DeathPenL, self.MDI.DeathPenR = CreateTextRowMDI(nil, 120, "GameFontHighlightLarge2") ---@diagnostic expect-line: assign-type-mismatch
         self.MDI.DeathPenL:ClearAllPoints()
         self.MDI.DeathPenL:SetPoint("TOPLEFT", self.MDI.TimerLine, "BOTTOMLEFT", self.contentPaddingX + self.edgePaddingMDI/2, -self.contentPaddingY - self.edgePaddingMDI/2)
         self.MDI.DeathPenL:SetJustifyH("CENTER")
@@ -1940,7 +1947,7 @@ do
     end
 
     ---@class ReplayCompletedSummary
-    ---@field public replaySeason number
+    ---@field public replaySeason string
     ---@field public replayRunId number
     ---@field public character string
     ---@field public zoneId number
@@ -2950,7 +2957,8 @@ local function UpdatePublicBossRows(publicBossRows, privateBossRows)
     if not privateBossRows then
         return
     end
-    publicBossRows = util:TableCopy(privateBossRows) ---@type PublicReplayBossRow[]
+    ---@type PublicReplayBossRow[]
+    publicBossRows = util:TableCopy(privateBossRows) ---@diagnostic expect-line: assign-type-mismatch
     for _, bossRow in ipairs(publicBossRows) do
         bossRow.liveBoss = util:TableCopy(bossRow.liveBoss)
         bossRow.replayBoss = util:TableCopy(bossRow.replayBoss)

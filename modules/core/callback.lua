@@ -42,7 +42,7 @@ local function CallHandler(callbackFunc, event, ...)
         return
     end
     local count, args = select("#", ...), { ... }
-    xpcall(function() callbackFunc(event, (unpack or table.unpack)(args, 1, count)) end, callback.ReportError)
+    xpcall(function() callbackFunc(event, unpack(args, 1, count)) end, callback.ReportError)
 end
 
 ---@param eventCallbacks CallbackModuleFunction[]?

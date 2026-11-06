@@ -3,10 +3,10 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local IS_RETAIL = ns.gameutil.IS_RETAIL
-local StaticPopupUtil = ns.gameutil.StaticPopupUtil
-local GetItemQualityColor = ns.gameutil.GetItemQualityColor
-local issecretvalue = ns.gameutil.issecretvalue
+local IS_RETAIL = ns.coreutil.IS_RETAIL
+local StaticPopupUtil = ns.coreutil.StaticPopupUtil
+local GetItemQualityColor = ns.coreutil.GetItemQualityColor
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class UtilModule : Module
 local util = ns:NewModule("Util") ---@type UtilModule
@@ -808,7 +808,8 @@ function util:GetLFDStatus()
             temp.hosting = true
         end
     end
-    local applications = C_LFGList.GetApplications() ---@type number[]
+    ---@type number[]
+    local applications = C_LFGList.GetApplications() ---@diagnostic expect-line: assign-type-mismatch
     for _, resultID in ipairs(applications) do
         local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID)
         if searchResultInfo and not issecretvalue(searchResultInfo.isDelisted) and not searchResultInfo.isDelisted then
@@ -1568,7 +1569,7 @@ function util:TableFilter(tbl, func, max)
     if isArray then
         iter, curr, next = ipairs(tbl)
     else
-        iter, curr, next = pairs(tbl)
+        iter, curr = pairs(tbl)
     end
     local temp = {}
     local i = 0
@@ -1759,6 +1760,9 @@ end
 ---@param configID? number
 ---@return number? treeID
 function util:GetSpecializationTreeID(configID)
+    if not C_ClassTalents or not C_ClassTalents.GetActiveConfigID then
+        return
+    end
     if not configID then
         configID = C_ClassTalents.GetActiveConfigID()
     end
@@ -1772,6 +1776,9 @@ end
 ---@param subTreeID number
 ---@param configID? number
 function util:GetSpecializationSubTreeInfo(subTreeID, configID)
+    if not C_ClassTalents or not C_ClassTalents.GetActiveConfigID then
+        return
+    end
     if not configID then
         configID = C_ClassTalents.GetActiveConfigID()
     end

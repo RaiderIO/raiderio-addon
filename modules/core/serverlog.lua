@@ -1,12 +1,8 @@
 -- dependencies: module, callback, config, util
 -- requires: debug mode
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
-
-local bor = bit.bor
-local band = bit.band
+local issecretvalue = ns.coreutil.issecretvalue
 
 ---@class ServerLogModule : Module
 local serverlog = ns:NewModule("ServerLog") ---@type ServerLogModule
@@ -33,8 +29,8 @@ local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = _G.COMBATLOG_OBJECT_AFFILIATION_OU
 local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER or 0x00000100 ---@diagnostic expect-line: undefined-field
 local COMBATLOG_OBJECT_TYPE_PLAYER = _G.COMBATLOG_OBJECT_TYPE_PLAYER or 0x00000400 ---@diagnostic expect-line: undefined-field
 
-local MINE = bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_CONTROL_PLAYER)
-local OTHER_PLAYER = bor(COMBATLOG_OBJECT_AFFILIATION_OUTSIDER, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PLAYER)
+local MINE = bit.bor(COMBATLOG_OBJECT_AFFILIATION_MINE, COMBATLOG_OBJECT_CONTROL_PLAYER)
+local OTHER_PLAYER = bit.bor(COMBATLOG_OBJECT_AFFILIATION_OUTSIDER, COMBATLOG_OBJECT_CONTROL_PLAYER, COMBATLOG_OBJECT_TYPE_PLAYER)
 
 local CHECKED = {}
 
@@ -43,7 +39,7 @@ local function IsOtherPlayerGUID(guid, flags)
     if not guid then
         return false
     end
-    if flags ~= nil and (band(flags, MINE) == MINE or band(flags, OTHER_PLAYER) ~= OTHER_PLAYER) then
+    if flags ~= nil and (bit.band(flags, MINE) == MINE or bit.band(flags, OTHER_PLAYER) ~= OTHER_PLAYER) then
         return false
     end
     return true

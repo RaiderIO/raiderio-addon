@@ -1,11 +1,10 @@
--- dependencies: none
+-- dependencies: coreutil.lua
 
-local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
-local IS_CLASSIC_ERA = ns.gameutil.IS_CLASSIC_ERA
-local IS_CLASSIC = ns.gameutil.IS_CLASSIC
-local IS_RETAIL = ns.gameutil.IS_RETAIL
+local IS_CLASSIC_ERA = ns.coreutil.IS_CLASSIC_ERA
+local IS_CLASSIC = ns.coreutil.IS_CLASSIC
+local IS_RETAIL = ns.coreutil.IS_RETAIL
 
 ---@alias RegionString "us"|"kr"|"eu"|"tw"|"cn" @`us`, `kr`, `eu`, `tw`, `cn`
 
@@ -197,7 +196,7 @@ ns.IGNORED_REALMS = {
     ["CNMythicDungeons"] = true,
 }
 
----@class HeadlineMode
+---@enum HeadlineMode
 ns.HEADLINE_MODE = {
     CURRENT_SEASON = 0,
     BEST_SEASON = 1,
