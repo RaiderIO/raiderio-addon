@@ -1,5 +1,6 @@
 local IS_RETAIL = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 local IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+local IS_FOREVER = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 local IS_CLASSIC = not IS_RETAIL and not IS_CLASSIC_ERA
 
 local addonName = ... ---@type string @The name of the addon.
@@ -1033,7 +1034,9 @@ do
     ns.RAIDERIO_DOMAIN = "raider.io"
 
     -- ns.RAIDERIO_DOMAIN
-    if IS_CLASSIC_ERA then
+    if IS_FOREVER then
+        ns.RAIDERIO_DOMAIN = "forever.raider.io"
+    elseif IS_CLASSIC_ERA then
         ns.RAIDERIO_DOMAIN = "era.raider.io"
     elseif IS_CLASSIC then
         ns.RAIDERIO_DOMAIN = "classic.raider.io"
@@ -3187,7 +3190,13 @@ do
                 if issecretvalue(name) or issecretvalue(realm) then
                     return
                 end
-                realm = realm and realm ~= "" and realm or GetNormalizedRealmName()
+                if IS_FOREVER then
+                    -- Forever returns the surname as the second value, rather than a realm.
+                    name = realm and realm ~= "" and format("%s %s", name, realm) or name
+                    realm = GetNormalizedRealmName()
+                else
+                    realm = realm and realm ~= "" and realm or GetNormalizedRealmName()
+                end
             end
             return name, realm, unit
         end
@@ -3735,6 +3744,26 @@ do
         return (text:gsub("[^%w%-_%.~]", encodeURIComponent))
     end
 
+    -- Forever profiles use a ruleset slug; internal realm names are not public realms.
+    local function GetForeverProfileRealmSlug()
+        local rules = Enum and Enum.GameRule
+        if not C_GameRules or not C_GameRules.IsGameRuleActive or not rules or not rules.PvPRuleset or not rules.RPRuleset then
+            return
+        end
+        if C_GameRules.IsHardcoreActive and C_GameRules.IsHardcoreActive() then
+            return "hardcore"
+        end
+        local pvp = C_GameRules.IsGameRuleActive(rules.PvPRuleset)
+        local rp = C_GameRules.IsGameRuleActive(rules.RPRuleset)
+        if issecretvalue(pvp) or issecretvalue(rp) or type(pvp) ~= "boolean" or type(rp) ~= "boolean" then
+            return
+        end
+        if pvp then
+            return rp and "pvp-rp" or "pvp"
+        end
+        return rp and "rp" or "normal"
+    end
+
     ---@param ... string
     ---@return string? url, string? name, string? realm, string? realmSlug
     function util:GetRaiderIOProfileUrl(...)
@@ -3742,13 +3771,20 @@ do
         if not name then
             return
         end
-        local realmSlug = util:GetRealmSlug(realm, true)
+        local realmSlug
+        if IS_FOREVER then
+            realmSlug = GetForeverProfileRealmSlug()
+        else
+            realmSlug = util:GetRealmSlug(realm, true)
+        end
         if not realmSlug then
             return
         end
         local region = select(3, ...)
         region = region and type(region) == "string" and region:len() > 0 and region or ns.PLAYER_REGION
-        return format("https://%s/characters/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, region, realmSlug, name), name, realm, realmSlug
+        local urlName = IS_FOREVER and util:EncodeURIComponent(name) or name
+        local urlRealm = IS_FOREVER and util:EncodeURIComponent(realmSlug) or realmSlug
+        return format("https://%s/characters/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, region, urlRealm, urlName), name, realm, realmSlug
     end
 
     ---@param urlSuffix string
@@ -13386,7 +13422,7 @@ do
                 return
             end
             selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForDropDown(bdropdown)
-            if not selected.name or not util:IsMaxLevel(selected.level, true) then
+            if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
                 return
             end
             if not options[1] then
@@ -13601,7 +13637,7 @@ do
             return
         end
         selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForMenu(owner, rootDescription, contextData)
-        if not selected.name or not util:IsMaxLevel(selected.level, true) then
+        if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
             return
         end
         rootDescription:CreateDivider()
