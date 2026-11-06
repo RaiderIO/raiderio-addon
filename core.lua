@@ -3024,6 +3024,17 @@ do
         return ltd, regionId
     end
 
+    -- Journeys cannot use GetRegion's compatibility fallback to US as identity evidence.
+    function util:GetJourneyRegion()
+        local guid = UnitGUID("player")
+        local serverId = guid and tonumber(strmatch(guid, "^Player%-(%d+)"))
+        local regionId = serverId and REGION[serverId]
+        if not regionId then
+            regionId = GetCurrentRegion()
+        end
+        return ns.REGION_TO_LTD[regionId]
+    end
+
     ---@param serverId? number
     ---@return (false|string)? ltd The LTD string, otherwise `nil` for no data, or `false` for unknown server.
     ---@return number? regionId The RegionID number, otherwise `nil` for no data.
