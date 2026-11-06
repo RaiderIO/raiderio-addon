@@ -1,8 +1,9 @@
+local ns = select(2, ...) ---@class ns @The addon namespace.
+
 -- LibClientBeacon-1.0: legacy monochrome and configurable packet transport owner.
 -- Internal owner API: not yet a supported third-party producer contract.
 -- The addon's error boundary, when this copy is embedded in Raider.IO.
-local _, addon = ...
-local safety = type(addon) == "table" and addon.Safety or nil
+local safety = type(ns) == "table" and ns.Safety or nil
 local C_Timer = safety and safety.Timers("beacon") or C_Timer
 
 local MAJOR, MINOR = "LibClientBeacon-1.0", 6 -- keep PacketTransport.lua in sync
@@ -10,14 +11,13 @@ local MAJOR, MINOR = "LibClientBeacon-1.0", 6 -- keep PacketTransport.lua in syn
 ---@field Protocol number
 ---@field owner? table
 ---@field transport? LibClientBeaconTransport
-local lib = LibStub:NewLibrary(MAJOR, MINOR) ---@type LibClientBeaconLibrary?
+local lib = LibStub:NewLibrary(MAJOR, MINOR) ---@class LibClientBeaconLibrary
 if not lib then
     return
 end
 
 lib.Protocol = 8
 local format = string.format
-local bit = bit or bit32
 local band, bxor, lshift, rshift = bit.band, bit.bxor, bit.lshift, bit.rshift
 local issecretvalue = issecretvalue or function()
     return false
@@ -297,8 +297,10 @@ local function CreateTransport(options)
 
     ---@return boolean applied
     local function ApplyGeometry()
+        assert(frame)
+
         local width, height = GetScreenPixels()
-        if not width then
+        if not width or not height then
             return false
         end
 
@@ -400,6 +402,8 @@ local function CreateTransport(options)
 
     ---@param event ClientBeaconEvent
     local function ShowEvent(event)
+        assert(frame)
+
         local sequence = nextSequence
         nextSequence = (nextSequence + 1) % (MAX_SEQUENCE + 1)
         local bytes = clientbeacon.Encode(
@@ -528,7 +532,7 @@ local function CreateTransport(options)
         ---@field public symbols? string[]
         ---@field public nextIndex? number
 
-        local api = {} ---@type ClientBeaconStream
+        local api = {} ---@class ClientBeaconStream
         local nextStream = 0
         local messages = {} ---@type ClientBeaconStreamMessage[]
         local current ---@type ClientBeaconStreamMessage?
@@ -638,7 +642,7 @@ local function CreateTransport(options)
                 return
             end
 
-            if current and current.nextIndex > 0 then
+            if current and current.nextIndex and current.nextIndex > 0 then
                 current.nextIndex = 0
                 if options.IsDebugEnabled() then
                     options.Debug(format("Beacon data stream %d restarts from index 0", current.stream))
@@ -666,6 +670,7 @@ local function CreateTransport(options)
         end
 
         local function Suspend()
+            assert(frame)
             showing = false
             frame:SetScript("OnUpdate", nil)
         end
@@ -680,6 +685,7 @@ local function CreateTransport(options)
                 Suspend()
             end
             if not busy then
+                assert(frame)
                 frame:Hide()
             end
 
@@ -697,6 +703,9 @@ local function CreateTransport(options)
         end
 
         local function OnUpdate()
+            if not current then
+                return
+            end
             local now = GetTime()
             if now > shownAt then
                 frames = frames + 1
@@ -721,6 +730,11 @@ local function CreateTransport(options)
                 end
                 Restart()
             end
+
+            assert(current)
+            assert(current.symbols)
+            assert(current.nextIndex)
+            assert(frame)
 
             PaintData(current.symbols[current.nextIndex + 1])
             current.nextIndex = current.nextIndex + 1
@@ -783,6 +797,8 @@ local function CreateTransport(options)
         end
 
         local function FinishMessage()
+            assert(current)
+            assert(frame)
             if options.Observe then
                 options.Observe("firstPass", nil, current.kind)
                 options.Observe("completed", nil, current.kind)
@@ -816,7 +832,7 @@ local function CreateTransport(options)
         end
 
         function Continue()
-            if current and current.nextIndex < #current.symbols then
+            if current and current.nextIndex and current.symbols and current.nextIndex < #current.symbols then
                 ShowSymbol()
             elseif current then
                 FinishMessage()

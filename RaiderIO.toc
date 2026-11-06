@@ -1,4 +1,4 @@
-## Interface: 120100, 120105
+## Interface: 11509, 16001, 20506, 30405, 40402, 50504, 120105, 120107
 ## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
 ## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
@@ -15,17 +15,142 @@
 ## X-Journey-Catalog: 3
 ## X-RaiderIO-Capabilities: beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1
 ## SavedVariablesPerCharacter: RaiderIO_Journeys, RaiderIO_JourneyExport
-db/db_client_characters.lua
-db/db_client_config.lua
-db/db_client_guilds.lua
-db/db_client_recent_characters.lua
-db/db_client_replays.lua
-db/db_dungeons.lua
-db/db_realms.lua
-db/db_regions.lua
-db/db_score_stats.lua
-db/db_score_tiers_prev.lua
-db/db_score_tiers.lua
-db/db_talent_builds.lua
-db/db_titles.lua
-core.xml
+
+db/db_client_config.lua [AllowLoadGameType classic_era]
+db/db_era_client_characters.lua [AllowLoadGameType classic_era]
+db/db_era_client_guilds.lua [AllowLoadGameType classic_era]
+db/db_era_client_replays.lua [AllowLoadGameType classic_era]
+db/db_era_dungeons.lua [AllowLoadGameType classic_era]
+db/db_era_realms.lua [AllowLoadGameType classic_era]
+db/db_era_regions.lua [AllowLoadGameType classic_era]
+db/db_era_score_stats.lua [AllowLoadGameType classic_era]
+db/db_era_score_tiers_prev.lua [AllowLoadGameType classic_era]
+db/db_era_score_tiers.lua [AllowLoadGameType classic_era]
+db/db_era_titles.lua [AllowLoadGameType classic_era]
+
+db/db_client_config.lua [AllowLoadGameType classic]
+db/db_classic_client_characters.lua [AllowLoadGameType classic]
+db/db_classic_client_guilds.lua [AllowLoadGameType classic]
+db/db_classic_client_replays.lua [AllowLoadGameType classic]
+db/db_classic_dungeons.lua [AllowLoadGameType classic]
+db/db_classic_realms.lua [AllowLoadGameType classic]
+db/db_classic_regions.lua [AllowLoadGameType classic]
+db/db_classic_score_stats.lua [AllowLoadGameType classic]
+db/db_classic_score_tiers_prev.lua [AllowLoadGameType classic]
+db/db_classic_score_tiers.lua [AllowLoadGameType classic]
+db/db_classic_titles.lua [AllowLoadGameType classic]
+
+db/db_forever_client_characters.lua [AllowLoadGameType camelot, forever]
+db/db_client_config.lua [AllowLoadGameType camelot, forever]
+db/db_forever_client_guilds.lua [AllowLoadGameType camelot, forever]
+db/db_client_recent_characters.lua [AllowLoadGameType camelot, forever]
+db/db_forever_client_replays.lua [AllowLoadGameType camelot, forever]
+db/db_dungeons.lua [AllowLoadGameType camelot, forever]
+db/db_realms.lua [AllowLoadGameType camelot, forever]
+db/db_regions.lua [AllowLoadGameType camelot, forever]
+db/db_score_stats.lua [AllowLoadGameType camelot, forever]
+db/db_score_tiers_prev.lua [AllowLoadGameType camelot, forever]
+db/db_score_tiers.lua [AllowLoadGameType camelot, forever]
+db/db_talent_builds.lua [AllowLoadGameType camelot, forever]
+db/db_titles.lua [AllowLoadGameType camelot, forever]
+
+db/db_client_characters.lua [AllowLoadGameType retail]
+db/db_client_config.lua [AllowLoadGameType retail]
+db/db_client_guilds.lua [AllowLoadGameType retail]
+db/db_client_recent_characters.lua [AllowLoadGameType retail]
+db/db_client_replays.lua [AllowLoadGameType retail]
+db/db_dungeons.lua [AllowLoadGameType retail]
+db/db_realms.lua [AllowLoadGameType retail]
+db/db_regions.lua [AllowLoadGameType retail]
+db/db_score_stats.lua [AllowLoadGameType retail]
+db/db_score_tiers_prev.lua [AllowLoadGameType retail]
+db/db_score_tiers.lua [AllowLoadGameType retail]
+db/db_talent_builds.lua [AllowLoadGameType retail]
+db/db_titles.lua [AllowLoadGameType retail]
+
+modules/misc/safety.lua
+libs/LibStub/LibStub.lua
+libs/LibClientBeacon-1.0/LibClientBeacon-1.0.lua
+libs/LibClientBeacon-1.0/PacketTransport.lua
+libs/LibDropDownExtension-1.0/LibDropDownExtension.lua
+libs/LibClassTalentsImportExport-1.0/LibClassTalentsImportExport-1.0.lua
+libs/CallbackHandler-1.0/CallbackHandler-1.0.lua
+libs/LibDataBroker-1.1/LibDataBroker-1.1.lua
+libs/LibDBIcon-1.0/LibDBIcon-1.0.lua
+libs/LibCombatLogging-1.0/LibCombatLogging.lua
+
+locale/locale.lua
+locale/enUS.lua
+locale/deDE.lua
+locale/esES.lua
+locale/frFR.lua
+locale/itIT.lua
+locale/koKR.lua
+locale/ptBR.lua
+locale/ruRU.lua
+locale/zhCN.lua
+locale/zhTW.lua
+
+utf8.lua
+
+modules/beacon/beacon-diagnostic-graphics.lua
+modules/beacon/beacon-diagnostics.lua
+modules/misc/character-observations.lua
+modules/beacon/beacon-debug.lua
+modules/beacon/beacon-summary.lua
+modules/misc/activity-telemetry.lua
+
+modules/core/constants.lua
+modules/core/data.lua
+modules/core/module.lua
+modules/core/callback.lua
+modules/core/config.lua
+modules/core/util.lua
+modules/core/json.lua
+modules/core/provider.lua
+modules/core/loader.lua
+modules/core/render.lua
+modules/core/gametooltip.lua
+modules/core/friendtooltip.lua
+modules/core/whotooltip.lua
+modules/core/whochatframe.lua [AllowLoadGameType retail]
+modules/core/fanfare.lua [AllowLoadGameType retail]
+modules/core/profile.lua
+modules/core/lfgtooltip.lua [ExcludeLoadGameType classic_era]
+modules/core/guildtooltip.lua [AllowLoadGameType classic_era]
+modules/core/communitytooltip.lua
+modules/core/keystonetooltip.lua [AllowLoadGameType retail]
+modules/core/guildweekly.lua [AllowLoadGameType retail]
+modules/core/replay.lua [AllowLoadGameType retail]
+modules/core/search.lua
+modules/core/dropdown.lua
+modules/core/rwf.lua [AllowLoadGameType retail]
+modules/core/combatlog.lua
+modules/core/serverlog.lua
+modules/core/talentbuilds.lua [AllowLoadGameType retail]
+modules/core/settings.lua
+modules/core/shortcuts.lua
+modules/core/tests.lua
+modules/core/public.lua
+
+modules/beacon/beacon.lua
+db/db_client_journey_catalog.lua
+db/db_client_journey_receipts.lua
+modules/journeys/journeys-memory-policy.lua
+modules/journeys/journeys-evidence.lua
+modules/journeys/journeys-erasure.lua
+modules/journeys/journeys-group-loot.lua
+modules/journeys/journeys-boss-attempts.lua
+modules/journeys/journeys-kills.lua
+modules/journeys/journeys.lua
+modules/journeys/journeys-doll.lua
+modules/journeys/journeys-close-call-episodes.lua
+modules/journeys/journeys-encounter-episodes.lua
+modules/journeys/journeys-roster-episodes.lua
+modules/journeys/journeys-roster-reader.lua
+modules/journeys/journeys-clutch.lua
+modules/journeys/journeys-memory-observation.lua
+modules/journeys/journeys-encounter-adapter.lua
+modules/journeys/journeys-roaming-threat.lua
+modules/journeys/journeys-evidence-probe.lua
+modules/misc/gamedata.lua
