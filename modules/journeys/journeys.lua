@@ -2970,6 +2970,7 @@ end
 ---@param expectedLevel? number
 ---@return JourneyContext
 local function Context(expectedLevel)
+    local util = Read(ns.GetModule, ns, "Util", true)
     local _, _, classId = Read(UnitClass, "player")
     local _, _, raceId = Read(UnitRace, "player")
     local name, realm = Read(UnitName, "player")
@@ -2982,7 +2983,7 @@ local function Context(expectedLevel)
         level = Read(UnitLevel, "player"),
         -- The same frame's read as the event's beacon, so its SavedVariables copy names the beacon's second.
         occurredAt = Read(ns.FrameServerTime or GetServerTime),
-        region = Known(ns.PLAYER_REGION) and ns.PLAYER_REGION or nil,
+        region = util and Read(util.GetRegion, util, false) or nil,
         worldReadyAt = current and current.catalog.loadingScreenProtocol == 1 and worldReadyAt or nil,
         zoneId = Read(C_Map and C_Map.GetBestMapForUnit, "player"),
         zoneName = Read(GetRealZoneText),

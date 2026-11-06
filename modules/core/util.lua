@@ -426,9 +426,10 @@ end
 
 local REGION = ns:GetRegionData()
 
+---@param allowFallback? boolean `true` by default.
 ---@return (false|RegionString)? ltd The LTD string, otherwise `nil` for no data, or `false` for unknown server.
 ---@return RegionNumber? regionId The RegionID number, otherwise `nil` for no data.
-function util:GetRegion()
+function util:GetRegion(allowFallback)
     local guid = UnitGUID("player")
     if not guid then
         return
@@ -437,11 +438,13 @@ function util:GetRegion()
     local regionId = REGION[serverId]
     if not regionId then
         regionId = GetCurrentRegion()
-        if util:IsOnRetailRealm() then
-            ns.Print(format(L.UNKNOWN_SERVER_FOUND, addonName, guid or "N/A", GetNormalizedRealmName() or "N/A"))
-        end
-        if not regionId or regionId > #ns.REGION_TO_LTD then
-            regionId = 1
+        if allowFallback ~= false then
+            if util:IsOnRetailRealm() then
+                ns.Print(format(L.UNKNOWN_SERVER_FOUND, addonName, guid or "N/A", GetNormalizedRealmName() or "N/A"))
+            end
+            if not regionId or regionId > #ns.REGION_TO_LTD then
+                regionId = 1
+            end
         end
     end
     if not regionId then
