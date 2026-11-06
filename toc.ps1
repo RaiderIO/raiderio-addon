@@ -1,52 +1,67 @@
-# https://warcraft.wiki.gg/wiki/TOC_format#Interface_version
+# https://warcraft.wiki.gg/wiki/TOC_format
 
-$clients = [ordered]@{
-	Mainline = @{
-		Interface = "120100, 120105"
-		Version = "12.1.0"
-		Name = "mainline"
-	}
-	Classic = @{
-		Interface = "50504"
-		Version = "5.5.4"
-		Name = "classic"
-	}
-	Vanilla = @{
-		Interface = "11509"
-		Version = "1.15.9"
-		Name = "era"
-	}
-}
+$addOn = "RaiderIO"
 
-$meta = @{
-	AddOn = "RaiderIO"
+# Shared "addon version" for all TOC files. Used in the "## Version: " line followed by the project version tag.
+$addOnVersion = "12.1.5"
+
+# Desired interface version number string placed in each kind of module "as-is" on the "## Interface: " line.
+# This controls the flavor support, so we wish to set this to all game flavors that we wish each database addon to load on.
+$interfaceMain = "11509, 16001, 20506, 30405, 40402, 50504, 120105, 120107"
+$interfaceDbMythicPlus = "120105, 120107"
+$interfaceDbClassic = "20506, 30405, 40402, 50504, 120105, 120107"
+
+# Directive shorthands which control load conditions within a unified TOC file.
+$onlyClassicEra = "[AllowLoadGameType vanilla]"
+$notClassicEra = "[ExcludeLoadGameType vanilla]"
+$onlyClassic = "[ExcludeLoadGameType mainline, vanilla]"
+$onlyForever = "[AllowLoadGameType camelot][ExcludeLoadGameType standard, classic]"
+$onlyForeverAndRetail = "[AllowLoadGameType camelot, standard][ExcludeLoadGameType classic]"
+$onlyRetail = "[AllowLoadGameType standard]"
+
+# The Beacon and Journey protocol data to insert in the main TOC file.
+$beaconProtocol = "8"
+$beaconFormats = "cells-v1,cells-v2,cells-v3"
+$journeyProtocol = "3"
+$journeyCatalog = "3"
+$capabilities = [ordered]@{
+	"beacon-diagnostics" = 4
+	"journey-observations" = 1
+	"journey-heartbeats" = 1
+	"journey-semantic" = 1
+	"journey-erasure" = 2
+	"journey-kill-counter" = 1
+	"journey-dolls" = 1
 }
+$capabilitiesText = ($capabilities.Keys | ForEach-Object { "$($_)=$($capabilities[$_])" }) -join ","
+
+$meta = @{}
 
 $meta.TOC = [ordered]@{
 	Title = "Raider.IO Mythic Plus, Raiding, and Recruitment"
 	Notes = "Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB."
 	Author = "Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)"
-	Version = "@clientVersion@ (@project-version@)"
-	IconTexture = "Interface\AddOns\$($meta.AddOn)\icons\logo"
+	Version = "$($addOnVersion) (@project-version@)"
+	IconTexture = "Interface\AddOns\$($addOn)\icons\logo"
 	SavedVariables = "RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays, RaiderIO_GameData, RaiderIO_ActivityCharacterContext, RaiderIO_BeaconDebug, RaiderIO_BeaconSummary, RaiderIO_BeaconSummaryExport, RaiderIO_SafetyLog, RaiderIO_JourneyEvidenceProbe"
 	"X-Website" = "https://raider.io"
 	"X-AddonProvider" = "github"
 	"X-Curse-Project-ID" = "279257"
 	"X-Wago-ID" = "b6mb0XKP"
-	"X-Beacon-Protocol" = "8"
-	"X-Beacon-Formats" = "cells-v1,cells-v2,cells-v3"
-	"X-Journey-Protocol" = "3"
-	"X-Journey-Catalog" = "3"
-	"X-RaiderIO-Capabilities" = "beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1"
+	"X-Beacon-Protocol" = $beaconProtocol
+	"X-Beacon-Formats" = $beaconFormats
+	"X-Journey-Protocol" = $journeyProtocol
+	"X-Journey-Catalog" = $journeyCatalog
+	"X-RaiderIO-Capabilities" = $capabilitiesText
 	SavedVariablesPerCharacter = "RaiderIO_Journeys, RaiderIO_JourneyExport"
 }
 
 $meta.DBTOC = [ordered]@{
 	Title = "Raider.IO |cffFFFFFF@typeName@|r (@regionName@)"
-	Author = "$($meta.TOC.Author)"
-	Version = "$($meta.TOC.Version)"
-	IconTexture = "$($meta.TOC.IconTexture)"
-	Dependencies = "$($meta.AddOn)"
+	Author = $meta.TOC.Author
+	Version = $meta.TOC.Version
+	IconTexture = $meta.TOC.IconTexture
+	Dependencies = $addOn
 	DefaultState = "enabled"
 	"X-Type" = "@typeName@"
 	"X-Region" = "@regionName@"
@@ -54,7 +69,7 @@ $meta.DBTOC = [ordered]@{
 	"X-Website" = "https://raider.io"
 }
 
-$regions = @{
+$regions = [ordered]@{
 	EU = "Europe"
 	CN = "China"
 	KR = "Korea"
@@ -62,71 +77,179 @@ $regions = @{
 	US = "Americas"
 }
 
-$types = @{
-	M = "Mythic Plus"
-	R = "Raiding"
-	F = "Recruitment"
+$types = [ordered]@{
+	M = @{ Name = "Mythic Plus"; Interface = $interfaceDbMythicPlus; Classic = $false }
+	R = @{ Name = "Raiding"; Interface = $interfaceDbClassic; Classic = $true }
+	F = @{ Name = "Recruitment"; Interface = $interfaceDbClassic; Classic = $true }
 }
 
-$clientPlaceholderFiles = @(
-	"db_client_characters"
-	"db_client_recent_characters"
-	"db_client_config"
-	"db_client_journey_catalog"
-	"db_client_journey_receipts"
-	"db_client_guilds"
-	"db_client_replays"
-	"db_dungeons"
-	"db_score_stats"
-	"db_score_tiers"
-	"db_score_tiers_prev"
-	"db_talent_builds"
+$sharedConfigFile = "db_client_config"
+
+$dbGroups = @(
+	@{ Directive = $onlyClassicEra; Files = @(
+		"db_era_client_characters"
+		"db_era_client_guilds"
+		"db_era_client_replays"
+		"db_era_dungeons"
+		"db_era_realms"
+		"db_era_regions"
+		"db_era_score_stats"
+		"db_era_score_tiers_prev"
+		"db_era_score_tiers"
+		"db_era_titles"
+	) }
+	@{ Directive = $onlyClassic; Files = @(
+		"db_classic_client_characters"
+		"db_classic_client_guilds"
+		"db_classic_client_replays"
+		"db_classic_dungeons"
+		"db_classic_realms"
+		"db_classic_regions"
+		"db_classic_score_stats"
+		"db_classic_score_tiers_prev"
+		"db_classic_score_tiers"
+		"db_classic_titles"
+	) }
+	@{ Directive = $onlyForever; Files = @(
+		"db_forever_client_characters"
+		"db_forever_client_guilds"
+		"db_forever_client_replays"
+	) }
+	@{ Directive = $onlyForeverAndRetail; Files = @(
+		"db_client_recent_characters"
+		"db_dungeons"
+		"db_realms"
+		"db_regions"
+		"db_score_stats"
+		"db_score_tiers_prev"
+		"db_score_tiers"
+		"db_talent_builds"
+		"db_titles"
+	) }
+	@{ Directive = $onlyRetail; Files = @(
+		"db_client_characters"
+		"db_client_guilds"
+		"db_client_replays"
+	) }
 )
 
-# The desktop client writes this into each installation's own AddOns folder, so every client loads the one file.
-$sharedClientConfigFile = "db_client_config"
+$sourceSections = @(
+	,@(
+		"modules/misc/safety.lua"
+		"libs/LibStub/LibStub.lua"
+		"libs/LibClientBeacon-1.0/LibClientBeacon-1.0.lua"
+		"libs/LibClientBeacon-1.0/PacketTransport.lua"
+		"libs/LibDropDownExtension-1.0/LibDropDownExtension.lua"
+		"libs/LibClassTalentsImportExport-1.0/LibClassTalentsImportExport-1.0.lua"
+		"libs/CallbackHandler-1.0/CallbackHandler-1.0.lua"
+		"libs/LibDataBroker-1.1/LibDataBroker-1.1.lua"
+		"libs/LibDBIcon-1.0/LibDBIcon-1.0.lua"
+		"libs/LibCombatLogging-1.0/LibCombatLogging.lua"
+	)
+	,@(
+		"locale/locale.lua"
+		"locale/enUS.lua"
+		"locale/[TextLocale].lua"
+	)
+	,@(
+		"modules/core/utf8.lua"
+	)
+	,@(
+		"modules/beacon/beacon-diagnostic-graphics.lua"
+		"modules/beacon/beacon-diagnostics.lua"
+		"modules/misc/character-observations.lua"
+		"modules/beacon/beacon-debug.lua"
+		"modules/beacon/beacon-summary.lua"
+		"modules/misc/activity-telemetry.lua"
+	)
+	,@(
+		"modules/core/coreutil.lua"
+		"modules/core/constants.lua"
+		"modules/core/data.lua"
+		"modules/core/module.lua"
+		"modules/core/callback.lua"
+		"modules/core/config.lua"
+		"modules/core/util.lua"
+		"modules/core/json.lua"
+		"modules/core/provider.lua"
+		"modules/core/loader.lua"
+		"modules/core/render.lua"
+		"modules/core/gametooltip.lua"
+		"modules/core/friendtooltip.lua"
+		"modules/core/whotooltip.lua"
+		"modules/core/whochatframe.lua $onlyRetail"
+		"modules/core/fanfare.lua $onlyRetail"
+		"modules/core/profile.lua"
+		"modules/core/lfgtooltip.lua $notClassicEra"
+		"modules/core/guildtooltip.lua $onlyClassic"
+		"modules/core/communitytooltip.lua"
+		"modules/core/keystonetooltip.lua $onlyRetail"
+		"modules/core/guildweekly.lua $onlyRetail"
+		"modules/core/replay.lua $onlyRetail"
+		"modules/core/search.lua"
+		"modules/core/dropdown.lua"
+		"modules/core/rwf.lua $onlyRetail"
+		"modules/core/combatlog.lua"
+		"modules/core/serverlog.lua"
+		"modules/core/talentbuilds.lua $onlyRetail"
+		"modules/core/settings.lua"
+		"modules/core/shortcuts.lua"
+		"# modules/core/tests.lua"
+		"modules/core/public.lua"
+	)
+	,@(
+		"modules/beacon/beacon.lua"
+		"db/db_client_journey_catalog.lua"
+		"db/db_client_journey_receipts.lua"
+		"modules/journeys/journeys-memory-policy.lua"
+		"modules/journeys/journeys-evidence.lua"
+		"modules/journeys/journeys-erasure.lua"
+		"modules/journeys/journeys-group-loot.lua"
+		"modules/journeys/journeys-boss-attempts.lua"
+		"modules/journeys/journeys-kills.lua"
+		"modules/journeys/journeys.lua"
+		"modules/journeys/journeys-doll.lua"
+		"modules/journeys/journeys-close-call-episodes.lua"
+		"modules/journeys/journeys-encounter-episodes.lua"
+		"modules/journeys/journeys-roster-episodes.lua"
+		"modules/journeys/journeys-roster-reader.lua"
+		"modules/journeys/journeys-clutch.lua"
+		"modules/journeys/journeys-memory-observation.lua"
+		"modules/journeys/journeys-encounter-adapter.lua"
+		"modules/journeys/journeys-roaming-threat.lua"
+		"modules/journeys/journeys-evidence-probe.lua"
+		"modules/misc/gamedata.lua"
+	)
+)
 
-$clientPlaceholderFilesClientSpecific = @{
-	"db_client_recent_characters" = "mainline"
-	"db_talent_builds" = "mainline"
-}
+$clientPlaceholderLines = @(
+	"-- __________        .__    .___           .___________   "
+	"-- \______   \_____  |__| __| _/___________|   \_____  \  "
+	"--  |       _/\__  \ |  |/ __ |/ __ \_  __ \   |/   |   \ "
+	"--  |    |   \ / __ \|  / /_/ \  ___/|  | \/   /    |    \"
+	"--  |____|_  /(____  /__\____ |\___  >__|  |___\_______  /"
+	"--         \/      \/        \/    \/                  \/"
+)
 
-$clientPlaceholderContent = "
--- __________        .__    .___           .___________   
--- \______   \_____  |__| __| _/___________|   \_____  \  
---  |       _/\__  \ |  |/ __ |/ __ \_  __ \   |/   |   \ 
---  |    |   \ / __ \|  / /_/ \  ___/|  | \/   /    |    \
---  |____|_  /(____  /__\____ |\___  >__|  |___\_______  /
---         \/      \/        \/    \/                  \/ 
-".Trim()
-
-$nonMainlineClients = @()
-
-for ($i = 0; $i -lt $clients.Values.Count; $i++)
-{
-	$clientInfo = $clients.Values[$i]
-	$clientInfo.IsMainline = $i -eq 0
-	if (-not $clientInfo.IsMainline)
-	{
-		$nonMainlineClients += $clientInfo
-	}
-}
+$clientPlaceholderFiles = @(
+	"db_client_config"
+	"db_client_recent_characters"
+	"db_client_characters"
+	"db_client_guilds"
+	"db_client_replays"
+	"db_era_client_characters"
+	"db_era_client_guilds"
+	"db_era_client_replays"
+	"db_classic_client_characters"
+	"db_classic_client_guilds"
+	"db_classic_client_replays"
+	"db_forever_client_characters"
+	"db_forever_client_guilds"
+	"db_forever_client_replays"
+)
 
 $rootPath = $PSScriptRoot
 $dbRootPath = Join-Path $rootPath "db"
-
-$sharedClientFiles = @()
-$coreXml = [xml](Get-Content -Path (Join-Path $rootPath "core.xml"))
-
-foreach ($xmlScript in $coreXml.Ui.Script)
-{
-	$xmlFile = $xmlScript.file
-	if (-not $xmlFile.StartsWith("db/db_"))
-	{
-		continue
-	}
-	$sharedClientFiles += $xmlFile.Split("/", 2)[1]
-}
 
 function EscapeText
 {
@@ -136,208 +259,107 @@ function EscapeText
 	return $text.ToLower().Replace(" ", "")
 }
 
-function EvalText
-{
-	param(
-		[string]$text
-	)
-	$allMatches = Select-String -InputObject $text -Pattern "@([^@]+?)@" -AllMatches
-	foreach ($matches in $allMatches)
-	{
-		foreach ($match in $matches.Matches)
-		{
-			$variableName = $match.Groups[1].Value
-			$value = Get-Variable -Name $variableName -Scope Script -ValueOnly -ErrorAction SilentlyContinue
-			if ($null -eq $value)
-			{
-				continue
-			}
-			$raw = $match.Groups[0].Value
-			$text = $text -replace $raw, $value
-		}
-	}
-	return $text
-}
-
-function BuildTocLines
+function BuildTocHeader
 {
 	param(
 		$TOC,
-		[string]$Interface
+		[string]$Interface,
+		[hashtable]$Variables = @{}
 	)
-	$tocLines = @("## Interface: $($Interface)")
+	$lines = @("## Interface: $($Interface)")
 	foreach ($k in $TOC.Keys)
 	{
 		$v = $TOC[$k]
-		$v = EvalText $v
-		$tocLines += "## $($k): $($v)"
+		foreach ($variable in $Variables.Keys)
+		{
+			$v = $v.Replace("@$($variable)@", $Variables[$variable])
+		}
+		$lines += "## $($k): $($v)"
 	}
-	return $tocLines
+	return $lines
 }
 
-function ClientFilePrefix
+function WriteToc
 {
 	param(
-		$clientInfo
+		[string]$Path,
+		[string[]]$Lines
 	)
-	if ($clientInfo.IsMainline)
-	{
-		return "db"
-	}
-	else
-	{
-		return "db_$($clientInfo.Name)"
-	}
+	Set-Content -Path $Path -Value $Lines
 }
 
-function ClientTocCanLoadFile
+function WritePlaceholder
 {
 	param(
-		$clientInfo,
-		[string]$file
+		[string]$Name
 	)
-	if ($sharedClientFiles.Contains($file))
-	{
-		return $false
-	}
-	$clientFilePrefix = ClientFilePrefix $clientInfo
-	foreach ($clientKey in $clients.Keys)
-	{
-		$otherClientInfo = $clients[$clientKey]
-		if ($otherClientInfo.IsMainline -or $otherClientInfo -eq $clientInfo)
-		{
-			continue
-		}
-		$otherClientFilePrefix = ClientFilePrefix $otherClientInfo
-		$otherFilePrefix = "$($otherClientFilePrefix)_"
-		if ($file.StartsWith($otherFilePrefix))
-		{
-			return $false
-		}
-	}
-	foreach ($typeValue in $types.Values)
-	{
-		$typeText = EscapeText $typeValue
-		$filePrefix = "$($clientFilePrefix)_$($typeText)_"
-		if ($file.StartsWith($filePrefix))
-		{
-			return $false
-		}
-	}
-	return $true
+	Set-Content -Path (Join-Path $dbRootPath "$($Name).lua") -Value $clientPlaceholderLines
 }
 
-foreach ($clientKey in $clients.Keys)
+foreach ($name in $clientPlaceholderFiles)
 {
-
-	$clientInfo = $clients[$clientKey]
-	$clientName = $clientInfo.Name
-
-	foreach ($clientPlaceholderFile in $clientPlaceholderFiles)
-	{
-		$specificClient = $clientPlaceholderFilesClientSpecific[$clientPlaceholderFile]
-		if ($specificClient -and $specificClient -ne $clientName)
-		{
-			continue
-		}
-		if (-not $clientInfo.IsMainline -and ($clientPlaceholderFile -eq $sharedClientConfigFile -or $sharedClientFiles.Contains("$clientPlaceholderFile.lua")))
-		{
-			continue
-		}
-		$clientPlaceholderFile = "db/$($clientPlaceholderFile).lua"
-		if (-not $clientInfo.IsMainline)
-		{
-			$clientPlaceholderFile = $clientPlaceholderFile -replace "db_", "db_$($clientName)_"
-		}
-		if (-not (Test-Path $clientPlaceholderFile))
-		{
-			Set-Content $clientPlaceholderFile $clientPlaceholderContent
-		}
-	}
-
+	WritePlaceholder $name
 }
 
-foreach ($clientKey in $clients.Keys)
+# RaiderIO.toc
+$lines = BuildTocHeader $meta.TOC $interfaceMain
+$lines += ""
+$lines += "db/$($sharedConfigFile).lua"
+foreach ($group in $dbGroups)
 {
-
-	$clientInfo = $clients[$clientKey]
-	$clientVersion = $clientInfo.Version # variable is indirectly used by EvalText
-
-	$clientTocFile = if ($clientInfo.IsMainline) { "$($meta.AddOn).toc" } else { "$($meta.AddOn)_$($clientKey).toc" }
-	$clientTocFilePath = Join-Path $rootPath $clientTocFile
-	$clientFilePrefix = ClientFilePrefix $clientInfo
-	$clientFiles = Get-ChildItem $dbRootPath -Filter "$($clientFilePrefix)_*.lua"
-	$clientTocLines = BuildTocLines $meta.TOC $clientInfo.Interface
-	if (-not $clientInfo.IsMainline)
+	$lines += ""
+	foreach ($file in $group.Files)
 	{
-		$clientTocLines += "db/$($sharedClientConfigFile).lua"
+		$lines += "db/$($file).lua $($group.Directive)"
 	}
-	foreach ($clientFile in $clientFiles)
+}
+foreach ($section in $sourceSections)
+{
+	$lines += ""
+	$lines += $section
+}
+WriteToc (Join-Path $rootPath "$($addOn).toc") $lines
+
+# db/RaiderIO_DB_<region>_<type>/RaiderIO_DB_<region>_<type>.toc
+foreach ($regionKey in $regions.Keys)
+{
+	$regionName = $regions[$regionKey]
+	$regionText = EscapeText $regionKey
+
+	foreach ($typeKey in $types.Keys)
 	{
-		if (ClientTocCanLoadFile $clientInfo $clientFile.Name)
+		$type = $types[$typeKey]
+		$typeText = EscapeText $type.Name
+		$variables = @{ typeName = $type.Name; regionName = $regionName }
+
+		$dbFolderName = "$($addOn)_DB_$($regionKey)_$($typeKey)"
+		$dbFolderPath = Join-Path $dbRootPath $dbFolderName
+		if (-not (Test-Path $dbFolderPath))
 		{
-			$clientTocLines += "db/$($clientFile.Name)"
-		}
-	}
-	$clientTocLines += "core.xml"
-	$clientTocText = $clientTocLines -join "`r`n"
-	Set-Content $clientTocFilePath ($clientTocText + "`r`n") -NoNewline
-
-	foreach ($regionKey in $regions.Keys)
-	{
-
-		$regionName = $regions[$regionKey] # variable is indirectly used by EvalText
-		$regionText = EscapeText $regionKey
-
-		foreach ($typeKey in $types.Keys)
-		{
-
-			$typeName = $types[$typeKey]
-			$typeText = EscapeText $typeName
-
-			$db1 = "$($clientFilePrefix)_$($typeText)_$($regionText)_characters.lua"
-			$db2 = "$($clientFilePrefix)_$($typeText)_$($regionText)_lookup.lua"
-
-			$db1Path = Join-Path $dbRootPath $db1
-			$db2Path = Join-Path $dbRootPath $db2
-			$dbMissing = -not (Test-Path $db1Path) -or -not (Test-Path $db2Path)
-
-			$dbFolderName = "$($meta.AddOn)_DB_$($regionKey)_$($typeKey)"
-			$dbFolderPath = Join-Path $dbRootPath $dbFolderName
-			$tocFile = if ($clientInfo.IsMainline) { "$($dbFolderName).toc" } else { "$($dbFolderName)_$($clientKey).toc" }
-			$tocFilePath = Join-Path $dbRootPath $dbFolderName $tocFile
-
-			if (-not (Test-Path $dbFolderPath))
-			{
-				$null = New-Item $dbFolderPath -ItemType Directory
-			}
-
-			$tocLines = BuildTocLines $meta.DBTOC $clientInfo.Interface
-
-			if (-not $dbMissing)
-			{
-				$tocLines += @(
-					"../$($meta.AddOn)/db/$($db1)"
-					"../$($meta.AddOn)/db/$($db2)"
-				)
-			}
-
-			$tocText = $tocLines -join "`r`n"
-			Set-Content $tocFilePath ($tocText + "`r`n") -NoNewline
-
+			$null = New-Item $dbFolderPath -ItemType Directory
 		}
 
+		$lines = BuildTocHeader $meta.DBTOC $type.Interface $variables
+
+		$entries = @()
+		if ($type.Classic)
+		{
+			$entries += @{ Prefix = "db_classic"; Directive = $onlyClassic }
+		}
+		$entries += @{ Prefix = "db"; Directive = $onlyRetail }
+
+		foreach ($entry in $entries)
+		{
+			foreach ($suffix in @("characters", "lookup"))
+			{
+				$file = "$($entry.Prefix)_$($typeText)_$($regionText)_$($suffix).lua"
+				if (Test-Path (Join-Path $dbRootPath $file))
+				{
+					$lines += "../$($addOn)/db/$($file) $($entry.Directive)"
+				}
+			}
+		}
+
+		WriteToc (Join-Path $dbFolderPath "$($dbFolderName).toc") $lines
 	}
-
 }
-
-# Forever's client uses the Camelot TOC flavor and the same base data file names
-# as the mainline addon. Keep this generated alongside the other TOCs.
-$mainlineTocPath = Join-Path $rootPath "$($meta.AddOn).toc"
-$foreverTocPath = Join-Path $rootPath "$($meta.AddOn)_Camelot.toc"
-$foreverLines = @(Get-Content $mainlineTocPath) | ForEach-Object {
-	if ($_ -match '^## Interface:') { '## Interface: 16001' }
-	elseif ($_ -match '^## Version:') { '## Version: 1.60.1 (@project-version@)' }
-	else { $_ }
-}
-Set-Content $foreverTocPath (($foreverLines -join "`r`n") + "`r`n") -NoNewline

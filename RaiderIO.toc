@@ -2,7 +2,7 @@
 ## Title: Raider.IO Mythic Plus, Raiding, and Recruitment
 ## Notes: Shows Raider.IO Mythic+ Score, Raid Progress, and Recruitment status in-game. Make sure to load one or more region DB.
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 12.1.0 (@project-version@)
+## Version: 12.1.5 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## SavedVariables: RaiderIO_Config, RaiderIO_LastCharacter, RaiderIO_MissingCharacters, RaiderIO_MissingServers, RaiderIO_CachedRuns, RaiderIO_RWF, RaiderIO_CompletedReplays, RaiderIO_GameData, RaiderIO_ActivityCharacterContext, RaiderIO_BeaconDebug, RaiderIO_BeaconSummary, RaiderIO_BeaconSummaryExport, RaiderIO_SafetyLog, RaiderIO_JourneyEvidenceProbe
 ## X-Website: https://raider.io
@@ -71,15 +71,7 @@ libs/LibCombatLogging-1.0/LibCombatLogging.lua
 
 locale/locale.lua
 locale/enUS.lua
-locale/deDE.lua [AllowLoadTextLocale deDE]
-locale/esES.lua [AllowLoadTextLocale esES]
-locale/frFR.lua [AllowLoadTextLocale frFR]
-locale/itIT.lua [AllowLoadTextLocale itIT]
-locale/koKR.lua [AllowLoadTextLocale koKR]
-locale/ptBR.lua [AllowLoadTextLocale ptBR]
-locale/ruRU.lua [AllowLoadTextLocale ruRU]
-locale/zhCN.lua [AllowLoadTextLocale zhCN]
-locale/zhTW.lua [AllowLoadTextLocale zhTW]
+locale/[TextLocale].lua
 
 modules/core/utf8.lua
 
