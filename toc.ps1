@@ -149,7 +149,16 @@ $sourceSections = @(
 	,@(
 		"locale/locale.lua"
 		"locale/enUS.lua"
-		"locale/[TextLocale].lua"
+		"locale/deDE.lua [AllowLoadTextLocale deDE]"
+		"locale/esES.lua [AllowLoadTextLocale esES]"
+		"locale/esMX.lua [AllowLoadTextLocale esMX]"
+		"locale/frFR.lua [AllowLoadTextLocale frFR]"
+		"locale/itIT.lua [AllowLoadTextLocale itIT]"
+		"locale/koKR.lua [AllowLoadTextLocale koKR]"
+		"locale/ptBR.lua [AllowLoadTextLocale ptBR]"
+		"locale/ruRU.lua [AllowLoadTextLocale ruRU]"
+		"locale/zhCN.lua [AllowLoadTextLocale zhCN]"
+		"locale/zhTW.lua [AllowLoadTextLocale zhTW]"
 	)
 	,@(
 		"modules/core/utf8.lua"

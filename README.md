@@ -87,7 +87,7 @@ On Forever, the same setting can also enable beacon-based character observations
 ### Activity telemetry
 
 `activity-telemetry.lua` owns bounded own-character context and the outdoor/delve eligibility
-checks. The existing `CombatLog` module in `core.lua` owns the logging requests. Activity telemetry
+checks. The existing `CombatLog` module in `combatlog.lua` owns the logging requests. Activity telemetry
 does not require the beacon library, duel tracker, Journey journal, or quest/loot collector. The desktop telemetry worker consumes the disk log and character context for
 source-time enrichment. Character context is not a Journey progression journal.
 
