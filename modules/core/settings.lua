@@ -4,7 +4,6 @@ local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
 local IS_RETAIL = ns.coreutil.IS_RETAIL
-local IS_FOREVER = ns.coreutil.IS_FOREVER
 local DropDownUtil = ns.coreutil.DropDownUtil
 
 ---@class SettingsModule : Module
@@ -1389,16 +1388,13 @@ local function CreateOptions()
             return unpack(temp)
         end
 
-        local modulesHeader ---@type RaiderIOSettingsModuleToggleWidget?
-        if not IS_FOREVER then
-            configOptions:CreatePadding()
-            configOptions:CreateHeadline(L.DB_MODULES)
-            modulesHeader = configOptions:CreateModuleToggle(L.MODULE_AMERICAS, CreateModuleOptionsArgs("US"))
-            configOptions:CreateModuleToggle(L.MODULE_EUROPE, CreateModuleOptionsArgs("EU"))
-            configOptions:CreateModuleToggle(L.MODULE_CHINA, CreateModuleOptionsArgs("CN"))
-            configOptions:CreateModuleToggle(L.MODULE_KOREA, CreateModuleOptionsArgs("KR"))
-            configOptions:CreateModuleToggle(L.MODULE_TAIWAN, CreateModuleOptionsArgs("TW"))
-        end
+        configOptions:CreatePadding()
+        configOptions:CreateHeadline(L.DB_MODULES)
+        local modulesHeader = configOptions:CreateModuleToggle(L.MODULE_AMERICAS, CreateModuleOptionsArgs("US"))
+        configOptions:CreateModuleToggle(L.MODULE_EUROPE, CreateModuleOptionsArgs("EU"))
+        configOptions:CreateModuleToggle(L.MODULE_CHINA, CreateModuleOptionsArgs("CN"))
+        configOptions:CreateModuleToggle(L.MODULE_KOREA, CreateModuleOptionsArgs("KR"))
+        configOptions:CreateModuleToggle(L.MODULE_TAIWAN, CreateModuleOptionsArgs("TW"))
 
         -- add save button and cancel buttons
         local buttons = configOptions:CreateWidget("Frame", configButtonFrame)
@@ -1457,23 +1453,21 @@ local function CreateOptions()
         configParentFrame:SetWidth(maxWidth)
 
         -- add type indicator headers over the database modules
-        if modulesHeader then
-            for _, column in ipairs(databaseModuleColumns) do
-                local check = modulesHeader[column.check]
-                local addon = modulesHeader[column.addon]
-                local icon = format("|T%s:0:0:0:0:16:16:1:15:1:15|t", column.icon)
-                local headline = configOptions:CreateHeadline(icon)
-                headline:ClearAllPoints()
-                headline:SetPoint("BOTTOM", check, "TOP", 2, -5)
-                headline:SetSize(32, 32)
-                headline:SetShown(not not addon)
-                if column.text then
-                    headline.tooltip = column.text
-                    headline.help.tooltip = column.text
-                    headline.help:SetAllPoints(headline.text)
-                    headline.help:SetAlpha(0)
-                    headline.help:Show()
-                end
+        for _, column in ipairs(databaseModuleColumns) do
+            local check = modulesHeader[column.check]
+            local addon = modulesHeader[column.addon]
+            local icon = format("|T%s:0:0:0:0:16:16:1:15:1:15|t", column.icon)
+            local headline = configOptions:CreateHeadline(icon)
+            headline:ClearAllPoints()
+            headline:SetPoint("BOTTOM", check, "TOP", 2, -5)
+            headline:SetSize(32, 32)
+            headline:SetShown(not not addon)
+            if column.text then
+                headline.tooltip = column.text
+                headline.help.tooltip = column.text
+                headline.help:SetAllPoints(headline.text)
+                headline.help:SetAlpha(0)
+                headline.help:Show()
             end
         end
     end
