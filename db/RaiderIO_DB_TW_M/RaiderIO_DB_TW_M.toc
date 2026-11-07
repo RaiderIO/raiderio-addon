@@ -1,7 +1,7 @@
-## Interface: 120100, 120105
+## Interface: 120105, 120107
 ## Title: Raider.IO |cffFFFFFFMythic Plus|r (Taiwan)
 ## Author: Vladinator (Vladinator-TarrenMill), Aspyr (Aspyrox-Skullcrusher) and Isak (Isak-Sargeras)
-## Version: 12.1.0 (@project-version@)
+## Version: 12.1.5 (@project-version@)
 ## IconTexture: Interface\AddOns\RaiderIO\icons\logo
 ## Dependencies: RaiderIO
 ## DefaultState: enabled
@@ -9,5 +9,5 @@
 ## X-Region: Taiwan
 ## X-Faction: Both
 ## X-Website: https://raider.io
-../RaiderIO/db/db_mythicplus_tw_characters.lua
-../RaiderIO/db/db_mythicplus_tw_lookup.lua
+../RaiderIO/db/db_mythicplus_tw_characters.lua [AllowLoadGameType standard]
+../RaiderIO/db/db_mythicplus_tw_lookup.lua [AllowLoadGameType standard]

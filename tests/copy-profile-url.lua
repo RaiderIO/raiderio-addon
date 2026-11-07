@@ -1,28 +1,44 @@
 -- Run from the addon root with lua tests/copy-profile-url.lua.
 -- Synthetic WoW fixtures exercise the URL helper and both menu integrations.
-local file = assert(io.open(arg[1] or "core.lua"))
-local source = file:read("*a")
-file:close()
-local function section(first, last)
+local function read(path)
+    local file = assert(io.open(path))
+    local source = file:read("*a")
+    file:close()
+    return source
+end
+local function section(source, first, last)
     local start = assert(source:find(first, 1, true))
     return source:sub(start, assert(source:find(last, start + #first, true)) - 1)
 end
-local function run(text, env)
+local function run(text, env, ...)
     if setfenv then
-        return setfenv(assert(loadstring(text)), env)()
+        return setfenv(assert(loadstring(text)), env)(...)
     end
-    return assert(load(text, "fixture", "t", env))()
+    return assert(load(text, "fixture", "t", env))(...)
 end
-local flags = section("local IS_RETAIL =", "local addonName =")
-local domain = section('    ns.RAIDERIO_DOMAIN = "raider.io"', "    ns.EASTER_EGG =")
-local names = section("    function util:GetNameRealm(arg1, arg2)", "    ---@param level? number")
-local urls = section("    local function encodeURIComponent(chr)", "    ---@param urlSuffix string")
-local dropdown = section("-- dropdown.lua", "-- rwf.lua")
+local constantsSource = read("modules/core/constants.lua")
+local utilSource = read("modules/core/util.lua")
+local dropdown = read("modules/core/dropdown.lua")
+-- The module files read these from ns.coreutil, the fixture provides them below.
+local locals = "local IS_FOREVER, IS_CLASSIC_ERA, IS_CLASSIC = ns.coreutil.IS_FOREVER, ns.coreutil.IS_CLASSIC_ERA, ns.coreutil.IS_CLASSIC
+local issecretvalue = ns.coreutil.issecretvalue
+"
+local domain = section(constantsSource, 'ns.RAIDERIO_DOMAIN = "raider.io"', "ns.EASTER_EGG =")
+local names = section(utilSource, "function util:GetNameRealm(arg1, arg2)", "---@param level? number")
+local urls = section(utilSource, "local function encodeURIComponent(chr)", "---@param urlSuffix string")
 local secret = {}
 local function fixture(project)
     local forever = project == 99
     local util, handlers, menus, modules = {}, {}, {}, {}
-    local ns = { PLAYER_REGION = "us", PLAYER_FACTION = 1 }
+    local ns = { PLAYER_REGION = "us", PLAYER_FACTION = 1, L = {} }
+    ns.coreutil = {
+        IS_RETAIL = project == 1,
+        IS_CLASSIC_ERA = project == 2,
+        IS_FOREVER = forever,
+        IS_CLASSIC = project ~= 1 and project ~= 2,
+        issecretvalue = function(value) return value == secret end,
+        canaccesstablekey = function() return true end,
+    }
     function ns:GetModule(name) return assert(modules[name], name) end
     function ns:NewModule(name)
         local module = { Enable = function() end }
@@ -65,7 +81,8 @@ local function fixture(project)
     function util:ProfileHasRenderableData() return false end
     local copied
     function util:ShowCopyRaiderIOProfilePopup(...) copied = self:GetRaiderIOProfileUrl(...) end
-    run(flags .. domain .. names .. urls .. dropdown, env)
+    run(locals .. domain .. names .. urls, env, "RaiderIO", ns)
+    run(dropdown, env, "RaiderIO", ns)
     modules.DropDown:OnLoad()
     handlers.OpenMenu()
     return util, ns, handlers, menus, function() return copied end, env

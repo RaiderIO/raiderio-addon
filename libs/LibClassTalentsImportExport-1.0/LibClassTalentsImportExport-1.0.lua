@@ -304,7 +304,7 @@ local function CreateImportLoadoutEntryInfoFromSingleNode(results, configID, tre
         nodeID = treeNodeInfo.ID,
         ranksGranted = indexInfo.isNodeGranted and 1 or 0,
         ranksPurchased = 0,
-        selectionEntryID = nil,
+        selectionEntryID = 0,
     }
     if indexInfo.isNodeSelected and not indexInfo.isNodeGranted then
         result.ranksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
@@ -314,10 +314,10 @@ local function CreateImportLoadoutEntryInfoFromSingleNode(results, configID, tre
     elseif treeNodeInfo.activeEntry then
         result.selectionEntryID = treeNodeInfo.activeEntry.entryID
     end
-    if not result.selectionEntryID then
+    if result.selectionEntryID == 0 then
         result.selectionEntryID = treeNodeInfo.entryIDs[1]
     end
-    if result.selectionEntryID ~= nil then
+    if result.selectionEntryID ~= 0 then
         table.insert(results, result)
     end
 end
