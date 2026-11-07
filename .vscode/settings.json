@@ -22,6 +22,7 @@
     "Lua.workspace.ignoreDir": [
         ".vscode",
         "db",
+        "tests",
         "libs/LibDataBroker-1.1",
         "libs/LibDBIcon-1.0"
     ],
@@ -139,6 +140,7 @@
         "WHO_LIST_GUILD_FORMAT",
         "WhoFrame",
         "WhoListScrollFrame",
-        "WorldFrame"
+        "WorldFrame",
+        "WOW_PROJECT_CAMELOT"
     ]
 }

@@ -8,6 +8,7 @@ ns.coreutil = coreutil
 
 coreutil.IS_RETAIL = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 coreutil.IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+coreutil.IS_FOREVER = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 coreutil.IS_CLASSIC = not coreutil.IS_RETAIL and not coreutil.IS_CLASSIC_ERA
 
 local ScrollBoxUtil do

@@ -3,6 +3,7 @@
 local addonName = ... ---@type string @The name of the addon.
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
+local IS_FOREVER = ns.coreutil.IS_FOREVER
 local canaccesstablekey = ns.coreutil.canaccesstablekey
 local issecretvalue = ns.coreutil.issecretvalue
 
@@ -157,7 +158,7 @@ local function OnToggle(bdropdown, event, options, level, data)
             return
         end
         selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForDropDown(bdropdown)
-        if not selected.name or not util:IsMaxLevel(selected.level, true) then
+        if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
             return
         end
         if not options[1] then
@@ -372,7 +373,7 @@ local function OnMenuShow(owner, rootDescription, contextData)
         return
     end
     selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForMenu(owner, rootDescription, contextData)
-    if not selected.name or not util:IsMaxLevel(selected.level, true) then
+    if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
         return
     end
     rootDescription:CreateDivider()

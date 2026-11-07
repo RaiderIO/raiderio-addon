@@ -3,6 +3,7 @@
 local ns = select(2, ...) ---@class ns @The addon namespace.
 local L = ns.L
 local IS_CLASSIC_ERA = ns.coreutil.IS_CLASSIC_ERA
+local IS_FOREVER = ns.coreutil.IS_FOREVER
 local IS_CLASSIC = ns.coreutil.IS_CLASSIC
 local IS_RETAIL = ns.coreutil.IS_RETAIL
 
@@ -95,7 +96,9 @@ ns.RAIDERIO_ADDON_DOWNLOAD_URL = "https://rio.gg/addon"
 ns.RAIDERIO_DOMAIN = "raider.io"
 
 -- ns.RAIDERIO_DOMAIN
-if IS_CLASSIC_ERA then
+if IS_FOREVER then
+    ns.RAIDERIO_DOMAIN = "forever.raider.io"
+elseif IS_CLASSIC_ERA then
     ns.RAIDERIO_DOMAIN = "era.raider.io"
 elseif IS_CLASSIC then
     ns.RAIDERIO_DOMAIN = "classic.raider.io"
