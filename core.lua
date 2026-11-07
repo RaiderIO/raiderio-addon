@@ -2807,7 +2807,7 @@ do
         -- guildweekly.lua
         if frame == _G[format("%s_GuildWeeklyFrame", addonName)] then return true end
         -- whotooltip.lua
-        if IsParentedBy(frame, WhoFrame.ScrollBox) then return true end
+        if IsParentedBy(frame, WhoFrame and WhoFrame.ScrollBox) then return true end
         if IsParentedBy(frame, WhoListScrollFrame and WhoListScrollFrame:GetParent()) then return true end
         -- lfgtooltip.lua
         if LFGListFrame and LFGListFrame.SearchPanel and LFGListFrame.ApplicationViewer then
