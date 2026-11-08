@@ -314,6 +314,11 @@ function erasure.Apply(saved,config,catalog)
             local absent=Inspect(saved,registry,reference.targetOwnerEpoch)
             if not absent or absent.unknown or absent.remaining then return Commit(saved,registry,command,fingerprint,"Journey erased owner still has unresolved source state") end
         end
+        -- A new owner lifetime may collect before old copies are erased. Their first markers remain owned
+        -- by the old scopes and cannot be repackaged as a migration page for the fresh capability.
+        for _,epoch in pairs(registry.scopes) do
+            if epoch~=command.ownerEpoch then registry.legacyImportFenced=true;break end
+        end
         local active=Copy(command);active.kind=nil
         if command.requiresErasure then active.requiresErasure=Copy(command.requiresErasure) end
         registry.activation=active
