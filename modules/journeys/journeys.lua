@@ -3179,6 +3179,8 @@ function journal.ObserveStartup(played, context)
     elseif CinematicEnabled() and (cinematicPlaying or moviePlaying) then
         evidence.heldCreation = played
     else
+        -- Loading can advance Context's clock after the TIME_PLAYED_MSG that proved creation.
+        context.playedSeconds = played
         current:Observe("journal_created", 0, played, context)
     end
 end
@@ -5463,7 +5465,9 @@ if frame then
                 end
 
                 if not current.semantic and pendingCreation ~= nil then
-                    current:Observe("journal_created", 0, pendingCreation, Context())
+                    local context = Context()
+                    context.playedSeconds = pendingCreation
+                    current:Observe("journal_created", 0, pendingCreation, context)
                     pendingCreation = nil
                 end
 
