@@ -5447,7 +5447,7 @@ if frame then
         -- PLAYER_ENTERING_WORLD can precede the visible world. Resume on a rendered frame
         -- after LOADING_SCREEN_DISABLED, preserving early played-time creation evidence.
         if resumePending and (inWorld or Read(IsPlayerInWorld) == true) then
-            local at = Read(GetServerTime)
+            local at = Read(ns.FrameServerTime or GetServerTime)
             if Number(at) then
                 loadingScreen, resumePending, worldReadyAt = false, nil, at
                 inWorld = true
