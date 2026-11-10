@@ -8,6 +8,7 @@ end
 -- Application collector only. The beacon owner supplies its shared inspection lock and stream queue.
 function ns.CreateCharacterObservations(options)
     local SCHEMA_VERSION, WHO_SCHEMA_VERSION, MESSAGE_KIND = 2, 3, 3
+    local GUILD_PROTOCOL_VERSION = 1
     local MAX_BODY_BYTES, MAX_ITEM_BYTES = 8192, 1024
     local MAX_CACHE, MAX_PENDING, MAX_WHO_PENDING = 512, 32, 128
     local WHO_SENDS_PER_TICK, MAX_CLASS_ID = 4, 64
@@ -158,6 +159,14 @@ function ns.CreateCharacterObservations(options)
             return
         end
         local sex, faction = Read(UnitSex, token), Read(UnitFactionGroup, token)
+        local guildName, guildSameRuleset
+        if options.GuildProtocol and options.GuildProtocol() == GUILD_PROTOCOL_VERSION then
+            guildName = Text(Read(GetGuildInfo, token), 64)
+            if guildName then
+                local _, instanceType = Read(IsInInstance)
+                guildSameRuleset = guid == homeGUID or instanceType == "none" or instanceType == "party" or instanceType == "raid"
+            end
+        end
         return {
             schemaVersion = SCHEMA_VERSION,
             build = build,
@@ -173,6 +182,8 @@ function ns.CreateCharacterObservations(options)
             gender = not issecretvalue(sex) and GENDERS[sex] or 0,
             faction = not issecretvalue(faction) and FACTIONS[faction] or 0,
             homeRealm = home,
+            guildName = guildName,
+            guildSameRuleset = guildSameRuleset,
         }
     end
 
@@ -276,6 +287,8 @@ function ns.CreateCharacterObservations(options)
         })
         if fingerprint and fingerprint ~= entry.fingerprint and Queue(data) then
             entry.fingerprint = fingerprint
+            entry.equipment, entry.talents = data.equipment, data.talents
+            entry.guildName, entry.guildSameRuleset = data.guildName, data.guildSameRuleset
         end
     end
 
@@ -294,7 +307,7 @@ function ns.CreateCharacterObservations(options)
             end
             cacheCount = cacheCount + 1
         end
-        local entry = { level = data.level, at = GetTime() }
+        local entry = { level = data.level, at = GetTime(), guildName = data.guildName, guildSameRuleset = data.guildSameRuleset }
         cache[key] = entry
         return entry
     end
@@ -311,11 +324,21 @@ function ns.CreateCharacterObservations(options)
         if entry and data.level < entry.level then
             return
         end
-        if not entry or data.level > entry.level or now - entry.at >= REFRESH_SECONDS then
+        if not entry or data.level > entry.level or now - entry.at >= REFRESH_SECONDS
+            or data.guildName ~= entry.guildName or data.guildSameRuleset ~= entry.guildSameRuleset then
+            if entry and data.level == entry.level and now - entry.at < REFRESH_SECONDS then
+                -- The transport replaces waiting bodies by GUID; retain successful inspection evidence.
+                data.equipment, data.talents = entry.equipment, entry.talents
+            end
             if not Queue(data) then
                 return
             end
-            entry = Remember(data)
+            if entry and data.level == entry.level and now - entry.at < REFRESH_SECONDS then
+                -- A guild-only change must not schedule another equipment/talent inspection.
+                entry.guildName, entry.guildSameRuleset = data.guildName, data.guildSameRuleset
+            else
+                entry = Remember(data)
+            end
         end
         if token == "player" then
             Enrich(token, data.guid)
@@ -370,7 +393,14 @@ function ns.CreateCharacterObservations(options)
                 if name and (not hasSurname or surname) and classId and level then
                     local key = "who:" .. regionId .. ":" .. fullName
                     local entry, waiting = cache[key], whoPending[key]
-                    if (not entry or level > entry.level or (level == entry.level and GetTime() - entry.at >= REFRESH_SECONDS))
+                    local guildName
+                    if options.GuildProtocol and options.GuildProtocol() == GUILD_PROTOCOL_VERSION then
+                        guildName = Text(info.fullGuildName, 64)
+                        if guildName and not guildName:find("%S") then
+                            guildName = nil
+                        end
+                    end
+                    if (not entry or level > entry.level or (level == entry.level and (GetTime() - entry.at >= REFRESH_SECONDS or guildName ~= entry.guildName)))
                         and (not waiting or level >= waiting.level)
                         and (waiting or #whoOrder < MAX_WHO_PENDING) then
                         if not waiting then
@@ -379,6 +409,7 @@ function ns.CreateCharacterObservations(options)
                         whoPending[key] = {
                             schemaVersion = WHO_SCHEMA_VERSION,
                             source = "who",
+                            guildName = guildName,
                             build = build,
                             observedAt = observedAt,
                             regionId = regionId,
