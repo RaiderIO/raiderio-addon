@@ -98,7 +98,7 @@ for _, transition in ipairs({ {'none', 'none'}, {'pvp', 'none'}, {'none', 'pvp'}
     flush(); flush()
     local body = result()
     assert(body.guildName == 'Who Guild-Realm', 'structured fullGuildName must survive without guessing suffix syntax')
-    assert(body.observerHomeRealm.guidRealmId == 4618, 'observer context must remain explicitly observer context')
+    assert(body.observerHomeRealm == nil, 'Who payload must omit unused observer realm metadata')
     assert(body.homeRealm == nil and body.realmName == nil and body.guildSameRuleset == nil, 'Who must never claim observer scope as subject scope')
     whoGuild = 'Changed Guild'
     collector.ObserveWhoResults(); flush()
@@ -111,6 +111,17 @@ whoGuild = nil
 whoStart(1); callback('WHO_LIST_UPDATE'); flush(); flush()
 assert(result().guildName == nil, 'missing Who guild is unavailable evidence')
 print('manual Who guild collection passed')
+
+instance, guild = 'none', 'Hovered Guild'
+local hovered = whoStart(1)
+units.mouseover = 'Player-9999-00000003'
+callback('UPDATE_MOUSEOVER_UNIT')
+local hoverBody = bodies[#bodies]
+assert(hoverBody.guid == units.mouseover and hoverBody.source == 'observed', 'hover must observe the mouseover character')
+assert(hoverBody.guildName == guild and hoverBody.guildSameRuleset == true, 'hover must retain inline guild evidence')
+units.mouseover = nil
+hovered.Stop()
+print('mouseover guild collection passed')
 
 -- The transport replaces an entire waiting body by GUID, including before its first send.
 local waiting, encoded = {}, {}
