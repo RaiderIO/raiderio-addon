@@ -111,3 +111,50 @@ whoGuild = nil
 whoStart(1); callback('WHO_LIST_UPDATE'); flush(); flush()
 assert(result().guildName == nil, 'missing Who guild is unavailable evidence')
 print('manual Who guild collection passed')
+
+-- The transport replaces an entire waiting body by GUID, including before its first send.
+local waiting, encoded = {}, {}
+local clock = 1794000000
+GetServerTime = function() return clock end
+GetInventoryItemID = function() return 0 end
+GetInventoryItemLink = function(_, slot) if slot == 1 then return '|Hitem:123:0:0:0:0:0:0:0|h[Helmet]|h' end end
+local function encode(value)
+    if type(value) ~= 'table' then return tostring(value) end
+    local keys, parts = {}, {}
+    for key in pairs(value) do keys[#keys + 1] = key end
+    table.sort(keys, function(a, b) return tostring(a) < tostring(b) end)
+    for _, key in ipairs(keys) do parts[#parts + 1] = tostring(key) .. '=' .. encode(value[key]) end
+    return '{' .. table.concat(parts, ',') .. '}'
+end
+local collector = ns.CreateCharacterObservations({
+    IsArmed = function() return true end, GuildProtocol = function() return 1 end,
+    ReadTalents = function() return { kind = 0, { 1, 2, 3 } } end,
+    IsInspectBusy = function() return false end,
+    Encode = function(data) local body = encode(data); encoded[body] = data; return body end,
+    Queue = function(_, body, guid)
+        if not accept then return false end
+        waiting[guid] = encoded[body]
+        return true
+    end,
+    CancelQueued = function() end,
+    Callback = { RegisterEvent = function() end, UnregisterCallback = function() end },
+})
+guild, accept = 'Initial Guild', true
+collector.Update()
+local guid = units.player
+assert(waiting[guid].equipment and waiting[guid].talents, 'successful self inspection must be waiting')
+clock = clock + 10
+guild, accept = 'Changed Guild', false
+collector.Observe('player')
+assert(waiting[guid].guildName == 'Initial Guild', 'rejected update must preserve waiting evidence')
+accept = true
+collector.Observe('player')
+assert(waiting[guid].guildName == 'Changed Guild', 'guild update must remain retryable')
+assert(waiting[guid].equipment and waiting[guid].talents, 'guild-only replacement must retain successful inspection')
+assert(waiting[guid].equipment.observedAt == 1794000000 and waiting[guid].talents.observedAt == 1794000000,
+    'guild-only replacement must preserve original inspection capture times')
+guild = nil
+collector.Observe('player')
+assert(waiting[guid].guildName == nil and waiting[guid].equipment and waiting[guid].talents,
+    'unavailable guild must not erase queued inspection')
+print('guild-only queue replacement preserves inspection evidence')

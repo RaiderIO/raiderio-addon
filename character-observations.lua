@@ -286,6 +286,7 @@ function ns.CreateCharacterObservations(options)
         })
         if fingerprint and fingerprint ~= entry.fingerprint and Queue(data) then
             entry.fingerprint = fingerprint
+            entry.equipment, entry.talents = data.equipment, data.talents
         end
     end
 
@@ -323,6 +324,10 @@ function ns.CreateCharacterObservations(options)
         end
         if not entry or data.level > entry.level or now - entry.at >= REFRESH_SECONDS
             or data.guildName ~= entry.guildName or data.guildSameRuleset ~= entry.guildSameRuleset then
+            if entry and data.level == entry.level and now - entry.at < REFRESH_SECONDS then
+                -- The transport replaces waiting bodies by GUID; retain successful inspection evidence.
+                data.equipment, data.talents = entry.equipment, entry.talents
+            end
             if not Queue(data) then
                 return
             end
