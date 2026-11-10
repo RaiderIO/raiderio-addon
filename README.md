@@ -111,6 +111,20 @@ before periodic samples. Addon load, login, logout and settings changes prune ex
 history even when activity collection is off or the character is at max level. Opt-out never
 appends new context; recent context remains available until its retention window expires.
 
+### Journey checkpoint clocks
+
+Journey play-time checkpoints compare the integer server clock with precise elapsed time over each
+uninterrupted measurement. They allow one second of quantization and keep each bucket's emitted
+timestamp nondecreasing. A larger difference in either direction, or a backward precise clock,
+closes the segment at its last trusted sample before starting a new segment with a gap. Time and
+XP across that interruption are not credited. Milestone event timestamps are unchanged.
+
+The timestamp floor exists only for the current load's measurement buckets. Reload establishes a
+new segment identity and clock baseline; it never rewrites saved checkpoints.
+
+Run `lua5.1 tests/journeys-observation-clock.lua` and `lua5.4 tests/journeys-observation-clock.lua`
+from the addon root to check clock corrections, zone buckets and reload preservation.
+
 Our intent with this AddOn is to provide an easy way for people to get some information at a glance when forming groups. There is no substitute for talking with your fellow players, so be a pal and listen if an applicant whispers you. These are the fields we show, and when we show them:
 
 ### Character Raid & Mythic+ Tooltips

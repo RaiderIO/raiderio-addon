@@ -121,6 +121,7 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public context JourneyContext
 ---@field public sentExperience? number
 ---@field public sentSeconds? number
+---@field public sentOccurredAt? number
 
 ---@class JourneyXPSnapshot
 ---@field public level number
@@ -138,6 +139,8 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public active? JourneyBucket
 ---@field public lastAt? number
 ---@field public lastContext? JourneyContext
+---@field public clockAt? number
+---@field public clockOccurredAt? number
 ---@field public sample? JourneyXPSnapshot
 ---@field public pendingLevel? number
 ---@field public pendingXP? JourneyXPSnapshot
@@ -1655,6 +1658,7 @@ end
 ---@return JourneyMeasurement
 function journal.Measurement(instance)
 
+    local OBSERVATION_CLOCK_TOLERANCE_SECONDS = 1
     ---@type JourneyMeasurement
     local measurement = { instance = instance, buckets = {}, sequence = 0, gap = true, checkpointElapsed = 0 }
     local levelCap = instance.catalog.levelCap
@@ -1714,13 +1718,26 @@ function journal.Measurement(instance)
         return bucket
     end
 
+    ---@param context JourneyContext
     ---@param now number
-    function measurement:Accrue(now)
+    function measurement:Accrue(context, now)
+        if self.lastAt and (now < self.lastAt
+            or math.abs((context.occurredAt - self.clockOccurredAt) - (now - self.clockAt)) > OBSERVATION_CLOCK_TOLERANCE_SECONDS) then
+            -- Close at the last trusted pair before crediting time or XP across a clock discontinuity.
+            self:Flush(self.lastContext)
+            self.active, self.sample, self.segmentId, self.pendingLevel, self.pendingXP, self.buckets = nil, nil, nil, nil, nil, {}
+            self.gap, self.checkpointElapsed, self.clockAt, self.clockOccurredAt = true, 0, nil, nil
+        end
+
+        if not self.clockAt then
+            self.clockAt, self.clockOccurredAt = now, context.occurredAt
+        end
+
         if self.lastAt and now >= self.lastAt and self.active then
             self.active.seconds = self.active.seconds + now - self.lastAt
         end
 
-        self.lastAt = now
+        self.lastAt, self.lastContext = now, CopyContext(context)
     end
 
     --- Credits the running bucket, or holds the kill for the next one while none runs, as in an instance with no zone.
@@ -1765,7 +1782,8 @@ function journal.Measurement(instance)
             if bucket.experience ~= (bucket.sentExperience or 0) or seconds ~= (bucket.sentSeconds or 0)
                 or bucket.killsChanged then
                 local snapshot = CopyContext(bucket.context)
-                snapshot.occurredAt = context.occurredAt
+                -- Integer server-clock quantization cannot make a newer cumulative revision run backward.
+                snapshot.occurredAt = math.max(context.occurredAt, bucket.sentOccurredAt or context.occurredAt)
                 bucket.revision = bucket.revision + 1
                 local observation = {
                     id = instance.guid
@@ -1801,6 +1819,7 @@ function journal.Measurement(instance)
                     instance.state.checkpoints[key] = observation
                     exportDirty = true
                     bucket.sentExperience, bucket.sentSeconds, bucket.killsChanged = bucket.experience, seconds, nil
+                    bucket.sentOccurredAt = snapshot.occurredAt
                 else
                     instance.observationIssue = "Journey observation clock or cumulative limit reached"
                 end
@@ -1813,15 +1832,20 @@ function journal.Measurement(instance)
     ---@param context JourneyContext
     ---@param now number
     function measurement:Pause(context, now)
-        self:Accrue(now)
+        self:Accrue(context, now)
         self:Flush(context)
         self.active, self.sample, self.segmentId, self.pendingLevel, self.pendingXP, self.buckets = nil, nil, nil, nil, nil, {}
         self.gap, self.checkpointElapsed = true, 0
+        self.lastAt, self.clockAt, self.clockOccurredAt = nil, nil, nil
     end
 
     ---@param context JourneyContext
     ---@param now number
     function measurement:Begin(context, now)
+        if not self.clockAt then
+            self.clockAt, self.clockOccurredAt = now, context.occurredAt
+        end
+
         self.active = self:Bucket(context)
         if not self.active then
             return
@@ -1880,12 +1904,7 @@ function journal.Measurement(instance)
             return
         end
 
-        if self.lastAt and now < self.lastAt then
-            self:Pause(context, now)
-        end
-
-        self:Accrue(now)
-        self.lastContext = CopyContext(context)
+        self:Accrue(context, now)
         if not Number(context.level)
             or context.level < 1
             or context.level > levelCap
