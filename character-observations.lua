@@ -7,6 +7,7 @@ end
 -- Application collector only. The beacon owner supplies its shared inspection lock and stream queue.
 function ns.CreateCharacterObservations(options)
     local SCHEMA_VERSION, WHO_SCHEMA_VERSION, MESSAGE_KIND = 2, 3, 3
+    local GUILD_PROTOCOL_VERSION = 1
     local MAX_BODY_BYTES, MAX_ITEM_BYTES = 8192, 1024
     local MAX_CACHE, MAX_PENDING, MAX_WHO_PENDING = 512, 32, 128
     local WHO_SENDS_PER_TICK, MAX_CLASS_ID = 4, 64
@@ -158,7 +159,7 @@ function ns.CreateCharacterObservations(options)
         end
         local sex, faction = Read(UnitSex, token), Read(UnitFactionGroup, token)
         local guildName, guildSameRuleset
-        if options.GuildProtocol and options.GuildProtocol() == 1 then
+        if options.GuildProtocol and options.GuildProtocol() == GUILD_PROTOCOL_VERSION then
             guildName = Text(Read(GetGuildInfo, token), 64)
             if guildName then
                 local _, instanceType = Read(IsInInstance)
