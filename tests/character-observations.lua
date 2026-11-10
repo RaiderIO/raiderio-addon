@@ -169,3 +169,45 @@ collector.Observe('player')
 assert(waiting[guid].guildName == nil and waiting[guid].equipment and waiting[guid].talents,
     'unavailable guild must not erase queued inspection')
 print('guild-only queue replacement preserves inspection evidence')
+
+-- Inspection reads can lose guild availability or change encounter context while queued.
+for _, change in ipairs({ 'unreadable guild', 'cross-ruleset context' }) do
+    local inspectClock, inspectionRequests = 100, 0
+    local scheduled = {}
+    waiting, encoded = {}, {}
+    guild, instance, accept = 'Visible Guild', 'none', true
+    GetTime = function() return inspectClock end
+    GetServerTime = function() return 1794000000 + math.floor(inspectClock) end
+    C_Timer.After = function(_, fn) scheduled[#scheduled + 1] = fn end
+    InCombatLockdown = function() return false end
+    CanInspect = function() return true end
+    NotifyInspect = function() inspectionRequests = inspectionRequests + 1 end
+    local observed = ns.CreateCharacterObservations({
+        IsArmed = function() return true end, GuildProtocol = function() return 1 end,
+        ReadTalents = function() end, IsInspectBusy = function() return false end,
+        Encode = function(data) local body = encode(data); encoded[body] = data; return body end,
+        Queue = function(_, body, key) waiting[key] = encoded[body]; return true end,
+        CancelQueued = function() end,
+        Callback = { RegisterEvent = function() end, UnregisterCallback = function() end },
+    })
+    local function tick() local fn = table.remove(scheduled, 1); assert(fn); fn() end
+    observed.Update()
+    local targetGUID = units.target
+    assert(waiting[targetGUID].guildName == 'Visible Guild', 'initial guild lead must be waiting')
+    inspectClock = inspectClock + 1; tick()
+    assert(inspectionRequests == 1, 'observed character inspection must start')
+    observed.OnInspectReady(targetGUID)
+    if change == 'unreadable guild' then guild = nil else instance = 'pvp' end
+    inspectClock = inspectClock + 10; tick()
+    local inspectedAt = waiting[targetGUID].equipment.observedAt
+    assert(waiting[targetGUID].guildName == guild, 'enrichment must replace the queued identity')
+    assert(waiting[targetGUID].guildSameRuleset ~= true, 'enrichment must retain its current scope evidence')
+    guild, instance = 'Visible Guild', 'none'
+    observed.Observe('target')
+    assert(waiting[targetGUID].guildName == guild and waiting[targetGUID].guildSameRuleset == true,
+        'readable guild and restored context must recover after enrichment replaces a waiting lead')
+    assert(waiting[targetGUID].equipment.observedAt == inspectedAt and inspectionRequests == 1,
+        'recovered guild must retain inspection evidence without another inspection')
+    observed.Stop()
+end
+print('guild leads recover after inspection replacements')

@@ -287,6 +287,7 @@ function ns.CreateCharacterObservations(options)
         if fingerprint and fingerprint ~= entry.fingerprint and Queue(data) then
             entry.fingerprint = fingerprint
             entry.equipment, entry.talents = data.equipment, data.talents
+            entry.guildName, entry.guildSameRuleset = data.guildName, data.guildSameRuleset
         end
     end
 
