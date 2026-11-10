@@ -2119,6 +2119,10 @@ do
 
         observations = ns.CreateCharacterObservations({
             Callback = callback,
+            GuildProtocol = function()
+                local clientConfig = ns:GetClientConfig()
+                return type(clientConfig) == "table" and clientConfig.characterObservationGuildProtocol or nil
+            end,
             IsArmed = function()
                 local clientConfig = ns:GetClientConfig()
                 return clientbeacon:IsEnabled()

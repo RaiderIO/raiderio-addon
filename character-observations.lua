@@ -157,6 +157,14 @@ function ns.CreateCharacterObservations(options)
             return
         end
         local sex, faction = Read(UnitSex, token), Read(UnitFactionGroup, token)
+        local guildName, guildSameRuleset
+        if options.GuildProtocol and options.GuildProtocol() == 1 then
+            guildName = Text(Read(GetGuildInfo, token), 64)
+            if guildName then
+                local _, instanceType = Read(IsInInstance)
+                guildSameRuleset = guid == homeGUID or instanceType == "none" or instanceType == "party" or instanceType == "raid"
+            end
+        end
         return {
             schemaVersion = SCHEMA_VERSION,
             build = build,
@@ -172,6 +180,8 @@ function ns.CreateCharacterObservations(options)
             gender = not issecretvalue(sex) and GENDERS[sex] or 0,
             faction = not issecretvalue(faction) and FACTIONS[faction] or 0,
             homeRealm = home,
+            guildName = guildName,
+            guildSameRuleset = guildSameRuleset,
         }
     end
 
@@ -293,7 +303,7 @@ function ns.CreateCharacterObservations(options)
             end
             cacheCount = cacheCount + 1
         end
-        local entry = { level = data.level, at = GetTime() }
+        local entry = { level = data.level, at = GetTime(), guildName = data.guildName, guildSameRuleset = data.guildSameRuleset }
         cache[key] = entry
         return entry
     end
@@ -310,7 +320,8 @@ function ns.CreateCharacterObservations(options)
         if entry and data.level < entry.level then
             return
         end
-        if not entry or data.level > entry.level or now - entry.at >= REFRESH_SECONDS then
+        if not entry or data.level > entry.level or now - entry.at >= REFRESH_SECONDS
+            or data.guildName ~= entry.guildName or data.guildSameRuleset ~= entry.guildSameRuleset then
             if not Queue(data) then
                 return
             end
