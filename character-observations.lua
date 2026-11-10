@@ -325,7 +325,12 @@ function ns.CreateCharacterObservations(options)
             if not Queue(data) then
                 return
             end
-            entry = Remember(data)
+            if entry and data.level == entry.level and now - entry.at < REFRESH_SECONDS then
+                -- A guild-only change must not schedule another equipment/talent inspection.
+                entry.guildName, entry.guildSameRuleset = data.guildName, data.guildSameRuleset
+            else
+                entry = Remember(data)
+            end
         end
         if token == "player" then
             Enrich(token, data.guid)
