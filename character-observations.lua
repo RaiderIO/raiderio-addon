@@ -386,7 +386,16 @@ function ns.CreateCharacterObservations(options)
                 if name and (not hasSurname or surname) and classId and level then
                     local key = "who:" .. regionId .. ":" .. fullName
                     local entry, waiting = cache[key], whoPending[key]
-                    if (not entry or level > entry.level or (level == entry.level and GetTime() - entry.at >= REFRESH_SECONDS))
+                    local guildName, observerHomeRealm
+                    if options.GuildProtocol and options.GuildProtocol() == GUILD_PROTOCOL_VERSION then
+                        guildName = Text(info.fullGuildName, 64)
+                        if guildName and not guildName:find("%S") then
+                            guildName = nil
+                        end
+                        -- Who isolation is unverified. This is observer metadata, never subject scope.
+                        observerHomeRealm = HomeRealm()
+                    end
+                    if (not entry or level > entry.level or (level == entry.level and (GetTime() - entry.at >= REFRESH_SECONDS or guildName ~= entry.guildName)))
                         and (not waiting or level >= waiting.level)
                         and (waiting or #whoOrder < MAX_WHO_PENDING) then
                         if not waiting then
@@ -395,6 +404,8 @@ function ns.CreateCharacterObservations(options)
                         whoPending[key] = {
                             schemaVersion = WHO_SCHEMA_VERSION,
                             source = "who",
+                            guildName = guildName,
+                            observerHomeRealm = observerHomeRealm,
                             build = build,
                             observedAt = observedAt,
                             regionId = regionId,

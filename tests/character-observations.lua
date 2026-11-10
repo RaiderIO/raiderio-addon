@@ -26,7 +26,7 @@ local function start(protocol)
     local api = ns.CreateCharacterObservations({
         IsArmed = function() return true end,
         GuildProtocol = function() return protocol end,
-        ReadTalents = function() end,
+        ReadTalents = function() end, IsInspectBusy = function() return false end,
         Encode = function(data) bodies[#bodies + 1] = data; return tostring(#bodies) end,
         Queue = function() return accept end,
         CancelQueued = function() end,
@@ -60,3 +60,54 @@ guild = 'First Guild'
 start(nil)
 assert(bodies[1].guildName == nil, 'old desktop config must keep old payload shape')
 print('character observation guild collection passed')
+
+-- Drive the public event callback and bounded queue, including deferred reads/delivery.
+local timers, callback, whoGuild = {}, nil, 'Who Guild-Realm'
+C_Timer.After = function(_, fn) timers[#timers + 1] = fn end
+RegionalUniqueNamesEnabled = function() return true end
+GetClassInfo = function(id) if id == 1 then return 'Warrior', 'WARRIOR' end end
+C_FriendList = {
+    GetNumWhoResults = function() return 1 end,
+    GetWhoInfo = function() return { fullName = 'Visitor Surname', fullGuildName = whoGuild, filename = 'WARRIOR', level = 30 } end,
+}
+local function whoStart(protocol)
+    timers, bodies = {}, {}
+    local collector = ns.CreateCharacterObservations({
+        IsArmed = function() return true end, GuildProtocol = function() return protocol end,
+        ReadTalents = function() end, IsInspectBusy = function() return false end,
+        Encode = function(data) bodies[#bodies + 1] = data; return tostring(#bodies) end,
+        Queue = function() return true end, CancelQueued = function() end,
+        Callback = { RegisterEvent = function(_, fn) callback = fn end, UnregisterCallback = function() end },
+    })
+    collector.Update()
+    return collector
+end
+local function result()
+    for i = #bodies, 1, -1 do if bodies[i].source == 'who' then return bodies[i] end end
+    error('Who result did not drain')
+end
+local function flush()
+    local batch = timers; timers = {}
+    for _, fn in ipairs(batch) do fn() end
+end
+for _, transition in ipairs({ {'none', 'none'}, {'pvp', 'none'}, {'none', 'pvp'} }) do
+    instance = transition[1]
+    local collector = whoStart(1)
+    callback('WHO_LIST_UPDATE')
+    instance = transition[2]
+    flush(); flush()
+    local body = result()
+    assert(body.guildName == 'Who Guild-Realm', 'structured fullGuildName must survive without guessing suffix syntax')
+    assert(body.observerHomeRealm.guidRealmId == 4618, 'observer context must remain explicitly observer context')
+    assert(body.homeRealm == nil and body.realmName == nil and body.guildSameRuleset == nil, 'Who must never claim observer scope as subject scope')
+    whoGuild = 'Changed Guild'
+    collector.ObserveWhoResults(); flush()
+    assert(result().guildName == 'Changed Guild', 'unchanged Who level must not hide guild changes')
+    whoGuild = 'Who Guild-Realm'
+end
+whoStart(nil); callback('WHO_LIST_UPDATE'); flush(); flush()
+assert(result().guildName == nil and result().observerHomeRealm == nil, 'legacy config preserves old Who shape')
+whoGuild = nil
+whoStart(1); callback('WHO_LIST_UPDATE'); flush(); flush()
+assert(result().guildName == nil, 'missing Who guild is unavailable evidence')
+print('manual Who guild collection passed')
