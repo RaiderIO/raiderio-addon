@@ -45,7 +45,6 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public cinematicProtocol? number
 ---@field public gatheringObjectProfessions? table<number, number>
 ---@field public treasureChestIds? number[]
----@field public enchantingSpells? number[]
 
 ---@class JourneyRecord
 ---@field public id string
@@ -86,7 +85,6 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public observations? { scopeId: string, questsCompleted: number, deaths: number, kills?: number }
 ---@field public pendingLoot? table
 ---@field public bossAttempts? { scopeId: string, failures: table<string, number[]> }
----@field public beginnerBagOwned? boolean
 ---@field public beginnerTalentSpent? boolean
 
 ---@class JourneySavedVariables
@@ -4329,12 +4327,6 @@ local function GatheredItem(id)
     end
 end
 
-function journal.ObserveCrafted(operation, row)
-    if evidence.beginner then evidence.beginner:Crafted(row, operation) end
-    return journal.ObserveSource(operation and operation.journeySource, "item_crafted",
-        row.itemId or row.spellId, row.professionId, row)
-end
-
 ---@param data any
 local function Crafted(data)
     if current.semantic then
@@ -4342,7 +4334,7 @@ local function Crafted(data)
             local operation = evidence.observer.craft
             local row = evidence.observer:Crafted(data.itemID)
             if row then
-                journal.ObserveCrafted(operation, row)
+                journal.ObserveSource(operation and operation.journeySource, "item_crafted", row.professionId, 0, row)
             end
         end
 
@@ -5187,7 +5179,7 @@ local function Loot(message, actor, ownerGuid)
         local operation = evidence.observer.craft
         local crafted = evidence.observer:Crafted(id)
         if crafted then
-            journal.ObserveCrafted(operation, crafted)
+            journal.ObserveSource(operation and operation.journeySource, "item_crafted", crafted.professionId, 0, crafted)
         end
     end
 
@@ -5356,9 +5348,9 @@ local function Refresh()
     evidence.observer = current.semantic and ns.JourneyEvidence
         and ns.JourneyEvidence.New(catalog, guid, current.loadNonce, journal.SourceBinding()) or nil
     evidence.beginner = ns.JourneyBeginnerMoments and ns.JourneyBeginnerMoments.New(current,
-        function(source, id, value, name, proof, context)
+        function(source, id, proof, context)
             if not inWorld or loadingScreen then return false end
-            return current:Observe(source, id, value, context, false, nil, Label(name), proof,
+            return current:Observe(source, id, 0, context, false, nil, nil, proof,
                 journal.HistoryOrigin(current, "event", context))
         end) or nil
 
@@ -5464,14 +5456,9 @@ local function Refresh()
         "CONFIRM_SUMMON",
         "CANCEL_SUMMON",
         "COMBAT_LOG_EVENT_UNFILTERED",
-        "BAG_UPDATE_DELAYED",
-        "PLAYER_EQUIPMENT_CHANGED",
         "SCREENSHOT_SUCCEEDED",
-        "HEARTHSTONE_BOUND",
         "LOOT_SLOT_CLEARED",
         "CHAT_MSG_MONEY",
-        "TRADE_SHOW",
-        "TRADE_CLOSED",
         "CHAT_MSG_COMBAT_XP_GAIN",
         "UNIT_DIED",
         "UPDATE_MOUSEOVER_UNIT",
@@ -5750,7 +5737,7 @@ if frame then
 
         local context = Context(event == "PLAYER_LEVEL_UP" and Number(a) and a or nil)
         if evidence.beginner and inWorld and not loadingScreen then
-            evidence.beginner:Event(event, a, b, c, context)
+            evidence.beginner:Event(event, a, context)
         end
         if event == "PLAYER_DEAD" and (context.hardcore == true or context.hardcore == nil and current.observationHardcore == true) then
             current.hardcoreDeathObserved = true

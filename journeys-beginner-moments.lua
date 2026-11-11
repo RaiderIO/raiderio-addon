@@ -3,9 +3,7 @@ local ns = select(2, ...)
 -- Read-only evidence for beginner memories. The desktop owns eligibility and durable first claims.
 local owner = {}
 ns.JourneyBeginnerMoments = owner
-local TALENT_UNLOCK_LEVEL, EXTRA_BAG_COUNT, OPERATION_SECONDS = 10, 4, 60
-local ENCHANTING_SKILL = 333
-local TRADE_ENCHANT_SLOT = 7
+local TALENT_UNLOCK_LEVEL, OPERATION_SECONDS = 10, 60
 local MAX_LOOT_SLOTS, LOOT_RECEIPT_GRACE_SECONDS = 32, 2
 local Unpack = unpack or table.unpack
 local function Pack(...) return { n = select("#", ...), ... } end
@@ -34,14 +32,6 @@ local function Contains(values, value)
     end
     return false
 end
-local function Name(id, spell)
-    if spell then
-        local info = Read(C_Spell and C_Spell.GetSpellInfo, id)
-        return type(info) == "table" and info.name or Read(GetSpellInfo, id)
-    end
-    return Read(C_Item and C_Item.GetItemNameByID, id) or Read(C_Item and C_Item.GetItemInfo or GetItemInfo, id)
-end
-
 function owner.New(instance, emit)
     if instance.catalog.game ~= "wowforever" then return end
     local state = { instance = instance, emit = emit, loot = {} }
@@ -73,35 +63,11 @@ function owner.New(instance, emit)
         return highest > 0 and highest or nil
     end
 
-    function state:Bags(baseline, context)
-        if type(GetInventoryItemID) ~= "function" or type(GetInventorySlotInfo) ~= "function" then
-            self.bags = nil
-            return
-        end
-        local count, firstItem = 0, nil
-        for bag = 0, EXTRA_BAG_COUNT - 1 do
-            local slot = Read(GetInventorySlotInfo, "Bag" .. bag .. "Slot")
-            if not Integer(slot) then self.bags = nil; return end
-            local ok, item = pcall(GetInventoryItemID, "player", slot)
-            if not ok or not Known(item) or item ~= nil and not Integer(item) then self.bags = nil; return end
-            if item and item > 0 then count, firstItem = count + 1, firstItem or item end
-        end
-        local previous = self.bags
-        if not baseline and previous == 0 and count > 0 and self.instance.state.beginnerBagOwned ~= true then
-            self.emit("bag_equipped", firstItem, 0, Name(firstItem), {
-                itemId = firstItem, bagSlotsBefore = previous, bagSlotsAfter = count,
-            }, context)
-        end
-        if count > 0 then self.instance.state.beginnerBagOwned = true end
-        self.bags = count
-    end
-
     function state:Baseline(context)
         if Integer(context.level) and context.level > 0 and context.level < TALENT_UNLOCK_LEVEL then
             self.talentOriginKnown = true
             self.talentTotal = 0
         end
-        self:Bags(true, context)
     end
 
     function state:Talents(snapshot, baseline)
@@ -126,53 +92,7 @@ function owner.New(instance, emit)
         return first == true
     end
 
-    function state:StartCraft(spell, cast)
-        local profession = type(self.instance.catalog.craftingSpells) == "table" and self.instance.catalog.craftingSpells[spell]
-        if not Integer(profession) or profession == 0 or type(cast) ~= "string" then return end
-        self.operation = {
-            spellId = spell, castId = cast, professionId = profession, professionSkillBefore = self:SkillRank(profession),
-            at = Read(GetTime), tradeOpen = self:TradeActive(),
-        }
-    end
-
-    function state:TradeActive()
-        if self.tradeOpen then return true end
-        if TradeFrame and type(TradeFrame.IsShown) == "function" and Read(TradeFrame.IsShown, TradeFrame) ~= false then return true end
-        if type(GetTradeTargetItemLink) == "function" then
-            local ok, link = pcall(GetTradeTargetItemLink, TRADE_ENCHANT_SLOT)
-            if not ok or not Known(link) or link ~= nil then return true end
-        end
-        return false
-    end
-
-    function state:CraftOperation(spell, cast)
-        local operation, now = self.operation, Read(GetTime)
-        if not operation or operation.castId ~= cast or operation.spellId ~= spell or not Time(now) or not Time(operation.at)
-            or now < operation.at or now - operation.at > OPERATION_SECONDS then return end
-        return operation
-    end
-
-    function state:Crafted(row, operation)
-        local prior = operation and self:CraftOperation(operation.spellId, operation.castId)
-        row.professionSkillBefore = prior and prior.professionSkillBefore or nil
-        row.craftCompleted = true
-        self.operation = nil
-        return row
-    end
-
-    function state:SpellSucceeded(spell, cast, context)
-        local operation = self:CraftOperation(spell, cast)
-        if not operation or not Contains(self.instance.catalog.enchantingSpells, spell) then return end
-        self.operation = nil
-        -- Trade enchant casts only stage a pending enchant; success does not establish accepted application.
-        if operation.tradeOpen or self:TradeActive() then return end
-        self.emit("item_crafted", spell, ENCHANTING_SKILL, Name(spell, true), {
-            spellId = spell, professionId = ENCHANTING_SKILL, professionSkillBefore = operation.professionSkillBefore,
-            craftCompleted = true, appliedEnchant = true,
-        }, context)
-    end
-
-    function state:LootOpened(context)
+    function state:LootOpened()
         self.loot, self.lootClosedAt = {}, nil
         if not self.lootOpen then self.money, self.moneyReceiptAt = nil, nil end
         self.lootOpen = true
@@ -209,7 +129,7 @@ function owner.New(instance, emit)
         self.loot[item] = nil
         if loot and Time(now) and Time(loot.at) and now >= loot.at and now - loot.at <= OPERATION_SECONDS
             and (not self.lootClosedAt or now - self.lootClosedAt <= LOOT_RECEIPT_GRACE_SECONDS) then
-            self.emit("treasure_looted", loot.objectId, 0, nil, {
+            self.emit("treasure_looted", loot.objectId, {
                 itemId = item, objectId = loot.objectId, lootSourceGuid = loot.lootSourceGuid, materialReceived = true,
             }, context)
         end
@@ -220,7 +140,7 @@ function owner.New(instance, emit)
         if money and money.cleared and Time(now) and Time(money.at) and Time(self.moneyReceiptAt)
             and now >= money.at and now - money.at <= OPERATION_SECONDS
             and (not self.lootClosedAt or now - self.lootClosedAt <= LOOT_RECEIPT_GRACE_SECONDS) then
-            self.emit("treasure_looted", money.objectId, 0, nil, {
+            self.emit("treasure_looted", money.objectId, {
                 objectId = money.objectId, lootSourceGuid = money.lootSourceGuid, moneyReceived = true,
             }, context)
             self.money = nil
@@ -228,31 +148,17 @@ function owner.New(instance, emit)
     end
 
     function state:Gap()
-        self.operation, self.loot, self.bags, self.money, self.moneyReceiptAt = nil, {}, nil, nil, nil
-        self.lootOpen, self.tradeOpen = false, nil
+        self.loot, self.money, self.moneyReceiptAt = {}, nil, nil
+        self.lootOpen = false
         -- Spending and resetting talents while out of observation must never look like an initial spend.
         self.talentOriginKnown, self.talentTotal = false, nil
     end
 
-    function state:Event(event, a, b, c, context)
-        if event == "TRADE_SHOW" then
-            self.tradeOpen = true
-        elseif event == "TRADE_CLOSED" then
-            self.tradeOpen = false
-        elseif event == "BAG_UPDATE_DELAYED" or event == "PLAYER_EQUIPMENT_CHANGED" then
-            self:Bags(false, context)
-        elseif event == "SCREENSHOT_SUCCEEDED" then
-            self.emit("screenshot_succeeded", 0, 0, nil, nil, context)
-        elseif event == "HEARTHSTONE_BOUND" then
-            self.emit("hearthstone_bound", 0, 0, Read(GetBindLocation), { destinationName = Read(GetBindLocation) }, context)
-        elseif (event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START") and a == "player" then
-            self:StartCraft(c, b)
-        elseif event == "UNIT_SPELLCAST_SUCCEEDED" and a == "player" then
-            self:SpellSucceeded(c, b, context)
-        elseif (event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_INTERRUPTED") and a == "player" then
-            if self.operation and self.operation.castId == b then self.operation = nil end
+    function state:Event(event, a, context)
+        if event == "SCREENSHOT_SUCCEEDED" then
+            self.emit("screenshot_succeeded", 0, nil, context)
         elseif event == "LOOT_READY" or event == "LOOT_OPENED" then
-            self:LootOpened(context)
+            self:LootOpened()
         elseif event == "LOOT_CLOSED" then
             self.lootClosedAt = Read(GetTime)
             self.lootOpen = false
