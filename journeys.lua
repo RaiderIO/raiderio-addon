@@ -43,6 +43,8 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public rules JourneyRule[]
 ---@field public loadingScreenProtocol? number
 ---@field public cinematicProtocol? number
+---@field public gatheringObjectProfessions? table<number, number>
+---@field public treasureChestIds? number[]
 
 ---@class JourneyRecord
 ---@field public id string
@@ -83,6 +85,7 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 ---@field public observations? { scopeId: string, questsCompleted: number, deaths: number, kills?: number }
 ---@field public pendingLoot? table
 ---@field public bossAttempts? { scopeId: string, failures: table<string, number[]> }
+---@field public beginnerTalentSpent? boolean
 
 ---@class JourneySavedVariables
 ---@field public version number
@@ -3111,6 +3114,8 @@ end
 local OPERATION_SECONDS, MAX_RARE_TARGETS, MAX_TAXI_NODES = 60, 256, 4096
 journal.groupLeaveIntentSeconds = 5
 local MAX_GATHER_LOOT_SLOTS, MAX_SUBJECT_NAME_BYTES = 32, 128
+journal.GATHER_RECEIPT_GRACE_SECONDS = 2
+journal.SKINNING_SKILL_ID, journal.ENCHANTING_SKILL_ID, journal.FISHING_SKILL_ID = 393, 333, 356
 -- A held join still reaches the desktop well inside its guild clip's 15 s post-roll.
 journal.guildNameWaitSeconds = 5
 local FIRST_PVP_RANK, LAST_PVP_RANK = 5, 18
@@ -3780,10 +3785,12 @@ local function TraitRanks(game)
         or not Known(info.type)
         or info.type ~= expected
         or not Known(info.treeIDs)
-        or type(info.treeIDs) ~= "table"
-        or Read(traits.ConfigHasStagedChanges, id) ~= false then
+        or type(info.treeIDs) ~= "table" then
         return
     end
+    local staged = Read(traits.ConfigHasStagedChanges, id)
+    if staged == true then return id, nil, true end
+    if staged ~= false then return end
 
     local snapshot = {}
     for _, tree in ipairs(info.treeIDs) do
@@ -3883,24 +3890,28 @@ end
 
 ---@param baseline? boolean
 Talents = function(baseline)
-    local game, id, snapshot = current.catalog.game
+    local game, id, snapshot, staged = current.catalog.game
     if game == "wowera" then
         id, snapshot = EraTalentRanks()
     elseif game == "wowclassic" then
         id, snapshot = MistsTalentChoices()
     else
-        id, snapshot = TraitRanks(game)
+        id, snapshot, staged = TraitRanks(game)
     end
 
+    local previous = evidence.talents
+    -- A readable draft of the same active config is not a committed snapshot or an observation outage.
+    local draft = staged == true and previous and previous.id == id and not baseline
+    local firstSpend = evidence.beginner and not draft and evidence.beginner:Talents(snapshot, baseline)
     if not snapshot then
         return
     end
 
-    local previous = evidence.talents
     if previous and previous.id == id and not baseline then
         for node, ranks in pairs(snapshot) do
             if previous.ranks[node] and ranks > previous.ranks[node] then
-                Emit("talent_spent", node, ranks)
+                Emit("talent_spent", node, ranks, nil, false,
+                    evidence.beginner and { firstTalentSpend = firstSpend == true } or nil)
                 break
             end
         end
@@ -4243,50 +4254,95 @@ local function Kill(attacker, victim)
 end
 
 ---@param spell number
-local function StartGather(spell, begun)
+local function StartGather(spell, begun, cast)
     local skill = current.semantic and evidence.observer and evidence.observer:Profession(spell, "gathering") or not current.semantic and GatherSpells()[spell]
     if skill and (not current.semantic or evidence.observer and evidence.observer:Enabled("gatheringProfession")) then
         local now = Read(GetTime)
-        if begun or not evidence.gather or evidence.gather.skill ~= skill
-            or not Time(now) or not Time(evidence.gather.at) or now - evidence.gather.at > OPERATION_SECONDS then
-            evidence.gather = { skill = skill, at = now, target = Read(UnitGUID, "target"), items = {} }
+        if type(cast) ~= "string" or not Time(now) then evidence.gather = nil; return end
+        local previous = evidence.gather
+        local same = previous and previous.skill == skill and previous.spell == spell and previous.cast == cast
+            and Time(previous.at) and now >= previous.at and now - previous.at <= OPERATION_SECONDS
+        -- Fishing can announce success before its channel starts. Keep that cast's success, never another cast's.
+        if begun and same and previous.completed then
+            previous.professionSkillBefore = previous.professionSkillBefore
+                or evidence.beginner and evidence.beginner:SkillRank(skill) or nil
+        elseif begun or not same then
+            evidence.gather = { skill = skill, spell = spell, cast = cast, at = now,
+                target = Read(UnitGUID, "target"), items = {}, completed = not begun,
+                professionSkillBefore = begun and evidence.beginner and evidence.beginner:SkillRank(skill) or nil }
+        else
+            previous.completed = true
         end
     end
 end
 
 local function GatherLoot()
     local gather, now = evidence.gather, Read(GetTime)
-    if not gather or not Time(now) or not Time(gather.at) or now - gather.at > OPERATION_SECONDS then
+    if not gather or not gather.completed or gather.closedAt or not Time(now) or not Time(gather.at)
+        or now < gather.at or now - gather.at > OPERATION_SECONDS then
         evidence.gather = nil
         return
     end
 
     local count = Read(GetNumLootItems)
     if not Number(count) or count > MAX_GATHER_LOOT_SLOTS then
+        evidence.gather = nil
         return
     end
 
+    local items, boundSource = {}, nil
     for slot = 1, count do
-        local link, source, quantity = Read(GetLootSlotLink, slot), Read(GetLootSourceInfo, slot)
-        if Known(link) and type(link) == "string" and Number(quantity) and quantity > 0 and Known(source) and type(source) == "string" then
-            local appropriate = gather.skill == 393 and source == gather.target and CreatureID(source)
-                or gather.skill ~= 393 and source:match("^GameObject%-")
+        local link = Read(GetLootSlotLink, slot)
+        local source, quantity, anotherSource = Read(GetLootSourceInfo, slot)
+        if Known(link) and type(link) == "string" then
+            local object = Known(source) and type(source) == "string"
+                and tonumber(source:match("^GameObject%-%d+%-%d+%-%d+%-%d+%-(%d+)%-"))
+            local objectProfession = object and type(current.catalog.gatheringObjectProfessions) == "table"
+                and current.catalog.gatheringObjectProfessions[object]
+            local chest = object and type(current.catalog.treasureChestIds) == "table" and Contains(current.catalog.treasureChestIds, object)
+            local fishing = gather.skill == journal.FISHING_SKILL_ID and Read(IsFishingLoot)
+            fishing = fishing == true or fishing == 1
+            if fishing and source == nil and quantity == nil then
+                local _, _, slotQuantity = Read(GetLootSlotInfo, slot)
+                quantity = slotQuantity
+            end
+            local sourceKey = source or fishing and "fishing-loot"
+            local appropriate = gather.skill == journal.SKINNING_SKILL_ID and source == gather.target and CreatureID(source)
+                or gather.skill == journal.ENCHANTING_SKILL_ID and type(source) == "string" and source:match("^Item%-")
+                or gather.skill == journal.FISHING_SKILL_ID and fishing and (source == nil or type(source) == "string")
+                or gather.skill ~= journal.SKINNING_SKILL_ID and gather.skill ~= journal.ENCHANTING_SKILL_ID and gather.skill ~= journal.FISHING_SKILL_ID and object and not chest
+                    and (current.semantic and objectProfession == gather.skill or not current.semantic)
+            if not appropriate or not Number(quantity) or quantity <= 0 or anotherSource ~= nil
+                or boundSource and boundSource ~= sourceKey or gather.sourceKey and gather.sourceKey ~= sourceKey then
+                evidence.gather = nil
+                return
+            end
             local item = appropriate and tonumber(link:match("|Hitem:(%d+):"))
             if item then
-                gather.items[item] = true
-                gather.source = source
+                items[item], boundSource = true, sourceKey
+                gather.source, gather.fishingLoot = source, fishing or nil
             end
         end
     end
+    if not boundSource then evidence.gather = nil; return end
+    gather.sourceKey = boundSource
+    for item in pairs(items) do gather.items[item] = true end
 end
 
 ---@param id number
 local function GatheredItem(id)
     local gather, now = evidence.gather, Read(GetTime)
-    if gather and Time(now) and Time(gather.at) and now - gather.at <= OPERATION_SECONDS and gather.items[id] then
+    if gather and gather.completed and gather.sourceKey and Time(now) and Time(gather.at) and now >= gather.at
+        and now - gather.at <= OPERATION_SECONDS
+        and (not gather.closedAt or Time(gather.closedAt) and now >= gather.closedAt and now - gather.closedAt <= journal.GATHER_RECEIPT_GRACE_SECONDS)
+        and gather.items[id] then
         Emit("item_gathered", id, gather.skill, (Read(C_Item and C_Item.GetItemInfo or GetItemInfo, id)), false,
-            current.semantic and { professionId = gather.skill, itemId = id, materialReceived = true, lootSourceGuid = gather.source } or nil)
+            current.semantic and { professionId = gather.skill, itemId = id, materialReceived = true,
+                lootSourceGuid = gather.source, professionSkillBefore = gather.professionSkillBefore,
+                spellId = gather.spell, fishingLoot = gather.fishingLoot } or nil)
         gather.items[id] = nil
+    elseif gather and gather.closedAt and (not Time(now) or now - gather.closedAt > journal.GATHER_RECEIPT_GRACE_SECONDS) then
+        evidence.gather = nil
     end
 end
 
@@ -4409,6 +4465,7 @@ end
 end
 
 local function Snapshot(baseline)
+    if evidence.beginner and baseline then evidence.beginner:Baseline(Context()) end
     Membership(baseline)
     Skills(baseline)
     Reputation(baseline)
@@ -5136,6 +5193,7 @@ local function Loot(message, actor, ownerGuid)
     end
 
     GatheredItem(id)
+    if evidence.beginner then evidence.beginner:Received(id, Context()) end
     if evidence.observer then
         local operation = evidence.observer.craft
         local crafted = evidence.observer:Crafted(id)
@@ -5308,6 +5366,12 @@ local function Refresh()
 
     evidence.observer = current.semantic and ns.JourneyEvidence
         and ns.JourneyEvidence.New(catalog, guid, current.loadNonce, journal.SourceBinding()) or nil
+    evidence.beginner = ns.JourneyBeginnerMoments and ns.JourneyBeginnerMoments.New(current,
+        function(source, id, proof, context)
+            if not inWorld or loadingScreen then return false end
+            return current:Observe(source, id, 0, context, false, nil, nil, proof,
+                journal.HistoryOrigin(current, "event", context))
+        end) or nil
 
     if current.semantic then
         current:Observe("coverage_gap", 0, 0, Context(), false, nil, nil, { coverageGap = true, captureEligible = false, reason = "addon-load" })
@@ -5411,6 +5475,9 @@ local function Refresh()
         "CONFIRM_SUMMON",
         "CANCEL_SUMMON",
         "COMBAT_LOG_EVENT_UNFILTERED",
+        "SCREENSHOT_SUCCEEDED",
+        "LOOT_SLOT_CLEARED",
+        "CHAT_MSG_MONEY",
         "CHAT_MSG_COMBAT_XP_GAIN",
         "UNIT_DIED",
         "UPDATE_MOUSEOVER_UNIT",
@@ -5490,6 +5557,7 @@ if frame then
                     pendingCreation = nil
                 end
 
+                if evidence.beginner then evidence.beginner:Baseline(Context()) end
                 Instance()
                 Membership(false)
                 Zone(Context())
@@ -5659,6 +5727,7 @@ if frame then
             if evidence.observer then
                 evidence.observer:Gap()
             end
+            if evidence.beginner then evidence.beginner:Gap() end
 
             evidence.tame, evidence.gather, evidence.rare, evidence.bubbleAt = nil, nil, nil, nil
             inWorld = false
@@ -5686,6 +5755,9 @@ if frame then
         end
 
         local context = Context(event == "PLAYER_LEVEL_UP" and Number(a) and a or nil)
+        if evidence.beginner and inWorld and not loadingScreen then
+            evidence.beginner:Event(event, a, context)
+        end
         if event == "PLAYER_DEAD" and (context.hardcore == true or context.hardcore == nil and current.observationHardcore == true) then
             current.hardcoreDeathObserved = true
         end
@@ -5745,7 +5817,7 @@ if frame then
                     TamedPet()
                 end
             end
-            StartGather(c)
+            StartGather(c, false, b)
             if evidence.observer then
                 local started = evidence.observer:CraftStarted(c, b)
                 if started then
@@ -5757,7 +5829,7 @@ if frame then
         elseif event == "UNIT_SPELLCAST_START" and Known(a) and a == "player" and Number(c) then
             local gathering = current.semantic and evidence.observer and evidence.observer:Profession(c, "gathering") or not current.semantic and GatherSpells()[c]
             if gathering then
-                StartGather(c, true)
+                StartGather(c, true, b)
             else
                 evidence.gather = nil
             end
@@ -5771,7 +5843,7 @@ if frame then
                 StartTame(b)
             end
 
-            StartGather(c, true)
+            StartGather(c, true, b)
         elseif (event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_INTERRUPTED") and Known(a) and a == "player" then
             -- Pressing another ability, or Tame Beast again, fails that press and leaves the tame running.
             if Known(c) and c == TameBeastSpell() and (not evidence.tame or not Known(b) or evidence.tame.cast == b) then
@@ -5885,8 +5957,13 @@ if frame then
                 end
             end
         elseif event == "LOOT_CLOSED" then
-            if not current.semantic then
-                evidence.gather = nil
+            if evidence.gather then
+                if current.semantic and evidence.gather.completed and evidence.gather.sourceKey then
+                    local closedAt = Read(GetTime)
+                    if Time(closedAt) then evidence.gather.closedAt = closedAt else evidence.gather = nil end
+                else
+                    evidence.gather = nil
+                end
             end
             if evidence.observer then
                 evidence.observer:CloseLoot()
