@@ -5021,17 +5021,26 @@ local function Zone(context)
         return
     end
 
+    local onTaxi = Read(UnitOnTaxi, "player")
+    if onTaxi == true then
+        evidence.taxiZonePending = true
+        return
+    end
+    if evidence.taxiZonePending and onTaxi ~= false then
+        return
+    end
+
     local id = context.zoneId
     if not Number(id) or id == 0 then
         lastZone, pendingZone = nil, nil
         return
     end
 
-    local previous = lastZone
-    lastZone = id
+    local previous, landed = lastZone, evidence.taxiZonePending
+    lastZone, evidence.taxiZonePending = id, nil
 
-    -- An initial or unreadable location cannot establish an arrival.
-    if previous and previous ~= id then
+    -- An initial location is a baseline unless we observed the player on a taxi.
+    if previous ~= id and (previous or landed) then
         pendingZone = nil
         current:Observe("zone_entered", id, 0, context)
         local capital = false
@@ -5518,6 +5527,10 @@ if frame then
             Recovery()
             ConfirmZone()
             journal.ObserveTaxi()
+            -- Dismount can follow both the last zone event and the control-gained event.
+            if evidence.taxiZonePending and evidence.taxi_started == false then
+                Zone(Context())
+            end
             if evidence.tame then
                 TamedPet()
             end
@@ -5651,6 +5664,7 @@ if frame then
             CanonicalLoading(event)
             loadingScreen, resumePending, worldReadyAt = true, nil, nil
             pendingZone = nil
+            evidence.taxiZonePending = nil
             if current.semantic and not evidence.coverageClosed then
                 current:Observe("coverage_gap", 0, 0, Context(), false, nil, nil, { coverageGap = true, captureEligible = false, reason = "world-exit" })
                 evidence.coverageClosed = true
@@ -5928,7 +5942,8 @@ if frame then
         if event == "PLAYER_ENTERING_WORLD"
             or event == "ZONE_CHANGED_NEW_AREA"
             or event == "ZONE_CHANGED"
-            or event == "ZONE_CHANGED_INDOORS" then
+            or event == "ZONE_CHANGED_INDOORS"
+            or (event == "PLAYER_CONTROL_GAINED" and evidence.taxiZonePending) then
             Zone(context)
         end
 
