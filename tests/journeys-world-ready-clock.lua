@@ -69,6 +69,13 @@ local function check(clockAdvance, cachedClock)
     callbacks.OnUpdate(nil, 0.01)
     assert(creation.context.worldReadyAt == originalReady, "later frames cannot rewrite a queued record")
     assert(sent[key] == originalBody, "queued source bytes remain immutable")
+    InCombatLockdown = function() return true end
+    ns.JourneyJournal.error = "final logout diagnostic"
+    callbacks.OnEvent(nil, "PLAYER_LOGOUT")
+    assert(RaiderIO_JourneyExport == ns.JourneyJournal.Export(RaiderIO_Journeys),
+        "logout must publish the complete latest export, even when combat prevents ordinary export updates")
+    assert(RaiderIO_JourneyExport:find("final logout diagnostic", 1, true), "final issue must reach the desktop export")
+    InCombatLockdown = nil
 end
 check(1, true)
 check(5, true)
