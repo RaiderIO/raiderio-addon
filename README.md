@@ -438,24 +438,3 @@ RaiderIO.ShowTooltip
 RaiderIO.GetRaidDifficultyColor
 RaiderIO.GetScore
 ```
-
-### Journey export performance
-
-The addon keeps `RaiderIO_JourneyExport` as a complete synchronous JSON export,
-including the final logout update. The desktop reads this JSON; the raw journal
-is not a substitute for a current export.
-
-Export serialization reuses weak-key cached bytes for published facts,
-checkpoints, heartbeats and paperdoll rows. These rows and their nested values are
-immutable after publication. Their owners replace a whole row when publishing a
-revision; do not mutate a cached row in place. Receipts and erasure remove rows
-from the containing queues, and removed rows do not stay alive through the cache.
-Snapshots, policy status and erasure/activation projections are serialized fresh.
-A bounded cache also reuses quoted short strings, reducing repeated UTF-8 scans.
-Neither cache changes the SavedVariables format or delays logout publication.
-
-Run `lua5.1 tests/journeys-export-cache.lua` and
-`lua5.1 tests/journeys-world-ready-clock.lua` (also with `lua5.4`). They cover new
-facts, checkpoint and paperdoll replacement, receipts, invalid data, repeated
-export cost, and final logout publication during combat. A cold export still
-visits retained history; these tests do not establish WoW's live watchdog budget.
