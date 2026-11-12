@@ -379,7 +379,7 @@ do
 
     -- Product strings are provenance, not a user preference. Only derive combinations whose
     -- client identity distinguishes an existing product; ambiguous test clients stay uncollected.
-    local function Product(version)
+    local function Product()
         local beta, test, publicTest = Read(IsBetaBuild), Read(IsTestBuild), Read(IsPublicTestClient)
         if type(beta) ~= "boolean" or type(test) ~= "boolean" or type(publicTest) ~= "boolean" then
             return
@@ -387,11 +387,11 @@ do
         if WOW_PROJECT_ID == nil then
             return
         end
-        if WOW_PROJECT_CAMELOT and WOW_PROJECT_ID == WOW_PROJECT_CAMELOT and version == "1.60.1" and beta == true then
-            return "wow_classic_beta"
-        end
         if beta or test or publicTest then
             return
+        end
+        if WOW_PROJECT_CAMELOT and WOW_PROJECT_ID == WOW_PROJECT_CAMELOT then
+            return "wowf"
         end
         if WOW_PROJECT_MAINLINE and WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
             return "wow"
@@ -407,7 +407,7 @@ do
     ---@return GameDataPartition?
     local function PreparePartition()
         local version, build = Read(GetBuildInfo)
-        local product = Product(version)
+        local product = Product()
         if not product then
             return
         end
