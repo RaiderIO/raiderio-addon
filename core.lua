@@ -9963,7 +9963,7 @@ if IS_RETAIL then
     local function GetWorldElapsedTimerForKeystone(timerID)
         ---@type number, number, number
         local _, elapsedTime, timerType = GetWorldElapsedTime(timerID)
-        if timerType ~= LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE then
+        if timerType ~= Enum.WorldElapsedTimerTypes.ChallengeMode then
             return
         end
         return elapsedTime
