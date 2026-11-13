@@ -90,7 +90,6 @@
         "IsPlayerAtEffectiveMaxLevel",
         "ItemRefTooltip",
         "LE_PARTY_CATEGORY_INSTANCE",
-        "LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE",
         "LFGListFrame",
         "LFGListFrameDropDown",
         "LOOT_ITEM_PUSHED_SELF",

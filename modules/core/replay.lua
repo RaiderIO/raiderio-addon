@@ -265,7 +265,7 @@ end
 local function GetWorldElapsedTimerForKeystone(timerID)
     ---@type _, number, number
     local _, elapsedTime, timerType = GetWorldElapsedTime(timerID)
-    if timerType ~= LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE then
+    if timerType ~= Enum.WorldElapsedTimerTypes.ChallengeMode then
         return
     end
     return elapsedTime
