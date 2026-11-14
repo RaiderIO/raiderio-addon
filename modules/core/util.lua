@@ -1024,8 +1024,8 @@ end
 
 ---@type table<string, string|number>
 local MEDAL_TEXTURE = {
-    none = 982414,
-    none2 = 982414,
+    none = 1319037,
+    none2 = 1319037,
     bronze = 627120,
     bronze2 = 627121,
     silver = 627125,
@@ -1185,7 +1185,7 @@ function util:GetTextPaddingTexture(width, height)
     if not width or width <= 0 then
         return ""
     end
-    return format("|T982414:%d:%d:0:0:64:64:0:1:0:1|t", height or 1, width)
+    return format("|T1319037:%d:%d:0:0:64:64:0:1:0:1|t", height or 1, width)
 end
 
 ---@class AutoScalingFontStringMixinPolyfill : FontString

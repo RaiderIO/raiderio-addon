@@ -410,7 +410,7 @@ ns.KEYSTONE_AFFIX_TEXTURE = { -- Maps each affix to a texture string Tyrannical 
 }
 
 ns.PROFILE_TOOLTIP_COLUMN_TEXTURE = { -- The regular character column and the warband icon used in the profile tooltip.
-    CHARACTER = "|T982414:1:1|t",
+    CHARACTER = "|T1319037:1:1|t",
     WARBAND = ns.CUSTOM_ICONS.icons.WARBAND_WHITE("TextureMarkup"),
 }
 
