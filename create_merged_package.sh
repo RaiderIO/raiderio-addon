@@ -25,9 +25,9 @@ cp ../*.{lua,toc,xml} addon/RaiderIO
 
 # setup the locale
 cp ../locale/*.lua addon/RaiderIO/locale
-bash ../update_locale.sh `pwd`/addon/RaiderIO/locale
+bash ../update_locale.sh `pwd`/addon/RaiderIO/locale || exit 1
 
-cp -a ../libs addon/RaiderIO/
+cp -a ../libs ../modules addon/RaiderIO/
 (cd .. ; tar cf - icons) | (cd addon/RaiderIO ; tar xvf -)
 
 echo "Setting up as version v$NEW_VERSION"
