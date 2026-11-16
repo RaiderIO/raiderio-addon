@@ -270,6 +270,11 @@ local ModifyMenu = Menu and Menu.ModifyMenu ---@diagnostic expect-line: assign-t
 ---@type MenuManagerProxy?
 local MenuGetManager = Menu and Menu.GetManager and Menu.GetManager()
 
+-- Forever's gamepad UI reads open menu elements during secure focus updates, so elements we add taint it and get its protected calls blocked.
+local function IsGamepadInterfaceActive()
+    return C_InputInterfaceStyle and Enum.InputDeviceInterfaceType and C_InputInterfaceStyle.GetCurrentStyle() == Enum.InputDeviceInterfaceType.Gamepad
+end
+
 ---@param rootDescription ModifyMenuCallbackRootDescriptionPolyfill
 ---@param contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 local function IsValidMenu(rootDescription, contextData)
@@ -366,7 +371,7 @@ end
 
 ---@type ModifyMenuCallbackFuncPolyfill
 local function OnMenuShow(owner, rootDescription, contextData)
-    if not config:Get("showDropDownCopyURL") then
+    if not config:Get("showDropDownCopyURL") or IsGamepadInterfaceActive() then
         return
     end
     if not IsValidMenu(rootDescription, contextData) then
