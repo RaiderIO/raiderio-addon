@@ -1,18 +1,21 @@
+local ns = select(2, ...) ---@class ns @The addon namespace.
+
 -- Configurable optical transport. Application records remain opaque byte strings.
 -- Match the owner file's minor version; an older embedded copy must not replace a newer implementation.
 -- The addon's error boundary, when this copy is embedded in Raider.IO.
-local _, addon = ...
-local safety = type(addon) == "table" and addon.Safety or nil
+local safety = type(ns) == "table" and ns.Safety or nil
 local C_Timer = safety and safety.Timers("beacon") or C_Timer
 
 local MINOR = 6
-local lib, minor = LibStub("LibClientBeacon-1.0")
+---@class LibClientBeacon-1.0
+local lib,
+---@type number?
+minor = LibStub("LibClientBeacon-1.0")
 if minor ~= MINOR or lib.packetTransportMinor == MINOR then
     return
 end
 
 lib.packetTransportMinor = MINOR
-local bit = bit or bit32
 local band, bxor, rshift = bit.band, bit.bxor, bit.rshift
 local MAX_APPLICATION_BYTES, MAX_QUEUED_BYTES = 65531, 1048576
 local MAX_WAITING, MAX_URGENT = 32, 8
@@ -188,9 +191,10 @@ function lib.CreatePacketTransport(options, definition)
 
     local function GetGeometry()
         local width, height = api.GetScreenPixels()
-        if not width then
+        if not width or not height then
             return false
         end
+        assert(layout)
         local x = layout.anchorX == "right" and width - layout.width
             or layout.anchorX == "middle" and math.floor((width - layout.width) / 2)
             or 0
@@ -206,9 +210,10 @@ function lib.CreatePacketTransport(options, definition)
 
     local function ApplyGeometry()
         local width, height, x, y = GetGeometry()
-        if not width then
+        if not width or not height then
             return false
         end
+        assert(frame)
         frame:SetScale(768 / height)
         frame:ClearAllPoints()
         frame:SetPoint("TOPLEFT", nil, "TOPLEFT", x, -y)
@@ -217,6 +222,8 @@ function lib.CreatePacketTransport(options, definition)
     end
 
     local function LayoutCells()
+        assert(frame)
+        assert(layout)
         frame:SetSize(layout.width, layout.height)
         local count = layout.columns * layout.rows
         for index = 1, math.max(count, #cells) do
@@ -285,6 +292,7 @@ function lib.CreatePacketTransport(options, definition)
     end
 
     local function Paint(bytes)
+        assert(layout)
         local levels, bitOffset = 2 ^ layout.bits - 1, 0
         local activeCells = layout.version ~= FIXED_PACKET_VERSION
                 and layout.referenceCells + math.ceil(#bytes * 8 / (layout.channels * layout.bits))
@@ -492,6 +500,7 @@ function lib.CreatePacketTransport(options, definition)
                 return
             end
         end
+        assert(current)
         local age = math.floor((GetTime() - current.referenceAt) * 1000 + 0.5)
         if not Integer(age, 0, UINT32 - 1) then
             dropped = dropped + 1
@@ -502,6 +511,7 @@ function lib.CreatePacketTransport(options, definition)
             Continue()
             return
         end
+        assert(layout)
         local payload = current.frozen:sub(current.offset + 1, current.offset + layout.capacity - PACKET_OVERHEAD)
         local bytes = "RB"
             .. string.char(layout.version, 0)
@@ -540,6 +550,7 @@ function lib.CreatePacketTransport(options, definition)
         end
         shownAt, shownFrames, lastEmitAt = GetTime(), 0, GetTime()
         local timing = current.timing or layout
+        assert(frame)
         frame:SetScript("OnUpdate", function()
             local now = GetTime()
             if now > shownAt then
@@ -596,8 +607,10 @@ function lib.CreatePacketTransport(options, definition)
                 end
             end
             if not current then
-                frame:SetScript("OnUpdate", nil)
-                frame:Hide()
+                if frame then
+                    frame:SetScript("OnUpdate", nil)
+                    frame:Hide()
+                end
                 if not pausing and not waiting[1] then
                     Listen(false)
                 end

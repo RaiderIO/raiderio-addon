@@ -21,7 +21,7 @@ fi
 echo "Updating latest locale files from CurseForge..."
 
 CF_LOCALE_FILE=locale_temp_cf.$$
-for locale in deDE esES frFR itIT koKR ptBR ruRU zhCN zhTW ; do
+for locale in deDE esES esMX frFR itIT koKR ptBR ruRU zhCN zhTW ; do
   # where we will write out the newly created locale file
   NEW_LOCALE_FILE=locale_temp_new.$$
 
@@ -46,7 +46,7 @@ for locale in deDE esES frFR itIT koKR ptBR ruRU zhCN zhTW ; do
   if [ "x$?" != "x0" ]; then
     echo "Failed to find localization tag in template file $LOCALE_TEMPLATE_FILE"
     rm $CF_LOCALE_FILE
-    exit
+    exit 1
   fi
 
   cat $CF_LOCALE_FILE | grep -v 'L = L or ' > $NEW_LOCALE_FILE
