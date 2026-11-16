@@ -346,16 +346,30 @@ local function ValidUTF8(value)
     return true
 end
 
+local Quote
+do
+-- JSON field names and short values repeat across every retained record. Strings are immutable;
+-- cap this cache independently of history size so it cannot retain an unbounded session vocabulary.
+local MAX_QUOTED_STRINGS, MAX_QUOTED_STRING_BYTES = 512, 64
+local quotedStrings, quotedStringCount = {}, 0
+
 ---@param value string
 ---@return string
-local function Quote(value)
+function Quote(value)
+    local cached = quotedStrings[value]
+    if cached then return cached end
     assert(ValidUTF8(value), "invalid Journey UTF-8")
-    return '"'
+    local quoted = '"'
         .. value:gsub('[%z\1-\31\\"]', function(c)
             local escapes = { ['"'] = '\\"', ["\\"] = "\\\\", ["\n"] = "\\n", ["\r"] = "\\r", ["\t"] = "\\t" }
             return escapes[c] or string.format("\\u%04x", string.byte(c))
         end)
         .. '"'
+    if #value <= MAX_QUOTED_STRING_BYTES and quotedStringCount < MAX_QUOTED_STRINGS then
+        quotedStrings[value], quotedStringCount = quoted, quotedStringCount + 1
+    end
+    return quoted
+end
 end
 
 ---@param value any
@@ -1530,6 +1544,24 @@ function journal.AcknowledgeObservations(saved, receipts)
     end
 end
 
+do
+-- Pending facts, published checkpoints, heartbeats and doll rows are immutable snapshots.
+-- Their owners replace tables for revisions; only the containing queues change on receipts.
+-- Weak keys retire serialized bytes with their source rows, without changing SavedVariables.
+local exportedRows = setmetatable({}, { __mode = "k" })
+local function ExportRows(rows)
+    local output = {}
+    for index, row in ipairs(rows) do
+        local bytes = exportedRows[row]
+        if not bytes then
+            bytes = JSON(row, nil, 1)
+            exportedRows[row] = bytes
+        end
+        output[index] = bytes
+    end
+    return "[" .. table.concat(output, ",") .. "]"
+end
+
 ---@param saved JourneySavedVariables
 ---@return string
 function journal.Export(saved)
@@ -1572,18 +1604,18 @@ function journal.Export(saved)
     end
 
     -- An empty export is an array, not the ambiguous Lua empty-table object.
-    local output = { '{"version":2,"records":', #records > 0 and JSON(records) or "[]" }
+    local output = { '{"version":2,"records":', ExportRows(records) }
     if #observations > 0 then
-        output[#output + 1] = ',"observations":' .. JSON(observations)
+        output[#output + 1] = ',"observations":' .. ExportRows(observations)
     end
     if #heartbeats > 0 then
-        output[#output + 1] = ',"heartbeats":' .. JSON(heartbeats)
+        output[#output + 1] = ',"heartbeats":' .. ExportRows(heartbeats)
     end
     -- An app without the flag rejects a whole export with an unknown key, so saved rows wait for one that has it.
     local dolls = type(ns.CLIENT_CONFIG) == "table" and ns.CLIENT_CONFIG.enableJourneyDolls == true
         and ns.JourneyDolls and ns.JourneyDolls.Rows(saved)
     if dolls and #dolls > 0 then
-        output[#output + 1] = ',"dolls":' .. JSON(dolls)
+        output[#output + 1] = ',"dolls":' .. ExportRows(dolls)
     end
 
     if memoryPolicyStatus then
@@ -1622,6 +1654,7 @@ function journal.Export(saved)
 
     output[#output + 1] = "}"
     return table.concat(output)
+end
 end
 
 ---@param context JourneyContext
