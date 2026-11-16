@@ -9,7 +9,7 @@
 ## X-Region: Taiwan
 ## X-Faction: Both
 ## X-Website: https://raider.io
-../RaiderIO/db/db_classic_raiding_tw_characters.lua [ExcludeLoadGameType mainline, vanilla]
-../RaiderIO/db/db_classic_raiding_tw_lookup.lua [ExcludeLoadGameType mainline, vanilla]
+../RaiderIO/db/db_classic_raiding_tw_characters.lua [ExcludeLoadGameType mainline, vanilla, camelot]
+../RaiderIO/db/db_classic_raiding_tw_lookup.lua [ExcludeLoadGameType mainline, vanilla, camelot]
 ../RaiderIO/db/db_raiding_tw_characters.lua [AllowLoadGameType standard]
 ../RaiderIO/db/db_raiding_tw_lookup.lua [AllowLoadGameType standard]
