@@ -134,6 +134,7 @@ modules/journeys/journeys-erasure.lua
 modules/journeys/journeys-group-loot.lua
 modules/journeys/journeys-boss-attempts.lua
 modules/journeys/journeys-kills.lua
+modules/journeys/journeys-beginner-moments.lua
 modules/journeys/journeys.lua
 modules/journeys/journeys-doll.lua
 modules/journeys/journeys-close-call-episodes.lua
