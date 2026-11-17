@@ -117,6 +117,9 @@ do
     -- neither GUIDs nor these keys enter SavedVariables.
     local seenLootFragments, seenLootFragmentCount = {}, 0
     local seenKillSources = {}
+    -- Kill counters are keyed per addon load, so a counter is final once its load ends. Fixed for
+    -- the load (not reset on settings save) and always later than every earlier load's stamp.
+    local loadStartedAt
     local seenKillCount = 0
     local nextKillCleanup
     local recentContainerUses = {}
@@ -405,6 +408,133 @@ do
         end
     end
 
+    local function ValidCollectorId(value)
+        return type(value) == "string" and #value >= 16 and #value <= 64 and value:match("^[A-Za-z0-9%-]+$") ~= nil
+    end
+
+    -- One random identity per SavedVariables file, never derived from the account or a character.
+    -- The client config is shared by every account on an install, so import acknowledgements are
+    -- addressed to this ID. Once set it is never replaced, even when it is not recognised.
+    local function NewCollectorId()
+        local now, precise = Read(GetServerTime), Read(GetTimePreciseSec)
+        if not Integer(now, 0) then
+            now = 0
+        end
+        if issecretvalue(precise) or type(precise) ~= "number" or precise ~= precise or precise < 0 or precise >= 2 ^ 52 then
+            precise = 0
+        end
+        return string.format(
+            "%08x-%08x-%08x-%08x",
+            now % 4294967296,
+            math.floor(precise * 1000) % 4294967296,
+            math.random(0, 2147483646),
+            math.random(0, 2147483646)
+        )
+    end
+
+    -- Returns the saved table only when its schema is one this build may write.
+    local function Database(create)
+        local database = _G.RaiderIO_GameData
+        if database == nil then
+            if not create then
+                return
+            end
+            database = { schemaVersion = SCHEMA_VERSION, partitions = {}, lastLoadStartedAt = loadStartedAt }
+            _G.RaiderIO_GameData = database
+        end
+
+        -- Preserve unknown schemas and existing partitions; never relabel earlier observations.
+        if type(database) ~= "table"
+            or database.schemaVersion ~= SCHEMA_VERSION
+            or type(database.partitions) ~= "table"
+            or (database.extensionSchemaVersion ~= nil and database.extensionSchemaVersion ~= EXTENSION_VERSION) then
+            return
+        end
+        if database.collectorId == nil then
+            database.collectorId = NewCollectorId()
+        end
+        return database
+    end
+
+    -- A record is covered by an acknowledgement only once its latest update is.
+    local function RecordTime(observation)
+        if type(observation) ~= "table" or not Integer(observation.observedAt, 0) then
+            return
+        end
+        local last = observation.lastObservedAt
+        if Integer(last, 0) and last > observation.observedAt then
+            return last
+        end
+        return observation.observedAt
+    end
+
+    -- Returns a partition's two record tables, or nil when its shape is not one this build writes.
+    local function PartitionRecords(partition)
+        if type(partition) ~= "table" or type(partition.observations) ~= "table" then
+            return
+        end
+        local extended = partition.extendedObservations
+        if extended ~= nil and type(extended) ~= "table" then
+            return
+        end
+        return partition.observations, extended
+    end
+
+    -- Removes every record covered by the acknowledgement; returns whether any was removed.
+    local function PruneRecords(records, ack)
+        local pruned = false
+        for key, observation in pairs(records) do
+            local at = RecordTime(observation)
+            if at and at <= ack then
+                records[key] = nil
+                pruned = true
+            end
+        end
+        return pruned
+    end
+
+    -- The desktop app acknowledges imported records with a per-partition server-time watermark:
+    -- gameDataAcks[collectorId][partitionKey] = seconds. Anything unrecognised prunes nothing.
+    local function PruneAcknowledged(database)
+        local client = ns:GetClientConfig()
+        local all = type(client) == "table" and client.gameDataAcks or nil
+        if not ValidCollectorId(database.collectorId) or type(all) ~= "table" then
+            return
+        end
+        local acks = all[database.collectorId]
+        if type(acks) ~= "table" then
+            return
+        end
+        for key, partition in pairs(database.partitions) do
+            local ack = acks[key]
+            local observations, extended = PartitionRecords(partition)
+            if type(key) == "string" and Integer(ack, 0) and observations then
+                local pruned = PruneRecords(observations, ack)
+                if extended and PruneRecords(extended, ack) then
+                    pruned = true
+                end
+
+                local floor = database.lootSequenceFloor
+                local sequence = partition.nextLootSequence
+                if next(observations) == nil
+                    and next(extended or {}) == nil
+                    and (sequence == nil or Integer(sequence, 0)) then
+                    -- Free the build slot. A recreated partition continues above every retired
+                    -- loot sequence, so loot-window:<n> keys never repeat for a partition key.
+                    if Integer(sequence, 1) and not (Integer(floor, 1) and floor >= sequence) then
+                        database.lootSequenceFloor = sequence
+                    end
+                    database.partitions[key] = nil
+                elseif pruned then
+                    partition.capacityRejections = nil
+                    if Integer(partition.droppedRecords, 0) then
+                        partition.droppedRecords = 0
+                    end
+                end
+            end
+        end
+    end
+
     ---@return GameDataPartition?
     local function PreparePartition()
         local version, build = Read(GetBuildInfo)
@@ -424,17 +554,8 @@ do
 
         build = version .. "." .. build
         local key = product .. "|" .. build .. "|" .. locale
-        local database = _G.RaiderIO_GameData
-        if database == nil then
-            database = { schemaVersion = SCHEMA_VERSION, partitions = {} }
-            _G.RaiderIO_GameData = database
-        end
-
-        -- Preserve unknown schemas and existing partitions; never relabel earlier observations.
-        if type(database) ~= "table"
-            or database.schemaVersion ~= SCHEMA_VERSION
-            or type(database.partitions) ~= "table"
-            or (database.extensionSchemaVersion ~= nil and database.extensionSchemaVersion ~= EXTENSION_VERSION) then
+        local database = Database(true)
+        if not database then
             return
         end
 
@@ -444,14 +565,11 @@ do
         categoryCounts = {}
         for _, existing in pairs(database.partitions) do
             partitionCount = partitionCount + 1
-            if type(existing) ~= "table" or type(existing.observations) ~= "table" then
+            local observations, extended = PartitionRecords(existing)
+            if not observations then
                 return
             end
-
-            if existing.extendedObservations ~= nil and type(existing.extendedObservations) ~= "table" then
-                return
-            end
-            for _, records in ipairs({ existing.observations, existing.extendedObservations or {} }) do
+            for _, records in ipairs({ observations, extended or {} }) do
                 for _, observation in pairs(records) do
                     observationCount = observationCount + 1
                     if type(observation) == "table" and type(observation.kind) == "string" then
@@ -473,6 +591,9 @@ do
                 observations = {},
                 droppedRecords = 0,
             }
+            if Integer(database.lootSequenceFloor, 1) then
+                selected.nextLootSequence = database.lootSequenceFloor
+            end
             database.partitions[key] = selected
         end
 
@@ -2398,16 +2519,22 @@ do
                 end
                 nextKillCleanup = now + 5
             end
-            if not seenKillSources[destGUID] and seenKillCount < 1000 then
+            if not seenKillSources[destGUID] and seenKillCount < 1000 and not loadStartedAt then
+                Drop()
+            elseif not seenKillSources[destGUID] and seenKillCount < 1000 then
                 local location = Location()
                 local _, _, difficulty = Read(GetInstanceInfo)
                 if not Integer(difficulty, 0) then
                     difficulty = nil
                 end
                 local mapID = location and location.mapId
-                local key = table.concat({ "npc-kill-count", source.id, mapID or "unknown", difficulty or "unknown" }, ":")
+                local key = table.concat(
+                    { "npc-kill-count", source.id, mapID or "unknown", difficulty or "unknown", loadStartedAt },
+                    ":"
+                )
+                -- The key carries this load's stamp, so an existing record is this load's own counter.
                 local existing = partition.extendedObservations[key]
-                if existing and existing.kind == "npc-kill-count" and Integer(existing.count, 1) and existing.count < MAX_INTEGER then
+                if existing and existing.count < MAX_INTEGER then
                     existing.count = existing.count + 1
                     local timestamp = Read(GetServerTime)
                     if Integer(timestamp, 0) then
@@ -3850,7 +3977,30 @@ do
         return config:IsEnabled()
     end
 
+    -- Once per addon load. The stamp is kept at the root so it outlives pruning: a load starting in
+    -- the same second as an earlier one (a fast /reload) moves past it, so kill keys never repeat.
+    local function CaptureLoadStart(database)
+        local now = Read(GetServerTime)
+        if not Integer(now, 0) then
+            return
+        end
+        local last = database and database.lastLoadStartedAt
+        if Integer(last, 0) and last >= now and last < MAX_INTEGER then
+            now = last + 1
+        end
+        loadStartedAt = now
+        if database then
+            database.lastLoadStartedAt = now
+        end
+    end
+
     function collector:OnLoad()
+        -- Acknowledgements come from the client config, which only changes between loads.
+        local database = Database(false)
+        CaptureLoadStart(database)
+        if database then
+            PruneAcknowledged(database)
+        end
         UpdateModuleState()
         callback:RegisterEvent(UpdateModuleState, "RAIDERIO_SETTINGS_SAVED")
     end
