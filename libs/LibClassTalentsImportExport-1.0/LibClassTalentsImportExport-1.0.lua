@@ -299,27 +299,28 @@ local function CreateImportLoadoutEntryInfoFromSingleNode(results, configID, tre
     if not indexInfo.isNodeSelected then
         return
     end
-    ---@type ImportLoadoutEntryInfoPolyfill
-    local result = {
+    local selectionEntryID ---@type number?
+    if indexInfo.isChoiceNode and indexInfo.choiceNodeSelection then
+        selectionEntryID = treeNodeInfo.entryIDs[indexInfo.choiceNodeSelection]
+    elseif treeNodeInfo.activeEntry then
+        selectionEntryID = treeNodeInfo.activeEntry.entryID
+    end
+    if not selectionEntryID or selectionEntryID == 0 then
+        selectionEntryID = treeNodeInfo.entryIDs[1]
+    end
+    if not selectionEntryID or selectionEntryID == 0 then
+        return
+    end
+    local ranksPurchased = 0
+    if not indexInfo.isNodeGranted then
+        ranksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
+    end
+    results[#results + 1] = {
         nodeID = treeNodeInfo.ID,
         ranksGranted = indexInfo.isNodeGranted and 1 or 0,
-        ranksPurchased = 0,
-        selectionEntryID = 0,
+        ranksPurchased = ranksPurchased,
+        selectionEntryID = selectionEntryID,
     }
-    if indexInfo.isNodeSelected and not indexInfo.isNodeGranted then
-        result.ranksPurchased = indexInfo.isPartiallyRanked and indexInfo.partialRanksPurchased or treeNodeInfo.maxRanks
-    end
-    if indexInfo.isChoiceNode and indexInfo.choiceNodeSelection then
-        result.selectionEntryID = treeNodeInfo.entryIDs[indexInfo.choiceNodeSelection]
-    elseif treeNodeInfo.activeEntry then
-        result.selectionEntryID = treeNodeInfo.activeEntry.entryID
-    end
-    if result.selectionEntryID == 0 then
-        result.selectionEntryID = treeNodeInfo.entryIDs[1]
-    end
-    if result.selectionEntryID ~= 0 then
-        table.insert(results, result)
-    end
 end
 
 ---@param group ImportLoadoutEntryInfoPolyfill[]
