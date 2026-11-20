@@ -838,7 +838,7 @@ local function CreateOptions()
     ---@field public text string
 
     ---@param self RaiderIOSettingsDropDownWidget
-    ---@param dropDownList DropDownList
+    ---@param dropDownList UIDropDownList
     ---@param level number
     ---@param menuList? string
     function configOptions.DropDownOnInitialize(self, dropDownList, level, menuList)
