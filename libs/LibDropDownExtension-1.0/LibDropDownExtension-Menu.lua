@@ -425,6 +425,10 @@ end
 ---@param owner Region
 ---@param description RootMenuDescriptionProxyPolyfill
 local function OnMenuOpened(_, owner, description)
+    for _, ui in pairs(uis) do
+        ui.active = false
+        ui.container:Hide()
+    end
     if #callbacks == 0 or type(description) ~= "table" then
         return
     end
