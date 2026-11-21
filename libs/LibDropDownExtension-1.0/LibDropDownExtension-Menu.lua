@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibDropDownExtension-1.0", 5
+local MAJOR, MINOR = "LibDropDownExtension-1.0", 6
 
 ---@type LibDropDownExtension-1.0?
 local Lib = LibStub and LibStub:GetLibrary(MAJOR, true)
@@ -48,6 +48,9 @@ local menuFrames = state.frames
 
 state.uis = state.uis or setmetatable({}, { __mode = "k" }) ---@type table<MenuProxyPolyfill, LibDropDownExtension-1.0_MenuUI>
 local uis = state.uis
+
+state.layoutHooked = state.layoutHooked or setmetatable({}, { __mode = "k" }) ---@type table<MenuProxyPolyfill, boolean>
+local layoutHooked = state.layoutHooked
 
 --
 -- MARK: Menu detection
@@ -326,10 +329,25 @@ local function OnMenuFrameHidden(menuFrame)
     local ui = uis[menuFrame]
     if ui then
         ui.active = false
+        ui.root = nil
         ui.container:Hide()
     end
 end
 state.OnMenuFrameHidden = OnMenuFrameHidden
+
+---@param menuFrame MenuProxyPolyfill
+local function HookLayout(menuFrame)
+    if layoutHooked[menuFrame] then
+        return
+    end
+    layoutHooked[menuFrame] = true
+    hooksecurefunc(menuFrame, "Layout", function(frame)
+        local func = state.OnMenuFrameLayout
+        if func then
+            func(frame)
+        end
+    end)
+end
 
 ---@param menuFrame MenuProxyPolyfill
 ---@param ui LibDropDownExtension-1.0_MenuUI
@@ -338,6 +356,9 @@ local function BindUI(menuFrame, ui)
         if not ui.active or ui.owner ~= menuFrame.ownerRegion then
             self:Hide()
         end
+    end)
+    ui.container:SetScript("OnHide", function()
+        state.OnMenuFrameHidden(menuFrame)
     end)
 end
 
@@ -356,11 +377,10 @@ local function GetUI(menuFrame)
             active = false,
         }
         ui.owner = nil ---@type Region
+        ui.root = nil ---@type LibDropDownExtension-1.0_MenuRootDescription?
         uis[menuFrame] = ui
-        menuFrame:HookScript("OnHide", function(frame)
-            state.OnMenuFrameHidden(frame)
-        end)
         BindUI(menuFrame, ui)
+        HookLayout(menuFrame)
     end
     return ui
 end
@@ -414,9 +434,19 @@ local function Attach(menuFrame, owner, root)
         end
     end
     ui.owner = owner
+    ui.root = root
     ui.active = true
     container:Show()
 end
+
+---@param menuFrame MenuProxyPolyfill
+local function OnMenuFrameLayout(menuFrame)
+    local ui = uis[menuFrame]
+    if ui and ui.active and ui.root then
+        Attach(menuFrame, ui.owner, ui.root)
+    end
+end
+state.OnMenuFrameLayout = OnMenuFrameLayout
 
 --
 -- MARK: Hooking
@@ -484,6 +514,7 @@ end
 
 for menuFrame, ui in pairs(uis) do
     BindUI(menuFrame, ui)
+    HookLayout(menuFrame)
     for _, row in ipairs(ui.rows) do
         BindRow(row)
     end

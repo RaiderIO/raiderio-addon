@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibDropDownExtension-1.0", 5
+local MAJOR, MINOR = "LibDropDownExtension-1.0", 6
 assert(LibStub, MAJOR .. " requires LibStub")
 
 --
