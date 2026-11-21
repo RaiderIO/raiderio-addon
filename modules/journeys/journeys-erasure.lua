@@ -5,7 +5,7 @@ ns.JourneyErasure = erasure
 
 local PROTOCOL, JOURNAL_VERSION, WINDOW, MAX_PAGE_SCOPES = 2, 2, 32, 128
 local MAX_NUMBER = 9007199254740991
-local MAX_EXPORTED_OWNER_EPOCHS = 128
+local MAX_EXPORTED_OWNER_EPOCHS, MAX_RETIRED_OWNER_EPOCHS = 128, 128
 local MAX_JOURNALS, MAX_FIRSTS, MAX_PENDING, MAX_CHECKPOINTS, MAX_LOOT = 32, 4096, 256, 512, 32
 local MAX_HEARTBEATS, MAX_DOLLS = 1024, 32
 -- Only live journal references and the current capability retain scope ownership; consent history does not.
@@ -269,8 +269,49 @@ local function Remove(saved, registry, request)
     if next(saved.journals)==nil and not registry.activation then saved.source,saved.semanticProtocol=nil,nil end
     return true
 end
+-- A standing list has no sequence, receipt, or replay proof: every load reapplies it, so it must be idempotent.
+-- Only registry-bound scopes are attributable to an owner; unbound rows stay.
+local function Retire(saved,config)
+    local list=type(config)=="table" and config.journeyRetiredOwnerEpochs
+    if not Dense(list,MAX_RETIRED_OWNER_EPOCHS) or #list==0 or not UUIDValue(config.journeySourceInstallId)
+        or type(saved)~="table" or type(saved.journals)~="table" or saved.erasure==nil
+        or saved.source~=nil and (type(saved.source)~="table" or saved.source.installId~=config.journeySourceInstallId) then return false end
+    local previous=""
+    for _,epoch in ipairs(list) do
+        if not UUIDValue(epoch) or epoch<=previous then return false end
+        previous=epoch
+    end
+    local registry=Registry(saved)
+    if not registry or registry.installId~=config.journeySourceInstallId then return false end
+    local activation,changed=config.journeySourceActivation,false
+    local activating=type(activation)=="table" and activation.ownerEpoch
+    for _,epoch in ipairs(list) do
+        -- The collecting owner is never retired, even if a faulty list names it.
+        if epoch~=config.journeySourceOwnerEpoch and epoch~=activating then
+            local request={targetOwnerEpoch=epoch,scopeIds={}}
+            for scope,owner in pairs(registry.scopes) do
+                if owner==epoch then request.scopeIds[#request.scopeIds+1]=scope end
+            end
+            local stamped=false
+            for _,state in pairs(saved.journals) do
+                if type(state)=="table" and state.ownerEpoch==epoch then stamped=true end
+            end
+            if stamped or request.scopeIds[1] then
+                if not Remove(saved,registry,request) then break end
+                changed=true
+            end
+        end
+    end
+    if changed then
+        -- As after an erase command, unscoped legacy markers must not migrate to a later owner.
+        registry.legacyImportFenced=true
+        Prune(saved,registry)
+        saved.erasure=registry
+    end
+    return changed
+end
 
-function erasure.Apply(saved,config,catalog)
+local function Run(saved,config,catalog)
     if type(config)~="table" or config.journeyErasureRequest==nil and config.journeySourceActivation==nil then return true end
     if not Enabled(config,catalog) then return false,"unsupported Journey erasure protocol; preserved" end
     local command,issue=Command(config)
@@ -334,6 +375,12 @@ function erasure.Apply(saved,config,catalog)
     end
     local removed,removeIssue=Remove(saved,registry,command)
     return Commit(saved,registry,command,fingerprint,not removed and removeIssue or nil)
+end
+-- The fourth result reports a standing retirement that removed data; it never affects the command's outcome.
+function erasure.Apply(saved,config,catalog)
+    local retired=Retire(saved,config)
+    local applied,issue,updated=Run(saved,config,catalog)
+    return applied,issue,updated,retired
 end
 
 function erasure.Scope(saved,config,catalog,scopeId)

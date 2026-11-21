@@ -5251,8 +5251,9 @@ local function Refresh()
         ns.JourneyDolls.Sanitize(RaiderIO_Journeys)
     end
     if ns.JourneyErasure then
-        local erased, erasureIssue, updated = ns.JourneyErasure.Apply(RaiderIO_Journeys, ns.CLIENT_CONFIG, ns.CLIENT_JOURNEY_CATALOG)
+        local erased, erasureIssue, updated, retired = ns.JourneyErasure.Apply(RaiderIO_Journeys, ns.CLIENT_CONFIG, ns.CLIENT_JOURNEY_CATALOG)
         if updated then RaiderIO_Journeys = updated end
+        if retired then exportDirty = true end
         if not erased then
             journal.error, exportDirty = erasureIssue, true
             Export()
