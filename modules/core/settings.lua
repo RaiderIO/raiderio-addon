@@ -1219,7 +1219,6 @@ local function CreateOptions()
         configOptions:CreatePadding()
         configOptions:CreateHeadline(L.MISC_SETTINGS)
         configOptions:CreateOptionToggle(L.ENABLE_LFG_EXPORT_BUTTON, L.ENABLE_LFG_EXPORT_BUTTON_DESC, "enableLFGExportButton")
-        configOptions:CreateOptionToggle(L.DISABLE_DROPDOWN_MENU_BUTTON, L.DISABLE_DROPDOWN_MENU_BUTTON_DESC, "disableDropdownMenu", { needReload = true })
 
         configOptions:CreatePadding()
         configOptions:CreateHeadline(L.RAIDERIO_CLIENT_CUSTOMIZATION)

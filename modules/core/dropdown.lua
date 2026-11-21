@@ -225,7 +225,7 @@ local function GetRecruitmentProfileForDropDown()
     return profile
 end
 
----@type LibDropDownExtension-1.0?
+---@type LibDropDownExtension-1.0
 local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtension-1.0", true)
 
 ---@class PlayerLocationPolyfill : PlayerLocationMixin
@@ -250,40 +250,14 @@ local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtensio
 ---@field public playerLocation? PlayerLocationPolyfill
 ---@field public friendsList? number
 
----@class ModifyMenuCallbackRootDescriptionPolyfill : LibDropDownExtension-1.0_MenuRootDescription
----@field public tag string
----@field public contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
----@field public CreateDivider fun(self: ModifyMenuCallbackRootDescriptionPolyfill)
----@field public CreateTitle fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string)
----@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun(button: Button, arg1: any, arg2: any, checked: boolean))
-
----@class ModifyMenuReturnPolyfill
----@field public Unregister fun(self: ModifyMenuReturnPolyfill)
-
 ---@alias ModifyMenuCallbackFuncOwner { resultID?: number, memberIdx?: number, GetParent: (fun(): { applicantID?: number }?) }
 
----@alias ModifyMenuCallbackFuncPolyfill fun(owner: ModifyMenuCallbackFuncOwner, rootDescription: ModifyMenuCallbackRootDescriptionPolyfill, contextData: ModifyMenuCallbackRootDescriptionContextDataPolyfill)
+---@alias ModifyMenu fun(tag: string, callback: LibDropDownExtension-1.0_MenuCallback): LibDropDownExtension-1.0_MenuHandle?
 
----@alias ModifyMenu fun(tag: string, callback: ModifyMenuCallbackFuncPolyfill): ModifyMenuReturnPolyfill
+---@type ModifyMenu
+local ModifyMenu = (LibDropDownExtension and LibDropDownExtension.HasBackend("Menu") and LibDropDownExtension.Menu.ModifyMenu) or (Menu and Menu.ModifyMenu --[[@as ModifyMenu]])
 
----@type ModifyMenu?
-local ModifyMenu = Menu and Menu.ModifyMenu ---@diagnostic expect-line: assign-type-mismatch
-
----@type MenuManagerProxy?
-local MenuGetManager = Menu and Menu.GetManager and Menu.GetManager()
-
--- if the library handles the menu code then it is taint safe
-local isMenuTaintSafe = false
-
--- HOTFIX: Forever's gamepad UI reads open menu elements during secure focus updates, so elements we add taint it and get its protected calls blocked.
-local function IsGamepadInterfaceActiveAndTaintable()
-    if isMenuTaintSafe then
-        return false
-    end
-    return C_InputInterfaceStyle and Enum.InputDeviceInterfaceType and C_InputInterfaceStyle.GetCurrentStyle() == Enum.InputDeviceInterfaceType.Gamepad
-end
-
----@param rootDescription ModifyMenuCallbackRootDescriptionPolyfill
+---@param rootDescription LibDropDownExtension-1.0_MenuRootDescription
 ---@param contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 local function IsValidMenu(rootDescription, contextData)
     if not contextData then
@@ -339,7 +313,7 @@ local function UnpackBNetAccountInfo(accountInfo)
 end
 
 ---@param owner ModifyMenuCallbackFuncOwner
----@param rootDescription ModifyMenuCallbackRootDescriptionPolyfill
+---@param rootDescription LibDropDownExtension-1.0_MenuRootDescription
 ---@param contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 ---@return string? name, string? realm, number? level, UnitToken? unit, FactionNumber? faction
 local function GetNameRealmForMenu(owner, rootDescription, contextData)
@@ -378,9 +352,11 @@ local function GetNameRealmForMenu(owner, rootDescription, contextData)
     return name, realm, level, unit, faction
 end
 
----@type ModifyMenuCallbackFuncPolyfill
+---@type LibDropDownExtension-1.0_MenuCallback
 local function OnMenuShow(owner, rootDescription, contextData)
-    if not config:Get("showDropDownCopyURL") or config:Get("disableDropdownMenu") or IsGamepadInterfaceActiveAndTaintable() then
+    ---@cast owner ModifyMenuCallbackFuncOwner
+    ---@cast contextData ModifyMenuCallbackRootDescriptionContextDataPolyfill?
+    if not config:Get("showDropDownCopyURL") then
         return
     end
     if not IsValidMenu(rootDescription, contextData) then
@@ -399,12 +375,14 @@ local function OnMenuShow(owner, rootDescription, contextData)
     end
 end
 
+---@type LibDropDownExtension-1.0_MenuHandle[]
+local menuHandles = {}
+
 function dropdown:CanLoad()
-    return config:IsEnabled()
+    return config:IsEnabled() and LibDropDownExtension and ModifyMenu
 end
 
 function dropdown:OnLoad()
-    self:Enable()
     unitOptions = {
         {
             notCheckable = true,
@@ -444,6 +422,10 @@ function dropdown:OnLoad()
             end
         }
     }
+    self:Enable()
+end
+
+function dropdown:OnEnable()
     local menuTags = {} ---@type string[]
     for name, enabled in pairs(validTypes) do
         if enabled then
@@ -453,31 +435,20 @@ function dropdown:OnLoad()
     for tag, _ in pairs(validTags) do
         menuTags[#menuTags + 1] = tag
     end
-    if LibDropDownExtension and LibDropDownExtension.HasBackend("Menu") then
-        isMenuTaintSafe = true
-        LibDropDownExtension.Menu.ModifyMenu(menuTags, OnMenuShow)
-    elseif ModifyMenu and MenuGetManager then
-        -- HOTFIX: we delay calling the modify menu API until Blizzard has opened a dropdown menu themselves
-        -- this allows the secure code setup the internal state required, which wouldn't be the case if we modified the menu too early in the session
-        -- the only downside to this is that the first dropdown menu shown won't be modified, so the user would need to re-open it to see our options (which is better than tainting the dropdown system entirely)
-        local isInit = false
-        local function init()
-            if config:Get("disableDropdownMenu") then
-                return
-            end
-            if isInit then
-                return
-            end
-            isInit = true
-            local onMenuShow = GenerateClosure(OnMenuShow) ---@type ModifyMenuCallbackFuncPolyfill
-            for _, tag in ipairs(menuTags) do
-                ModifyMenu(tag, onMenuShow)
-            end
+    for _, tag in ipairs(menuTags) do
+        local handle = ModifyMenu(tag, OnMenuShow)
+        if handle then
+            menuHandles[#menuHandles + 1] = handle
         end
-        hooksecurefunc(MenuGetManager, "OpenMenu", init)
-        hooksecurefunc(MenuGetManager, "OpenContextMenu", init)
     end
-    if LibDropDownExtension then
-        LibDropDownExtension.RegisterEvent("OnShow OnHide", OnToggle, 1)
+    if LibDropDownExtension.RegisterEvent("OnShow OnHide", OnToggle, 1) then
+        menuHandles[#menuHandles + 1] = { Unregister = function() LibDropDownExtension.UnregisterEvent("OnShow OnHide", OnToggle) end }
     end
+end
+
+function dropdown:OnDisable()
+    for _, handle in pairs(menuHandles) do
+        handle.Unregister()
+    end
+    table.wipe(menuHandles)
 end

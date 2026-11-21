@@ -20,9 +20,7 @@ local constantsSource = read("modules/core/constants.lua")
 local utilSource = read("modules/core/util.lua")
 local dropdown = read("modules/core/dropdown.lua")
 -- The module files read these from ns.coreutil, the fixture provides them below.
-local locals = "local IS_FOREVER, IS_CLASSIC_ERA, IS_CLASSIC = ns.coreutil.IS_FOREVER, ns.coreutil.IS_CLASSIC_ERA, ns.coreutil.IS_CLASSIC
-local issecretvalue = ns.coreutil.issecretvalue
-"
+local locals = "local IS_FOREVER, IS_CLASSIC_ERA, IS_CLASSIC = ns.coreutil.IS_FOREVER, ns.coreutil.IS_CLASSIC_ERA, ns.coreutil.IS_CLASSIC\nlocal issecretvalue = ns.coreutil.issecretvalue\n"
 local domain = section(constantsSource, 'ns.RAIDERIO_DOMAIN = "raider.io"', "ns.EASTER_EGG =")
 local names = section(utilSource, "function util:GetNameRealm(arg1, arg2)", "---@param level? number")
 local urls = section(utilSource, "local function encodeURIComponent(chr)", "---@param urlSuffix string")
@@ -41,18 +39,19 @@ local function fixture(project)
     }
     function ns:GetModule(name) return assert(modules[name], name) end
     function ns:NewModule(name)
-        local module = { Enable = function() end }
+        local module = { Enable = function(self) if self.OnEnable then self:OnEnable() end end }
         modules[name] = module
         return module
     end
     modules.Util = util
-    modules.Config = { IsEnabled = function() return true end, Get = function(_, key) return key ~= "disableDropdownMenu" end }
+    modules.Config = { IsEnabled = function() return true end, Get = function() return true end }
     modules.Provider = { GetProfile = function() end }
     modules.Search = {}
     local env = setmetatable({
         ns = ns, util = util, addonName = "RaiderIO", L = {},
         WOW_PROJECT_ID = project, WOW_PROJECT_MAINLINE = 1, WOW_PROJECT_CLASSIC = 2,
         WOW_PROJECT_CAMELOT = 99, format = string.format,
+        table = setmetatable({ wipe = function(tbl) for key in pairs(tbl) do tbl[key] = nil end return tbl end }, { __index = table }),
         issecretvalue = function(value) return value == secret end,
         GetNormalizedRealmName = function() return "CAMWOWUS2Realm10RPPvP" end,
         Enum = { GameRule = { PvPRuleset = 10, RPRuleset = 20 } },
@@ -72,7 +71,18 @@ local function fixture(project)
             GetManager = function() return {} end,
             ModifyMenu = function(tag, fn) menus[tag] = fn end,
         },
-        LibStub = { GetLibrary = function() return { RegisterEvent = function(_, _, fn) handlers.legacy = fn end } end },
+        LibStub = { GetLibrary = function() return {
+            HasBackend = function() return true end,
+            Menu = {
+                ModifyMenu = function(tags, fn)
+                    local list = type(tags) == "table" and tags or { tags }
+                    for _, tag in ipairs(list) do menus[tag] = fn end
+                    return { Unregister = function() for _, tag in ipairs(list) do menus[tag] = nil end end }
+                end,
+            },
+            RegisterEvent = function(_, fn) handlers.legacy = fn return true end,
+            UnregisterEvent = function() handlers.legacy = nil return true end,
+        } end },
     }, { __index = _G })
     function util:IsUnit(arg1, arg2) return not arg2, arg1 == "target", true end
     function util:GetRealmSlug(realm) return realm == "Area52" and "area-52" or realm end
@@ -84,7 +94,6 @@ local function fixture(project)
     run(locals .. domain .. names .. urls, env, "RaiderIO", ns)
     run(dropdown, env, "RaiderIO", ns)
     modules.DropDown:OnLoad()
-    handlers.OpenMenu()
     return util, ns, handlers, menus, function() return copied end, env
 end
 for _, case in ipairs({{99, "forever.raider.io"}, {1, "raider.io"}, {2, "era.raider.io"}, {3, "classic.raider.io"}}) do
@@ -137,5 +146,12 @@ for _, case in ipairs({{99, "forever.raider.io"}, {1, "raider.io"}, {2, "era.rai
     else
         assert(#buttons == 0 and #options == 0, "Other clients retain their max-level menu requirement")
     end
+    -- the module can be disabled and enabled again, and it only has registrations while it is enabled
+    local dropdown = ns:GetModule("DropDown")
+    dropdown:OnDisable()
+    assert(next(menus) == nil and handlers.legacy == nil, "Disabling must unregister the menu and the legacy callback")
+    dropdown:OnDisable()
+    dropdown:OnEnable()
+    assert(menus.MENU_UNIT_TARGET and handlers.legacy, "Enabling again must register the menu and the legacy callback")
 end
 print("Copy profile URL fixtures passed (Forever, Retail, Era, Classic; legacy and modern menus)")
