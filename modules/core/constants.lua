@@ -595,6 +595,11 @@ if IS_RETAIL then
 elseif IS_CLASSIC_ERA then
     -- raid
     ns.COMBATLOG_DIFFICULTY_ID_ENABLE[9] = true -- Classic40PlayerRaid
+elseif IS_FOREVER then
+    -- raid: every raid row of Forever's Difficulty.db2
+    for _, id in ipairs({ 9, 148, 185, 186, 197, 226, 231, 242, 243, 255, 256 }) do
+        ns.COMBATLOG_DIFFICULTY_ID_ENABLE[id] = true
+    end
 elseif IS_CLASSIC then
     -- raid
     ns.COMBATLOG_DIFFICULTY_ID_ENABLE[3] = true -- Classic10PlayerNormalRaid
