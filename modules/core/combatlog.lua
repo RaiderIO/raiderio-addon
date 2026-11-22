@@ -8,6 +8,8 @@ local combatlog = ns:NewModule("CombatLog") ---@type CombatLogModule
 local callback = ns:GetModule("Callback") ---@type CallbackModule
 local config = ns:GetModule("Config") ---@type ConfigModule
 
+local IS_FOREVER = ns.coreutil.IS_FOREVER
+
 local clientConfig = ns:GetClientConfig()
 local enableInstanceTracking
 local CheckInstance
@@ -142,7 +144,8 @@ function CheckInstance(newModuleState)
                 enableInstanceTracking
                 and (
                     ns.COMBATLOG_DIFFICULTY_ID_ALWAYS[difficultyID]
-                    or (instanceMapID >= autoLogFromMapID and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID])
+                    -- Forever ships no dungeon data of its own, so its raid difficulties alone decide.
+                    or ((IS_FOREVER or instanceMapID >= autoLogFromMapID) and ns.COMBATLOG_DIFFICULTY_ID_ENABLE[difficultyID])
                 )
             )
         )
