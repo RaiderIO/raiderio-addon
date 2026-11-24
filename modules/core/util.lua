@@ -1238,9 +1238,10 @@ local function GetForeverProfileRealmSlug()
     return rp and "rp" or "normal"
 end
 
+---@param urlSuffix? string @Optional path appended after the character, like a recruitment profile.
 ---@param ... string
 ---@return string? url, string? name, string? realm, string? realmSlug
-function util:GetRaiderIOProfileUrl(...)
+local function GetProfileUrl(urlSuffix, ...)
     local name, realm = util:GetNameRealm(...)
     if not name then
         return
@@ -1258,22 +1259,21 @@ function util:GetRaiderIOProfileUrl(...)
     region = region and type(region) == "string" and region:len() > 0 and region or ns.PLAYER_REGION
     local urlName = IS_FOREVER and util:EncodeURIComponent(name) or name
     local urlRealm = IS_FOREVER and util:EncodeURIComponent(realmSlug) or realmSlug
-    return format("https://%s/characters/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, region, urlRealm, urlName), name, realm, realmSlug
+    local suffix = urlSuffix and format("/%s", urlSuffix) or ""
+    return format("https://%s/characters/%s/%s/%s%s?utm_source=addon", ns.RAIDERIO_DOMAIN, region, urlRealm, urlName, suffix), name, realm, realmSlug
+end
+
+---@param ... string
+---@return string? url, string? name, string? realm, string? realmSlug
+function util:GetRaiderIOProfileUrl(...)
+    return GetProfileUrl(nil, ...)
 end
 
 ---@param urlSuffix string
 ---@param ... string
 ---@return string? url, string? name, string? realm, string? realmSlug
 function util:GetRaiderIORecruitmentProfileUrl(urlSuffix, ...)
-    local name, realm = util:GetNameRealm(...)
-    if not name then
-        return
-    end
-    local realmSlug = util:GetRealmSlug(realm, true)
-    if not realmSlug then
-        return
-    end
-    return format("https://%s/characters/%s/%s/%s/%s?utm_source=addon", ns.RAIDERIO_DOMAIN, ns.PLAYER_REGION, realmSlug, name, urlSuffix), name, realm, realmSlug
+    return GetProfileUrl(urlSuffix, ...)
 end
 
 ---@class InternalStaticPopupFrameText : FontString
@@ -1335,13 +1335,12 @@ local COPY_TEXT_POPUP = {
     button2 = CLOSE,
     hasEditBox = true,
     maxLetters = 0,
-    editBoxWidth = 350,
+    editBoxWidth = 440,
     preferredIndex = 3,
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
     OnShow = function(self)
-        self:SetWidth(420)
         local textFontString = StaticPopupUtil:GetTextFontString(self)
         local editBox = StaticPopupUtil:GetEditBox(self)
         editBox:SetText(textFontString.text_arg2 or "")
@@ -1358,34 +1357,6 @@ local COPY_TEXT_POPUP = {
     OnCancel = nil
 }
 
-function util:ShowCopyRaiderIOProfilePopup(...)
-    local url, name, realm = util:GetRaiderIOProfileUrl(...)
-    if not url or not name or not realm then
-        return
-    end
-    if IsModifiedClick("CHATLINK") then
-        local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
-        editBox:HighlightText()
-    else
-        util:ShowStaticPopupDialog(COPY_TEXT_POPUP, format("%s (%s)", name, realm), url)
-    end
-end
-
----@param recruitmentEntityType number
-function util:ShowCopyRaiderIORecruitmentProfilePopup(recruitmentEntityType, ...)
-    local recruitmentSuffix = ns.RECRUITMENT_ENTITY_TYPE_URL_SUFFIX[recruitmentEntityType]
-    local url, name, realm = util:GetRaiderIORecruitmentProfileUrl(recruitmentSuffix, ...)
-    if not url or not name or not realm then
-        return
-    end
-    if IsModifiedClick("CHATLINK") then
-        local editBox = ChatFrame_OpenChat(url, DEFAULT_CHAT_FRAME)
-        editBox:HighlightText()
-    else
-        util:ShowStaticPopupDialog(COPY_TEXT_POPUP, format("%s (%s)", name, realm), url)
-    end
-end
-
 ---@param title string
 ---@param text string
 function util:ShowCopyRaiderIOPopup(title, text)
@@ -1395,6 +1366,27 @@ function util:ShowCopyRaiderIOPopup(title, text)
     else
         util:ShowStaticPopupDialog(COPY_TEXT_POPUP, title, text)
     end
+end
+
+---@param url? string
+---@param name? string
+---@param realm? string
+local function ShowCopyProfilePopup(url, name, realm)
+    if not url or not name or not realm then
+        return
+    end
+    local title = realm ~= "" and format("%s (%s)", name, realm) or name
+    util:ShowCopyRaiderIOPopup(title, url)
+end
+
+function util:ShowCopyRaiderIOProfilePopup(...)
+    ShowCopyProfilePopup(util:GetRaiderIOProfileUrl(...))
+end
+
+---@param recruitmentEntityType number
+function util:ShowCopyRaiderIORecruitmentProfilePopup(recruitmentEntityType, ...)
+    local recruitmentSuffix = ns.RECRUITMENT_ENTITY_TYPE_URL_SUFFIX[recruitmentEntityType]
+    ShowCopyProfilePopup(util:GetRaiderIORecruitmentProfileUrl(recruitmentSuffix, ...))
 end
 
 ---@param title string

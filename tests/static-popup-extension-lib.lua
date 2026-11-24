@@ -138,6 +138,47 @@ if second then
     check(#Lib._visible == 0, "nothing is shown afterwards")
 end
 
+-- one escape closes every dialog with hideOnEscape, newest first, and noCancelOnEscape skips OnCancel
+local escapeLog = {}
+local function EscapeDialog(which, extra)
+    local dialog = { which = which, text = "x", button2 = "No", hideOnEscape = true,
+        OnCancel = function() escapeLog[#escapeLog + 1] = "cancel:" .. which end,
+        OnHide = function() escapeLog[#escapeLog + 1] = "hide:" .. which end }
+    for key, value in pairs(extra or {}) do dialog[key] = value end
+    Lib._dialogs[which] = dialog
+end
+EscapeDialog("ESC_A")
+EscapeDialog("ESC_B", { noCancelOnEscape = true })
+EscapeDialog("ESC_C", { hideOnEscape = false })
+local escA, escB, escC = Lib.Show("ESC_A"), Lib.Show("ESC_B"), Lib.Show("ESC_C")
+if escA and escB and escC then
+    escB.scripts.OnKeyDown(escB, "ESCAPE")
+    check(table.concat(escapeLog, ",") == "hide:ESC_B,cancel:ESC_A,hide:ESC_A", "one escape closes all that allow it, newest first: " .. table.concat(escapeLog, ","))
+    check(escC:IsShown() and #Lib._visible == 1, "a dialog without hideOnEscape stays")
+    Lib.Hide("ESC_C")
+end
+
+-- escape in the edit box only runs its handler, and the text is cleared after OnHide
+local boxHandled, textInHide = 0, nil
+Lib._dialogs.BOX = { which = "BOX", text = "x", button2 = "No", hasEditBox = true, hideOnEscape = true,
+    EditBoxOnEscapePressed = function() boxHandled = boxHandled + 1 end,
+    OnHide = function(self) textInHide = self.EditBox:GetText() end }
+local box = Lib.Show("BOX")
+if box then
+    box.EditBox:SetText("hello")
+    box.EditBox.scripts.OnEscapePressed(box.EditBox)
+    check(boxHandled == 1 and box:IsShown(), "escape in the edit box runs the handler and nothing else")
+    Lib.Hide("BOX")
+    check(textInHide == "hello" and box.EditBox:GetText() == "", "OnHide still sees the text, which is cleared afterwards")
+end
+Lib._dialogs.BOX2 = { which = "BOX2", text = "x", button2 = "No", hasEditBox = true, hideOnEscape = true }
+local box2 = Lib.Show("BOX2")
+if box2 then
+    box2.EditBox.scripts.OnEscapePressed(box2.EditBox)
+    check(box2:IsShown(), "without a handler escape in the edit box does not close the dialog")
+    Lib.Hide("BOX2")
+end
+
 -- other keys pass through
 local third = Lib.Show("COPY", "A", "B", 1)
 check(third ~= nil, "third frame")

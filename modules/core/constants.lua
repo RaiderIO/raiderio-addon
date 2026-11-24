@@ -622,7 +622,6 @@ ns.RECRUITMENT_ENTITY_TYPES = { -- Table over recruitment entity types.
     team = 2
 }
 
----@class RecruitmentEntityTypeUrlSuffix
 ns.RECRUITMENT_ENTITY_TYPE_URL_SUFFIX = { -- Table over recruitment entity type profile url suffixes.
     [ns.RECRUITMENT_ENTITY_TYPES.guild] = "guild-recruitment",
     [ns.RECRUITMENT_ENTITY_TYPES.character] = "recruitment",
@@ -638,7 +637,6 @@ ns.RECRUITMENT_ACTIVITY_TYPES = { -- Table over recruitment activity types.
     teamkeystone = 4
 }
 
----@class RecruitmentActivityTypeIcons
 ns.RECRUITMENT_ACTIVITY_TYPE_ICONS = { -- Table over recruitment activity type icons.
     [ns.RECRUITMENT_ACTIVITY_TYPES.guildraids] = 4062765, -- achievement_raid_torghastraid
     [ns.RECRUITMENT_ACTIVITY_TYPES.guildpvp] = 236329, -- achievement_arena_2v2_7

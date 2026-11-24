@@ -16,7 +16,8 @@ assert(LibStub, MAJOR .. " requires LibStub")
 ---@field public editBoxWidth? number Set the EditBox width.
 ---@field public maxLetters? number `0` removes the limit.
 ---@field public countInvisibleLetters? boolean Controls if invisible characters (like color codes) count towards `maxLetters`.
----@field public hideOnEscape? boolean Controls if ESCAPE hides the dialog.
+---@field public hideOnEscape? boolean Controls if ESCAPE hides the dialog. It closes every dialog of the library that has this set, the newest first.
+---@field public noCancelOnEscape? boolean Controls if ESCAPE skips `OnCancel` when it hides the dialog.
 ---@field public wideText? boolean Controls the Text width.
 ---@field public enterClicksFirstButton? boolean Pressing ENTER clicks the first visible button. The key goes to the dialog, so it does not apply while the EditBox has focus.
 ---@field public noCancelOnReuse? boolean Controls if showing a dialog that is already visible skips `OnCancel` (with `"override"`) on the old one, it is only hidden.
@@ -28,7 +29,7 @@ assert(LibStub, MAJOR .. " requires LibStub")
 ---@field public OnAccept? fun(self: LibStaticPopupExtension-1.0_Frame, data: any, data2: any): boolean? @Return `true` to keep the dialog open.
 ---@field public OnCancel? fun(self: LibStaticPopupExtension-1.0_Frame, data: any, reason: LibStaticPopupExtension-1.0_CancelReason): boolean? @Return `true` to keep the dialog open when a button was clicked.
 ---@field public EditBoxOnEnterPressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when ENTER is pressed in the EditBox. Nothing else happens on ENTER.
----@field public EditBoxOnEscapePressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when ESCAPE is pressed in the EditBox. Without a handler it closes the dialog if `hideOnEscape` is set.
+---@field public EditBoxOnEscapePressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when ESCAPE is pressed in the EditBox. Nothing else happens on ESCAPE, so close the dialog from here if you want it to.
 ---@field public EditBoxOnTextChanged? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when the text of the EditBox changes.
 ---
 --- The rest of `StaticPopupDialogs` properties that are not supported by the library.
@@ -63,7 +64,6 @@ assert(LibStub, MAJOR .. " requires LibStub")
 ---@field public multiple? boolean @Not supported.
 ---@field public preferredIndex? number @Not supported.
 ---@field public ignoreKeys? boolean @Not supported.
----@field public noCancelOnEscape? boolean @Not supported.
 ---@field public escapeHides? boolean @Not supported.
 ---@field public explicitAcknowledge? boolean @Not supported.
 ---@field public interruptCinematic? boolean @Not supported.
@@ -388,6 +388,23 @@ local function InstallHooks()
     end
 end
 
+local function EscapePressed()
+    local shown = {} ---@type LibStaticPopupExtension-1.0_Frame[]
+    for index, frame in ipairs(Lib._visible) do
+        shown[index] = frame
+    end
+    for index = #shown, 1, -1 do
+        local frame = shown[index]
+        local info = frame.dialogInfo
+        if frame.active and info.hideOnEscape then
+            if info.OnCancel and not info.noCancelOnEscape then
+                info.OnCancel(frame, frame.data, "clicked")
+            end
+            Dismiss(frame)
+        end
+    end
+end
+
 ---@param frame LibStaticPopupExtension-1.0_Frame
 ---@param key string
 function Lib.OnKeyDown(frame, key)
@@ -396,7 +413,7 @@ function Lib.OnKeyDown(frame, key)
     local binding = getBindingFromClick and getBindingFromClick(key)
     if (key == "ESCAPE" or binding == "TOGGLEGAMEMENU") and frame.active and info and info.hideOnEscape then
         frame:SetPropagateKeyboardInput(false)
-        Cancel(frame, "clicked")
+        EscapePressed()
     elseif key == "ENTER" and frame.active and info and info.enterClicksFirstButton then
         frame:SetPropagateKeyboardInput(false)
         for _, button in ipairs({ frame.Button1, frame.Button2 }) do
@@ -448,6 +465,7 @@ function Lib.OnHide(frame)
     if info.OnHide then
         info.OnHide(frame, frame.data)
     end
+    frame.EditBox:SetText("")
 end
 
 ---@param button LibStaticPopupExtension-1.0_Button
@@ -486,10 +504,6 @@ function Lib.OnEditBoxEscapePressed(editBox)
     local info = frame.dialogInfo
     if info.EditBoxOnEscapePressed then
         info.EditBoxOnEscapePressed(editBox, frame.data)
-    elseif info.hideOnEscape then
-        Cancel(frame, "clicked")
-    else
-        editBox:ClearFocus()
     end
 end
 
@@ -505,6 +519,19 @@ end
 --
 -- MARK: Frames
 --
+
+---@param name string
+---@param fallback string
+---@return string
+local function GetFontObjectOrFallback(name, fallback)
+    local font = _G[name] ---@type FontObject?
+    return type(font) == "table" and type(font.GetObjectType) == "function" and font:GetObjectType() == "Font" and name or fallback
+end
+
+local FontNormal = GetFontObjectOrFallback("UserScaledFontGameNormal", "GameFontNormal")
+local FontHighlight = GetFontObjectOrFallback("UserScaledFontGameHighlight", "GameFontHighlight")
+local FontDisable = GetFontObjectOrFallback("UserScaledFontGameDisable", "GameFontDisable")
+local FontEditBoxNormal = GetFontObjectOrFallback("UserScaledChatFontNormal", "ChatFontNormal")
 
 ---@param self LibStaticPopupExtension-1.0_Frame
 local function GetTextFontString(self) return self.Text end
@@ -540,9 +567,9 @@ local function CreateButton(frame, index)
     local label = button:CreateFontString(nil, "ARTWORK") ---@type FontString
     label:SetPoint("CENTER", 0, 1)
     button:SetFontString(label)
-    button:SetNormalFontObject("GameFontNormal")
-    button:SetHighlightFontObject("GameFontHighlight")
-    button:SetDisabledFontObject("GameFontDisable")
+    button:SetNormalFontObject(FontNormal)
+    button:SetHighlightFontObject(FontHighlight)
+    button:SetDisabledFontObject(FontDisable)
     button.Label = label
     button:SetScript("OnClick", function(self) Lib.OnButtonClick(self) end)
     return button
@@ -574,7 +601,7 @@ local function CreateDialogFrame()
         frame:SetBackdrop(BACKDROP)
     end
 
-    local text = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight") ---@class LibStaticPopupExtension-1.0_Text : FontString
+    local text = frame:CreateFontString(nil, "ARTWORK", FontHighlight) ---@class LibStaticPopupExtension-1.0_Text : FontString
     text.text_arg1 = nil ---@type any?
     text.text_arg2 = nil ---@type any?
     text:SetPoint("TOP", frame, "TOP", 0, -TOP_PADDING)
@@ -584,7 +611,7 @@ local function CreateDialogFrame()
 
     local editBox = CreateFrame("EditBox", "$parentEditBox", frame, BackdropTemplateMixin and "BackdropTemplate" or nil) ---@class LibStaticPopupExtension-1.0_EditBox : EditBox, BackdropTemplate
     editBox:SetAutoFocus(false)
-    editBox:SetFontObject("ChatFontNormal")
+    editBox:SetFontObject(FontEditBoxNormal)
     editBox:SetTextInsets(6, 6, 2, 2)
     editBox:SetSize(EDIT_BOX_WIDTH, EDIT_BOX_HEIGHT)
     if editBox.SetBackdrop then
@@ -666,7 +693,6 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     local editBox = frame.EditBox
     editBox:SetMaxLetters(info.maxLetters or 0)
     editBox:SetCountInvisibleLetters(info.countInvisibleLetters and true or false)
-    editBox:SetText("")
     editBox:SetWidth(info.editBoxWidth or EDIT_BOX_WIDTH)
     editBox:SetShown(info.hasEditBox and true or false)
 
