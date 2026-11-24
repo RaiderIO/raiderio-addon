@@ -499,7 +499,7 @@ do
             local TEST_CONTROL_KIND, TEST_PROBE_KIND = 4, 5
             local TEST_CONTROL_VERSION, TEST_ANNOUNCE, TEST_RESULT = 1, 1, 2
             local TEST_PRIORITY, TEST_MAX_PROBES = 1000, 8
-            -- A test waits for a mostly idle queue, so it never takes slots ordinary traffic needs.
+            -- A test starts only on a mostly idle queue, so ordinary traffic rarely waits behind one.
             local TEST_MAX_QUEUED = 16
             local TEST_STREAM_OVERHEAD = 24 + 4 + 9 -- packet framing, message CRC32, application stream envelope
 
@@ -3710,13 +3710,16 @@ do
         deadHandled = IsKnownTrue(ReadAPI(UnitIsDeadOrGhost, "player"))
     end
 
+    -- One optical format test per world entry. A test the queue was too busy for is tried again later.
+    local transportTestDue = false
+
     local function OnDisplayChanged()
         transport.InvalidateGeometry(true)
+        -- The change abandons a test in flight and may change what the desktop can read: test again.
+        transportTestDue = true
     end
 
     local TRANSPORT_TEST_WORLD_DELAY_SECONDS = 5
-    -- One optical format test per world entry. A test the queue was too busy for is tried again later.
-    local transportTestDue = false
 
     local function RequestTransportTest()
         if transportTestDue and stream.RequestTransportTest and clientbeacon:IsEnabled() then
