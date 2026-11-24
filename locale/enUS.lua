@@ -5,6 +5,7 @@ ns.L = L
 
 L.LOCALE_NAME = "enUS"
 
+L.HOTFIX_STATICPOPUP_GAMEPAD_TEXT = "Gamepad mode currently breaks addon popup dialogs. This prevents an unrecoverable error from breaking your game. Disable Gamepad mode to access this feature."
 L.UNKNOWN_SERVER_FOUND = "|cffFFFFFF%s|r has encountered a new server. Please write down this information |cffFF9999{|r |cffFFFFFF%s|r |cffFF9999,|r |cffFFFFFF%s|r |cffFF9999}|r and report it to the developers. Thank you!"
 L.OUTDATED_EXPIRED_ALERT = "|cffFFFFFF%s|r is using expired data. Please update now to see the most accurate data: |cffFFFFFF%s|r"
 L.OUTDATED_EXPIRED_TITLE = "Raider.IO Data Has Expired"

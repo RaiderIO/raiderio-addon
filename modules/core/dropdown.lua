@@ -389,13 +389,6 @@ function dropdown:CanLoad()
     return config:IsEnabled() and LibDropDownExtension and ModifyMenu
 end
 
-local InputUtil = InputUtil --[[@as { IsGamepadUIEnabled?: fun(): boolean }?]]
-
--- HOTFIX: using a gamepad has taint issues with staticpopups
-local function IsGamepadUIEnabled()
-    return InputUtil and InputUtil.IsGamepadUIEnabled and InputUtil.IsGamepadUIEnabled() and true or false
-end
-
 function dropdown:OnLoad()
     unitOptions = {
         {
@@ -418,7 +411,7 @@ function dropdown:OnLoad()
                 util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
             end,
             show = function()
-                return not IsGamepadUIEnabled()
+                return not ns.coreutil.hotfixStaticPopupDisabled
             end
         },
         {
@@ -434,7 +427,7 @@ function dropdown:OnLoad()
                 end
             end,
             show = function()
-                if IsGamepadUIEnabled() then
+                if ns.coreutil.hotfixStaticPopupDisabled then
                     return false
                 end
                 local profile = GetRecruitmentProfileForDropDown()

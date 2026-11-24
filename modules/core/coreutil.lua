@@ -1,6 +1,7 @@
 -- dependencies: none
 
 local ns = select(2, ...) ---@class ns @The addon namespace.
+local L = ns.L
 
 ---@class CoreUtilNS
 local coreutil = {}
@@ -10,6 +11,15 @@ coreutil.IS_RETAIL = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
 coreutil.IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 coreutil.IS_FOREVER = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 coreutil.IS_CLASSIC = not coreutil.IS_RETAIL and not coreutil.IS_CLASSIC_ERA
+
+local InputUtil = InputUtil ---@type { IsGamepadUIEnabled?: fun(): boolean }?
+
+function coreutil.IsGamepadUIEnabled()
+    return type(InputUtil) == "table" and type(InputUtil.IsGamepadUIEnabled) == "function" and InputUtil.IsGamepadUIEnabled() and true or false
+end
+
+-- HOTFIX: Gamepad mode appears to cause unrecoverable taint issues with StaticPopup usage
+coreutil.hotfixStaticPopupDisabled = coreutil.IsGamepadUIEnabled()
 
 local ScrollBoxUtil do
 
@@ -749,7 +759,7 @@ local StaticPopupUtil do
 
     ---@param popup InternalStaticPopupDialog
     ---@param ... any
-    ---@return InternalStaticPopupFrame
+    ---@return InternalStaticPopupFrame?
     function StaticPopupUtil:Show(popup, ...)
         local id = popup.id
         if not StaticPopupDialogs[id] then
@@ -760,6 +770,10 @@ local StaticPopupUtil do
                 popup.which = popup.id
             end
             StaticPopupDialogs[id] = popup
+        end
+        if coreutil.hotfixStaticPopupDisabled then
+            ns.PrintWithAddonPrefix(L.HOTFIX_STATICPOPUP_GAMEPAD_TEXT)
+            return
         end
         return StaticPopup_Show(id, ...)
     end
