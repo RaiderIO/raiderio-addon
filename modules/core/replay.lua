@@ -644,9 +644,7 @@ do
         end
         if requireConfirmation then
             local popup = util:ShowStaticPopupDialog(REPLAY_CHANGE_POPUP, L.REPLAY_REPLAY_CHANGING)
-            if popup then
-                popup.OnAcceptCallback = Apply
-            end
+            popup.OnAcceptCallback = Apply
             return
         end
         Apply()
@@ -1145,11 +1143,9 @@ do
 
     function ReplayFrameConfigButtonMixin:OnMenuDisableClick()
         local popup = util:ShowStaticPopupDialog(DISABLE_REPLAY_POPUP, L.REPLAY_DISABLE_CONFIRM)
-        if popup then
-            popup.OnAcceptCallback = function()
-                config:Set("enableReplay", false)
-                replay:Disable()
-            end
+        popup.OnAcceptCallback = function()
+            config:Set("enableReplay", false)
+            replay:Disable()
         end
         self:Close()
     end
@@ -1304,11 +1300,9 @@ do
     function ReplayFrameConfigButtonMixin:OnDropDownDisableClick()
         local dropDownMenu = self.arg1
         local popup = util:ShowStaticPopupDialog(DISABLE_REPLAY_POPUP, L.REPLAY_DISABLE_CONFIRM)
-        if popup then
-            popup.OnAcceptCallback = function()
-                config:Set("enableReplay", false)
-                replay:Disable()
-            end
+        popup.OnAcceptCallback = function()
+            config:Set("enableReplay", false)
+            replay:Disable()
         end
         dropDownMenu:Close()
     end

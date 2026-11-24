@@ -1324,7 +1324,7 @@ end
 
 ---@param popup InternalStaticPopupDialog
 ---@param ... any
----@return InternalStaticPopupFrame?
+---@return InternalStaticPopupFrame
 function util:ShowStaticPopupDialog(popup, ...)
     return StaticPopupUtil:Show(popup, ...)
 end

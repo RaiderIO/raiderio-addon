@@ -1,7 +1,6 @@
 -- dependencies: none
 
 local ns = select(2, ...) ---@class ns @The addon namespace.
-local L = ns.L
 
 ---@class CoreUtilNS
 local coreutil = {}
@@ -747,7 +746,7 @@ local StaticPopupUtil do
 
     ---@param popup InternalStaticPopupDialog
     ---@param ... any
-    ---@return InternalStaticPopupFrame?
+    ---@return InternalStaticPopupFrame
     function StaticPopupUtil:Show(popup, ...)
         local which = popup.which
         if LibStaticPopupExtension then
