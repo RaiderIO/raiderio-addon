@@ -1318,9 +1318,9 @@ end
 ---@field public whileDead? boolean
 ---@field public OnAcceptCallback? fun()
 
----@alias InternalStaticPopupFrame InternalStaticPopupFrameBase|LibStaticPopup-1.0_Frame
+---@alias InternalStaticPopupFrame InternalStaticPopupFrameBase|LibStaticPopupExtension-1.0_Frame
 
----@alias InternalStaticPopupDialog InternalStaticPopupDialogBase|LibStaticPopup-1.0_Dialog
+---@alias InternalStaticPopupDialog InternalStaticPopupDialogBase|LibStaticPopupExtension-1.0_Dialog
 
 ---@param popup InternalStaticPopupDialog
 ---@param ... any

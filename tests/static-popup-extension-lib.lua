@@ -1,4 +1,4 @@
--- run from the addon root: lua tests\static-popup-lib.lua
+-- run from the addon root: lua tests\static-popup-extension-lib.lua
 
 local function check(condition, message)
     if not condition then
@@ -11,6 +11,7 @@ local function NewFake(kind, name, parent)
     local fake = { kind = kind, name = name, parent = parent, shown = true, width = 0, height = 0, scripts = {}, text = "", enabled = true }
     local methods = {}
     function methods:GetName() return self.name end
+    function methods:GetBottom() return self.bottom end
     function methods:SetPoint(...) self.point = { ... } end
     function methods:ClearAllPoints() self.point = nil end
     function methods:GetParent() return self.parent end
@@ -31,6 +32,12 @@ local function NewFake(kind, name, parent)
     function methods:SetText(text) self.text = text end
     function methods:GetText() return self.text end
     function methods:GetStringHeight() return 30 end
+    function methods:GetStringWidth() return 40 end
+    function methods:CreateTexture() return NewFake("Texture", nil, self) end
+    function methods:GetNormalTexture() return NewFake("Texture", nil, self) end
+    function methods:GetPushedTexture() return NewFake("Texture", nil, self) end
+    function methods:GetDisabledTexture() return NewFake("Texture", nil, self) end
+    function methods:GetHighlightTexture() return NewFake("Texture", nil, self) end
     function methods:IsEnabled() return self.enabled end
     function methods:CreateFontString(_, _, _) return NewFake("FontString", nil, self) end
     function methods:SetPropagateKeyboardInput(value) self.propagate = value end
@@ -38,7 +45,10 @@ local function NewFake(kind, name, parent)
     function methods:SetFocus() self.focused = true end
     function methods:ClearFocus() self.focused = false end
     local noops = { "SetFrameStrata", "SetToplevel", "SetClampedToScreen", "SetBackdrop", "SetJustifyH", "SetWordWrap", "SetAutoFocus",
-        "SetMaxLetters", "SetCountInvisibleLetters", "Raise" }
+        "SetMaxLetters", "SetCountInvisibleLetters", "Raise", "SetAtlas", "SetAllPoints", "SetTexCoord", "SetNormalTexture",
+        "SetPushedTexture", "SetDisabledTexture", "SetHighlightTexture", "SetNormalFontObject", "SetHighlightFontObject", "SetDisabledFontObject",
+        "SetFontString", "RegisterForClicks", "EnableMouse", "SetTextInsets", "SetFontObject", "SetBackdropColor", "SetBackdropBorderColor",
+        "HighlightText", "Enable" }
     for _, key in ipairs(noops) do methods[key] = function() end end
     return setmetatable(fake, { __index = methods })
 end
@@ -56,11 +66,18 @@ end
 local blizzardDialogs = {}
 local timers = {}
 local hooks = {}
+C_Texture = { GetAtlasInfo = function(name) return name == "UI-DialogBox-Background-Dark" or name == "UI-DiamondDialogBox-Border" or nil end }
+SOUNDKIT = { IG_MAINMENU_OPEN = 850, IG_MAINMENU_CLOSE = 851 }
+local sounds = {}
+function PlaySound(id) sounds[#sounds + 1] = id return true end
+function PlaySoundFile() end
 C_Timer = { After = function(_, fn) timers[#timers + 1] = fn end }
 function hooksecurefunc(name, fn) hooks[name] = fn end
 function StaticPopup_ForEachShownDialog(fn) for _, dialog in ipairs(blizzardDialogs) do fn(dialog) end end
 function StaticPopup_SetUpPosition() end
 function StaticPopup_OnHide() end
+function StaticPopupSpecial_Show() end
+function StaticPopupSpecial_Hide() end
 local function RunTimers() local list = timers timers = {} for _, fn in ipairs(list) do fn() end end
 
 LibStub = {
@@ -71,8 +88,8 @@ LibStub = {
         return self.libs[major]
     end,
 }
-loadfile("libs/LibStaticPopup-1.0/LibStaticPopup-1.0.lua")()
-local Lib = LibStub.libs["LibStaticPopup-1.0"]
+loadfile("libs/LibStaticPopupExtension-1.0/LibStaticPopupExtension.lua")()
+local Lib = LibStub.libs["LibStaticPopupExtension-1.0"]
 
 -- show with text arguments, the way the copy popup does
 local log = {}
@@ -170,6 +187,27 @@ if k then
     Lib.Hide("KEEP")
 end
 
+-- returning true from a handler keeps the dialog open, like Blizzard's
+Lib._dialogs.STAY = { which = "STAY", text = "x", button1 = "Yes", button2 = "No", OnAccept = function() return true end, OnCancel = function() return true end }
+local stay = Lib.Show("STAY")
+if stay then
+    stay.Button1.scripts.OnClick(stay.Button1)
+    stay.Button2.scripts.OnClick(stay.Button2)
+    check(stay:IsShown(), "handlers returning true keep it open")
+    Lib.Hide("STAY")
+end
+
+-- enter in the edit box only runs its handler, and enterClicksFirstButton clicks the first button
+local enterAccepted = 0
+Lib._dialogs.ENTER = { which = "ENTER", text = "x", button1 = "Yes", hasEditBox = true, enterClicksFirstButton = true, OnAccept = function() enterAccepted = enterAccepted + 1 end }
+local entry = Lib.Show("ENTER")
+if entry then
+    entry.EditBox.scripts.OnEnterPressed(entry.EditBox)
+    check(enterAccepted == 0 and entry:IsShown(), "enter in the edit box does not click a button")
+    entry.scripts.OnKeyDown(entry, "ENTER")
+    check(enterAccepted == 1 and not entry:IsShown(), "enter clicks the first button when asked to")
+end
+
 -- timeout cancels
 local timedOut
 Lib._dialogs.TIMED = { which = "TIMED", text = "x", button1 = "Yes", timeout = 5, OnCancel = function(_, _, reason) timedOut = reason end }
@@ -182,6 +220,19 @@ if t then
     check(timedOut == "timeout" and not t:IsShown(), "closes after the timeout")
     check(t.scripts.OnUpdate == nil, "update script removed")
 end
+
+-- showing and hiding play the game's popup sounds
+sounds = {}
+sounds = {}
+local sound = Lib.Show("COPY", "A", "B", "x")
+check(sounds[1] == 850, "showing plays the open sound")
+Lib.Hide("COPY")
+check(sounds[2] == 851, "hiding plays the close sound")
+Lib._dialogs.QUIET = { which = "QUIET", text = "x", sound = 1, hideSound = 2 }
+sounds = {}
+Lib.Show("QUIET") Lib.Hide("QUIET")
+check(sounds[1] == 1 and sounds[2] == 2, "dialogs can use their own sounds")
+Lib.Hide("COPY")
 
 -- unknown dialogs do nothing, and frames are pooled
 check(Lib.Show("NOPE") == nil, "unknown dialog returns nil")
@@ -226,4 +277,31 @@ timers = {}
 hooks.StaticPopup_OnHide(fixed)
 check(#timers == 0, "nothing is requested while none of ours are shown")
 
-print("static-popup-lib: all checks passed")
+-- a gap above: the lowest popup on screen is used, not the last one in Blizzard's list
+local high = NewFake("Frame", "StaticPopupHigh") high.shown = true high.bottom = 600
+local low = NewFake("Frame", "StaticPopupLow") low.shown = true low.bottom = 300
+blizzardDialogs = { low, high }
+local gapped = Lib.Show("CONFIRM")
+check(gapped and gapped.point[2] == low, "ours goes below the lowest Blizzard popup, even with a gap above it")
+blizzardDialogs = { high, low }
+hooks.StaticPopup_SetUpPosition(low)
+RunTimers()
+check(gapped and gapped.point[2] == low, "list order does not matter")
+Lib.Hide("CONFIRM")
+
+-- special popups have their own show and hide, which are hooked too
+local special = NewFake("Frame", "SpecialPopup") special.shown = true
+blizzardDialogs = { special }
+local watched = Lib.Show("CONFIRM")
+timers = {}
+hooks.StaticPopupSpecial_Show(special)
+RunTimers()
+check(watched and watched.point[2] == special, "ours goes below a special popup")
+special.shown = false
+blizzardDialogs = {}
+hooks.StaticPopupSpecial_Hide(special)
+RunTimers()
+check(watched and watched.point[2] == UIParent, "ours moves up when a special popup is hidden")
+Lib.Hide("CONFIRM")
+
+print("static-popup-extension-lib: all checks passed")

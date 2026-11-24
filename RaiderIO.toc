@@ -63,7 +63,7 @@ libs/LibStub/LibStub.lua
 libs/LibClientBeacon-1.0/LibClientBeacon-1.0.lua
 libs/LibClientBeacon-1.0/PacketTransport.lua
 libs/LibDropDownExtension-1.0/embed.xml
-libs/LibStaticPopup-1.0/LibStaticPopup-1.0.lua
+libs/LibStaticPopupExtension-1.0/LibStaticPopupExtension.lua
 libs/LibClassTalentsImportExport-1.0/LibClassTalentsImportExport-1.0.lua
 libs/CallbackHandler-1.0/CallbackHandler-1.0.lua
 libs/LibDataBroker-1.1/LibDataBroker-1.1.lua

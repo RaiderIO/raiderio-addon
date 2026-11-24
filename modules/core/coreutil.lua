@@ -711,7 +711,7 @@ end
 
 local StaticPopupUtil do
 
-    local LibStaticPopup = LibStub and LibStub("LibStaticPopup-1.0", true) ---@type LibStaticPopup-1.0?
+    local LibStaticPopupExtension = LibStub and LibStub("LibStaticPopupExtension-1.0", true) ---@type LibStaticPopupExtension-1.0?
 
     ---@param widget? Region
     local function isTextFontString(widget)
@@ -736,8 +736,8 @@ local StaticPopupUtil do
     ---@return InternalStaticPopupFrame? popup, string? name
     function StaticPopupUtil:IsVisible(popup, ...)
         local which = popup.which
-        if LibStaticPopup then
-            local libFrameName, libFrame = LibStaticPopup.Visible(which, ...)
+        if LibStaticPopupExtension then
+            local libFrameName, libFrame = LibStaticPopupExtension.Visible(which, ...)
             return libFrame, libFrameName
         end
         ---@type string?, InternalStaticPopupFrame?
@@ -750,8 +750,8 @@ local StaticPopupUtil do
     ---@return InternalStaticPopupFrame?
     function StaticPopupUtil:Show(popup, ...)
         local which = popup.which
-        if LibStaticPopup then
-            return LibStaticPopup.Show(popup, ...)
+        if LibStaticPopupExtension then
+            return LibStaticPopupExtension.Show(popup, ...)
         end
         if not StaticPopupDialogs[which] then
             if type(popup.text) == "function" then
@@ -765,11 +765,8 @@ local StaticPopupUtil do
     ---@param popup InternalStaticPopupFrame
     ---@param ... any
     function StaticPopupUtil:Hide(popup, ...)
-        if LibStaticPopup then
-            if LibStaticPopup.IsFrame(popup) then
-                return LibStaticPopup.Hide(popup.which, ...)
-            end
-            return
+        if LibStaticPopupExtension then
+            return LibStaticPopupExtension.Hide(popup.which, ...)
         end
         return StaticPopup_Hide(popup.which, ...)
     end
