@@ -498,14 +498,13 @@ do
             -- traffic keeps the configured one, and the lowest priority puts a test behind everything else.
             local TEST_CONTROL_KIND, TEST_PROBE_KIND = 4, 5
             local TEST_CONTROL_VERSION, TEST_ANNOUNCE, TEST_RESULT = 1, 1, 2
-            local TEST_PRIORITY, TEST_MIN_INTERVAL_SECONDS, TEST_MAX_PROBES = 1000, 30, 8
+            local TEST_PRIORITY, TEST_MAX_PROBES = 1000, 8
             -- A test waits for a mostly idle queue, so it never takes slots ordinary traffic needs.
             local TEST_MAX_QUEUED = 16
             local TEST_STREAM_OVERHEAD = 24 + 4 + 9 -- packet framing, message CRC32, application stream envelope
-            local testLastAt
 
-            ---@param entry number @World entries this load, so the desktop can count distinct ones.
-            function api.RequestTransportTest(entry)
+            ---@return boolean accepted, string? reason @`busy` means the caller may try again later.
+            function api.RequestTransportTest()
                 local clientConfig = ns:GetClientConfig()
                 local plan = type(clientConfig) == "table" and clientConfig.beaconTransportTest
                 local library = LibStub("LibClientBeacon-1.0")
@@ -518,10 +517,6 @@ do
                 local fillerBytes = probe and probe.capacity - TEST_STREAM_OVERHEAD - 5
                 if not probe or fillerBytes < 0 or not library.ValidatePacketDefinition(plan.announce) or count == 0 then
                     return false, "invalid test plan"
-                end
-                local now = GetTime()
-                if testLastAt and now - testLastAt < TEST_MIN_INTERVAL_SECONDS then
-                    return false, "recent"
                 end
                 local busy = transport.InspectQueue(function(current, waiting, paused)
                     if (current and current.transportTest) or (paused and paused.transportTest) then
@@ -536,8 +531,6 @@ do
                 if busy or transport.Pending() + count + 2 > TEST_MAX_QUEUED then
                     return false, "busy"
                 end
-                -- A refused test waits out the interval too, instead of retrying with every heartbeat.
-                testLastAt = now
                 local id = math.random(0, 65535) * 65536 + math.random(1, 65535)
                 local function Control(phase)
                     return AdaptMessage({
@@ -545,7 +538,7 @@ do
                         symbolMs = 100,
                         body = string.char(TEST_CONTROL_VERSION, phase)
                             .. U32(id)
-                            .. string.char(probe.version, count, UnsignedInteger(entry, MAX_BYTE)),
+                            .. string.char(probe.version, count),
                         definition = plan.announce,
                         priority = TEST_PRIORITY,
                         dropOnInterrupt = true,
@@ -3721,16 +3714,18 @@ do
     end
 
     local TRANSPORT_TEST_WORLD_DELAY_SECONDS = 5
-    local worldEntries = 0
+    -- One optical format test per world entry. A test the queue was too busy for is tried again later.
+    local transportTestDue = false
 
     local function RequestTransportTest()
-        if stream.RequestTransportTest and clientbeacon:IsEnabled() then
-            stream.RequestTransportTest(worldEntries % (MAX_BYTE + 1))
+        if transportTestDue and stream.RequestTransportTest and clientbeacon:IsEnabled() then
+            local accepted, reason = stream.RequestTransportTest()
+            transportTestDue = not accepted and reason == "busy"
         end
     end
 
     local function OnEnteringWorld()
-        worldEntries = worldEntries + 1
+        transportTestDue = true
         lifecycle.EnterWorld()
         ResetDeathStateFromUnit()
         ResetDuel()
@@ -3916,6 +3911,7 @@ do
             beaconSummary(reason, nil, kind)
         end
         if observation and observation.heartbeat == true then
+            -- Only a test this world entry still owes; see RequestTransportTest.
             RequestTransportTest()
         end
         return accepted, reason
