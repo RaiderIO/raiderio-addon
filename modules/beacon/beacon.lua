@@ -557,7 +557,8 @@ do
                         body = U32(id) .. string.char(index) .. table.concat(filler),
                         definition = plan.probe,
                         priority = TEST_PRIORITY,
-                        cycles = 1,
+                        -- Two passes, like the control messages: capture drops frames, and a probe it never saw
+                        -- says nothing about the format.
                         dropOnInterrupt = true,
                         transportTest = true,
                     })
