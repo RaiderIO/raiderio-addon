@@ -33,12 +33,12 @@ end
 bit = bit or Bits()
 strmatch = string.match
 
-local now, frames = 100, {}
+local now, frames, screenHeight, restart = 100, {}, 1440, nil
 GetTime = function()
     return now
 end
 GetPhysicalScreenSize = function()
-    return 2560, 1440
+    return 2560, screenHeight
 end
 C_Timer = { After = function() end }
 CreateFrame = function()
@@ -91,7 +91,7 @@ local STRIP, CALIBRATED = Definition("cells-v2", 2, 392, 1), Definition("cells-v
 
 local transport = library.CreatePacketTransport({
     Debug = function(text) error(text) end,
-    Subscribe = function() end,
+    Subscribe = function(handler) restart = handler end,
     Unsubscribe = function() end,
 }, STRIP)
 assert(not transport.ConfigurationError, transport.ConfigurationError)
@@ -170,6 +170,10 @@ Record()
 
 -- Once the first probe is on screen, an urgent event arrives mid-test.
 RunUntil(3, 40)
+-- While a probe is painted, the transport still describes the configured definition.
+local status = transport.GetStatus()
+assert(frames[1].width == 1 and status.beaconWidthPx == 2 and status.beaconHeightPx == 392)
+assert(transport.TransportVersion == 2)
 assert(transport.QueueMessage({ bytes = "urgent", cycles = 1, urgent = true, priority = -1 }))
 RunUntil(6, 80)
 for _ = 1, 8 do
@@ -195,9 +199,55 @@ Expect(5, string.rep("q", 260), 3, 1, 210)
 Expect(6, "result", 2, 2, 392)
 assert(#painted == 6, "unexpected packets: " .. #painted)
 
--- The configured definition, not the last test layout, describes the transport afterwards.
-local status = transport.GetStatus()
-assert(transport.TransportVersion == 2 and status.beaconWidthPx == 2 and status.beaconHeightPx == 392)
+-- A message preempted between its packets resumes where it stopped, in its own definition.
+local long = string.rep("x", 264) .. string.rep("y", 264) .. string.rep("z", 100)
+assert(transport.QueueMessage({ bytes = long, cycles = 1, priority = 1000, definition = CALIBRATED }))
+Record()
+RunUntil(8, 80)
+assert(transport.QueueMessage({ bytes = "interrupt", cycles = 1, urgent = true, priority = -1 }))
+RunUntil(10, 80)
+Expect(7, string.rep("x", 264), 3, 1, 210)
+Expect(8, string.rep("y", 264), 3, 1, 210)
+Expect(9, "interrupt", 2, 2, 392)
+Expect(10, string.rep("z", 100), 3, 1, 210)
+for _ = 1, 8 do
+    Frame()
+end
+
+-- A world or display change abandons a message that asked for it, wherever it is queued, and nothing else.
+assert(transport.QueueMessages({
+    { bytes = "announce", cycles = 1, priority = 1000, definition = STRIP, dropOnInterrupt = true },
+    { bytes = string.rep("p", 260), cycles = 1, priority = 1000, definition = CALIBRATED, dropOnInterrupt = true },
+    { bytes = "result", cycles = 1, priority = 1000, definition = STRIP, dropOnInterrupt = true },
+    { bytes = "ordinary", cycles = 1, priority = 2000 },
+}))
+Record()
+Expect(11, "announce", 2, 2, 392)
+restart()
+RunUntil(12, 40)
+Expect(12, "ordinary", 2, 2, 392)
+for _ = 1, 8 do
+    Frame()
+end
+assert(#painted == 12 and transport.Pending() == 0, "an abandoned test kept painting")
+
+-- A message whose own definition stops fitting the display is dropped alone; ordinary traffic keeps its queue.
+assert(transport.ConfigureDefinition(CALIBRATED))
+assert(transport.QueueMessage({ bytes = "first", cycles = 1 }))
+Record()
+assert(transport.QueueMessages({
+    { bytes = "tall", cycles = 1, priority = -5, definition = STRIP },
+    { bytes = "kept", cycles = 1 },
+}))
+screenHeight = 300
+RunUntil(14, 40)
+Expect(13, "first", 3, 1, 210)
+Expect(14, "kept", 3, 1, 210)
+for _ = 1, 8 do
+    Frame()
+end
+assert(#painted == 14 and transport.Pending() == 0)
+screenHeight = 1440
 
 -- A definition that cannot be painted rejects the whole batch before anything is queued.
 local accepted = transport.QueueMessages({

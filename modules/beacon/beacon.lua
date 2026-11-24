@@ -498,7 +498,9 @@ do
             -- traffic keeps the configured one, and the lowest priority puts a test behind everything else.
             local TEST_CONTROL_KIND, TEST_PROBE_KIND = 4, 5
             local TEST_CONTROL_VERSION, TEST_ANNOUNCE, TEST_RESULT = 1, 1, 2
-            local TEST_PRIORITY, TEST_MIN_INTERVAL_SECONDS, TEST_MAX_PROBES = 1000, 30, 16
+            local TEST_PRIORITY, TEST_MIN_INTERVAL_SECONDS, TEST_MAX_PROBES = 1000, 30, 8
+            -- A test waits for a mostly idle queue, so it never takes slots ordinary traffic needs.
+            local TEST_MAX_QUEUED = 16
             local TEST_STREAM_OVERHEAD = 24 + 4 + 9 -- packet framing, message CRC32, application stream envelope
             local testLastAt
 
@@ -512,7 +514,9 @@ do
                 end
                 local probe = library.ValidatePacketDefinition(plan.probe)
                 local count = UnsignedInteger(plan.packets, TEST_MAX_PROBES)
-                if not probe or not library.ValidatePacketDefinition(plan.announce) or count == 0 then
+                -- One full packet per probe, so every probe exercises the whole footprint.
+                local fillerBytes = probe and probe.capacity - TEST_STREAM_OVERHEAD - 5
+                if not probe or fillerBytes < 0 or not library.ValidatePacketDefinition(plan.announce) or count == 0 then
                     return false, "invalid test plan"
                 end
                 local now = GetTime()
@@ -529,9 +533,11 @@ do
                         end
                     end
                 end)
-                if busy then
+                if busy or transport.Pending() + count + 2 > TEST_MAX_QUEUED then
                     return false, "busy"
                 end
+                -- A refused test waits out the interval too, instead of retrying with every heartbeat.
+                testLastAt = now
                 local id = math.random(0, 65535) * 65536 + math.random(1, 65535)
                 local function Control(phase)
                     return AdaptMessage({
@@ -542,15 +548,14 @@ do
                             .. string.char(probe.version, count, UnsignedInteger(entry, MAX_BYTE)),
                         definition = plan.announce,
                         priority = TEST_PRIORITY,
-                        restartOnInterrupt = false,
+                        dropOnInterrupt = true,
                         transportTest = true,
                     })
                 end
                 local batch = { Control(TEST_ANNOUNCE) }
                 for index = 1, count do
-                    -- One full packet per probe, so every probe exercises the whole footprint.
                     local filler = {}
-                    for byte = 1, probe.capacity - TEST_STREAM_OVERHEAD - 5 do
+                    for byte = 1, fillerBytes do
                         filler[byte] = string.char(math.random(0, 255))
                     end
                     batch[#batch + 1] = AdaptMessage({
@@ -560,16 +565,12 @@ do
                         definition = plan.probe,
                         priority = TEST_PRIORITY,
                         cycles = 1,
-                        restartOnInterrupt = false,
+                        dropOnInterrupt = true,
                         transportTest = true,
                     })
                 end
                 batch[#batch + 1] = Control(TEST_RESULT)
-                local accepted, reason = transport.QueueMessages(batch)
-                if accepted then
-                    testLastAt = now
-                end
-                return accepted, reason
+                return transport.QueueMessages(batch)
             end
             local ReadStatus = transport.GetStatus
             function transport.GetStatus()

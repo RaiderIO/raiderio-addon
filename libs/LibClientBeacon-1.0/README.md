@@ -78,6 +78,7 @@ The application envelope is `version:u8 = 1`, then encoding `1` for an existing 
 - `QueueMessage({bytes = string, ...})` or `QueueMessage({Build = function(referenceTime, queued) ... end, ...})` submits opaque bytes. Builders run once. `GetSize(queued)` optionally supplies the expected application byte length for admission; absent sizes reserve the maximum.
 - `QueueMessages(messages)` admits a batch atomically before invoking any builders.
 - `priority` orders waiting work, lower first. `urgent = true` may preempt bulk only after a held packet. Bulk resumes at the next fragment. Urgent work has eight reserved slots; bulk has 32. Combined queued bytes, including CRC32, are bounded at 1 MiB.
+- `dropOnInterrupt = true` abandons the message on a world/display change, wherever it is in the queue.
 - `restartOnInterrupt = false` prevents rewinding on world/display changes. Otherwise the same immutable message bytes/identity restart. `cycles` is one or two; `pauseAfter` optionally delays subsequent bulk work.
 - `InspectQueue(visitor)` is a trusted owner policy hook receiving current, waiting and paused messages. Current and paused encoded bytes are immutable. The Raider.IO stream adapter exposes only stream work and permits replacing/removing waiting observations while preserving urgent work.
 - `CreatePacketTransport(callbacks, definition)` creates an independent sender with an anonymous frame; it does not acquire the normal owner. `ValidatePacketDefinition` and `ValidatePlacement` permit validation before creating a frame.

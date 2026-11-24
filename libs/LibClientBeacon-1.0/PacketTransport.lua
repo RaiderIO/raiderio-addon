@@ -165,11 +165,13 @@ function lib.CreatePacketTransport(options, definition)
     local suspended = false
     local counts = { messagesStarted = 0, messagesCompleted = 0, packetsPainted = 0, holdsCompleted = 0, payloadBytes = 0 }
 
-    local function Diagnostic(reason)
+    local function Diagnostic(reason, quiet)
         if options.Trace then
             options.Trace("transport-error", nil, { sessionId = session, reason = reason })
         end
-        options.Debug("Beacon transport: " .. reason)
+        if not quiet then
+            options.Debug("Beacon transport: " .. reason)
+        end
     end
 
     function api.GetScreenPixels()
@@ -356,6 +358,24 @@ function lib.CreatePacketTransport(options, definition)
             options.Trace("restart", nil, { sessionId = session, messageId = current and current.messageId })
         end
         geometryDirty = true
+        -- A message that asked to be dropped is abandoned whole: what it painted may not have been seen.
+        local function Abandoned(message)
+            if message and message.dropOnInterrupt then
+                Interrupted(options, message, session)
+                return true
+            end
+        end
+        if Abandoned(current) then
+            current = nil
+        end
+        if Abandoned(paused) then
+            paused = nil
+        end
+        for index = #waiting, 1, -1 do
+            if Abandoned(waiting[index]) then
+                table.remove(waiting, index)
+            end
+        end
         Restart(current)
         Restart(paused)
     end
@@ -516,6 +536,15 @@ function lib.CreatePacketTransport(options, definition)
         local width, height = api.GetScreenPixels()
         if geometryDirty or width ~= appliedWidth or height ~= appliedHeight then
             if not ApplyGeometry() then
+                if current.layout then
+                    -- Only this message's own definition no longer fits; ordinary traffic keeps its queue.
+                    Diagnostic("beacon rectangle is outside the physical display", true)
+                    dropped = dropped + 1
+                    Interrupted(options, current, session)
+                    current = nil
+                    Continue()
+                    return
+                end
                 Diagnostic("beacon rectangle is outside the physical display")
                 api.Reset()
                 return
@@ -711,7 +740,8 @@ function lib.CreatePacketTransport(options, definition)
         for index, message in ipairs(messages) do
             layouts[index] = message.definition and ValidateDefinition(message.definition) or configured
             if not GetGeometry(layouts[index]) then
-                Diagnostic("beacon rectangle is outside the physical display")
+                -- A message's own definition is its caller's to report; only the configured one is the user's.
+                Diagnostic("beacon rectangle is outside the physical display", message.definition ~= nil)
                 return false, "beacon rectangle is outside the physical display"
             end
         end
