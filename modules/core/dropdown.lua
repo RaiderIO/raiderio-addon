@@ -366,12 +366,19 @@ local function OnMenuShow(owner, rootDescription, contextData)
     if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
         return
     end
-    rootDescription:CreateDivider()
-    rootDescription:CreateTitle(addonName)
+    local options = {} ---@type DropDownUnitOption[]
     for _, option in ipairs(unitOptions) do
         if not option.show or option.show() then
-            rootDescription:CreateButton(option.text, option.func)
+            options[#options + 1] = option
         end
+    end
+    if not options[1] then
+        return
+    end
+    rootDescription:CreateDivider()
+    rootDescription:CreateTitle(addonName)
+    for _, option in ipairs(options) do
+        rootDescription:CreateButton(option.text, option.func)
     end
 end
 
@@ -380,6 +387,13 @@ local menuHandles = {}
 
 function dropdown:CanLoad()
     return config:IsEnabled() and LibDropDownExtension and ModifyMenu
+end
+
+local InputUtil = InputUtil --[[@as { IsGamepadUIEnabled?: fun(): boolean }?]]
+
+-- HOTFIX: using a gamepad has taint issues with staticpopups
+local function IsGamepadUIEnabled()
+    return InputUtil and InputUtil.IsGamepadUIEnabled and InputUtil.IsGamepadUIEnabled() and true or false
 end
 
 function dropdown:OnLoad()
@@ -402,6 +416,9 @@ function dropdown:OnLoad()
                     return
                 end
                 util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
+            end,
+            show = function()
+                return not IsGamepadUIEnabled()
             end
         },
         {
@@ -417,6 +434,9 @@ function dropdown:OnLoad()
                 end
             end,
             show = function()
+                if IsGamepadUIEnabled() then
+                    return false
+                end
                 local profile = GetRecruitmentProfileForDropDown()
                 return profile and profile.recruitmentProfile and true or false
             end

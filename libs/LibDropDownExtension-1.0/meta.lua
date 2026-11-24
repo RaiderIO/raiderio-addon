@@ -267,9 +267,4 @@ function GameTooltip_AddColoredLine(tooltip, text, color, wrap, leftOffset) end
 -- MARK: Sound
 --
 
----@class SoundKit
----@field public IG_MAINMENU_OPTION_CHECKBOX_ON number
----@field public U_CHAT_SCROLL_BUTTON number
-
----@type SoundKit
-SOUNDKIT = { IG_MAINMENU_OPTION_CHECKBOX_ON = 0, U_CHAT_SCROLL_BUTTON = 0 }
+SOUNDKIT = SOUNDKIT or { IG_MAINMENU_OPTION_CHECKBOX_ON = 8506, U_CHAT_SCROLL_BUTTON = 1115 }

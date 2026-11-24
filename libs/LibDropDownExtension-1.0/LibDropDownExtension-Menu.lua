@@ -251,9 +251,8 @@ local function Row_OnClick(row, buttonName)
             end
         end
     else
-        -- we never call Blizzard's close functions. hiding the frame is enough, Blizzard cleans its own bookkeeping
-        -- on the next mouse click or the next menu that opens
-        menu:Hide()
+        -- we have to call Close instead of Hide to properly disengage the focus when using a gamepad
+        menu:Close()
     end
 end
 
@@ -264,14 +263,25 @@ local function BindRow(row)
     row:SetScript("OnClick", Row_OnClick)
 end
 
+---@param element LibDropDownExtension-1.0_MenuElement
+---@return boolean
+local function IsInteractive(element)
+    local kind = element.kind
+    return kind == "button" or kind == "checkbox" or kind == "radio"
+end
+
 ---@param container Frame
+---@param interactive boolean
 ---@return LibDropDownExtension-1.0_MenuRow
-local function NewRow(container)
-    local row = CreateFrame("Button", nil, container) ---@class LibDropDownExtension-1.0_MenuRow : Button
+local function NewRow(container, interactive)
+    local row = CreateFrame(interactive and "Button" or "Frame", nil, container) ---@class LibDropDownExtension-1.0_MenuRow : Button
+    row.interactive = interactive
     row.element = nil ---@type LibDropDownExtension-1.0_MenuElement
     row.menu = nil ---@type MenuProxyPolyfill
     row:SetFrameLevel(container:GetFrameLevel() + 1)
-    row:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    if interactive then
+        row:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    end
     row.highlight = row:CreateTexture(nil, "BACKGROUND")
     row.highlight:SetAllPoints()
     row.highlight:SetBlendMode("ADD")
@@ -288,7 +298,26 @@ local function NewRow(container)
     row.text = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     row.text:SetJustifyH("LEFT")
     row.text:SetWordWrap(false)
-    BindRow(row)
+    if interactive then
+        BindRow(row)
+    end
+    return row
+end
+
+---@param ui LibDropDownExtension-1.0_MenuUI
+---@param interactive boolean
+---@param used table<LibDropDownExtension-1.0_MenuRow, boolean>
+---@return LibDropDownExtension-1.0_MenuRow
+local function AcquireRow(ui, interactive, used)
+    for _, row in ipairs(ui.rows) do
+        if row.interactive == interactive and not used[row] then
+            used[row] = true
+            return row
+        end
+    end
+    local row = NewRow(ui.container, interactive)
+    ui.rows[#ui.rows + 1] = row
+    used[row] = true
     return row
 end
 
@@ -411,13 +440,9 @@ local function Attach(menuFrame, owner, root)
     container:SetPoint("TOPRIGHT", menuFrame, "TOPRIGHT", -metrics.right, -metrics.top)
     container:SetHeight(extent)
     local y = 0
-    local rows = ui.rows
-    for index, element in ipairs(elements) do
-        local row = rows[index]
-        if not row then
-            row = NewRow(container)
-            rows[index] = row
-        end
+    local used = {} ---@type table<LibDropDownExtension-1.0_MenuRow, boolean>
+    for _, element in ipairs(elements) do
+        local row = AcquireRow(ui, IsInteractive(element), used)
         local height = GetElementHeight(element)
         SetupRow(row, element, menuFrame)
         row:ClearAllPoints()
@@ -427,8 +452,8 @@ local function Attach(menuFrame, owner, root)
         row:Show()
         y = y + height
     end
-    for index, row in ipairs(rows) do
-        if index > #elements then
+    for _, row in ipairs(ui.rows) do
+        if not used[row] then
             row.element = nil
             row:Hide()
         end
@@ -516,7 +541,12 @@ for menuFrame, ui in pairs(uis) do
     BindUI(menuFrame, ui)
     HookLayout(menuFrame)
     for _, row in ipairs(ui.rows) do
-        BindRow(row)
+        if row.interactive == nil then
+            row.interactive = true
+        end
+        if row.interactive then
+            BindRow(row)
+        end
     end
 end
 

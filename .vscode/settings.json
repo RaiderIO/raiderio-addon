@@ -79,6 +79,7 @@
         "GUILD_NEWS_TITLE",
         "GuildListScrollFrame",
         "GuildRosterContainer",
+        "InputUtil",
         "IsPlayerAtEffectiveMaxLevel",
         "ItemRefTooltip",
         "LE_PARTY_CATEGORY_INSTANCE",
