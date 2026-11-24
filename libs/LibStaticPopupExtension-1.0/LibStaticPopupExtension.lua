@@ -8,30 +8,95 @@ assert(LibStub, MAJOR .. " requires LibStub")
 ---@alias LibStaticPopupExtension-1.0_CancelReason "clicked"|"timeout"|"override"
 
 ---@class LibStaticPopupExtension-1.0_Dialog @Uses the same shape as `StaticPopupDialogs`.
----@field public which string
----@field public text string|fun(): string
----@field public button1? string
----@field public button2? string
----@field public hasEditBox? boolean
----@field public hasWideEditBox? boolean
----@field public editBoxWidth? number
----@field public maxLetters? number `0` removes the limit
----@field public countInvisibleLetters? boolean
----@field public hideOnEscape? boolean
----@field public wideText? boolean
----@field public enterClicksFirstButton? boolean
----@field public sound? number|string @Played when shown, a sound kit id or a file. The game's popup sound by default.
----@field public hideSound? number|string @Played when hidden, a sound kit id or a file. The game's popup close sound by default.
----@field public noCloseOnAccept? boolean
----@field public noCancelOnReuse? boolean
----@field public timeout? number Seconds until the dialog cancels itself, `0` or `nil` for never.
----@field public OnShow? fun(self: LibStaticPopupExtension-1.0_Frame, data: any)
----@field public OnHide? fun(self: LibStaticPopupExtension-1.0_Frame, data: any)
+---@field public which string @A unique identifier for the dialog. Commonly the same value as the key used when storing the table in `StaticPopupDialogs`.
+---@field public text string|fun(): string @The text as string. The library also supports a function that evaluates into a string.
+---@field public button1? string The Button1 text label.
+---@field public button2? string The Button2 text label.
+---@field public hasEditBox? boolean Controls the EditBox visibility.
+---@field public editBoxWidth? number Set the EditBox width.
+---@field public maxLetters? number `0` removes the limit.
+---@field public countInvisibleLetters? boolean Controls if invisible characters (like color codes) count towards `maxLetters`.
+---@field public hideOnEscape? boolean Controls if ESCAPE hides the dialog.
+---@field public wideText? boolean Controls the Text width.
+---@field public enterClicksFirstButton? boolean Pressing ENTER clicks the first visible button. The key goes to the dialog, so it does not apply while the EditBox has focus.
+---@field public noCancelOnReuse? boolean Controls if showing a dialog that is already visible skips `OnCancel` (with `"override"`) on the old one, it is only hidden.
+---@field public timeout? number Seconds until the dialog cancels itself. `0` or `nil` means never.
+---@field public sound? number @A sound kit id played when shown, on top of the game's popup sound.
+---@field public hideSound? number @A sound kit id played when the first button is clicked with Enter (`enterClicksFirstButton`), on top of the game's popup close sound.
+---@field public OnShow? fun(self: LibStaticPopupExtension-1.0_Frame, data: any) @Called when the dialog is shown, after its text and EditBox are set up.
+---@field public OnHide? fun(self: LibStaticPopupExtension-1.0_Frame, data: any) @Called when the dialog is hidden, whatever the reason.
 ---@field public OnAccept? fun(self: LibStaticPopupExtension-1.0_Frame, data: any, data2: any): boolean? @Return `true` to keep the dialog open.
 ---@field public OnCancel? fun(self: LibStaticPopupExtension-1.0_Frame, data: any, reason: LibStaticPopupExtension-1.0_CancelReason): boolean? @Return `true` to keep the dialog open when a button was clicked.
----@field public EditBoxOnEnterPressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any)
----@field public EditBoxOnEscapePressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any)
----@field public EditBoxOnTextChanged? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any)
+---@field public EditBoxOnEnterPressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when ENTER is pressed in the EditBox. Nothing else happens on ENTER.
+---@field public EditBoxOnEscapePressed? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when ESCAPE is pressed in the EditBox. Without a handler it closes the dialog if `hideOnEscape` is set.
+---@field public EditBoxOnTextChanged? fun(self: LibStaticPopupExtension-1.0_EditBox, data: any) @Called when the text of the EditBox changes.
+---
+--- The rest of `StaticPopupDialogs` properties that are not supported by the library.
+---@field public button3? string @Not supported.
+---@field public button4? string @Not supported.
+---@field public extraButton? string @Not supported.
+---@field public closeButton? boolean @Not supported.
+---@field public closeButtonIsHide? boolean @Not supported.
+---@field public showAlert? boolean @Not supported.
+---@field public showAlertGear? boolean @Not supported.
+---@field public customAlertIcon? string|number @Not supported.
+---@field public alertIconIsAtlas? boolean @Not supported.
+---@field public subText? string @Not supported.
+---@field public normalSizedSubText? boolean @Not supported.
+---@field public subtextIsTimer? boolean @Not supported.
+---@field public hasItemFrame? boolean @Not supported.
+---@field public compactItemFrame? boolean @Not supported.
+---@field public itemFrameAboveSubtext? boolean @Not supported.
+---@field public hasMoneyFrame? boolean @Not supported.
+---@field public hasMoneyInputFrame? boolean @Not supported.
+---@field public progressBar? boolean @Not supported.
+---@field public hasDropdown? boolean @Not supported.
+---@field public editBoxSecureText? boolean @Not supported.
+---@field public editBoxInstructions? string @Not supported.
+---@field public autoCompleteSource? any @Not supported.
+---@field public autoCompleteArgs? any @Not supported.
+---@field public wide? boolean @Not supported.
+---@field public height? number @Not supported.
+---@field public whileDead? boolean @Not supported.
+---@field public exclusive? boolean @Not supported.
+---@field public cancels? string @Not supported.
+---@field public multiple? boolean @Not supported.
+---@field public preferredIndex? number @Not supported.
+---@field public ignoreKeys? boolean @Not supported.
+---@field public noCancelOnEscape? boolean @Not supported.
+---@field public escapeHides? boolean @Not supported.
+---@field public explicitAcknowledge? boolean @Not supported.
+---@field public interruptCinematic? boolean @Not supported.
+---@field public notClosableByLogout? boolean @Not supported.
+---@field public cancelIfNotAllowedWhileLoggingOut? boolean @Not supported.
+---@field public cancelIfNotAllowedWhileDead? boolean @Not supported.
+---@field public fullScreenCover? boolean @Not supported.
+---@field public cover? boolean @Not supported.
+---@field public acceptDelay? number @Not supported.
+---@field public StartDelay? function @Not supported.
+---@field public timeoutInformationalOnly? boolean @Not supported.
+---@field public timeFormatter? any @Not supported.
+---@field public GetExpirationText? function @Not supported.
+---@field public GetExpirationSubText? function @Not supported.
+---@field public textOnEnterScript? function @Not supported.
+---@field public textOnLeaveScript? function @Not supported.
+---@field public selectCallbackByIndex? boolean @Not supported.
+---@field public noCloseOnAlt? boolean @Not supported.
+---@field public DisplayButton1? function @Not supported.
+---@field public DisplayButton2? function @Not supported.
+---@field public DisplayButton3? function @Not supported.
+---@field public DisplayButton4? function @Not supported.
+---@field public GetReservedDialogFrame? function @Not supported.
+---@field public AnchorDialogFrame? function @Not supported.
+---@field public OnButton1? function @Not supported, use `OnAccept`.
+---@field public OnButton2? function @Not supported, use `OnCancel`.
+---@field public OnButton3? function @Not supported.
+---@field public OnButton4? function @Not supported.
+---@field public OnAlt? function @Not supported.
+---@field public OnExtraButton? function @Not supported.
+---@field public OnCloseClicked? function @Not supported.
+---@field public OnUpdate? function @Not supported.
+---@field public OnAcceptDelayExpired? function @Not supported.
 
 ---@class LibStaticPopupExtension-1.0_EditBox
 ---@field public GetParent fun(self: LibStaticPopupExtension-1.0_EditBox): LibStaticPopupExtension-1.0_Frame
@@ -64,7 +129,7 @@ local WIDE_TEXT_WIDTH = 360
 local TOP_PADDING = 16
 local BOTTOM_PADDING = 16
 local SIDE_MARGIN = 16
-local EDIT_BOX_MARGIN = 41
+local EDIT_BOX_WIDE_THRESHOLD = 260
 local TEXT_TO_EDIT_BOX = 8
 local TEXT_TO_BUTTONS = 9
 local EDIT_BOX_TO_BUTTONS = 12
@@ -92,6 +157,8 @@ local EDIT_BOX_BACKDROP = {
     edgeSize = 16,
     insets = { left = 4, right = 4, top = 4, bottom = 4 },
 }
+
+local SOUNDKIT = _G["SOUNDKIT"] ---@type { IG_MAINMENU_OPEN: 850, IG_MAINMENU_CLOSE: 851 }
 
 ---@param ... string
 ---@return string?
@@ -128,17 +195,6 @@ local function ResolveText(info, arg1, arg2)
     return text
 end
 
----@param sound? number|string
-local function PlayDialogSound(sound)
-    if type(sound) == "number" then
-        if not PlaySound(sound) then
-            PlaySoundFile(sound)
-        end
-    elseif type(sound) == "string" then
-        PlaySoundFile(sound)
-    end
-end
-
 ---@param frame LibStaticPopupExtension-1.0_Frame
 local function Resize(frame)
     local info = frame.dialogInfo
@@ -159,26 +215,26 @@ local function Resize(frame)
 
     local widest = BUTTON_MIN_WIDTH
     for _, button in ipairs(buttons) do
-        widest = math.max(widest, button.Label:GetStringWidth() + BUTTON_TEXT_MARGIN)
+        widest = max(widest, button.Label:GetStringWidth() + BUTTON_TEXT_MARGIN)
     end
 
     local condensed = #buttons * widest + (#buttons - 1) * BUTTON_GAP >= minWidth
-    local buttonsWidth = math.max(0, (#buttons - 1) * BUTTON_GAP)
+    local buttonsWidth = max(0, (#buttons - 1) * BUTTON_GAP)
     for _, button in ipairs(buttons) do
         local width = widest
         if condensed then
-            width = math.max(BUTTON_MIN_WIDTH, button.Label:GetStringWidth()) + BUTTON_TEXT_MARGIN
+            width = max(BUTTON_MIN_WIDTH, button.Label:GetStringWidth()) + BUTTON_TEXT_MARGIN
         end
         button:SetSize(width, BUTTON_HEIGHT)
         buttonsWidth = buttonsWidth + width
     end
 
     local width = minWidth
-    if editBox:IsShown() then
-        width = math.max(width, editBox:GetWidth() + EDIT_BOX_MARGIN * 2)
+    if editBox:IsShown() and editBox:GetWidth() > EDIT_BOX_WIDE_THRESHOLD then
+        width = max(width, minWidth + (editBox:GetWidth() - EDIT_BOX_WIDE_THRESHOLD))
     end
     if #buttons > 0 then
-        width = math.max(width, buttonsWidth + SIDE_MARGIN * 2)
+        width = max(width, buttonsWidth + SIDE_MARGIN * 2)
     end
     frame:SetWidth(width)
 
@@ -209,14 +265,13 @@ end
 
 ---@return Frame?
 local function FindLastBlizzardDialog()
-    local forEachShownDialog = StaticPopup_ForEachShownDialog
+    local forEachShownDialog = _G["StaticPopup_ForEachShownDialog"] ---@type (fun(func: fun(dialog: LibStaticPopupExtension-1.0_BlizzardDialog)))?
     if type(forEachShownDialog) ~= "function" then
         return
     end
     local last ---@type LibStaticPopupExtension-1.0_BlizzardDialog?
     local lastBottom ---@type number?
     forEachShownDialog(function(dialog)
-        ---@cast dialog LibStaticPopupExtension-1.0_BlizzardDialog
         if dialog:IsShown() and not dialog.hasFixedPosition then
             local bottom = dialog:GetBottom()
             if not last or not bottom or not lastBottom or bottom <= lastBottom then
@@ -347,6 +402,9 @@ function Lib.OnKeyDown(frame, key)
         for _, button in ipairs({ frame.Button1, frame.Button2 }) do
             if button:IsShown() and button:IsEnabled() then
                 Lib.OnButtonClick(button)
+                if info.hideSound then
+                    PlaySound(info.hideSound)
+                end
                 break
             end
         end
@@ -385,8 +443,8 @@ function Lib.OnHide(frame)
         end
     end
     Reposition()
+    PlaySound(SOUNDKIT.IG_MAINMENU_CLOSE)
     local info = frame.dialogInfo
-    PlayDialogSound(info.hideSound or SOUNDKIT.IG_MAINMENU_CLOSE)
     if info.OnHide then
         info.OnHide(frame, frame.data)
     end
@@ -405,7 +463,6 @@ function Lib.OnButtonClick(button)
         if info.OnAccept then
             keepOpen = info.OnAccept(frame, frame.data, frame.data2)
         end
-        keepOpen = keepOpen or info.noCloseOnAccept
     elseif info.OnCancel then
         keepOpen = info.OnCancel(frame, frame.data, "clicked")
     end
@@ -600,7 +657,7 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     frame.data = data
     frame.data2 = nil ---@type any?
     frame.dialogInfo = info
-    frame.OnAcceptCallback = nil ---@type (fun())?
+    frame.OnAcceptCallback = nil ---@type function?
     frame.Text.text_arg1 = text_arg1
     frame.Text.text_arg2 = text_arg2
 
@@ -642,16 +699,21 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     frame:Show()
     frame:Raise()
 
-    PlayDialogSound(info.sound or SOUNDKIT.IG_MAINMENU_OPEN)
-
     if info.OnShow then
         info.OnShow(frame, data)
     end
+
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPEN)
+
     if frame.active then
         Resize(frame)
         if info.hasEditBox then
             frame.EditBox:SetFocus()
         end
+    end
+
+    if info.sound then
+        PlaySound(info.sound)
     end
 
     return frame

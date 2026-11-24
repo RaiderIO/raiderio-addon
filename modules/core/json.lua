@@ -104,7 +104,6 @@ local EXPORT_GROUP_JSON_POPUP = {
     text = L.EXPORTJSON_COPY_TEXT,
     button2 = CLOSE,
     hasEditBox = true,
-    hasWideEditBox = true,
     maxLetters = 0,
     editBoxWidth = 350,
     preferredIndex = 3,

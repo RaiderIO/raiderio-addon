@@ -1305,7 +1305,6 @@ end
 ---@field public EditBoxOnEscapePressed? fun(self: InternalStaticPopupFrameEditBox)
 ---@field public editBoxWidth? number
 ---@field public hasEditBox? boolean
----@field public hasWideEditBox? boolean
 ---@field public maxLetters? number `0` removes the limit
 ---@field public countInvisibleLetters? boolean Only used in tandem with `maxLetters`
 ---@field public hideOnEscape? boolean
@@ -1335,7 +1334,6 @@ local COPY_TEXT_POPUP = {
     text = "%s",
     button2 = CLOSE,
     hasEditBox = true,
-    hasWideEditBox = true,
     maxLetters = 0,
     editBoxWidth = 350,
     preferredIndex = 3,

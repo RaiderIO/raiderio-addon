@@ -68,6 +68,7 @@ local timers = {}
 local hooks = {}
 C_Texture = { GetAtlasInfo = function(name) return name == "UI-DialogBox-Background-Dark" or name == "UI-DiamondDialogBox-Border" or nil end }
 SOUNDKIT = { IG_MAINMENU_OPEN = 850, IG_MAINMENU_CLOSE = 851 }
+max = math.max
 local sounds = {}
 function PlaySound(id) sounds[#sounds + 1] = id return true end
 function PlaySoundFile() end
@@ -97,7 +98,6 @@ Lib._dialogs.COPY = { which = "COPY",
     text = "%s",
     button2 = "Close",
     hasEditBox = true,
-    hasWideEditBox = true,
     maxLetters = 0,
     editBoxWidth = 350,
     hideOnEscape = true,
@@ -119,6 +119,7 @@ local name, visible = Lib.Visible("COPY")
 check(visible == frame and name == frame:GetName(), "Visible returns name and frame")
 check(Lib.Visible("COPY", "other") == nil, "Visible respects data")
 check(frame.height > 0, "the frame was sized")
+check(frame.width == 410, "a 350 wide edit box makes the dialog 410 wide, like Blizzard's")
 
 -- reusing a visible dialog cancels the old one with the override reason
 log = {}
@@ -178,15 +179,6 @@ if c then
     check(cancelled == "clicked" and not c:IsShown(), "cancel button cancels and closes")
 end
 
--- noCloseOnAccept keeps it open
-Lib._dialogs.KEEP = { which = "KEEP", text = "x", button1 = "Yes", noCloseOnAccept = true }
-local k = Lib.Show("KEEP")
-if k then
-    k.Button1.scripts.OnClick(k.Button1)
-    check(k:IsShown() and #Lib._visible == 1, "noCloseOnAccept stays open")
-    Lib.Hide("KEEP")
-end
-
 -- returning true from a handler keeps the dialog open, like Blizzard's
 Lib._dialogs.STAY = { which = "STAY", text = "x", button1 = "Yes", button2 = "No", OnAccept = function() return true end, OnCancel = function() return true end }
 local stay = Lib.Show("STAY")
@@ -228,11 +220,22 @@ local sound = Lib.Show("COPY", "A", "B", "x")
 check(sounds[1] == 850, "showing plays the open sound")
 Lib.Hide("COPY")
 check(sounds[2] == 851, "hiding plays the close sound")
-Lib._dialogs.QUIET = { which = "QUIET", text = "x", sound = 1, hideSound = 2 }
-sounds = {}
-Lib.Show("QUIET") Lib.Hide("QUIET")
-check(sounds[1] == 1 and sounds[2] == 2, "dialogs can use their own sounds")
 Lib.Hide("COPY")
+
+-- sound and hideSound play on top of the game's sounds, hideSound only for Enter
+Lib._dialogs.LOUD = { which = "LOUD", text = "x", button1 = "Yes", enterClicksFirstButton = true, sound = 1, hideSound = 2 }
+sounds = {}
+local loud = Lib.Show("LOUD")
+check(sounds[1] == 850 and sounds[2] == 1, "sound plays after the open sound")
+sounds = {}
+Lib.Hide("LOUD")
+check(sounds[1] == 851 and sounds[2] == nil, "hideSound is not played for a plain hide")
+loud = Lib.Show("LOUD")
+sounds = {}
+if loud then
+    loud.scripts.OnKeyDown(loud, "ENTER")
+    check(sounds[1] == 851 and sounds[2] == 2, "hideSound plays after the close sound when Enter clicks the button")
+end
 
 -- unknown dialogs do nothing, and frames are pooled
 check(Lib.Show("NOPE") == nil, "unknown dialog returns nil")
