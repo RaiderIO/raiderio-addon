@@ -34,11 +34,13 @@ bit = bit or Bits()
 strmatch = string.match
 
 local now, frames, screenHeight, restart = 100, {}, 1440, nil
+local SCREEN_WIDTH = 2560
+local reportedWidth -- what the client claims; nil while it is correct
 GetTime = function()
     return now
 end
 GetPhysicalScreenSize = function()
-    return 2560, screenHeight
+    return reportedWidth or SCREEN_WIDTH, screenHeight
 end
 C_Timer = { After = function() end }
 CreateFrame = function()
@@ -52,7 +54,7 @@ CreateFrame = function()
     function frame:SetIgnoreParentAlpha() end
     function frame:SetScale() end
     function frame:ClearAllPoints() end
-    function frame:SetPoint(_, _, _, x, y) self.x, self.y = x, y end
+    function frame:SetPoint(point, _, _, x, y) self.point, self.x, self.y = point, x, y end
     function frame:SetSize(width, height) self.width, self.height = width, height end
     function frame:SetScript(_, handler) self.onUpdate = handler end
     function frame:CreateTexture()
@@ -255,5 +257,32 @@ local accepted = transport.QueueMessages({
     { bytes = "bad", cycles = 1, definition = Definition("cells-v3", 1, 210, 1) },
 })
 assert(accepted == false and transport.Pending() == 0)
+
+-- After its window is resized at launch the client can keep reporting the old width. The frame is anchored
+-- to the edge its definition names, so it still lands on the real edge, where the receiver looks.
+local function Drain()
+    for _ = 1, 8 do
+        Frame()
+    end
+    assert(transport.Pending() == 0)
+end
+local function RealLeft(frame)
+    return frame.point:find("RIGHT") and SCREEN_WIDTH + frame.x - frame.width or frame.x
+end
+assert(transport.ConfigureDefinition(STRIP))
+reportedWidth = 1876
+assert(transport.QueueMessage({ bytes = "edge", cycles = 1 }))
+Record()
+assert(RealLeft(frames[1]) == SCREEN_WIDTH - 2, "a stale width moved the beacon off the right edge")
+Drain()
+reportedWidth = nil
+
+local corner = Definition("cells-v2", 2, 392, 1)
+corner.placement = { anchorX = "right", anchorY = "bottom", offsetXPx = 0, offsetYPx = 0 }
+assert(transport.ConfigureDefinition(corner))
+assert(transport.QueueMessage({ bytes = "corner", cycles = 1 }))
+Record()
+assert(frames[1].point == "BOTTOMRIGHT" and frames[1].x == 0 and frames[1].y == 0)
+Drain()
 
 print("packet-transport-definition: ok")

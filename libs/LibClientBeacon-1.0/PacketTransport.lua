@@ -221,9 +221,21 @@ function lib.CreatePacketTransport(options, definition)
             return false
         end
         assert(frame)
+        assert(layout)
         frame:SetScale(768 / height)
         frame:ClearAllPoints()
-        frame:SetPoint("TOPLEFT", nil, "TOPLEFT", x, -y)
+        -- Anchor to the screen edge the definition names. After its window is resized at launch the client can
+        -- keep reporting the old width or height, and a frame placed from the top left with that size lands
+        -- short of the edge where the receiver looks. An edge anchor needs only the inset.
+        local right, bottom = layout.anchorX == "right", layout.anchorY == "bottom"
+        local point = (bottom and "BOTTOM" or "TOP") .. (right and "RIGHT" or "LEFT")
+        frame:SetPoint(
+            point,
+            nil,
+            point,
+            right and x + layout.width - width or x,
+            bottom and height - y - layout.height or -y
+        )
         appliedWidth, appliedHeight, geometryDirty = width, height, false
         return true
     end
