@@ -48,7 +48,7 @@ local function NewFake(kind, name, parent)
         "SetMaxLetters", "SetCountInvisibleLetters", "Raise", "SetAtlas", "SetAllPoints", "SetTexCoord", "SetNormalTexture",
         "SetPushedTexture", "SetDisabledTexture", "SetHighlightTexture", "SetNormalFontObject", "SetHighlightFontObject", "SetDisabledFontObject",
         "SetFontString", "RegisterForClicks", "EnableMouse", "SetTextInsets", "SetFontObject", "SetBackdropColor", "SetBackdropBorderColor",
-        "HighlightText", "Enable" }
+        "HighlightText", "Enable", "RegisterEvent" }
     for _, key in ipairs(noops) do methods[key] = function() end end
     return setmetatable(fake, { __index = methods })
 end
@@ -73,6 +73,8 @@ local sounds = {}
 function PlaySound(id) sounds[#sounds + 1] = id return true end
 function PlaySoundFile() end
 C_Timer = { After = function(_, fn) timers[#timers + 1] = fn end }
+local inCombat = false
+function InCombatLockdown() return inCombat end
 function hooksecurefunc(name, fn) hooks[name] = fn end
 function StaticPopup_ForEachShownDialog(fn) for _, dialog in ipairs(blizzardDialogs) do fn(dialog) end end
 function StaticPopup_SetUpPosition() end
@@ -177,6 +179,42 @@ if box2 then
     box2.EditBox.scripts.OnEscapePressed(box2.EditBox)
     check(box2:IsShown(), "without a handler escape in the edit box does not close the dialog")
     Lib.Hide("BOX2")
+end
+
+-- in combat the protected SetPropagateKeyboardInput is never called, and a dialog shown then does not read the keyboard
+local protectedCalls = 0
+local plainSetPropagate
+Lib._dialogs.COMBAT = { which = "COMBAT", text = "x", button2 = "No", hideOnEscape = true, enterClicksFirstButton = true }
+local calm = Lib.Show("COMBAT")
+if calm then
+    check(calm.keyboard == true and calm.propagate == true, "shown out of combat: keyboard on and keys propagate")
+    plainSetPropagate = calm.SetPropagateKeyboardInput
+    calm.SetPropagateKeyboardInput = function(...) protectedCalls = protectedCalls + 1 return plainSetPropagate(...) end
+    inCombat = true
+    calm.scripts.OnKeyDown(calm, "ESCAPE")
+    calm.scripts.OnKeyDown(calm, "W")
+    check(protectedCalls == 0 and calm:IsShown(), "no protected call and no handling in combat")
+    -- combat starting while it is visible turns the keyboard off, and leaving combat turns it back on
+    local combatFrame = Lib._combatFrame
+    check(combatFrame ~= nil, "the combat event frame exists")
+    if combatFrame then
+        inCombat = true
+        combatFrame.scripts.OnEvent(combatFrame, "PLAYER_REGEN_DISABLED")
+        check(calm.keyboard == false, "a visible dialog stops reading the keyboard when combat starts")
+        inCombat = false
+        combatFrame.scripts.OnEvent(combatFrame, "PLAYER_REGEN_ENABLED")
+        check(calm.keyboard == true and calm.propagate == true, "and reads it again when combat ends")
+    end
+    Lib.Hide("COMBAT")
+    inCombat = true
+    local busy = Lib.Show("COMBAT")
+    check(busy ~= nil and busy.keyboard == false, "a dialog shown in combat does not read the keyboard")
+    inCombat = false
+    if combatFrame then
+        combatFrame.scripts.OnEvent(combatFrame, "PLAYER_REGEN_ENABLED")
+        check(busy ~= nil and busy.keyboard == true, "a dialog shown in combat reads the keyboard once combat ends")
+    end
+    Lib.Hide("COMBAT")
 end
 
 -- other keys pass through

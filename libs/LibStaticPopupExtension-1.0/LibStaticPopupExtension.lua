@@ -117,6 +117,7 @@ if not Lib then return end
 
 Lib._hooked = Lib._hooked ---@type boolean?
 Lib._restackPending = Lib._restackPending ---@type boolean?
+Lib._combatFrame = Lib._combatFrame ---@type Frame?
 Lib._dialogs = Lib._dialogs or {} ---@type table<string, LibStaticPopupExtension-1.0_Dialog>
 Lib._frames = Lib._frames or {} ---@type LibStaticPopupExtension-1.0_Frame[]
 Lib._visible = Lib._visible or {} ---@type LibStaticPopupExtension-1.0_Frame[]
@@ -406,16 +407,53 @@ local function EscapePressed()
 end
 
 ---@param frame LibStaticPopupExtension-1.0_Frame
+---@param propagate boolean
+local function SetPropagate(frame, propagate)
+    if not InCombatLockdown() then
+        frame:SetPropagateKeyboardInput(propagate)
+    end
+end
+
+---@param frame LibStaticPopupExtension-1.0_Frame
+---@param wanted boolean
+local function UpdateKeyboard(frame, wanted)
+    if not wanted or InCombatLockdown() then
+        frame:EnableKeyboard(false)
+    else
+        SetPropagate(frame, true)
+        frame:EnableKeyboard(true)
+    end
+end
+
+local function InstallCombatEvents()
+    if Lib._combatFrame then
+        return
+    end
+    local eventFrame = CreateFrame("Frame")
+    Lib._combatFrame = eventFrame
+    eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+    eventFrame:SetScript("OnEvent", function(_, event)
+        for _, frame in ipairs(Lib._visible) do
+            UpdateKeyboard(frame, event ~= "PLAYER_REGEN_DISABLED")
+        end
+    end)
+end
+
+---@param frame LibStaticPopupExtension-1.0_Frame
 ---@param key string
 function Lib.OnKeyDown(frame, key)
+    if InCombatLockdown() then
+        return
+    end
     local info = frame.dialogInfo
     local getBindingFromClick = _G["GetBindingFromClick"] ---@type (fun(key: string): string?)?
     local binding = getBindingFromClick and getBindingFromClick(key)
     if (key == "ESCAPE" or binding == "TOGGLEGAMEMENU") and frame.active and info and info.hideOnEscape then
-        frame:SetPropagateKeyboardInput(false)
+        SetPropagate(frame, false)
         EscapePressed()
     elseif key == "ENTER" and frame.active and info and info.enterClicksFirstButton then
-        frame:SetPropagateKeyboardInput(false)
+        SetPropagate(frame, false)
         for _, button in ipairs({ frame.Button1, frame.Button2 }) do
             if button:IsShown() and button:IsEnabled() then
                 Lib.OnButtonClick(button)
@@ -425,8 +463,9 @@ function Lib.OnKeyDown(frame, key)
                 break
             end
         end
-    else
-        frame:SetPropagateKeyboardInput(true)
+        if frame.active then
+            SetPropagate(frame, true)
+        end
     end
 end
 
@@ -450,7 +489,7 @@ function Lib.OnHide(frame)
     end
     frame.active = false
     frame.timeLeft = nil
-    frame:EnableKeyboard(false)
+    UpdateKeyboard(frame, false)
     frame:SetScript("OnUpdate", nil)
     frame.EditBox:ClearFocus()
     for index, shown in ipairs(Lib._visible) do
@@ -668,6 +707,7 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     end
 
     InstallHooks()
+    InstallCombatEvents()
 
     local existing = FindVisible(info.which)
     if existing then
@@ -721,7 +761,7 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     Lib._visible[#Lib._visible + 1] = frame
     Resize(frame)
     Reposition()
-    frame:EnableKeyboard(true)
+    UpdateKeyboard(frame, true)
     frame:Show()
     frame:Raise()
 
