@@ -604,7 +604,7 @@ do
 
     ---@type InternalStaticPopupDialog
     local REPLAY_CHANGE_POPUP = {
-        id = "RAIDERIO_REPLAY_CHANGE_CONFIRM",
+        which = "RAIDERIO_REPLAY_CHANGE_CONFIRM",
         text = "%s",
         button1 = L.CONFIRM,
         button2 = L.CANCEL,
@@ -963,7 +963,7 @@ do
 
     ---@type InternalStaticPopupDialog
     local DISABLE_REPLAY_POPUP = {
-        id = "RAIDERIO_REPLAY_DISABLE_CONFIRM",
+        which = "RAIDERIO_REPLAY_DISABLE_CONFIRM",
         text = "%s",
         button1 = L.CONFIRM,
         button2 = L.CANCEL,

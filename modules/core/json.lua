@@ -100,7 +100,7 @@ end
 
 ---@type InternalStaticPopupDialog
 local EXPORT_GROUP_JSON_POPUP = {
-    id = "RAIDERIO_EXPORTJSON_DIALOG",
+    which = "RAIDERIO_EXPORTJSON_DIALOG",
     text = L.EXPORTJSON_COPY_TEXT,
     button2 = CLOSE,
     hasEditBox = true,
@@ -276,7 +276,7 @@ local function UpdateCopyDialog()
         json:CloseCopyDialog()
         return false
     end
-    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
+    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP)
     if not frame then
         return false
     end
@@ -340,7 +340,7 @@ function json:ToggleCopyDialog()
     if not self:IsEnabled() then
         return
     end
-    if not StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id) then
+    if not StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP) then
         json:OpenCopyDialog()
     else
         json:CloseCopyDialog()
@@ -354,7 +354,7 @@ function json:OpenCopyDialog()
     if not CanShowButton() then
         return
     end
-    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
+    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP)
     if frame then
         UpdateCopyDialog()
         return
@@ -366,7 +366,7 @@ function json:CloseCopyDialog()
     if not self:IsEnabled() then
         return
     end
-    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP.id)
+    local frame = StaticPopupUtil:IsVisible(EXPORT_GROUP_JSON_POPUP)
     if not frame then
         return
     end

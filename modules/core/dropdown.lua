@@ -409,9 +409,6 @@ function dropdown:OnLoad()
                     return
                 end
                 util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
-            end,
-            show = function()
-                return not ns.coreutil.hotfixStaticPopupDisabled
             end
         },
         {
@@ -427,9 +424,6 @@ function dropdown:OnLoad()
                 end
             end,
             show = function()
-                if ns.coreutil.hotfixStaticPopupDisabled then
-                    return false
-                end
                 local profile = GetRecruitmentProfileForDropDown()
                 return profile and profile.recruitmentProfile and true or false
             end

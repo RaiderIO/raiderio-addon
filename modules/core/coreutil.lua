@@ -12,15 +12,6 @@ coreutil.IS_CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 coreutil.IS_FOREVER = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 coreutil.IS_CLASSIC = not coreutil.IS_RETAIL and not coreutil.IS_CLASSIC_ERA
 
-local InputUtil = InputUtil ---@type { IsGamepadUIEnabled?: fun(): boolean }?
-
-function coreutil.IsGamepadUIEnabled()
-    return type(InputUtil) == "table" and type(InputUtil.IsGamepadUIEnabled) == "function" and InputUtil.IsGamepadUIEnabled() and true or false
-end
-
--- HOTFIX: Gamepad mode appears to cause unrecoverable taint issues with StaticPopup usage
-coreutil.hotfixStaticPopupDisabled = coreutil.IsGamepadUIEnabled()
-
 local ScrollBoxUtil do
 
     ScrollBoxUtil = {}
@@ -720,6 +711,8 @@ end
 
 local StaticPopupUtil do
 
+    local LibStaticPopup = LibStub and LibStub("LibStaticPopup-1.0", true) ---@type LibStaticPopup-1.0?
+
     ---@param widget? Region
     local function isTextFontString(widget)
         return widget and widget:GetObjectType() == "FontString"
@@ -738,22 +731,17 @@ local StaticPopupUtil do
 
     StaticPopupUtil = {}
 
-    ---@param id string|InternalStaticPopupDialog
+    ---@param popup InternalStaticPopupDialog
     ---@param ... any
     ---@return InternalStaticPopupFrame? popup, string? name
-    function StaticPopupUtil:IsVisible(id, ...)
-        local name ---@type string?
-        local t = type(id)
-        if t == "table" then
-            name = id.id
-        elseif t == "string" then
-            name = id
-        end
-        if not name or type(name) ~= "string" then
-            return
+    function StaticPopupUtil:IsVisible(popup, ...)
+        local which = popup.which
+        if LibStaticPopup then
+            local libFrameName, libFrame = LibStaticPopup.Visible(which, ...)
+            return libFrame, libFrameName
         end
         ---@type string?, InternalStaticPopupFrame?
-        local frameName, frame = StaticPopup_Visible(name, ...)
+        local frameName, frame = StaticPopup_Visible(which, ...)
         return frame, frameName
     end
 
@@ -761,26 +749,28 @@ local StaticPopupUtil do
     ---@param ... any
     ---@return InternalStaticPopupFrame?
     function StaticPopupUtil:Show(popup, ...)
-        local id = popup.id
-        if not StaticPopupDialogs[id] then
+        local which = popup.which
+        if LibStaticPopup then
+            return LibStaticPopup.Show(popup, ...)
+        end
+        if not StaticPopupDialogs[which] then
             if type(popup.text) == "function" then
                 popup.text = popup.text()
             end
-            if not popup.which then
-                popup.which = popup.id
-            end
-            StaticPopupDialogs[id] = popup
+            StaticPopupDialogs[which] = popup
         end
-        if coreutil.hotfixStaticPopupDisabled then
-            ns.PrintWithAddonPrefix(L.HOTFIX_STATICPOPUP_GAMEPAD_TEXT)
-            return
-        end
-        return StaticPopup_Show(id, ...)
+        return StaticPopup_Show(which, ...)
     end
 
     ---@param popup InternalStaticPopupFrame
     ---@param ... any
     function StaticPopupUtil:Hide(popup, ...)
+        if LibStaticPopup then
+            if LibStaticPopup.IsFrame(popup) then
+                return LibStaticPopup.Hide(popup.which, ...)
+            end
+            return
+        end
         return StaticPopup_Hide(popup.which, ...)
     end
 

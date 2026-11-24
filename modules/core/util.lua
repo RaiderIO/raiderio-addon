@@ -1280,7 +1280,7 @@ end
 ---@field public text_arg1? string
 ---@field public text_arg2? string
 
----@class InternalStaticPopupFrame : Frame
+---@class InternalStaticPopupFrameBase : Frame
 ---@field public which string
 ---@field public OnAcceptCallback? function
 ---@field public Text? InternalStaticPopupFrameText
@@ -1297,9 +1297,8 @@ end
 ---@class InternalStaticPopupFrameEditBox : EditBox
 ---@field public GetParent fun(self: InternalStaticPopupFrameEditBox): InternalStaticPopupFrame
 
----@class InternalStaticPopupDialog
----@field public id string
----@field public which? string
+---@class InternalStaticPopupDialogBase
+---@field public which string
 ---@field public text string|fun(): string
 ---@field public button1? string
 ---@field public button2? string
@@ -1310,14 +1309,18 @@ end
 ---@field public maxLetters? number `0` removes the limit
 ---@field public countInvisibleLetters? boolean Only used in tandem with `maxLetters`
 ---@field public hideOnEscape? boolean
----@field public OnAccept? fun(self: InternalStaticPopupFrame)
----@field public OnCancel? fun(self: InternalStaticPopupFrame)
----@field public OnShow? fun(self: InternalStaticPopupFrame)
----@field public OnHide? fun(self: InternalStaticPopupFrame)
+---@field public OnAccept? fun(self: InternalStaticPopupDialogBase)
+---@field public OnCancel? fun(self: InternalStaticPopupDialogBase)
+---@field public OnShow? fun(self: InternalStaticPopupDialogBase)
+---@field public OnHide? fun(self: InternalStaticPopupDialogBase)
 ---@field public preferredIndex? number
 ---@field public timeout? number
 ---@field public whileDead? boolean
 ---@field public OnAcceptCallback? fun()
+
+---@alias InternalStaticPopupFrame InternalStaticPopupFrameBase|LibStaticPopup-1.0_Frame
+
+---@alias InternalStaticPopupDialog InternalStaticPopupDialogBase|LibStaticPopup-1.0_Dialog
 
 ---@param popup InternalStaticPopupDialog
 ---@param ... any
@@ -1328,7 +1331,7 @@ end
 
 ---@type InternalStaticPopupDialog
 local COPY_TEXT_POPUP = {
-    id = "RAIDERIO_COPY_URL",
+    which = "RAIDERIO_COPY_URL",
     text = "%s",
     button2 = CLOSE,
     hasEditBox = true,
