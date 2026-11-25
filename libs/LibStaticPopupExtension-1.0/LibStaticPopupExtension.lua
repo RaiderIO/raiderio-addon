@@ -118,6 +118,7 @@ if not Lib then return end
 Lib._hooked = Lib._hooked ---@type boolean?
 Lib._restackPending = Lib._restackPending ---@type boolean?
 Lib._combatFrame = Lib._combatFrame ---@type Frame?
+Lib._escapeFrame = Lib._escapeFrame ---@type LibStaticPopupExtension-1.0_EscapeFrame?
 Lib._dialogs = Lib._dialogs or {} ---@type table<string, LibStaticPopupExtension-1.0_Dialog>
 Lib._frames = Lib._frames or {} ---@type LibStaticPopupExtension-1.0_Frame[]
 Lib._visible = Lib._visible or {} ---@type LibStaticPopupExtension-1.0_Frame[]
@@ -406,6 +407,42 @@ local function EscapePressed()
     end
 end
 
+local function UpdateEscapeFrame()
+    local wanted = false
+    for _, frame in ipairs(Lib._visible) do
+        if frame.active and frame.dialogInfo.hideOnEscape then
+            wanted = true
+            break
+        end
+    end
+    local escapeFrame = Lib._escapeFrame
+    if not escapeFrame then
+        if not wanted then
+            return
+        end
+        escapeFrame = CreateFrame("Frame", "LibStaticPopupExtensionEscape", UIParent) ---@class LibStaticPopupExtension-1.0_EscapeFrame : Frame
+        escapeFrame.syncing = false ---@type boolean
+        escapeFrame:SetSize(1, 1)
+        escapeFrame:SetPoint("CENTER")
+        escapeFrame:Hide()
+        escapeFrame:SetScript("OnHide", function(self)
+            if not self.syncing then
+                EscapePressed()
+            end
+        end)
+        local specialFrames = _G["UISpecialFrames"] ---@type string[]?
+        if specialFrames then
+            table.insert(specialFrames, escapeFrame:GetName())
+        end
+        Lib._escapeFrame = escapeFrame
+    end
+    if escapeFrame:IsShown() ~= wanted then
+        escapeFrame.syncing = true
+        escapeFrame:SetShown(wanted)
+        escapeFrame.syncing = false
+    end
+end
+
 ---@param frame LibStaticPopupExtension-1.0_Frame
 ---@param propagate boolean
 local function SetPropagate(frame, propagate)
@@ -425,6 +462,12 @@ local function UpdateKeyboard(frame, wanted)
     end
 end
 
+---@param frame LibStaticPopupExtension-1.0_Frame
+---@return boolean
+local function WantsKeyboard(frame)
+    return frame.dialogInfo ~= nil and frame.dialogInfo.enterClicksFirstButton == true
+end
+
 local function InstallCombatEvents()
     if Lib._combatFrame then
         return
@@ -435,7 +478,7 @@ local function InstallCombatEvents()
     eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
     eventFrame:SetScript("OnEvent", function(_, event)
         for _, frame in ipairs(Lib._visible) do
-            UpdateKeyboard(frame, event ~= "PLAYER_REGEN_DISABLED")
+            UpdateKeyboard(frame, event ~= "PLAYER_REGEN_DISABLED" and WantsKeyboard(frame))
         end
     end)
 end
@@ -447,12 +490,7 @@ function Lib.OnKeyDown(frame, key)
         return
     end
     local info = frame.dialogInfo
-    local getBindingFromClick = _G["GetBindingFromClick"] ---@type (fun(key: string): string?)?
-    local binding = getBindingFromClick and getBindingFromClick(key)
-    if (key == "ESCAPE" or binding == "TOGGLEGAMEMENU") and frame.active and info and info.hideOnEscape then
-        SetPropagate(frame, false)
-        EscapePressed()
-    elseif key == "ENTER" and frame.active and info and info.enterClicksFirstButton then
+    if key == "ENTER" and frame.active and info and info.enterClicksFirstButton then
         SetPropagate(frame, false)
         for _, button in ipairs({ frame.Button1, frame.Button2 }) do
             if button:IsShown() and button:IsEnabled() then
@@ -498,6 +536,7 @@ function Lib.OnHide(frame)
             break
         end
     end
+    UpdateEscapeFrame()
     Reposition()
     PlaySound(SOUNDKIT.IG_MAINMENU_CLOSE)
     local info = frame.dialogInfo
@@ -761,8 +800,9 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
     Lib._visible[#Lib._visible + 1] = frame
     Resize(frame)
     Reposition()
-    UpdateKeyboard(frame, true)
+    UpdateKeyboard(frame, WantsKeyboard(frame))
     frame:Show()
+    UpdateEscapeFrame()
     frame:Raise()
 
     if info.OnShow then

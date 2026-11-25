@@ -69,6 +69,7 @@ local hooks = {}
 C_Texture = { GetAtlasInfo = function(name) return name == "UI-DialogBox-Background-Dark" or name == "UI-DiamondDialogBox-Border" or nil end }
 SOUNDKIT = { IG_MAINMENU_OPEN = 850, IG_MAINMENU_CLOSE = 851 }
 max = math.max
+UISpecialFrames = {}
 local sounds = {}
 function PlaySound(id) sounds[#sounds + 1] = id return true end
 function PlaySoundFile() end
@@ -130,14 +131,28 @@ check(table.concat(log, ",") == "cancel:override,hide:payload,show:payload2:url2
 check(#Lib._visible == 1, "only one frame is shown")
 check(second ~= nil, "reuse returns a frame")
 
+-- escape, the way the game does it: it hides the frames in UISpecialFrames, and the library lists one proxy frame there
+local function PressEscape()
+    for _, name in ipairs(UISpecialFrames) do
+        local escape = Lib._escapeFrame
+        if escape and escape:GetName() == name and escape:IsShown() then
+            escape:Hide()
+            return true
+        end
+    end
+    return false
+end
+
 -- escape cancels with OnCancel and then hides
 log = {}
 check(second ~= nil, "frame exists")
 if second then
-    second.scripts.OnKeyDown(second, "ESCAPE")
-    check(second.propagate == false, "escape is swallowed")
+    check(#UISpecialFrames == 1 and Lib._escapeFrame ~= nil and Lib._escapeFrame:IsShown(), "the proxy is listed once and shown while a dialog with hideOnEscape is visible")
+    check(PressEscape(), "the game hides the proxy")
     check(table.concat(log, ",") == "cancel:clicked,hide:payload2", "escape cancels then hides: " .. table.concat(log, ","))
     check(#Lib._visible == 0, "nothing is shown afterwards")
+    check(Lib._escapeFrame ~= nil and not Lib._escapeFrame:IsShown() and #UISpecialFrames == 1, "the proxy is hidden again and not listed twice")
+    check(not PressEscape(), "escape with nothing open does nothing")
 end
 
 -- one escape closes every dialog with hideOnEscape, newest first, and noCancelOnEscape skips OnCancel
@@ -154,7 +169,7 @@ EscapeDialog("ESC_B", { noCancelOnEscape = true })
 EscapeDialog("ESC_C", { hideOnEscape = false })
 local escA, escB, escC = Lib.Show("ESC_A"), Lib.Show("ESC_B"), Lib.Show("ESC_C")
 if escA and escB and escC then
-    escB.scripts.OnKeyDown(escB, "ESCAPE")
+    check(PressEscape(), "the proxy is shown for a mix of dialogs")
     check(table.concat(escapeLog, ",") == "hide:ESC_B,cancel:ESC_A,hide:ESC_A", "one escape closes all that allow it, newest first: " .. table.concat(escapeLog, ","))
     check(escC:IsShown() and #Lib._visible == 1, "a dialog without hideOnEscape stays")
     Lib.Hide("ESC_C")
@@ -191,7 +206,7 @@ if calm then
     plainSetPropagate = calm.SetPropagateKeyboardInput
     calm.SetPropagateKeyboardInput = function(...) protectedCalls = protectedCalls + 1 return plainSetPropagate(...) end
     inCombat = true
-    calm.scripts.OnKeyDown(calm, "ESCAPE")
+    calm.scripts.OnKeyDown(calm, "ENTER")
     calm.scripts.OnKeyDown(calm, "W")
     check(protectedCalls == 0 and calm:IsShown(), "no protected call and no handling in combat")
     -- combat starting while it is visible turns the keyboard off, and leaving combat turns it back on
@@ -217,12 +232,12 @@ if calm then
     Lib.Hide("COMBAT")
 end
 
--- other keys pass through
+-- dialogs without enterClicksFirstButton don't read the keyboard, and other keys do nothing
 local third = Lib.Show("COPY", "A", "B", 1)
 check(third ~= nil, "third frame")
 if third then
+    check(third.keyboard == false, "a dialog without enterClicksFirstButton does not read the keyboard")
     third.scripts.OnKeyDown(third, "W")
-    check(third.propagate == true, "other keys propagate")
     check(third:IsShown(), "other keys do not close it")
     Lib.Hide("COPY")
     check(not third:IsShown() and #Lib._visible == 0, "Hide closes by name")
