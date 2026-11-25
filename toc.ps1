@@ -32,7 +32,6 @@ $capabilities = [ordered]@{
 	"journey-erasure" = 2
 	"journey-kill-counter" = 1
 	"journey-dolls" = 1
-	"beacon-transport-test" = 1
 }
 $capabilitiesText = ($capabilities.Keys | ForEach-Object { "$($_)=$($capabilities[$_])" }) -join ","
 

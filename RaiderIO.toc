@@ -13,7 +13,7 @@
 ## X-Beacon-Formats: cells-v1,cells-v2,cells-v3
 ## X-Journey-Protocol: 3
 ## X-Journey-Catalog: 3
-## X-RaiderIO-Capabilities: beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1,beacon-transport-test=1
+## X-RaiderIO-Capabilities: beacon-diagnostics=4,journey-observations=1,journey-heartbeats=1,journey-semantic=1,journey-erasure=2,journey-kill-counter=1,journey-dolls=1
 ## SavedVariablesPerCharacter: RaiderIO_Journeys, RaiderIO_JourneyExport
 
 db/db_client_config.lua
