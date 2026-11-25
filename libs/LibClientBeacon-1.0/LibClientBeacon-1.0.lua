@@ -6,7 +6,7 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 local safety = type(ns) == "table" and ns.Safety or nil
 local C_Timer = safety and safety.Timers("beacon") or C_Timer
 
-local MAJOR, MINOR = "LibClientBeacon-1.0", 6 -- keep PacketTransport.lua in sync
+local MAJOR, MINOR = "LibClientBeacon-1.0", 7 -- keep PacketTransport.lua in sync
 ---@class LibClientBeaconLibrary
 ---@field Protocol number
 ---@field owner? table

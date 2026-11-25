@@ -6,7 +6,7 @@ local ns = select(2, ...) ---@class ns @The addon namespace.
 local safety = type(ns) == "table" and ns.Safety or nil
 local C_Timer = safety and safety.Timers("beacon") or C_Timer
 
-local MINOR = 6
+local MINOR = 7
 ---@class LibClientBeacon-1.0
 local lib,
 ---@type number?
@@ -145,6 +145,8 @@ lib.ValidatePacketDefinition = ValidateDefinition
 
 function lib.CreatePacketTransport(options, definition)
     local layout, configurationError = ValidateDefinition(definition)
+    -- `layout` is what the cells currently paint; a message may carry its own for one send.
+    local configured = layout
     local api = {
         TransportVersion = layout and layout.version or FIXED_PACKET_VERSION,
         CRC16 = CRC16,
@@ -163,11 +165,13 @@ function lib.CreatePacketTransport(options, definition)
     local suspended = false
     local counts = { messagesStarted = 0, messagesCompleted = 0, packetsPainted = 0, holdsCompleted = 0, payloadBytes = 0 }
 
-    local function Diagnostic(reason)
+    local function Diagnostic(reason, quiet)
         if options.Trace then
             options.Trace("transport-error", nil, { sessionId = session, reason = reason })
         end
-        options.Debug("Beacon transport: " .. reason)
+        if not quiet then
+            options.Debug("Beacon transport: " .. reason)
+        end
     end
 
     function api.GetScreenPixels()
@@ -181,28 +185,31 @@ function lib.CreatePacketTransport(options, definition)
     end
 
     function api.GetPlacement()
-        if not layout then
+        if not configured then
             return "invalid", "start", "start"
         end
         local horizontal = { left = "start", middle = "center", right = "end" }
         local vertical = { top = "start", middle = "center", bottom = "end" }
-        return layout.anchorY .. "-" .. layout.anchorX, horizontal[layout.anchorX], vertical[layout.anchorY]
+        return configured.anchorY .. "-" .. configured.anchorX,
+            horizontal[configured.anchorX],
+            vertical[configured.anchorY]
     end
 
-    local function GetGeometry()
+    local function GetGeometry(target)
         local width, height = api.GetScreenPixels()
         if not width or not height then
             return false
         end
-        assert(layout)
-        local x = layout.anchorX == "right" and width - layout.width
-            or layout.anchorX == "middle" and math.floor((width - layout.width) / 2)
+        target = target or layout
+        assert(target)
+        local x = target.anchorX == "right" and width - target.width
+            or target.anchorX == "middle" and math.floor((width - target.width) / 2)
             or 0
-        local y = layout.anchorY == "bottom" and height - layout.height
-            or layout.anchorY == "middle" and math.floor((height - layout.height) / 2)
+        local y = target.anchorY == "bottom" and height - target.height
+            or target.anchorY == "middle" and math.floor((height - target.height) / 2)
             or 0
-        x, y = x + layout.offsetX, y + layout.offsetY
-        if x < 0 or y < 0 or x + layout.width > width or y + layout.height > height then
+        x, y = x + target.offsetX, y + target.offsetY
+        if x < 0 or y < 0 or x + target.width > width or y + target.height > height then
             return false
         end
         return width, height, x, y
@@ -214,9 +221,21 @@ function lib.CreatePacketTransport(options, definition)
             return false
         end
         assert(frame)
+        assert(layout)
         frame:SetScale(768 / height)
         frame:ClearAllPoints()
-        frame:SetPoint("TOPLEFT", nil, "TOPLEFT", x, -y)
+        -- Anchor to the screen edge the definition names. After its window is resized at launch the client can
+        -- keep reporting the old width or height, and a frame placed from the top left with that size lands
+        -- short of the edge where the receiver looks. An edge anchor needs only the inset.
+        local right, bottom = layout.anchorX == "right", layout.anchorY == "bottom"
+        local point = (bottom and "BOTTOM" or "TOP") .. (right and "RIGHT" or "LEFT")
+        frame:SetPoint(
+            point,
+            nil,
+            point,
+            right and x + layout.width - width or x,
+            bottom and height - y - layout.height or -y
+        )
         appliedWidth, appliedHeight, geometryDirty = width, height, false
         return true
     end
@@ -281,7 +300,7 @@ function lib.CreatePacketTransport(options, definition)
         if not nextLayout then
             return false, issue
         end
-        layout, configurationError, api.ConfigurationError = nextLayout, nil, nil
+        layout, configured, configurationError, api.ConfigurationError = nextLayout, nextLayout, nil, nil
         api.TransportVersion = nextLayout.version
         appliedWidth, appliedHeight, geometryDirty = nil, nil, true
         if frame then
@@ -289,6 +308,20 @@ function lib.CreatePacketTransport(options, definition)
             LayoutCells()
         end
         return true
+    end
+
+    -- Repaint the cells for the next message's layout. Every packet of a message uses one layout,
+    -- so a message with its own definition never changes how the others are painted.
+    local function Activate(target)
+        if target == layout then
+            return
+        end
+        layout = target
+        appliedWidth, appliedHeight, geometryDirty = nil, nil, true
+        if frame then
+            frame:Hide()
+            LayoutCells()
+        end
     end
 
     local function Paint(bytes)
@@ -337,6 +370,24 @@ function lib.CreatePacketTransport(options, definition)
             options.Trace("restart", nil, { sessionId = session, messageId = current and current.messageId })
         end
         geometryDirty = true
+        -- A message that asked to be dropped is abandoned whole: what it painted may not have been seen.
+        local function Abandoned(message)
+            if message and message.dropOnInterrupt then
+                Interrupted(options, message, session)
+                return true
+            end
+        end
+        if Abandoned(current) then
+            current = nil
+        end
+        if Abandoned(paused) then
+            paused = nil
+        end
+        for index = #waiting, 1, -1 do
+            if Abandoned(waiting[index]) then
+                table.remove(waiting, index)
+            end
+        end
         Restart(current)
         Restart(paused)
     end
@@ -354,7 +405,7 @@ function lib.CreatePacketTransport(options, definition)
     end
 
     function api.ValidatePlacement()
-        return layout and GetGeometry() and true or false
+        return configured and GetGeometry(configured) and true or false
     end
 
     function api.SetSuspended(value)
@@ -492,9 +543,20 @@ function lib.CreatePacketTransport(options, definition)
     end
 
     local function ShowPacket()
+        assert(current)
+        Activate(current.layout or configured)
         local width, height = api.GetScreenPixels()
         if geometryDirty or width ~= appliedWidth or height ~= appliedHeight then
             if not ApplyGeometry() then
+                if current.layout then
+                    -- Only this message's own definition no longer fits; ordinary traffic keeps its queue.
+                    Diagnostic("beacon rectangle is outside the physical display", true)
+                    dropped = dropped + 1
+                    Interrupted(options, current, session)
+                    current = nil
+                    Continue()
+                    return
+                end
                 Diagnostic("beacon rectangle is outside the physical display")
                 api.Reset()
                 return
@@ -633,7 +695,8 @@ function lib.CreatePacketTransport(options, definition)
             ) == math.huge))
             or (message.cycles ~= nil and message.cycles ~= 1 and message.cycles ~= 2)
             or (message.pauseAfter ~= nil and (type(message.pauseAfter) ~= "number" or message.pauseAfter ~= message.pauseAfter or message.pauseAfter < 0 or message.pauseAfter == math.huge))
-            or (message.GetSize ~= nil and type(message.GetSize) ~= "function") then
+            or (message.GetSize ~= nil and type(message.GetSize) ~= "function")
+            or (message.definition ~= nil and not ValidateDefinition(message.definition)) then
             return false
         end
         if message.timing ~= nil then
@@ -685,16 +748,23 @@ function lib.CreatePacketTransport(options, definition)
         end
         -- Admission validates the current display without moving a packet still being held.
         -- ShowPacket applies placement only after both hold conditions are satisfied.
-        if not GetGeometry() then
-            Diagnostic("beacon rectangle is outside the physical display")
-            return false, "beacon rectangle is outside the physical display"
+        local layouts = {}
+        for index, message in ipairs(messages) do
+            layouts[index] = message.definition and ValidateDefinition(message.definition) or configured
+            if not GetGeometry(layouts[index]) then
+                -- A message's own definition is its caller's to report; only the configured one is the user's.
+                Diagnostic("beacon rectangle is outside the physical display", message.definition ~= nil)
+                return false, "beacon rectangle is outside the physical display"
+            end
         end
         CreateFrameOnce()
-        for _, message in ipairs(messages) do
+        for index, message in ipairs(messages) do
             local pending = {}
             for key, value in pairs(message) do
                 pending[key] = value
             end
+            -- The validated copy, so a caller's later edits to its definition table cannot reach a held packet.
+            pending.definition, pending.layout = nil, message.definition and layouts[index] or nil
             if message.timing then
                 pending.timing = { minHoldFrames = message.timing.minHoldFrames, minHoldMs = message.timing.minHoldMs }
             end
@@ -741,12 +811,12 @@ function lib.CreatePacketTransport(options, definition)
             lastEmitAt = lastEmitAt,
             transportVersion = api.TransportVersion,
             configurationError = configurationError,
-            packetBytes = layout and layout.capacity,
+            packetBytes = configured and configured.capacity,
             queuedBytes = queuedBytes,
-            cellWidthPx = layout and layout.cellWidth,
-            cellHeightPx = layout and layout.cellHeight,
-            beaconWidthPx = layout and layout.width,
-            beaconHeightPx = layout and layout.height,
+            cellWidthPx = configured and configured.cellWidth,
+            cellHeightPx = configured and configured.cellHeight,
+            beaconWidthPx = configured and configured.width,
+            beaconHeightPx = configured and configured.height,
             suspended = suspended,
             sessionId = session,
         }

@@ -425,7 +425,8 @@ do
                 return transport.InspectQueue(function(current, waiting, paused)
                     local streams, original = {}, {}
                     for _, message in ipairs(waiting) do
-                        if not message.urgent then
+                        -- Format tests are transport housekeeping; Journey admission limits do not count them.
+                        if not message.urgent and not message.transportTest then
                             streams[#streams + 1], original[message] = message, true
                         end
                     end
@@ -488,6 +489,81 @@ do
                         pauseAfter = index < 3 and 0.5 or nil,
                     })
                 end
+                return transport.QueueMessages(batch)
+            end
+
+            -- Optical format test: the desktop cannot tell the addon which encodings it can read, so the
+            -- addon shows it. An announcement and a result in the `announce` definition bracket probe
+            -- packets in the `probe` definition. Each message carries its own definition, so ordinary
+            -- traffic keeps the configured one, and the lowest priority puts a test behind everything else.
+            local TEST_CONTROL_KIND, TEST_PROBE_KIND = 4, 5
+            local TEST_CONTROL_VERSION, TEST_ANNOUNCE, TEST_RESULT = 1, 1, 2
+            local TEST_PRIORITY, TEST_MAX_PROBES = 1000, 8
+            -- A test starts only on a mostly idle queue, so ordinary traffic rarely waits behind one.
+            local TEST_MAX_QUEUED = 16
+            local TEST_STREAM_OVERHEAD = 24 + 4 + 9 -- packet framing, message CRC32, application stream envelope
+
+            ---@return boolean accepted, string? reason @`busy` means the caller may try again later.
+            function api.RequestTransportTest()
+                local clientConfig = ns:GetClientConfig()
+                local plan = type(clientConfig) == "table" and clientConfig.beaconTransportTest
+                local library = LibStub("LibClientBeacon-1.0")
+                if type(plan) ~= "table" or ConfigMarker() == 0 then
+                    return false, "disabled"
+                end
+                local probe = library.ValidatePacketDefinition(plan.probe)
+                local count = UnsignedInteger(plan.packets, TEST_MAX_PROBES)
+                -- One full packet per probe, so every probe exercises the whole footprint.
+                local fillerBytes = probe and probe.capacity - TEST_STREAM_OVERHEAD - 5
+                if not probe or fillerBytes < 0 or not library.ValidatePacketDefinition(plan.announce) or count == 0 then
+                    return false, "invalid test plan"
+                end
+                local busy = transport.InspectQueue(function(current, waiting, paused)
+                    if (current and current.transportTest) or (paused and paused.transportTest) then
+                        return true
+                    end
+                    for _, message in ipairs(waiting) do
+                        if message.transportTest then
+                            return true
+                        end
+                    end
+                end)
+                if busy or transport.Pending() + count + 2 > TEST_MAX_QUEUED then
+                    return false, "busy"
+                end
+                local id = math.random(0, 65535) * 65536 + math.random(1, 65535)
+                local function Control(phase)
+                    return AdaptMessage({
+                        kind = TEST_CONTROL_KIND,
+                        symbolMs = 100,
+                        body = string.char(TEST_CONTROL_VERSION, phase)
+                            .. U32(id)
+                            .. string.char(probe.version, count),
+                        definition = plan.announce,
+                        priority = TEST_PRIORITY,
+                        dropOnInterrupt = true,
+                        transportTest = true,
+                    })
+                end
+                local batch = { Control(TEST_ANNOUNCE) }
+                for index = 1, count do
+                    local filler = {}
+                    for byte = 1, fillerBytes do
+                        filler[byte] = string.char(math.random(0, 255))
+                    end
+                    batch[#batch + 1] = AdaptMessage({
+                        kind = TEST_PROBE_KIND,
+                        symbolMs = 100,
+                        body = U32(id) .. string.char(index) .. table.concat(filler),
+                        definition = plan.probe,
+                        priority = TEST_PRIORITY,
+                        -- Two passes, like the control messages: capture drops frames, and a probe it never saw
+                        -- says nothing about the format.
+                        dropOnInterrupt = true,
+                        transportTest = true,
+                    })
+                end
+                batch[#batch + 1] = Control(TEST_RESULT)
                 return transport.QueueMessages(batch)
             end
             local ReadStatus = transport.GetStatus
@@ -3634,15 +3710,45 @@ do
         deadHandled = IsKnownTrue(ReadAPI(UnitIsDeadOrGhost, "player"))
     end
 
+    -- One optical format test per world entry. A test the queue was too busy for is tried again later.
+    local transportTestDue = false
+
+    -- The pixels the game draws the beacon in. When the game renders below its window's size, the desktop reads
+    -- each beacon cell scaled up; it learns the factor from this value, saved with the next SavedVariables write.
+    local function SaveRenderPixels()
+        if not config:IsEnabled() then
+            return
+        end
+        local width, height = ReadAPI(GetPhysicalScreenSize)
+        width, height = UnsignedInteger(width, 65535), UnsignedInteger(height, 65535)
+        config:Set("beaconRenderPixels", width > 0 and height > 0 and (width .. "x" .. height) or nil)
+    end
+
     local function OnDisplayChanged()
         transport.InvalidateGeometry(true)
+        SaveRenderPixels()
+        -- The change abandons a test in flight and may change what the desktop can read: test again.
+        transportTestDue = true
+    end
+
+    local TRANSPORT_TEST_WORLD_DELAY_SECONDS = 5
+
+    local function RequestTransportTest()
+        if transportTestDue and stream.RequestTransportTest and clientbeacon:IsEnabled() then
+            local accepted, reason = stream.RequestTransportTest()
+            transportTestDue = not accepted and reason == "busy"
+        end
     end
 
     local function OnEnteringWorld()
+        transportTestDue = true
+        SaveRenderPixels()
         lifecycle.EnterWorld()
         ResetDeathStateFromUnit()
         ResetDuel()
         combatant.UpdateObservations()
+        -- After the loading screen's own messages; a test waits behind anything still queued.
+        C_Timer.After(TRANSPORT_TEST_WORLD_DELAY_SECONDS, RequestTransportTest)
     end
 
     local function IsSupported()
@@ -3820,6 +3926,10 @@ do
         end
         if reason == "duplicate" or reason == "superseded" or reason == "coalesced" then
             beaconSummary(reason, nil, kind)
+        end
+        if observation and observation.heartbeat == true then
+            -- Only a test this world entry still owes; see RequestTransportTest.
+            RequestTransportTest()
         end
         return accepted, reason
     end

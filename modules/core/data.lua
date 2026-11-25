@@ -108,6 +108,7 @@ end
 ---@field public beaconConfigMarker? number @Public nonzero 16-bit configuration marker.
 ---@field public enableDuelTracking? boolean @Enables duel snapshots and combat logging when client control is allowed.
 ---@field public beaconTransport? table @Immutable optical transport definition, applied on reload.
+---@field public beaconTransportTest? table @`{ announce, probe, packets }`: definitions and probe count for the optical format test.
 ---@field public beaconDebug? boolean @Passive, bounded sender journal; applied on reload.
 ---@field public beaconDiagnostics? table @Explicit, bounded diagnostic plan; requires a slash-command request.
 
