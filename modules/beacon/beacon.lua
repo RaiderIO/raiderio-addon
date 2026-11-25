@@ -3713,8 +3713,20 @@ do
     -- One optical format test per world entry. A test the queue was too busy for is tried again later.
     local transportTestDue = false
 
+    -- The pixels the game draws the beacon in. When the game renders below its window's size, the desktop reads
+    -- each beacon cell scaled up; it learns the factor from this value, saved with the next SavedVariables write.
+    local function SaveRenderPixels()
+        if not config:IsEnabled() then
+            return
+        end
+        local width, height = ReadAPI(GetPhysicalScreenSize)
+        width, height = UnsignedInteger(width, 65535), UnsignedInteger(height, 65535)
+        config:Set("beaconRenderPixels", width > 0 and height > 0 and (width .. "x" .. height) or nil)
+    end
+
     local function OnDisplayChanged()
         transport.InvalidateGeometry(true)
+        SaveRenderPixels()
         -- The change abandons a test in flight and may change what the desktop can read: test again.
         transportTestDue = true
     end
@@ -3730,6 +3742,7 @@ do
 
     local function OnEnteringWorld()
         transportTestDue = true
+        SaveRenderPixels()
         lifecycle.EnterWorld()
         ResetDeathStateFromUnit()
         ResetDuel()
