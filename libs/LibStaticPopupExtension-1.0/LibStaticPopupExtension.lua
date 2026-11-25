@@ -478,6 +478,9 @@ local function InstallCombatEvents()
     eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
     eventFrame:SetScript("OnEvent", function(_, event)
         for _, frame in ipairs(Lib._visible) do
+            if event == "PLAYER_REGEN_DISABLED" then
+                frame.EditBox:ClearFocus()
+            end
             UpdateKeyboard(frame, event ~= "PLAYER_REGEN_DISABLED" and WantsKeyboard(frame))
         end
     end)
@@ -813,7 +816,7 @@ function Lib.Show(dialog, text_arg1, text_arg2, data)
 
     if frame.active then
         Resize(frame)
-        if info.hasEditBox then
+        if info.hasEditBox and not InCombatLockdown() then
             frame.EditBox:SetFocus()
         end
     end

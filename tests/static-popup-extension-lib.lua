@@ -232,6 +232,32 @@ if calm then
     Lib.Hide("COMBAT")
 end
 
+-- an edit box does not keep the focus into combat, and does not get it when shown in combat
+Lib._dialogs.FOCUS = { which = "FOCUS", text = "x", button2 = "No", hasEditBox = true }
+local focusFrame = Lib.Show("FOCUS")
+local combatEvents = Lib._combatFrame
+check(focusFrame ~= nil and focusFrame.EditBox.focused == true, "the edit box gets the focus when shown out of combat")
+if focusFrame and combatEvents then
+    inCombat = true
+    combatEvents.scripts.OnEvent(combatEvents, "PLAYER_REGEN_DISABLED")
+    check(focusFrame.EditBox.focused == false, "the edit box loses the focus when combat starts")
+    inCombat = false
+    combatEvents.scripts.OnEvent(combatEvents, "PLAYER_REGEN_ENABLED")
+    check(focusFrame.EditBox.focused == false, "the focus is not given back when combat ends")
+    Lib.Hide("FOCUS")
+    inCombat = true
+    local busyFocus = Lib.Show("FOCUS")
+    check(busyFocus ~= nil and busyFocus.EditBox.focused ~= true, "the edit box does not get the focus when shown in combat")
+    if busyFocus then
+        -- the player can still click the edit box in combat to copy the text
+        busyFocus.EditBox:SetFocus()
+        busyFocus.EditBox.scripts.OnEditFocusGained(busyFocus.EditBox)
+        check(busyFocus.EditBox.focused == true, "focus the player asks for in combat is kept")
+    end
+    inCombat = false
+    Lib.Hide("FOCUS")
+end
+
 -- dialogs without enterClicksFirstButton don't read the keyboard, and other keys do nothing
 local third = Lib.Show("COPY", "A", "B", 1)
 check(third ~= nil, "third frame")
