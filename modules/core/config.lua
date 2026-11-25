@@ -90,7 +90,6 @@ local callback = ns:GetModule("Callback") ---@type CallbackModule
 ---|"lockReplay" @NEW in 10.1.5
 ---|"replayPoint" @`ConfigProfilePoint` NEW in 10.1.5
 ---|"minimapIcon" @`MinimapIconDB` NEW in 10.2.6
----|"disableDropdownMenu" @NEW in 12.0.5
 ---|"showTalentBuildsButtonInTalentFrame" @NEW in 12.0.7
 ---|"showTalentBuildsButtonInJournalFrame" @NEW in 12.0.7
 
@@ -152,7 +151,6 @@ local fallbackConfig = {
     lockReplay = false, -- NEW in 10.1.5
     replayPoint = { point = nil, x = 0, y = 0 }, -- `ConfigProfilePoint` NEW in 10.1.5
     minimapIcon = { hide = false, lock = false, showInCompartment = true, minimapPos = 180 }, -- `MinimapIconDB` NEW in 10.2.6
-    disableDropdownMenu = false, -- NEW in 12.0.5
     showTalentBuildsButtonInTalentFrame = true, -- NEW in 12.0.7
     showTalentBuildsButtonInJournalFrame = true, -- NEW in 12.0.7
 }

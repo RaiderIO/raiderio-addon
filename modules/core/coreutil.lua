@@ -710,6 +710,8 @@ end
 
 local StaticPopupUtil do
 
+    local LibStaticPopupExtension = LibStub and LibStub("LibStaticPopupExtension-1.0", true) ---@type LibStaticPopupExtension-1.0?
+
     ---@param widget? Region
     local function isTextFontString(widget)
         return widget and widget:GetObjectType() == "FontString"
@@ -728,22 +730,17 @@ local StaticPopupUtil do
 
     StaticPopupUtil = {}
 
-    ---@param id string|InternalStaticPopupDialog
+    ---@param popup InternalStaticPopupDialog
     ---@param ... any
     ---@return InternalStaticPopupFrame? popup, string? name
-    function StaticPopupUtil:IsVisible(id, ...)
-        local name ---@type string?
-        local t = type(id)
-        if t == "table" then
-            name = id.id
-        elseif t == "string" then
-            name = id
-        end
-        if not name or type(name) ~= "string" then
-            return
+    function StaticPopupUtil:IsVisible(popup, ...)
+        local which = popup.which
+        if LibStaticPopupExtension then
+            local libFrameName, libFrame = LibStaticPopupExtension.Visible(which, ...)
+            return libFrame, libFrameName
         end
         ---@type string?, InternalStaticPopupFrame?
-        local frameName, frame = StaticPopup_Visible(name, ...)
+        local frameName, frame = StaticPopup_Visible(which, ...)
         return frame, frameName
     end
 
@@ -751,22 +748,25 @@ local StaticPopupUtil do
     ---@param ... any
     ---@return InternalStaticPopupFrame
     function StaticPopupUtil:Show(popup, ...)
-        local id = popup.id
-        if not StaticPopupDialogs[id] then
+        local which = popup.which
+        if LibStaticPopupExtension then
+            return LibStaticPopupExtension.Show(popup, ...)
+        end
+        if not StaticPopupDialogs[which] then
             if type(popup.text) == "function" then
                 popup.text = popup.text()
             end
-            if not popup.which then
-                popup.which = popup.id
-            end
-            StaticPopupDialogs[id] = popup
+            StaticPopupDialogs[which] = popup
         end
-        return StaticPopup_Show(id, ...)
+        return StaticPopup_Show(which, ...)
     end
 
     ---@param popup InternalStaticPopupFrame
     ---@param ... any
     function StaticPopupUtil:Hide(popup, ...)
+        if LibStaticPopupExtension then
+            return LibStaticPopupExtension.Hide(popup.which, ...)
+        end
         return StaticPopup_Hide(popup.which, ...)
     end
 

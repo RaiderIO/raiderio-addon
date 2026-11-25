@@ -36,26 +36,21 @@ local validTypes = {
     WORLD_STATE_SCORE = true,
 }
 
----@type table<string, number?> `1` LFD
+--- `1` LFD
 local validTags = {
     MENU_LFG_FRAME_SEARCH_ENTRY = 1,
     MENU_LFG_FRAME_MEMBER_APPLY = 1,
 }
 
----@class DropDownListPolyfill
----@field public which string
----@field public unit? string
+---@class DropDownListPolyfill : UIDropDownMenu
+---@field public which? string
+---@field public unit? UnitToken
 ---@field public name? string
 ---@field public server? string
 ---@field public bnetIDAccount? number
----@field public menuList? MenuListInfoPolyfill[]
 ---@field public quickJoinMember? QuickJoinMemberInfoPolyfill
 ---@field public quickJoinButton? QuickJoinMemberButtonPolyfill
 ---@field public clubMemberInfo? ClubMemberInfo
-
----@class MenuListInfoPolyfill
----@field public text string
----@field public arg1? string
 
 ---@class QuickJoinMemberInfoPolyfill
 ---@field public playerLink? string
@@ -64,22 +59,22 @@ local validTags = {
 ---@field public Members QuickJoinMemberInfoPolyfill[]
 
 -- if the dropdown is a valid type of dropdown then we mark it as acceptable to check for a unit on it
----@param bdropdown DropDownListPolyfill
-local function IsValidDropDown(bdropdown)
-    return (bdropdown == LFGListFrameDropDown and config:Get("enableLFGDropdown")) or (type(bdropdown.which) == "string" and validTypes[bdropdown.which])
+---@param dropdownList DropDownListPolyfill
+local function IsValidDropDown(dropdownList)
+    return (dropdownList == LFGListFrameDropDown and config:Get("enableLFGDropdown")) or (type(dropdownList.which) == "string" and validTypes[dropdownList.which])
 end
 
 -- get name and realm from dropdown or nil if it's not applicable
----@param bdropdown DropDownListPolyfill
+---@param dropdownList DropDownListPolyfill
 ---@return string? name, string? realm, number? level, UnitToken? unit, FactionNumber? faction
-local function GetNameRealmForDropDown(bdropdown)
-    local unit = bdropdown.unit
-    local bnetIDAccount = bdropdown.bnetIDAccount
-    local menuList = bdropdown.menuList
-    local quickJoinMember = bdropdown.quickJoinMember
-    local quickJoinButton = bdropdown.quickJoinButton
-    local clubMemberInfo = bdropdown.clubMemberInfo
-    local tempName, tempRealm = bdropdown.name, bdropdown.server
+local function GetNameRealmForDropDown(dropdownList)
+    local unit = dropdownList.unit
+    local bnetIDAccount = dropdownList.bnetIDAccount
+    local menuList = dropdownList.menuList
+    local quickJoinMember = dropdownList.quickJoinMember
+    local quickJoinButton = dropdownList.quickJoinButton
+    local clubMemberInfo = dropdownList.clubMemberInfo
+    local tempName, tempRealm = dropdownList.name, dropdownList.server
     local name, realm, level, faction ---@type string?, string?, number?, FactionNumber?
     -- unit
     if not name and unit and UnitExists(unit) then
@@ -144,20 +139,25 @@ end
 -- tracks the currently active dropdown name and realm for lookup
 local selected = {} ---@type { name: string?, realm: string?, level: number?, unit?: UnitToken, faction: FactionNumber? }
 
----@type CustomDropDownOption[]
+---@class DropDownUnitOption : LibDropDownExtension-1.0_LegacyCustomOption
+---@field public text string
+---@field public func fun()
+---@field public show? fun(): boolean?
+
+---@type DropDownUnitOption[]
 local unitOptions
 
----@param bdropdown DropDownListPolyfill|CustomDropDown
----@param options CustomDropDownOption[]
-local function OnToggle(bdropdown, event, options, level, data)
+---@param dropdownList DropDownListPolyfill
+---@type LibDropDownExtension-1.0_LegacyCallback<any>
+local function OnToggle(dropdownList, event, options)
     if event == "OnShow" then
         if not config:Get("showDropDownCopyURL") then
             return
         end
-        if not IsValidDropDown(bdropdown) then
+        if not IsValidDropDown(dropdownList) then
             return
         end
-        selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForDropDown(bdropdown)
+        selected.name, selected.realm, selected.level, selected.unit, selected.faction = GetNameRealmForDropDown(dropdownList)
         if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
             return
         end
@@ -225,10 +225,10 @@ local function GetRecruitmentProfileForDropDown()
     return profile
 end
 
----@type LibDropDownExtension?
+---@type LibDropDownExtension-1.0
 local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtension-1.0", true)
 
----@class PlayerLocationPolyfill
+---@class PlayerLocationPolyfill : PlayerLocationMixin
 ---@field public guid? string
 ---@field public unit? string
 ---@field public IsValid fun(self: PlayerLocationPolyfill): boolean
@@ -238,7 +238,7 @@ local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtensio
 ---@field public IsUnit fun(self: PlayerLocationPolyfill): boolean
 ---@field public IsCommunityData fun(self: PlayerLocationPolyfill): boolean
 
----@class ModifyMenuCallbackRootDescriptionContextDataPolyfill
+---@class ModifyMenuCallbackRootDescriptionContextDataPolyfill : UnitPopupContextData
 ---@field public fromPlayerFrame? boolean
 ---@field public isMobile? boolean
 ---@field public isRafRecruit? boolean
@@ -250,32 +250,14 @@ local LibDropDownExtension = LibStub and LibStub:GetLibrary("LibDropDownExtensio
 ---@field public playerLocation? PlayerLocationPolyfill
 ---@field public friendsList? number
 
----@class ModifyMenuCallbackRootDescriptionPolyfill : RootMenuDescriptionProxy
----@field public tag string
----@field public contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
----@field public CreateDivider fun(self: ModifyMenuCallbackRootDescriptionPolyfill)
----@field public CreateTitle fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string)
----@field public CreateButton fun(self: ModifyMenuCallbackRootDescriptionPolyfill, text: string, callback: fun(button: Button, arg1: any, arg2: any, checked: boolean))
+---@alias ModifyMenuCallbackFuncOwner { resultID?: number, memberIdx?: number, GetParent: (fun(): { applicantID?: number }?) }
 
----@class ModifyMenuReturnPolyfill
----@field public Unregister fun(self: ModifyMenuReturnPolyfill)
+---@alias ModifyMenu fun(tag: string, callback: LibDropDownExtension-1.0_MenuCallback): LibDropDownExtension-1.0_MenuHandle?
 
----@alias ModifyMenuCallbackFuncPolyfill fun(owner: Region, rootDescription: ModifyMenuCallbackRootDescriptionPolyfill, contextData: ModifyMenuCallbackRootDescriptionContextDataPolyfill)
+---@type ModifyMenu
+local ModifyMenu = (LibDropDownExtension and LibDropDownExtension.HasBackend("Menu") and LibDropDownExtension.Menu.ModifyMenu) or (Menu and Menu.ModifyMenu --[[@as ModifyMenu]])
 
----@alias ModifyMenu fun(tag: string, callback: ModifyMenuCallbackFuncPolyfill): ModifyMenuReturnPolyfill
-
----@type ModifyMenu?
-local ModifyMenu = Menu and Menu.ModifyMenu ---@diagnostic expect-line: assign-type-mismatch
-
----@type MenuManagerProxy?
-local MenuGetManager = Menu and Menu.GetManager and Menu.GetManager()
-
--- HOTFIX: Forever's gamepad UI reads open menu elements during secure focus updates, so elements we add taint it and get its protected calls blocked.
-local function IsGamepadInterfaceActive()
-    return C_InputInterfaceStyle and Enum.InputDeviceInterfaceType and C_InputInterfaceStyle.GetCurrentStyle() == Enum.InputDeviceInterfaceType.Gamepad
-end
-
----@param rootDescription ModifyMenuCallbackRootDescriptionPolyfill
+---@param rootDescription LibDropDownExtension-1.0_MenuRootDescription
 ---@param contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 local function IsValidMenu(rootDescription, contextData)
     if not contextData then
@@ -286,7 +268,7 @@ local function IsValidMenu(rootDescription, contextData)
     return which and validTypes[which]
 end
 
----@param owner any
+---@param owner ModifyMenuCallbackFuncOwner
 ---@return string? name, string? realm, number? level, string? unit, FactionNumber? faction
 local function GetLFGListInfo(owner)
     local resultID = owner.resultID
@@ -330,8 +312,8 @@ local function UnpackBNetAccountInfo(accountInfo)
     return characterName, realmName, characterLevel, nil, faction
 end
 
----@param owner any
----@param rootDescription ModifyMenuCallbackRootDescriptionPolyfill
+---@param owner ModifyMenuCallbackFuncOwner
+---@param rootDescription LibDropDownExtension-1.0_MenuRootDescription
 ---@param contextData? ModifyMenuCallbackRootDescriptionContextDataPolyfill
 ---@return string? name, string? realm, number? level, UnitToken? unit, FactionNumber? faction
 local function GetNameRealmForMenu(owner, rootDescription, contextData)
@@ -359,8 +341,9 @@ local function GetNameRealmForMenu(owner, rootDescription, contextData)
         return name, realm, level, unit, faction
     end
     name, realm, unit = util:GetNameRealm(contextData.name, contextData.server)
-    if contextData.friendsList then
-        local friendInfo = C_FriendList.GetFriendInfoByIndex(contextData.friendsList)
+    local friendsList = contextData.friendsList
+    if type(friendsList) == "number" then
+        local friendInfo = C_FriendList.GetFriendInfoByIndex(friendsList)
         if friendInfo then
             level = friendInfo.level
             faction = ns.PLAYER_FACTION
@@ -369,9 +352,11 @@ local function GetNameRealmForMenu(owner, rootDescription, contextData)
     return name, realm, level, unit, faction
 end
 
----@type ModifyMenuCallbackFuncPolyfill
+---@type LibDropDownExtension-1.0_MenuCallback
 local function OnMenuShow(owner, rootDescription, contextData)
-    if not config:Get("showDropDownCopyURL") or IsGamepadInterfaceActive() then
+    ---@cast owner ModifyMenuCallbackFuncOwner
+    ---@cast contextData ModifyMenuCallbackRootDescriptionContextDataPolyfill?
+    if not config:Get("showDropDownCopyURL") then
         return
     end
     if not IsValidMenu(rootDescription, contextData) then
@@ -381,23 +366,33 @@ local function OnMenuShow(owner, rootDescription, contextData)
     if not selected.name or (not IS_FOREVER and not util:IsMaxLevel(selected.level, true)) then
         return
     end
-    rootDescription:CreateDivider()
-    rootDescription:CreateTitle(addonName)
+    local options = {} ---@type DropDownUnitOption[]
     for _, option in ipairs(unitOptions) do
         if not option.show or option.show() then
-            rootDescription:CreateButton(option.text, option.func)
+            options[#options + 1] = option
         end
+    end
+    if not options[1] then
+        return
+    end
+    rootDescription:CreateDivider()
+    rootDescription:CreateTitle(addonName)
+    for _, option in ipairs(options) do
+        rootDescription:CreateButton(option.text, option.func)
     end
 end
 
+---@type LibDropDownExtension-1.0_MenuHandle[]
+local menuHandles = {}
+
 function dropdown:CanLoad()
-    return config:IsEnabled()
+    return config:IsEnabled() and LibDropDownExtension and ModifyMenu
 end
 
 function dropdown:OnLoad()
-    self:Enable()
     unitOptions = {
-        { ---@diagnostic expect-line: missing-fields
+        {
+            notCheckable = true,
             text = L.SHOW_RAIDERIO_PROFILE_OPTION,
             func = function()
                 ShowSearchAndProfile()
@@ -406,7 +401,8 @@ function dropdown:OnLoad()
                 return util:ProfileHasRenderableData(GetProfileForDropDown())
             end
         },
-        { ---@diagnostic expect-line: missing-fields
+        {
+            notCheckable = true,
             text = L.COPY_RAIDERIO_PROFILE_URL,
             func = function()
                 if DropDownOptionModifiedClickHandler() then
@@ -415,7 +411,8 @@ function dropdown:OnLoad()
                 util:ShowCopyRaiderIOProfilePopup(selected.name, selected.realm)
             end
         },
-        { ---@diagnostic expect-line: missing-fields
+        {
+            notCheckable = true,
             text = L.COPY_RAIDERIO_RECRUITMENT_URL,
             func = function()
                 if DropDownOptionModifiedClickHandler() then
@@ -427,38 +424,38 @@ function dropdown:OnLoad()
                 end
             end,
             show = function()
-                return GetRecruitmentProfileForDropDown()
+                local profile = GetRecruitmentProfileForDropDown()
+                return profile and profile.recruitmentProfile and true or false
             end
         }
     }
-    if ModifyMenu and MenuGetManager then
-        -- HOTFIX: we delay calling the modify menu API until Blizzard has opened a dropdown menu themselves
-        -- this allows the secure code setup the internal state required, which wouldn't be the case if we modified the menu too early in the session
-        -- the only downside to this is that the first dropdown menu shown won't be modified, so the user would need to re-open it to see our options (which is better than tainting the dropdown system entirely)
-        local isInit = false
-        local function init()
-            if config:Get("disableDropdownMenu") then
-                return
-            end
-            if isInit then
-                return
-            end
-            isInit = true
-            local onMenuShow = GenerateClosure(OnMenuShow) ---@type ModifyMenuCallbackFuncPolyfill
-            for name, enabled in pairs(validTypes) do
-                if enabled then
-                    local tag = format("MENU_UNIT_%s", name)
-                    ModifyMenu(tag, onMenuShow)
-                end
-            end
-            for tag, _ in pairs(validTags) do
-                ModifyMenu(tag, onMenuShow)
-            end
+    self:Enable()
+end
+
+function dropdown:OnEnable()
+    local menuTags = {} ---@type string[]
+    for name, enabled in pairs(validTypes) do
+        if enabled then
+            menuTags[#menuTags + 1] = format("MENU_UNIT_%s", name)
         end
-        hooksecurefunc(MenuGetManager, "OpenMenu", init)
-        hooksecurefunc(MenuGetManager, "OpenContextMenu", init)
     end
-    if LibDropDownExtension then
-        LibDropDownExtension:RegisterEvent("OnShow OnHide", OnToggle, 1, dropdown)
+    for tag, _ in pairs(validTags) do
+        menuTags[#menuTags + 1] = tag
     end
+    for _, tag in ipairs(menuTags) do
+        local handle = ModifyMenu(tag, OnMenuShow)
+        if handle then
+            menuHandles[#menuHandles + 1] = handle
+        end
+    end
+    if LibDropDownExtension.RegisterEvent("OnShow OnHide", OnToggle, 1) then
+        menuHandles[#menuHandles + 1] = { Unregister = function() LibDropDownExtension.UnregisterEvent("OnShow OnHide", OnToggle) end }
+    end
+end
+
+function dropdown:OnDisable()
+    for _, handle in pairs(menuHandles) do
+        handle.Unregister()
+    end
+    table.wipe(menuHandles)
 end

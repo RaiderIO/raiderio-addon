@@ -21,7 +21,7 @@ local talentbuilds = ns:GetModule("TalentBuilds", true) ---@type TalentBuildsMod
 
 ---@type InternalStaticPopupDialog
 local RELOAD_POPUP = {
-    id = "RAIDERIO_RELOADUI_CONFIRM",
+    which = "RAIDERIO_RELOADUI_CONFIRM",
     text = L.CHANGES_REQUIRES_UI_RELOAD,
     button1 = L.RELOAD_NOW,
     button2 = L.RELOAD_LATER,
@@ -38,7 +38,7 @@ local RELOAD_POPUP = {
 
 ---@type InternalStaticPopupDialog
 local DEBUG_POPUP = {
-    id = "RAIDERIO_DEBUG_CONFIRM",
+    which = "RAIDERIO_DEBUG_CONFIRM",
     text = function() return config:Get("debugMode") and L.DISABLE_DEBUG_MODE_RELOAD or L.ENABLE_DEBUG_MODE_RELOAD end,
     button1 = L.CONFIRM,
     button2 = L.CANCEL,
@@ -58,7 +58,7 @@ local DEBUG_POPUP = {
 
 ---@type InternalStaticPopupDialog
 local RTWF_POPUP = {
-    id = "RAIDERIO_RWF_CONFIRM",
+    which = "RAIDERIO_RWF_CONFIRM",
     text = function() return config:Get("rwfMode") and L.DISABLE_RWF_MODE_RELOAD or L.ENABLE_RWF_MODE_RELOAD end,
     button1 = L.CONFIRM,
     button2 = L.CANCEL,
@@ -78,7 +78,7 @@ local RTWF_POPUP = {
 
 ---@type InternalStaticPopupDialog
 local RESET_POPUP = {
-    id = "RAIDERIO_RESET_CONFIRM",
+    which = "RAIDERIO_RESET_CONFIRM",
     text = L.RESET_CONFIRM_TEXT,
     button1 = L.RESET_CONFIRM_BUTTON,
     button2 = CANCEL,
@@ -838,7 +838,7 @@ local function CreateOptions()
     ---@field public text string
 
     ---@param self RaiderIOSettingsDropDownWidget
-    ---@param dropDownList DropDownList
+    ---@param dropDownList UIDropDownList
     ---@param level number
     ---@param menuList? string
     function configOptions.DropDownOnInitialize(self, dropDownList, level, menuList)
@@ -959,7 +959,9 @@ local function CreateOptions()
                     value.a = 1 + a
                 end
             else
+                ---@diagnostic expect-next-line: undefined-field
                 local a = ColorPickerFrame.GetColorAlpha and ColorPickerFrame:GetColorAlpha() or (1 - OpacitySliderFrame:GetValue()) -- TODO `pre-11.0`
+                ---@diagnostic expect-next-line: undefined-field
                 value.r, value.g, value.b = ColorPickerFrame:GetColorRGB()
                 value.a = a
             end
@@ -1219,7 +1221,6 @@ local function CreateOptions()
         configOptions:CreatePadding()
         configOptions:CreateHeadline(L.MISC_SETTINGS)
         configOptions:CreateOptionToggle(L.ENABLE_LFG_EXPORT_BUTTON, L.ENABLE_LFG_EXPORT_BUTTON_DESC, "enableLFGExportButton")
-        configOptions:CreateOptionToggle(L.DISABLE_DROPDOWN_MENU_BUTTON, L.DISABLE_DROPDOWN_MENU_BUTTON_DESC, "disableDropdownMenu", { needReload = true })
 
         configOptions:CreatePadding()
         configOptions:CreateHeadline(L.RAIDERIO_CLIENT_CUSTOMIZATION)
