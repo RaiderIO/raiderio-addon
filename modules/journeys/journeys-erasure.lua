@@ -377,6 +377,7 @@ local function Run(saved,config,catalog)
     return Commit(saved,registry,command,fingerprint,not removed and removeIssue or nil)
 end
 -- The fourth result reports a standing retirement that removed data; it never affects the command's outcome.
+-- Refresh already marks the export dirty on every load, so callers need not act on it.
 function erasure.Apply(saved,config,catalog)
     local retired=Retire(saved,config)
     local applied,issue,updated=Run(saved,config,catalog)
