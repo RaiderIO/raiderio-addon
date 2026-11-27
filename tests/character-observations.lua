@@ -20,7 +20,7 @@ GetGuildInfo = function() return guild end
 IsInInstance = function() return instance ~= 'none', instance end
 C_Timer = { After = function() end }
 local ns = {}
-assert(loadfile('character-observations.lua'))('RaiderIO', ns)
+assert(loadfile('modules/misc/character-observations.lua'))('RaiderIO', ns)
 local function start(protocol)
     bodies = {}
     local api = ns.CreateCharacterObservations({
@@ -70,13 +70,13 @@ C_FriendList = {
     GetNumWhoResults = function() return 1 end,
     GetWhoInfo = function() return { fullName = 'Visitor Surname', fullGuildName = whoGuild, filename = 'WARRIOR', level = 30 } end,
 }
-local function whoStart(protocol)
+local function whoStart(protocol, queue)
     timers, bodies = {}, {}
     local collector = ns.CreateCharacterObservations({
         IsArmed = function() return true end, GuildProtocol = function() return protocol end,
         ReadTalents = function() end, IsInspectBusy = function() return false end,
         Encode = function(data) bodies[#bodies + 1] = data; return tostring(#bodies) end,
-        Queue = function() return true end, CancelQueued = function() end,
+        Queue = queue or function() return true end, CancelQueued = function() end,
         Callback = { RegisterEvent = function(_, fn) callback = fn end, UnregisterCallback = function() end },
     })
     collector.Update()
@@ -122,6 +122,30 @@ assert(hoverBody.guildName == guild and hoverBody.guildSameRuleset == true, 'hov
 units.mouseover = nil
 hovered.Stop()
 print('mouseover guild collection passed')
+
+local originalRealm, originalNormalizedRealm = GetRealmName, GetNormalizedRealmName
+GetRealmName = function() return '' end
+GetNormalizedRealmName = GetRealmName
+local transmitted = {}
+local blankRealmCollector = whoStart(1, function(kind, body, guid)
+    assert(kind == 3, 'expected a character observation stream')
+    transmitted[guid] = bodies[tonumber(body)]
+    return true
+end)
+units.mouseover = 'Player-4618-00000004'
+callback('UPDATE_MOUSEOVER_UNIT')
+local sighting = transmitted[units.mouseover]
+assert(sighting and sighting.source == 'observed' and sighting.guid == units.mouseover,
+    'blank realm names must still queue the hovered player')
+assert(sighting.homeRealm.guidRealmId == 4618 and sighting.homeRealm.regionId == 1,
+    'GUID realm and region must survive blank realm names')
+assert(not sighting.realmName and not sighting.homeRealm.name and not sighting.homeRealm.normalizedName,
+    'absent realm names must be omitted even for a same-realm hover')
+units.mouseover = nil
+blankRealmCollector.Stop()
+GetRealmName, GetNormalizedRealmName = originalRealm, originalNormalizedRealm
+print('blank-realm mouseover queued an observed player')
+
 
 -- The transport replaces an entire waiting body by GUID, including before its first send.
 local waiting, encoded = {}, {}
