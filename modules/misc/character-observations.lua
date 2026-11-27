@@ -112,10 +112,14 @@ function ns.CreateCharacterObservations(options)
         local guidRealmId = RealmID(guid)
         local name, normalizedName = Text(Read(GetRealmName), 64), Text(Read(GetNormalizedRealmName), 64)
         local regionId = Integer(Read(GetCurrentRegion), 5)
-        if not guidRealmId or not name or not normalizedName or not regionId then
+        if not guidRealmId or not regionId then
             return
         end
-        local home = { guidRealmId = guidRealmId, name = name, normalizedName = normalizedName, regionId = regionId }
+        local home = { guidRealmId = guidRealmId, regionId = regionId }
+        -- Forever can hide realm names. Only send the pair when both are readable.
+        if name and normalizedName then
+            home.name, home.normalizedName = name, normalizedName
+        end
         local hardcore
         if type(C_GameRules) == "table" then
             hardcore = Read(C_GameRules.IsHardcoreActive)
