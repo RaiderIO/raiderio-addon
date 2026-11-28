@@ -10,7 +10,7 @@ local config = ns:NewModule("Config") ---@type ConfigModule
 local callback = ns:GetModule("Callback") ---@type CallbackModule
 
 ---@class FallbackConfig
----@field public mplusHeadlineMode HeadlineMode Defaults to `ns.HEADLINE_MODE.BEST_SEASON` (`1`)
+---@field public mplusHeadlineMode HeadlineMode Defaults to `ns.HEADLINE_MODE.CURRENT_SEASON` (`0`)
 ---@field public replayStyle ReplayFrameStyle Defaults to `MODERN`
 ---@field public replayTiming ReplayFrameTiming Defaults to `BOSS`
 ---@field public replaySelection ReplayFrameSelection Defaults to `user_best_replay`

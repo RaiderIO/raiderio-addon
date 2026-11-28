@@ -704,7 +704,7 @@ function render:UpdateTooltip(tooltip, state)
                 local headlineMode = config:Get("mplusHeadlineMode")
                 if showHeader then
                     if headlineMode == ns.HEADLINE_MODE.BEST_SEASON then
-                        if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
+                        if keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
                             tooltip:AddDoubleLine(GetSeasonLabel(L.RAIDERIO_MP_BEST_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), 1, 0.85, 0, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                             if keystoneProfile.mplusCurrent.score > 0 then
                                 tooltip:AddDoubleLine(GetSeasonLabel(L.CURRENT_SCORE), GetScoreText(keystoneProfile.mplusCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
@@ -720,12 +720,12 @@ function render:UpdateTooltip(tooltip, state)
                         if keystoneProfile.mplusCurrent.score > 0 then
                             tooltip:AddDoubleLine(GetSeasonLabel(L.CURRENT_SCORE), GetScoreText(keystoneProfile.mplusCurrent), r, g, b, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
                         end
-                        if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
+                        if keystoneProfile.mplusPrevious.score > 0 then
                             tooltip:AddDoubleLine(GetSeasonLabel(L.PREVIOUS_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), r, g, b, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                         end
                     else -- if headlineMode == ns.HEADLINE_MODE.CURRENT_SEASON then
                         tooltip:AddDoubleLine(GetSeasonLabel(L.RAIDERIO_MP_SCORE), GetScoreText(keystoneProfile.mplusCurrent), 1, 0.85, 0, util:GetScoreColor(keystoneProfile.mplusCurrent.score))
-                        if ns.PREVIOUS_SEASON_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusPrevious.score > keystoneProfile.mplusCurrent.score then
+                        if keystoneProfile.mplusPrevious.score > 0 then
                             tooltip:AddDoubleLine(GetSeasonLabel(L.PREVIOUS_SCORE, keystoneProfile.mplusPrevious.season), GetScoreText(keystoneProfile.mplusPrevious, true), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusPrevious.score, true))
                         end
                     end
@@ -734,8 +734,7 @@ function render:UpdateTooltip(tooltip, state)
                 local hasShownWarbandPreviousScore = false
                 local warbandText = format("%s %s", L.WARBAND_SCORE, ns.PROFILE_TOOLTIP_COLUMN_TEXTURE.WARBAND)
                 if config:Get("showWarbandScore") then
-                    local warbandPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusWarbandPrevious.score)
-                    local isWarbandPreviousScoreRelevant = warbandPreviousScoreThreshold > keystoneProfile.mplusWarbandCurrent.score and warbandPreviousScoreThreshold > keystoneProfile.mplusCurrent.score
+                    local isWarbandPreviousScoreRelevant = keystoneProfile.mplusWarbandPrevious.score > 0
                     local isWarbandCurrentScoreBetter = keystoneProfile.mplusWarbandCurrent.score > keystoneProfile.mplusCurrent.score
                     if isWarbandCurrentScoreBetter or isWarbandPreviousScoreRelevant then
                         if isWarbandPreviousScoreRelevant then
@@ -757,8 +756,7 @@ function render:UpdateTooltip(tooltip, state)
                             tooltip:AddDoubleLine(L.MAINS_SCORE, GetScoreText(keystoneProfile.mplusMainCurrent), 1, 1, 1, util:GetScoreColor(keystoneProfile.mplusMainCurrent.score))
                         end
                     else
-                        local mainPreviousScoreThreshold = (ns.PREVIOUS_SEASON_MAIN_SCORE_RELEVANCE_THRESHOLD * keystoneProfile.mplusMainPrevious.score)
-                        local isMainPreviousScoreRelevant = mainPreviousScoreThreshold > keystoneProfile.mplusMainCurrent.score and mainPreviousScoreThreshold > keystoneProfile.mplusCurrent.score
+                        local isMainPreviousScoreRelevant = keystoneProfile.mplusMainPrevious.score > 0
                         local isMainCurrentScoreBetter = keystoneProfile.mplusMainCurrent.score > keystoneProfile.mplusCurrent.score
                         if isMainCurrentScoreBetter or isMainPreviousScoreRelevant then
                             if not hasShownWarbandPreviousScore and isMainPreviousScoreRelevant then
